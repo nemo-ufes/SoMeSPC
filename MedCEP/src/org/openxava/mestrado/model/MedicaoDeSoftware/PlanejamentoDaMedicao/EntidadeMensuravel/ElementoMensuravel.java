@@ -3,16 +3,15 @@ package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Enti
 import java.util.*;
 
 import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Entity;
 
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
-import org.openxava.mestrado.model.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.EntidadeMensuravel.*;
 
 @Entity
 @Views({
-	@View(members="nome; tipoElementoMensuravel; descricao"),
+	@View(members="grupo 1 [nome, tipoElementoMensuravel; descricao]"),
 	@View(name="Simple", members="nome"),
 	})
 @Tabs({

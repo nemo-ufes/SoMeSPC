@@ -2,8 +2,6 @@ package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Enti
 
 import javax.persistence.*;
 
-import org.openxava.annotations.*;
-
 @Entity
 public class ValorDeEscalaAlfanumerico extends ValorDeEscala {
     

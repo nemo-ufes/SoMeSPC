@@ -3,12 +3,12 @@ package org.openxava.mestrado.model.OrganizacaoDeSoftware;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.ObjetivosDeMedicao.*;
-import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

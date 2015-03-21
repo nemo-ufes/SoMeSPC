@@ -1,11 +1,8 @@
 package org.openxava.mestrado.actions;
 
-import java.util.*;
-
-import org.openxava.actions.*; 
+import org.openxava.actions.*;
 import org.openxava.jpa.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.PlanoDeMedicao.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.*;
 
 //import static org.openxava.jpa.XPersistence.*;
 

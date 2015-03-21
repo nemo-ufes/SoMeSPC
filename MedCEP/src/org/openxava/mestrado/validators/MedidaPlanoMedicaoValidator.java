@@ -1,7 +1,5 @@
 package org.openxava.mestrado.validators;
 
-import org.apache.commons.lang.builder.*;
-import org.openxava.mestrado.model.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.DefinicaoOperacional.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.*;
 import org.openxava.util.*;

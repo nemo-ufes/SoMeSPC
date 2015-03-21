@@ -1,8 +1,6 @@
 package org.openxava.mestrado.actions;
 
-import java.util.*;
-
-import org.openxava.actions.*; 
+import org.openxava.actions.*;
 
 public class GoAddAtividadeProjetoAction extends GoAddElementsToCollectionAction { 
 	

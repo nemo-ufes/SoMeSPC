@@ -6,10 +6,8 @@ import javax.persistence.*;
 
 import org.openxava.annotations.*;
 import org.openxava.mestrado.calculators.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.DefinicaoOperacional.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.*;
-import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 
 /**
  * Atividade Analisar Dados de Monitoramento do Projeto; Atividade Homologar Especificação de Requisitos

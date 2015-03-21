@@ -1,10 +1,12 @@
 package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.ObjetivosDeMedicao;
 
 import java.util.*;
+
 import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.ObjetivosDeMedicao.*;
 
 @Entity
 @View(name="Simple", members="nome")

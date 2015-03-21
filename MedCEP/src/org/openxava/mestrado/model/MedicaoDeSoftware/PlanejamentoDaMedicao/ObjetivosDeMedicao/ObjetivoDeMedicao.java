@@ -1,15 +1,11 @@
 package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.ObjetivosDeMedicao;
 
-import java.awt.List;
 import java.util.*;
 
 import javax.persistence.*;
 
 import org.openxava.annotations.*;
-import org.openxava.jpa.*;
-import org.openxava.mestrado.model.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.DefinicaoOperacional.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.PlanoDeMedicao.*;
 import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 
 @Entity

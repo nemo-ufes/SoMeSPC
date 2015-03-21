@@ -1,13 +1,15 @@
 package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.PlanoDeMedicao;
 
 import java.util.*;
+
 import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
-import org.openxava.mestrado.model.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.ObjetivosDeMedicao.*;
 import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
-import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

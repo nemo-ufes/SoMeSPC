@@ -1,11 +1,9 @@
 package org.openxava.mestrado.model.ProcessoDeSoftware;
 
-import java.util.*;
-
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Entity;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
 
 @Entity

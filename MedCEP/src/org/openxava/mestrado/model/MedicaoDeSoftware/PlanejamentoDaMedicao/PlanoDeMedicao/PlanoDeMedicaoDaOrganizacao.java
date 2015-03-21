@@ -1,6 +1,5 @@
 package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.PlanoDeMedicao;
 
-import java.util.*;
 import javax.persistence.*;
 
 import org.openxava.annotations.*;

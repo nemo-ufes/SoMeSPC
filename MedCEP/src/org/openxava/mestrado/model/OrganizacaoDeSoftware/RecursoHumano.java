@@ -4,13 +4,11 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import org.hibernate.envers.*;
 import org.openxava.annotations.*;
 import org.openxava.mestrado.calculators.*;
 import org.openxava.mestrado.model.ComportamentoDeProcessosDeSoftware.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.PlanoDeMedicao.*;
 
 @Entity
 @Views({

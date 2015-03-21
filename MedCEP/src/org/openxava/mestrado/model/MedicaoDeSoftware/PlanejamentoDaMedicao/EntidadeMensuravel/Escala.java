@@ -3,9 +3,10 @@ package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Enti
 import java.util.*;
 
 import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
-import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 
 /**
  * Escala que caracteriza o grau de experiência de um Analista de

@@ -1,7 +1,5 @@
 package org.openxava.mestrado.model.ProcessoDeSoftware;
 
-import java.util.*;
-
 import javax.persistence.*;
 
 import org.openxava.annotations.*;

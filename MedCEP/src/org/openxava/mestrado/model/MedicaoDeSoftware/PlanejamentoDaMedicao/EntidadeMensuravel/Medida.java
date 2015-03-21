@@ -3,14 +3,12 @@ package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Enti
 import java.util.*;
 
 import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
-import org.openxava.annotations.*;
-import org.openxava.mestrado.model.*;
-import org.openxava.mestrado.model.ComportamentoDeProcessosDeSoftware.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.DefinicaoOperacional.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.ObjetivosDeMedicao.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.PlanoDeMedicao.*;
 import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 
 @Entity

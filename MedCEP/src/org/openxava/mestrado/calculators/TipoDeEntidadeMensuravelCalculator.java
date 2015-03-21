@@ -4,10 +4,7 @@ import javax.persistence.*;
 
 import org.openxava.calculators.*;
 import org.openxava.jpa.*;
-import org.openxava.mestrado.model.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.*;
-
-import static org.openxava.jpa.XPersistence.*;
 
 public class TipoDeEntidadeMensuravelCalculator implements ICalculator {
 

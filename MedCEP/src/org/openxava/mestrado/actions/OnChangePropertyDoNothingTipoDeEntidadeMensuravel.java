@@ -1,11 +1,6 @@
 package org.openxava.mestrado.actions;
 
-import java.util.*;
-
-import org.openxava.jpa.*;
 import org.openxava.actions.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.*;
-import org.openxava.model.*;
 
 public class OnChangePropertyDoNothingTipoDeEntidadeMensuravel extends OnChangePropertyBaseAction { // 1
 

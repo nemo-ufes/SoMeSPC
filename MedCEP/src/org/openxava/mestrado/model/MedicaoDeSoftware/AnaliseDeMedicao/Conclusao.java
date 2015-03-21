@@ -1,10 +1,8 @@
 package org.openxava.mestrado.model.MedicaoDeSoftware.AnaliseDeMedicao;
 
-import java.util.*;
-
 import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
 
 //@Entity

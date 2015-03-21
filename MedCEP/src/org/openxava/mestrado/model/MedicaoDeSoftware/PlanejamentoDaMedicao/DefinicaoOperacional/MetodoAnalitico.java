@@ -1,7 +1,5 @@
 package org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.DefinicaoOperacional;
 
-import java.util.*;
-
 import javax.persistence.*;
 
 import org.openxava.annotations.*;

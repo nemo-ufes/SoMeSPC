@@ -1,9 +1,6 @@
 package org.openxava.mestrado.actions;
 
 import org.openxava.actions.*;
-import org.openxava.jpa.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.PlanoDeMedicao.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.*;
 
 public class SaveMedicaoAction extends SaveAction {
 	

@@ -1,10 +1,11 @@
 package org.openxava.mestrado.model.OrganizacaoDeSoftware;
 
-import java.util.Date;
+import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
 
 @Entity

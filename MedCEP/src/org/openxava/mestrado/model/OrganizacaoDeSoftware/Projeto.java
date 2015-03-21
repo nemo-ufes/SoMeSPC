@@ -1,20 +1,13 @@
 package org.openxava.mestrado.model.OrganizacaoDeSoftware;
 
 import java.util.*;
+
 import javax.persistence.*;
 
 import org.openxava.annotations.*;
-import org.openxava.mestrado.actions.*;
 import org.openxava.mestrado.calculators.*;
-import org.openxava.mestrado.model.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.*;
-import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.ObjetivosDeMedicao.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.PlanoDeMedicao.*;
-import org.openxava.mestrado.model.ProcessoDeSoftware.*;
-
-import sun.net.www.content.text.*;
-
-import com.sun.xml.internal.bind.annotation.*;
 
 @Entity
 @Views({

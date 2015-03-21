@@ -2,8 +2,6 @@ package org.openxava.mestrado.model.MedicaoDeSoftware.Medicao;
 
 import javax.persistence.*;
 
-import org.openxava.annotations.*;
-
 @Entity
 public class ValorAlfanumerico extends ValorMedido {
     

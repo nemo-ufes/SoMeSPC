@@ -1,11 +1,10 @@
 package org.openxava.mestrado.model.ComportamentoDeProcessosDeSoftware;
 
 import javax.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
+import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.AnaliseDeMedicao.*;
-import org.openxava.mestrado.validators.*;
 
 //@Entity
 @Views({
