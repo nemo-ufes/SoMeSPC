@@ -5,6 +5,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 ##Ambientes
 ###Ambiente de Desenvolvimento
 
+- Java SDK 7 Update 75 (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 - Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
 
 
