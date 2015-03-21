@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE controllers SYSTEM "dtds/controllers.dtd">
+<controllers>
+	
+	<controller name="EntidadeMensuravel"> 
+		<extends controller="Typical"/>
+		<action name="AddElementoMensuravel"
+			class="org.openxava.mestrado.actions.GoAddElementoMensuravelAction"
+			hidden="true" image="images/create_new.gif"/>
+	</controller>
+	<controller name="ProcessoDeProjeto"> 
+		<extends controller="Typical"/>
+		<action name="AddAtividadeProjetoAction"
+			class="org.openxava.mestrado.actions.GoAddAtividadeProjetoAction"
+			hidden="true" image="images/create_new.gif"/>
+	</controller>
+	<controller name="Medicao">
+		<extends controller="Typical" />
+		<action name="searchDefinicaoOperacional"
+			class="org.openxava.mestrado.actions.SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction" 
+			hidden="true" image="images/search.gif"/>
+		<action name="save"
+			class="org.openxava.mestrado.actions.SaveMedicaoAction" 
+			image="images/save.gif"/>
+	</controller>
+	<controller name="AnaliseDeMedicao">
+		<extends controller="Typical" />
+		<action name="searchDefinicaoOperacional"
+			class="org.openxava.mestrado.actions.SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction" 
+			hidden="true" image="images/search.gif"/>
+	</controller>
+
+</controllers>

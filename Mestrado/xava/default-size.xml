@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "ISO-8859-1"?>
+
+<!DOCTYPE default-size SYSTEM "dtds/default-size.dtd">
+
+<default-size>
+
+    <for-stereotype name="TEXT_AREA" size="10000"/>
+
+</default-size>
