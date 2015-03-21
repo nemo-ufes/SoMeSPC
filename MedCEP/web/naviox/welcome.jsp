@@ -16,7 +16,7 @@ MetaApplication metaApplication = MetaApplications.getMetaApplication(applicatio
 </div>
 
 <h1><xava:message key="welcome_to" param="<%=metaApplication.getLabel()%>"/></h1>
-<h2><%=metaApplication.getDescription()%></h2>
+<%--<h2><%=metaApplication.getDescription()%></h2>--%>
 
 <%--
 <table style="margin: 20px">
