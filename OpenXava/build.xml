@@ -668,12 +668,6 @@
 		<copy file="../${project}/${classes.dir}/${project}-labels_${default.language}.properties" 
 			tofile="../${project}/${classes.dir}/${project}-labels.properties"
 			failonerror="false"/>
-		<copy file="../${project}/${classes.dir}/Mensajes${project}_${default.language}.properties" 
-			tofile="../${project}/${classes.dir}/Mensajes${project}.properties"
-			failonerror="false"/>
-		<copy file="../${project}/${classes.dir}/Etiquetas${project}_${default.language}.properties" 
-			tofile="../${project}/${classes.dir}/Etiquetas${project}.properties"
-			failonerror="false"/>
 		<jar jarfile="../${project}/web/WEB-INF/lib/openxava.jar" basedir="../OpenXava/bin"/>
 	</target>
 

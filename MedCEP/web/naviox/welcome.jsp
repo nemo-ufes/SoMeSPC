@@ -10,9 +10,15 @@ String applicationName = request.getContextPath().substring(1);
 MetaApplication metaApplication = MetaApplications.getMetaApplication(applicationName);
 %>
 
+<div>
+<img src="../naviox/images/nemo.jpg" height="120px" width="140px" class="feature-image"/>
+<img src="../naviox/images/ufes.png" height="120px" width="140px" class="feature-image"/>
+</div>
+
 <h1><xava:message key="welcome_to" param="<%=metaApplication.getLabel()%>"/></h1>
 <h2><%=metaApplication.getDescription()%></h2>
 
+<%--
 <table style="margin: 20px">
 <tr>
 	<td><img src="../naviox/images/point1.png" class="feature-image"/></td>
@@ -27,5 +33,6 @@ MetaApplication metaApplication = MetaApplications.getMetaApplication(applicatio
 	<td><xava:message key="welcome_point3"/></td>
 </tr>
 </table>
-
+ --%>
+ 
 <p><xava:message key="signin_tip" param="<%=metaApplication.getLabel()%>"/></p>

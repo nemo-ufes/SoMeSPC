@@ -1,8 +1,5 @@
 /GalleryImage.hbm.xml
 /META-INF/
-/MySchool-labels_ca.properties
-/MySchool-labels_en.properties
-/MySchool-labels_es.properties
 /application.xml
 /dtds/
 /hibernate.cfg.xml
@@ -10,6 +7,5 @@
 /naviox-users.properties
 /naviox.properties
 /org/
-/portlets/
 /xava-junit.properties
 /xava.properties
