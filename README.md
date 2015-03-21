@@ -10,14 +10,14 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 - IDE Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
 - PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
 - Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
-- Apache Maven 3.3.1 - [Download] (http://mirrors.gigenet.com/apache/maven/maven-3/3.3.1/binaries/apache-maven-3.3.1-bin.zip)
 
 ##Instruções de instalação
 1. Instalar o Java SDK e PostgreSQL
 2. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59
 3. Descompactar o Apache Maven em C:\apache-maven-3.3.1
 3. Descompacter o IDE Eclipse Luna
-4. 
+4. Executar o Eclipse
+
 
 
 ## Referência
