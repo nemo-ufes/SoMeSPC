@@ -12,7 +12,9 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 - Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
 
 ##Instruções de instalação
-1. Instalar o Java SDK e PostgreSQL
+1. Instalar o Java SDK
+2. Instalar o PostgreSQL com usuário e senha "postgres"
+2. Criar um banco de dados no PostgreSQL chamado "medcep" e informar como dono o usuário "postgres".
 2. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59
 3. Descompactar o Apache Maven em C:\apache-maven-3.3.1
 3. Descompacter o IDE Eclipse Luna
