@@ -20,8 +20,8 @@ public class SignInAction extends ViewBaseAction implements IForwardAction {
 
 	public void execute() throws Exception {		
 		SignInHelper.init(getRequest(), getView()); 
-		String userName = getView().getValueString("user");
-		String password = getView().getValueString("password");
+		String userName = getView().getValueString("usuario");
+		String password = getView().getValueString("senha");
 		if (Is.emptyString(userName, password)) {
 			addError("unauthorized_user"); 
 			return;

@@ -12,27 +12,27 @@ public class SignIn {
 	
 	
 	@Column(length=30) @LabelFormat(LabelFormatType.SMALL)
-	private String user;
+	private String usuario;
 
 	@Column(length=30) @Stereotype("PASSWORD")
 	@LabelFormat(LabelFormatType.SMALL)
-	private String password;
+	private String senha;
 	
 
-	public String getPassword() {
-		return password;
+	public String getSenha() {
+		return senha;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setSenha(String password) {
+		this.senha = password;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsuario(String user) {
+		this.usuario = user;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsuario() {
+		return usuario;
 	}
 	
 }

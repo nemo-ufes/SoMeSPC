@@ -11,7 +11,7 @@
 		<action name="init" on-init="true" hidden="true"  			
 			class="com.openxava.naviox.actions.InitSignInAction"/>
 	
-		<action name="signIn"  			
+		<action name="signIn"  
 			class="com.openxava.naviox.actions.SignInAction"/>
 			
 	</controller>		
