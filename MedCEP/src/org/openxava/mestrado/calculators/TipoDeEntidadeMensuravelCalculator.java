@@ -8,6 +8,10 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Entid
 
 public class TipoDeEntidadeMensuravelCalculator implements ICalculator {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2453681285474844641L;
 	private String nomeEntidade; 
 	
 	public Object calculate() throws Exception {

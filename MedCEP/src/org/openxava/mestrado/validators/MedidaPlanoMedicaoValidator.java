@@ -7,6 +7,10 @@ import org.openxava.validators.*;
 
 public class MedidaPlanoMedicaoValidator implements IValidator { // Must implement IValidator
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -609729388992201878L;
 	private Medida medida; // Properties to be injected from Order
 	private DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida; // Properties to be injected from Order
 	

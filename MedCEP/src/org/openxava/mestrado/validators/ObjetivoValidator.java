@@ -7,6 +7,11 @@ public class ObjetivoValidator implements IPropertyValidator { // Must implement
 	
 	/*@PropertyValidator(UnitPriceValidator.class) // Contains the validation logic*/
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6864003388701065320L;
+
 	public void validate( // Required because of IPropertyValidator (2)
 		Messages errors, // Here you add the error messages (3)
 		Object object, // The value to validate
