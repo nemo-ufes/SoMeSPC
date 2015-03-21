@@ -19,6 +19,11 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 3. Descompactar o Apache Maven em C:\apache-maven-3.3.1
 3. Descompacter o IDE Eclipse Luna
 4. Executar o Eclipse
+5. Baixar o código fonte do GitHub
+6. Configurar o Apache Tomcat como servidor web. 
+7. Na aba Server (parte inferior do Eclipse), dar duplo clique em Tomcat v7 Server. No arquivo que abrir, selecionar a opção "Use Tomcat Installation (takes control of Tomcat installation)" na área Server Locations. 
+8. Iniciar o Apache Tomcat
+9. Executar a Ant Build "MedCEP.DeployWar"
 
 
 
