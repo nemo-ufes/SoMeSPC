@@ -16,7 +16,6 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 2. Instalar o PostgreSQL com usuário e senha "postgres"
 2. Criar um banco de dados no PostgreSQL chamado "medcep" e informar como dono o usuário "postgres".
 2. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59
-3. Descompactar o Apache Maven em C:\apache-maven-3.3.1
 3. Descompacter o IDE Eclipse Luna
 4. Executar o Eclipse
 5. Baixar o código fonte do GitHub
