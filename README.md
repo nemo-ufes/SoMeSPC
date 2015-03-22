@@ -16,7 +16,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira executar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
 5. Descompactar o IDE Eclipse Luna.
 6. Executar o Eclipse.
-7. Baixar o código fonte do GitHub.
+7. Clonar o repositório MedCEP do GitHub.
 8. Configurar o Apache Tomcat como servidor web (<b>Window -> Preferences -> Server -> Runtime Environments -> Add...</b>). 
 9. Na aba Server (parte inferior do Eclipse), dar duplo clique em <b>Tomcat v7 Server</b>. No arquivo que abrir, selecionar a opção <b>"Use Tomcat Installation (takes control of Tomcat installation)"</b> na área Server Locations. 
 10. Iniciar o Apache Tomcat.
