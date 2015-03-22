@@ -20,7 +20,6 @@ border-radius: 7px;
 				<li class="jstree-open">Processos
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/m/ProcessoPadrao">Processo Padrão</a></li>
-						<li><a href="http://www.google.com.br">Google</a></li>
 					</ul>
 				</li>				
 			</ul>		
