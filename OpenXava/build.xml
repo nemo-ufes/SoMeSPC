@@ -658,9 +658,9 @@
 		<antcall target="createWebXml"/>
 		<antcall target="filter"/>
 		<antcall target="createEditorsJS"/>
-		<copy file="../OpenXava/bin/Messages_ptBR.properties" 
+		<copy file="../OpenXava/bin/Messages_${default.language}.properties" 
 			tofile="../OpenXava/bin/Messages.properties"/>
-		<copy file="../OpenXava/bin/Labels_ptBR.properties" 
+		<copy file="../OpenXava/bin/Labels_${default.language}.properties" 
 			tofile="../OpenXava/bin/Labels.properties"/>
 		<copy file="../${project}/${classes.dir}/${project}-messages_ptBR.properties" 
 			tofile="../${project}/${classes.dir}/${project}-messages.properties"
