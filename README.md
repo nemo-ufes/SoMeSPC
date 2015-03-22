@@ -23,7 +23,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 6. Configurar o Apache Tomcat como servidor web. 
 7. Na aba Server (parte inferior do Eclipse), dar duplo clique em Tomcat v7 Server. No arquivo que abrir, selecionar a opção "Use Tomcat Installation (takes control of Tomcat installation)" na área Server Locations. 
 8. Iniciar o Apache Tomcat
-9. Executar a Ant Build "MedCEP.DeployWar"
+9. Executar a Ant Build "MedCEP.Implantar"
 10. Abrir a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP)
 
 ## Referência
