@@ -11,28 +11,28 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 
 ##Instruções de instalação
 1. Instalar o Java SDK.
-2. Instalar o PostgreSQL com usuário e senha "postgres".
-3. Criar um banco de dados no PostgreSQL chamado "medcep" e informar como dono o usuário "postgres".
-4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59.
+2. Instalar o PostgreSQL com usuário e senha <b>"postgres"</b>.
+3. Criar um banco de dados no PostgreSQL chamado <b>"medcep"</b> e informar como dono o usuário <b>"postgres"</b>.
+4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira executar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
 5. Descompacter o IDE Eclipse Luna.
 6. Executar o Eclipse.
 7. Baixar o código fonte do GitHub.
-8. Configurar o Apache Tomcat como servidor web. 
-9. Na aba Server (parte inferior do Eclipse), dar duplo clique em Tomcat v7 Server. No arquivo que abrir, selecionar a opção "Use Tomcat Installation (takes control of Tomcat installation)" na área Server Locations. 
+8. Configurar o Apache Tomcat como servidor web (<b>Window -> Preferences -> Server -> Runtime Environments -> Add...</b>). 
+9. Na aba Server (parte inferior do Eclipse), dar duplo clique em <b>Tomcat v7 Server</b>. No arquivo que abrir, selecionar a opção <b>"Use Tomcat Installation (takes control of Tomcat installation)"</b> na área Server Locations. 
 10. Iniciar o Apache Tomcat.
-11. Abrir o folder MedCEP.
-12. Procurar pelo arquivo "build.xml".
-13. Clicar com o botão direito do mouse, selecionar "Run as" e escolher a 3º opção "Ant Build...".
-14. Defina um nome, por exemplo "MedCEP.Implantar", depois clique em Apply.
-15. Clique em "Run".
-16. Executar a Ant Build "MedCEP.Implantar".
+11. Abrir a pasta do projeto MedCEP no IDE Eclipse.
+12. Procurar pelo arquivo <b>"build.xml"</b>.
+13. Clicar com o botão direito do mouse, selecionar <b>"Run as"</b> e escolher a 3º opção <b>"Ant Build..."</b>.
+14. Defina um nome, por exemplo <b>"MedCEP.Implantar"</b>, depois clique em <b>Apply</b>.
+15. Clique em <b>"Run"</b>.
+16. Executar a Ant Build <b>"MedCEP.Implantar"</b>.
 17. Abrir a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
 
 Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicação através da URL via browser, faça:
 
 1. Pare o Apache Tomcat.
 2. Inicie novamente o Apache Tomcat.
-3. Execute a Ant Build "MedCEP.Implantar"
+3. Execute a Ant Build <b>"MedCEP.Implantar"</b>.
 4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
 
 ## Referência
