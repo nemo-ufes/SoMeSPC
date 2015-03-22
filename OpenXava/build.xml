@@ -658,14 +658,14 @@
 		<antcall target="createWebXml"/>
 		<antcall target="filter"/>
 		<antcall target="createEditorsJS"/>
-		<copy file="../OpenXava/bin/Messages_${default.language}.properties" 
+		<copy file="../OpenXava/bin/Messages_ptBR.properties" 
 			tofile="../OpenXava/bin/Messages.properties"/>
-		<copy file="../OpenXava/bin/Labels_${default.language}.properties" 
+		<copy file="../OpenXava/bin/Labels_ptBR.properties" 
 			tofile="../OpenXava/bin/Labels.properties"/>
-		<copy file="../${project}/${classes.dir}/${project}-messages_${default.language}.properties" 
+		<copy file="../${project}/${classes.dir}/${project}-messages_ptBR.properties" 
 			tofile="../${project}/${classes.dir}/${project}-messages.properties"
 			failonerror="false"/>
-		<copy file="../${project}/${classes.dir}/${project}-labels_${default.language}.properties" 
+		<copy file="../${project}/${classes.dir}/${project}-labels_ptBR.properties" 
 			tofile="../${project}/${classes.dir}/${project}-labels.properties"
 			failonerror="false"/>
 		<jar jarfile="../${project}/web/WEB-INF/lib/openxava.jar" basedir="../OpenXava/bin"/>
