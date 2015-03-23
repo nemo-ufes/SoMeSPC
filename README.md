@@ -58,8 +58,10 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 4. Renomear a pasta do Mantis Bug Tracking de <b>"mantisbt-1.2.19"</b> para <b>"mantis"</b>.
 5. Acessar a URL http://localhost/mantis/
 6. Informar Type of Database: MySQL (default), Hostname: localhost, Username: mantis, Password: mantis, Database name: mantis, clicar em <b>"Install/Upgrade Database"</b>.
-7. 
+7. Após a instalação, acessar novamente a URL http://localhost/mantis/
+8. Informar o usuário "Administrator" e senha "root" para acessar o Mantis Bug Tracking.
 
+<b>IMPORTANTE: Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL de instalação, etc. deverão ser alteradas de acordo com a necessidade.</b>
 
 ## Referência
 C. X. MARETTO and M. P. BARCELLOS, <b>“Uma Arquitetura de Referência para Medição de Software,”</b> in XIII Simpósio Brasileiro de Qualidade de Software (SBQS 2014), 2014.
