@@ -56,9 +56,9 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 2. Abrir o diretório <b>"www"</b> (clicar no ícone do Wamp Server 2.5 na bandeja do Windows, depois em <b>"diretório www"</b>).
 3. Descompactar o arquivo zip do Mantis Bug Tracking no <b>"diretório www"</b>.
 4. Renomear a pasta do Mantis Bug Tracking de <b>"mantisbt-1.2.19"</b> para <b>"mantis"</b>.
-5. Acessar a URL http://localhost/mantis/
+5. Acessar a URL: [http://localhost/mantis/](http://localhost/mantis/)
 6. Informar <b>Type of Database: MySQL (default), Hostname: localhost, Username: mantis, Password: mantis, Database name: mantis</b>, clicar em <b>"Install/Upgrade Database"</b>.
-7. Após a instalação, acessar novamente a URL http://localhost/mantis/
+7. Após a instalação, acessar novamente a URL [http://localhost/mantis/](http://localhost/mantis/)
 8. Informar o usuário <b>Administrator</b> e senha <b>root</b> para acessar o Mantis Bug Tracking.
 
 <b><i>IMPORTANTE: Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL e local de instalação deverão ser alteradas de acordo com cada necessidade.</i></b>
