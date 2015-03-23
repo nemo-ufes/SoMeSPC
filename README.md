@@ -22,18 +22,18 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 9. Na aba Server (parte inferior do Eclipse), dar duplo clique em <b>Tomcat v7 Server</b>. No arquivo que abrir, selecionar a opção <b>"Use Tomcat Installation (takes control of Tomcat installation)"</b> na área Server Locations. 
 10. Iniciar o Apache Tomcat.
 11. Abrir a pasta do projeto MedCEP no IDE Eclipse.
-12. Procurar pelo arquivo <b>"build.xml"</b>.
+12. Procurar pelo arquivo <b>build.xml</b>.
 13. Clicar com o botão direito do mouse, selecionar <b>"Run as"</b> e escolher a 3º opção <b>"Ant Build..."</b>.
 14. Defina um nome, por exemplo <b>"MedCEP.Implantar"</b>, depois clique em <b>Apply</b>.
-15. Clique em <b>"Run"</b>.
-16. Executar a Ant Build <b>"MedCEP.Implantar"</b>.
+15. Clique em <b>Run</b>.
+16. Executar a Ant Build <b>MedCEP.Implantar</b>.
 17. Abrir a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
 
 Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicação através da URL via browser, faça:
 
 1. Pare o Apache Tomcat.
 2. Inicie novamente o Apache Tomcat.
-3. Execute a Ant Build <b>"MedCEP.Implantar"</b>.
+3. Execute a Ant Build <b>MedCEP.Implantar</b>.
 4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
 
 ##Configuração do Mantis Bug Tracking
@@ -49,19 +49,19 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 4. Clicar em <b>Alterar Privilégios</b> para o utilizador <b>root</b> na máquina <b>localhost</b>.
 5. No grupo <b>Alterar a palavra-passe</b>, informar a senha root e clicar em <b>Executar</b>.
 3. Clicar em <b>New</b> no menu lateral esquerdo, para criar o banco de dados para o Mantis Bug Tracking.
-4. Informar o nome <b>"mantis"</b> e clicar em <b>"Criar"</b>.
-5. O banco de dados recém criado aparecerá na listagem de bancos logo abaixo (na mesma tela). Clicar em <b>"Verificar Privilégios"</b>.
-6. Clicar em <b>"Adicionar utilizador"</b>.
+4. Informar o nome <b>"mantis"</b> e clicar em <b>Criar</b>.
+5. O banco de dados <b>"mantis"</b> aparecerá na listagem logo abaixo (na mesma tela). Clicar em <b>Verificar Privilégios</b>.
+6. Clicar em <b>Adicionar utilizador</b>.
 7. Informar User name: mantis, Host: localhost, Palavra-passe: mantis, Re-type: mantis, clicar em <b>"Executar"</b>.
 2. Abrir o diretório <b>"www"</b> (clicar no ícone do Wamp Server 2.5 na bandeja do Windows, depois em <b>"diretório www"</b>).
 3. Descompactar o arquivo zip do Mantis Bug Tracking no <b>"diretório www"</b>.
 4. Renomear a pasta do Mantis Bug Tracking de <b>"mantisbt-1.2.19"</b> para <b>"mantis"</b>.
 5. Acessar a URL http://localhost/mantis/
-6. Informar Type of Database: MySQL (default), Hostname: localhost, Username: mantis, Password: mantis, Database name: mantis, clicar em <b>"Install/Upgrade Database"</b>.
+6. Informar <b>Type of Database: MySQL (default), Hostname: localhost, Username: mantis, Password: mantis, Database name: mantis</b>, clicar em <b>"Install/Upgrade Database"</b>.
 7. Após a instalação, acessar novamente a URL http://localhost/mantis/
-8. Informar o usuário "Administrator" e senha "root" para acessar o Mantis Bug Tracking.
+8. Informar o usuário <b>Administrator</b> e senha <b>root</b> para acessar o Mantis Bug Tracking.
 
-<b>IMPORTANTE: Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL de instalação, etc. deverão ser alteradas de acordo com a necessidade.</b>
+<b><i>IMPORTANTE: Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL de instalação, etc. deverão ser alteradas de acordo com a necessidade.</i></b>
 
 ## Referência
 C. X. MARETTO and M. P. BARCELLOS, <b>“Uma Arquitetura de Referência para Medição de Software,”</b> in XIII Simpósio Brasileiro de Qualidade de Software (SBQS 2014), 2014.
