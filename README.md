@@ -61,7 +61,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 7. Após a instalação, acessar novamente a URL http://localhost/mantis/
 8. Informar o usuário <b>Administrator</b> e senha <b>root</b> para acessar o Mantis Bug Tracking.
 
-<b><i>IMPORTANTE: Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL de instalação, etc. deverão ser alteradas de acordo com a necessidade.</i></b>
+<b><i>IMPORTANTE: Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL e local de instalação deverão ser alteradas de acordo com cada necessidade.</i></b>
 
 ## Referência
 C. X. MARETTO and M. P. BARCELLOS, <b>“Uma Arquitetura de Referência para Medição de Software,”</b> in XIII Simpósio Brasileiro de Qualidade de Software (SBQS 2014), 2014.
