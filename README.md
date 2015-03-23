@@ -52,7 +52,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 4. Informar o nome <b>"mantis"</b> e clicar em <b>"Criar"</b>.
 5. O banco de dados recém criado aparecerá na listagem de bancos logo abaixo (na mesma tela). Clicar em <b>"Verificar Privilégios"</b>.
 6. Clicar em <b>"Adicionar utilizador"</b>.
-7. Informar User name: mantis, Host: %, Palavra-passe: mantis, Re-type: mantis, clicar em <b>"Executar"</b>.
+7. Informar User name: mantis, Host: localhost, Palavra-passe: mantis, Re-type: mantis, clicar em <b>"Executar"</b>.
 2. Abrir o diretório <b>"www"</b> (clicar no ícone do Wamp Server 2.5 na bandeja do Windows, depois em <b>"diretório www"</b>).
 3. Descompactar o arquivo zip do Mantis Bug Tracking no <b>"diretório www"</b>.
 4. Renomear a pasta do Mantis Bug Tracking de <b>"mantisbt-1.2.19"</b> para <b>"mantis"</b>.
