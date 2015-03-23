@@ -5,7 +5,6 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 <br/>Baseada na arquitetura de referência de medição de software de MARETTO (2014).
 
 ##Requisitos
-
 - Java SDK 7 Update 75 (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 - IDE Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
 - PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
@@ -36,6 +35,18 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 2. Inicie novamente o Apache Tomcat.
 3. Execute a Ant Build <b>"MedCEP.Implantar"</b>.
 4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
+
+##Configuração do Mantis Bug Tracking
+###Requisitos
+- Wamp Server 2.5 (Windows + Apache + MySQL + PHP server) (x64) - [Download](http://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.5/wampserver2.5-Apache-2.4.9-Mysql-5.6.17-php5.5.12-64b.exe/download)
+- Mantis Bug Tracking 1.2.19 - [Download] (http://sourceforge.net/projects/mantisbt/files/mantis-stable/1.2.19/mantisbt-1.2.19.zip/download)
+ 
+###Instruções para configuração
+1. Instalar o Wamp Server 2.5
+2. Abrir o diretório <b>"www"</b> (clicar no ícone do Wamp Server 2.5 na bandeja do Windows, depois em <b>"diretório www"</b>).
+3. Descompactar o arquivo zip do Mantis Bug Tracking no diretório www.
+4. Renomear a pasta do Mantis Bug Tracking de <b>"mantisbt-1.2.19"</b> para <b>"mantis"</b>.
+
 
 ## Referência
 C. X. MARETTO and M. P. BARCELLOS, <b>“Uma Arquitetura de Referência para Medição de Software,”</b> in XIII Simpósio Brasileiro de Qualidade de Software (SBQS 2014), 2014.
