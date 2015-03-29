@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.processo.comportamento;
 
 import java.util.*;
@@ -29,6 +28,7 @@ import org.hibernate.annotations.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.processo.*;
 import org.openxava.annotations.*;
+
 
 /**
  * DEP-01

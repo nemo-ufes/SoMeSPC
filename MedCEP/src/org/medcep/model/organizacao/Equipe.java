@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.organizacao;
 
 import java.util.*;
@@ -31,7 +30,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Equipe [nome; recursoHumano; alocacaoEquipe]"),
+	@View(members="nome; Membros { recursoHumano; }, Alocações { alocacaoEquipe }"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")

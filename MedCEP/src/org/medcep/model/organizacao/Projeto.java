@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.organizacao;
 
 import java.util.*;
@@ -26,16 +25,26 @@ import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.planejamento.*;
+import org.medcep.model.projeto.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Projeto [dataInicio, dataFim; nome; tipoDeEntidadeMensuravel]; equipe; objetivo; elementoMensuravel;"),
+	@View(members="nome; tipoDeEntidadeMensuravel; dataInicio, dataFim; equipe; objetivo; elementoMensuravel; criterioDeProjeto;"),
 	@View(name="Simple", members="nome"),
+	@View(name="SimpleNoFrame", members="nome")
 	})
 @Tab(properties="nome, dataInicio, dataFim", defaultOrder="${nome} asc")
 public class Projeto extends EntidadeMensuravel {
     
+	public Collection<CriterioDeProjeto> getCriterioDeProjeto() {
+		return criterioDeProjeto;
+	}
+
+	public void setCriterioDeProjeto(Collection<CriterioDeProjeto> criterioDeProjeto) {
+		this.criterioDeProjeto = criterioDeProjeto;
+	}
+
 	private Date dataInicio;
 	 
 	private Date dataFim;
@@ -69,6 +78,7 @@ public class Projeto extends EntidadeMensuravel {
   	    		  @JoinColumn(name="projeto_id")
   	       }
   	      )
+    @ListProperties("nome")
 	private Collection<Objetivo> objetivo;
 
 	public Collection<PlanoDeMedicaoDoProjeto> getPlanoDeMedicaoDoProjeto() {
@@ -107,6 +117,11 @@ public class Projeto extends EntidadeMensuravel {
 	public void setEquipe(Collection<Equipe> equipe) {
 		this.equipe = equipe;
 	}
+	
+	@OneToMany(mappedBy="projeto", cascade=CascadeType.REMOVE)
+	@ListProperties("criterio.nome, valorMedido.valorMedido")
+    @CollectionView("Projeto")
+	private Collection<CriterioDeProjeto> criterioDeProjeto;
 	
 /*	@ManyToOne 
 	@Required
@@ -161,6 +176,8 @@ public class Projeto extends EntidadeMensuravel {
 			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel) {
 		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
 	}
+	
+	
 	
 	/*private ProcessoDeSoftwareDeProjeto processoDeSoftwareDeProjeto;*/
 

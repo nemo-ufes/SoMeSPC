@@ -1,10 +1,10 @@
 /*
-    MedCEP - A powerful tool for measure
-    
-    Copyright (C) 2013 Ciro Xavier Maretto
-    Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
+    MedCEP - A powerful tool for mimport javax.persistence.*;
+import javax.persistence.Entity;
 
-    This program is free software: you can redistribute it and/or modify
+import org.hibernate.annotations.*;
+import org.openxava.annotations.*;
+e software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
@@ -17,23 +17,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.processo;
 
-import javax.persistence.*;
-import javax.persistence.Entity;
+import java.util.*;
 
-import org.hibernate.annotations.*;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.hibernate.annotations.GenericGenerator;
 import org.openxava.annotations.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="Procedimento [nome; descricao]"),
+	@View(members="nome; descricao"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({
-	@Tab(properties="nome", defaultOrder="${nome} asc")
+	@Tab(properties="nome, descricao", defaultOrder="${nome} asc")
 })
 public class Procedimento {
  
@@ -53,7 +54,7 @@ public class Procedimento {
     private String nome;
 	 
 	@Stereotype("TEXT_AREA")
-	//@Column(length=50000)
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 	 
 	//private Collection<AtividadeDeProjeto> atividadeDeProjeto;

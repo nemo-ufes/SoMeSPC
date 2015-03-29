@@ -20,33 +20,53 @@
 
 package org.medcep.model.processo;
 
+import java.util.*;
+
 import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.planejamento.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
+
 
 @Entity
 @Views({
-	@View(members="Atividade Projeto: [nome; tipoDeEntidadeMensuravel; baseadoEm]; Dados Complementares [dependeDe, adotaProcedimento; requer, produz; realizadoPor; elementoMensuravel;]"),
+	@View(members="nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; requer; produz; realizadoPor; elementoMensuravel;"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({
 	@Tab(properties="nome", defaultOrder="${nome} asc")	
 })
+@EntityValidator(
+		value=AtividadeDeProjetoValidator.class, 
+		properties={
+			@PropertyValue(name="tipoDeEntidadeMensuravel")
+		}
+)
 public class AtividadeDeProjeto extends AtividadeInstanciada {
 	 
-	@ManyToOne
-	private ProcessoDeProjeto processoDeProjeto;
-
-	public ProcessoDeProjeto getProcessoDeProjeto() {
+	@ManyToMany(fetch=FetchType.LAZY) 
+    @JoinTable(
+	      name="ProcessoDeProjeto_AtividadeDeProjeto"
+	      , joinColumns={
+	    		  @JoinColumn(name="atividadeDeProjeto_id")
+	       }
+	      , inverseJoinColumns={
+	    		  @JoinColumn(name="processoDeProjeto_id")
+	       }
+	      )
+	@ListProperties("nome")
+	private Collection<ProcessoDeProjeto> processoDeProjeto;
+	
+	public Collection<ProcessoDeProjeto> getProcessoDeProjeto() {
 		return processoDeProjeto;
 	}
 
-	public void setProcessoDeProjeto(ProcessoDeProjeto processoDeProjeto) {
+	public void setProcessoDeProjeto(Collection<ProcessoDeProjeto> processoDeProjeto) {
 		this.processoDeProjeto = processoDeProjeto;
 	}
-	
+
 	@ManyToOne
 	@Required
 	@Transient

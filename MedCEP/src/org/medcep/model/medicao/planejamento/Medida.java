@@ -23,81 +23,95 @@ package org.medcep.model.medicao.planejamento;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.medcep.model.organizacao.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Medida [nome; mnemonico; "
-			+"tipoMedida,  			"
-			+"tipoDeEntidadeMedida; 		"
-			+"unidadeDeMedida,   		" 
-			+"entidadeMedida;   		"
-			+"elementoMensuravel, 		"
-			+"escala];"
-			+"medidasCorrelatas; "
+	@View(members="nome, mnemonico; "
+			+"tipoMedida; "
+			+"escala; "
+			+"unidadeDeMedida; " 
 			//+"listaObjetivos; "
-			+"Para Medidas Derivadas: [ calculadaPor; "
-			+"derivaDe; ]"
+			+"tipoDeEntidadeMedida; "
+			//+"entidadeMedida; "
+			+"elementoMensuravel; "
+			+"medidasCorrelatas; "
+			//+"definicaoOperacionalDeMedida; "
+			+"Se a Medida é Derivada [ " 
+			+"derivaDe; "
+			+"calculadaPor; ]; "
+			/*+"Detalhes para Medidas Derivadas { calculadaPor; "
+			+"derivaDe; }; "
+			+"Medidas Correlatas {"
+			+"medidasCorrelatas; }"*/ //TODO: possivel bug do openxava, auto relacionamentos dentro de { } acarretam em um loop infinito 
 	),
 	@View(name="ForMedicao", members="nome, mnemonico; "
-			+"Entidade Mensurável [ entidadeMedida.nome; ];"
+			//+"Entidade Mensurável [ entidadeMedida.nome; ];"
+			+"Tipo de Entidade Mensurável [ tipoDeEntidadeMedida.nome; ];"
 			+"Elemento Mensurável [ elementoMensuravel.nome; ]"
 	),
-	@View(name="Simple", members="nome")
+	@View(name="Simple", members="nome"),
+	@View(name="SimpleNoFrame", members="nome")
 })
 @Tabs({
+	//@Tab(properties="nome, mnemonico, indicador", defaultOrder="${nome} asc")
 	@Tab(properties="nome, mnemonico", defaultOrder="${nome} asc")
 })
-public class Medida {
- 
-	@Id @GeneratedValue(generator="system-uuid") @Hidden
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;    
-    
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+@EntityValidator(
+		value=MedidaValidator.class, 
+		properties={
+			@PropertyValue(name="tipoMedida"),
+			@PropertyValue(name="elementoMensuravel")
+		}
+)
+public class Medida extends TreeItemPlanoMedicaoBase {
  
     @Column(length=500, unique=true) 
     @Required 
     private String nome;
 	
 	@Stereotype("TEXT_AREA") 
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 
 	@Column(length=6) 
 	private String mnemonico;
 	
 	@ManyToOne 
-	@DescriptionsList(descriptionProperties="nome") 
 	@Required 
+	@NoCreate
+	@NoModify
+	//@Editor("ValidValuesRadioButton")
+	@DescriptionsList(descriptionProperties="nome", order="${nome} asc")
 	private TipoMedida tipoMedida;
 
+/*
 	@ManyToOne 
-	@DescriptionsList(
-			descriptionProperties="nome"
-			)
-	//@Required
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMedida;
+	@Required
+	//@NoCreate
+	//@NoModify
+	//@NoFrame
+	@ReferenceView("Simple")
+	//@SearchAction("Medida.searchEntidadeMensuravelForMedida")
+    private EntidadeMensuravel entidadeMedida;
+	
+	public EntidadeMensuravel getEntidadeMedida() {
+		return entidadeMedida;
+	}
+
+	public void setEntidadeMedida(EntidadeMensuravel entidadeMedida) {
+		this.entidadeMedida = entidadeMedida;
+	}*/
 	
 	@ManyToOne 
-	@DescriptionsList(
-			descriptionProperties="nome"
-			,depends="tipoDeEntidadeMedida"
-			,condition="${tipoDeEntidadeMensuravel.id} = ?"
-			,order="${nome} asc"
-			)
-	//@Required
-    private EntidadeMensuravel entidadeMedida;
+	@DescriptionsList(descriptionProperties="nome", order="${nome} asc")
+	@Required
+	@NoFrame
+	@ReferenceView("SimpleNoFrame")
+    private TipoDeEntidadeMensuravel tipoDeEntidadeMedida;
 	
 	public TipoDeEntidadeMensuravel getTipoDeEntidadeMedida() {
 		return tipoDeEntidadeMedida;
@@ -108,29 +122,31 @@ public class Medida {
 		this.tipoDeEntidadeMedida = tipoDeEntidadeMedida;
 	}
 
-	public EntidadeMensuravel getEntidadeMedida() {
-		return entidadeMedida;
+
+	@ListProperties("nome")
+	@OneToMany(mappedBy="medida")
+	private Collection<DefinicaoOperacionalDeMedida> definicaoOperacionalDeMedida;
+
+	public Collection<DefinicaoOperacionalDeMedida> getDefinicaoOperacionalDeMedida() {
+		return definicaoOperacionalDeMedida;
 	}
 
-	public void setEntidadeMedida(EntidadeMensuravel entidadeMedida) {
-		this.entidadeMedida = entidadeMedida;
+	public void setDefinicaoOperacionalDeMedida(
+			Collection<DefinicaoOperacionalDeMedida> definicaoOperacionalDeMedida) {
+		this.definicaoOperacionalDeMedida = definicaoOperacionalDeMedida;
 	}
 
 	@ManyToOne
-	@DescriptionsList(
-			descriptionProperties="nome"
-			/*,depends="entidadeMedida"
-			,condition="${entidadeMensuravel.id} = ?"
-			//,condition="?.id IN (SELECT id from ${entidadeMensuravel})"
-			,order="${nome} asc"*/
-			)
-	//@Required
-	//@Condition("${id} IN (SELECT id from ${elementoMensuravel.entidadeMensuravel})")
+	@Required
+	//@NoCreate
+	//@NoModify
+	@ReferenceView("Simple")
+	@SearchAction("Medida.searchElementoMensuravelForMedida")
     private ElementoMensuravel elementoMensuravel;
 	
 	@ManyToOne 
 	@DescriptionsList(descriptionProperties="nome") 
-	//@Required 
+	@Required 
 	private Escala escala;
 	 
 	@ManyToOne 
@@ -245,9 +261,6 @@ public class Medida {
 		this.mnemonico = mnemonico;
 	}
 
-    /*@OneToMany(mappedBy="medida") 
-	private Collection<MedidaPlanoDeMedicao> medidaPlanoDeMedicao;*/
-
 	public TipoMedida getTipoMedida() {
 		return tipoMedida;
 	}
@@ -264,6 +277,10 @@ public class Medida {
 		this.elementoMensuravel = elementoMensuravel;
 	}
 
+
+    /*@OneToMany(mappedBy="medida") 
+	private Collection<MedidaPlanoDeMedicao> medidaPlanoDeMedicao;*/
+	
 /*	public Collection<MedidaPlanoDeMedicao> getMedidaPlanoDeMedicao() {
 		return medidaPlanoDeMedicao;
 	}
@@ -272,22 +289,24 @@ public class Medida {
 		this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
 	}*/
     
-    public FormulaDeCalculoDeMedida getCalculadaPor() {
+	//@OneToOne(cascade=CascadeType.REFRESH)
+	//@OneToOne(cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="calcula", cascade = CascadeType.REMOVE)
+	//@OneToMany(mappedBy="calcula")
+	//@ListProperties("nome")
+	//@OneToOne
+    //@PrimaryKeyJoinColumn
+   // @ReferenceView("Simple")
+	private Collection<FormulaDeCalculoDeMedida> calculadaPor;
+		
+	public Collection<FormulaDeCalculoDeMedida> getCalculadaPor() {
 		return calculadaPor;
 	}
 
-	public void setCalculadaPor(FormulaDeCalculoDeMedida calculadaPor) {
+	public void setCalculadaPor(Collection<FormulaDeCalculoDeMedida> calculadaPor) {
 		this.calculadaPor = calculadaPor;
 	}
 
-	//@OneToOne(cascade=CascadeType.REFRESH)
-	//@OneToOne(cascade=CascadeType.REMOVE)
-	@OneToOne(cascade=CascadeType.ALL)
-	//@OneToOne
-    //@PrimaryKeyJoinColumn
-    @ReferenceView("Simple")
-	private FormulaDeCalculoDeMedida calculadaPor;
-	
 	public Escala getEscala() {
 		return escala;
 	}
@@ -302,6 +321,10 @@ public class Medida {
 
 	public void setUnidadeDeMedida(UnidadeDeMedida unidadeDeMedida) {
 		this.unidadeDeMedida = unidadeDeMedida;
+	}
+	
+	public boolean isIndicador(){
+		return (listaObjetivos != null && listaObjetivos.size() > 0) || (listaNecessidadeDeInformacao != null && listaNecessidadeDeInformacao.size() > 0);
 	}
 	
 /*	@OneToMany(mappedBy="medida")

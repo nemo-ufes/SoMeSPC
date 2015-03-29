@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import java.util.*;
@@ -37,11 +36,10 @@ import org.openxava.annotations.*;
 		)*/
 @Views({
 	@View(members="nome;" 
-			+ "necessidadeDeInformacao;"
-			+ "indicadores;" 
-			+ "objetivoDeMedicao;"
-			+ "objetivoDeSoftware"
-			//+ "objetivoEstrategico"
+			//+ "necessidadeDeInformacao;"
+			//+ "indicadores;" 
+			//+ "objetivoDeSoftware;"
+			//+ "objetivoDeMedicao;"			
 			),
 	@View(name="Simple", members="nome"),
 	})
@@ -50,9 +48,9 @@ import org.openxava.annotations.*;
 })
 public class ObjetivoEstrategico extends Objetivo { 
 
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany
     @JoinTable(
-	      name="OObjetivoDeSoftware_BaseadoEm_ObjetivoEstrategico"
+	      name="ObjetivoDeSoftware_BaseadoEm_ObjetivoEstrategico"//TODO: remover o "O" a mais do inicio
 	      , joinColumns={
 	    		  @JoinColumn(name="ObjetivoEstrategico")
 	       }
@@ -60,12 +58,10 @@ public class ObjetivoEstrategico extends Objetivo {
 	    		  @JoinColumn(name="ObjetivoDeSoftware")
 	       }
 	      )
-/*    @Editor(value="TreeView")
-    @ListProperties("nome")
-    @Tree(pathProperty="objetivoDeSoftware")*/
+	@ListProperties("nome")
 	private Collection<ObjetivoDeSoftware> objetivoDeSoftware;
-	 
-	@ManyToMany (fetch=FetchType.LAZY)
+	
+	@ManyToMany
     @JoinTable(
 	      name="ObjetivoDeMedicao_BaseadoEm_ObjetivoEstrategico"
 	      , joinColumns={
@@ -75,6 +71,7 @@ public class ObjetivoEstrategico extends Objetivo {
 	    		  @JoinColumn(name="ObjetivoDeMedicao")
 	       }
 	      )
+	@ListProperties("nome")
 	private Collection<ObjetivoDeMedicao> objetivoDeMedicao;
 
 	public Collection<ObjetivoDeSoftware> getObjetivoDeSoftware() {
@@ -94,16 +91,7 @@ public class ObjetivoEstrategico extends Objetivo {
 		this.objetivoDeMedicao = objetivoDeMedicao;
 	}
 	 
-/*    @ManyToMany 
-    @JoinTable(
-  	      name="planoDeMedicao_objetivoEstrategico"
-  	      , joinColumns={
-  	    		  @JoinColumn(name="objetivoEstrategico_id")
-  	       }
-  	      , inverseJoinColumns={
-  	    		  @JoinColumn(name="planoDeMedicao_id")
-  	       }
-  	      )
+/*  
 	private Collection<PlanoDeMedicao> planoDeMedicao;
 
 	public Collection<PlanoDeMedicao> getPlanoDeMedicao() {
@@ -114,6 +102,7 @@ public class ObjetivoEstrategico extends Objetivo {
 		this.planoDeMedicao = planoDeMedicao;
 	}*/
     
+
     
 }
  

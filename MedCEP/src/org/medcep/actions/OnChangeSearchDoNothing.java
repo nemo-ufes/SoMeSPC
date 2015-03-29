@@ -17,15 +17,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.actions;
 
 import org.openxava.actions.*;
 
-public class OnChangeSearchDoNothing extends OnChangeSearchAction { // 1
+public class OnChangeSearchDoNothing extends OnChangeSearchAction {
 
-	public void execute() throws Exception {
+	public void execute()
+	{
 		return;
 	}
-
+	
 }

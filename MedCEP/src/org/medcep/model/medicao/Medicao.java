@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao;
 
 import java.util.*;
@@ -31,40 +30,39 @@ import org.medcep.actions.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.model.processo.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 
 @Entity
 @Views({
-/*	@View(members="data; "
-			+"entidadeMensuravel; "
-			+"elementoMensuravel; "
-			+"Valor Medido [ tipo; valorTemp ]; "
-			+"Planejamento {planoDeMedicao;"
-			+"medidaPlanoDeMedicao;},"
-			+"Execucao {definicaoOperacionalDeMedida; "
-			+"momentoRealDaMedicao; "
-			+"executorDaMedicao; "
-			+"contextoDeMedicao}"
-	),*/
-	@View(members="Cadastro Medição [data, "
-			+ "planoDeMedicao,"
+	@View(members="data; "
+			+ "planoDeMedicao;"
 			+ "medidaPlanoDeMedicao;"
+			+ "entidadeMensuravel;"
 			+ "valorMedido;"
-			//+"entidadeMensuravel; "
-			//+"elementoMensuravel; "
-			//+"Planejamento {planoDeMedicao;"
-			//+"medidaPlanoDeMedicao;},"
-			+"momentoRealDaMedicao; "
-			+"executorDaMedicao; "
-			+"contextoDeMedicao;]"
-	),
-	@View(name="Simple", members="nome")
+			//+ "projeto;"
+			+ "momentoRealDaMedicao; "
+			+ "executorDaMedicao; "
+			+ "contextoDeMedicao"
+	)
+	//@View(name="Simple", members="nome")
 })
 @Tabs({
-	@Tab(properties="medidaPlanoDeMedicao.medida.nome, medidaPlanoDeMedicao.medida.entidadeMedida.nome, data, valorMedido.valorMedido", defaultOrder="${data} desc")
+	@Tab(properties="medidaPlanoDeMedicao.medida.nome, " +
+					//"medidaPlanoDeMedicao.medida.entidadeMedida.nome, " + //"medidaPlanoDeMedicao.medida.elementoMensuravel.nome, " +
+					"projeto.nome, " +
+					"data, " +
+					"valorMedido.valorMedido", defaultOrder="${data} desc")
 })
-public class Medicao {
+@EntityValidator(
+		value=MedicaoValidator.class, 
+		properties={
+			@PropertyValue(name="medidaPlanoDeMedicao"),
+			@PropertyValue(name="entidadeMensuravel")
+		}
+)
+public class Medicao implements Comparable<Medicao>{
  
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -87,13 +85,16 @@ public class Medicao {
 */		
 	@ManyToOne
 	@Required
+	@NoCreate
+	@NoModify
 	//@ReferenceView("Simple")
 	@DescriptionsList(descriptionProperties="nome")
 	private PlanoDeMedicao planoDeMedicao;
 	
 	@ManyToOne
 	@Required
-	//@ReferenceView("Medicao")
+	@NoCreate
+	@NoModify
 	@ReferenceView("Simple")
 	@DescriptionsList(
 			descriptionProperties="medida.nome, medida.mnemonico"
@@ -101,13 +102,11 @@ public class Medicao {
 			,condition="${planoDeMedicao.id} = ?"
 			,order="${medida.nome} asc"
 			)
-	@NoCreate
-	//@NoModify
 	private MedidaPlanoDeMedicao medidaPlanoDeMedicao;
 	
 	@ManyToOne 
-	//@Required
-	//@ReferenceView("Simple")
+	@Required
+	@ReferenceView("Simple")
 /*	@DescriptionsList(
 			descriptionProperties="nome"
 			//,depends="medidaPlanoDeMedicao.medida.entidadeMensuravel.id"
@@ -115,6 +114,7 @@ public class Medicao {
 			,condition="${id} = ?"
 			,order="${nome} asc"
 			)*/
+	//@SearchAction("Medicao.searchEntidadeMensuravel")
 	private EntidadeMensuravel entidadeMensuravel;
 	
 	@ManyToOne 
@@ -128,6 +128,37 @@ public class Medicao {
 			)
 	private ElementoMensuravel elementoMensuravel;
 	
+	@ManyToOne 
+	@DescriptionsList(
+			descriptionProperties="nome"
+			//,depends="medidaPlanoDeMedicao"
+			,order="${nome} asc"
+			)
+	private Projeto projeto;
+	
+	public Projeto getProjeto()
+	{
+	/*	if(medidaPlanoDeMedicao != null 
+			&& medidaPlanoDeMedicao.getPlanoDeMedicao() != null)
+		{
+			if(medidaPlanoDeMedicao.getPlanoDeMedicao() instanceof PlanoDeMedicaoDoProjeto)
+			{
+				if(((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto() != null)
+				{
+					return ((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto().getNome();
+					//return ((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto();
+				}
+			}	
+			
+		}
+		return "";*/ 	
+		return this.projeto;
+	}
+	
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
+
 	@ManyToOne 
 	//@Required
 	@ReferenceView("Simple")
@@ -157,7 +188,7 @@ public class Medicao {
     @NoSearch
     //@NoFrame
     @OnChange(OnChangePropertyDoNothingValorMedido.class)
-    @OnChangeSearch(OnChangeSearchDoNothing.class)
+    //@OnChangeSearch(OnChangeSectionCEPAction.class)
     @Required
     //@Embedded
 	private ValorMedido valorMedido;
@@ -308,6 +339,26 @@ public class Medicao {
     		((ValorAlfanumerico)valorMedido).setValorMedido(valorMedidoAux.getValorMedido()); 		
     	}
 		//TODO: e se alterar a medida plano medição depois que a medição for criada?
+		
+		
+		//Seta projeto para facilitar pesquisa
+		if(medidaPlanoDeMedicao != null 
+				&& medidaPlanoDeMedicao.getPlanoDeMedicao() != null)
+			{
+				if(medidaPlanoDeMedicao.getPlanoDeMedicao() instanceof PlanoDeMedicaoDoProjeto)
+				{
+					if(((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto() != null)
+					{
+						projeto = ((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto();
+					}
+				}	
+				
+			}
+		
+	}
+	
+	public int compareTo(Medicao o) {
+		return getData().compareTo(o.getData());
 	}
 	
 }

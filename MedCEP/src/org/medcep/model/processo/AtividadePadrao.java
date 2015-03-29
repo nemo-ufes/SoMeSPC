@@ -26,6 +26,7 @@ import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.planejamento.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 /**
@@ -33,10 +34,16 @@ import org.openxava.annotations.*;
  */
 @Entity
 @Views({
-	@View(members="Atividade Padrão [nome; tipoDeEntidadeMensuravel; descricao]; Dados Complementares [requerTipoDeArtefato, produzTipoDeArtefato; dependeDe; elementoMensuravel;]"),
+	@View(members="nome; tipoDeEntidadeMensuravel; descricao; requerTipoDeArtefato; produzTipoDeArtefato; dependeDe; elementoMensuravel;"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")
+@EntityValidator(
+		value=AtividadePadraoValidator.class, 
+		properties={
+			@PropertyValue(name="tipoDeEntidadeMensuravel")
+		}
+)
 public class AtividadePadrao extends EntidadeMensuravel {
  
 	@OneToMany(mappedBy="momentoDeMedicao")
@@ -69,7 +76,7 @@ public class AtividadePadrao extends EntidadeMensuravel {
 			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel) {
 		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
 	}
-	 
+
 	@ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(
 	      name="AtividadePadrao_dependeDe_AtividadePadrao"

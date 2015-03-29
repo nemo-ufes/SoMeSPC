@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.actions;
 
 import org.medcep.model.medicao.*;
@@ -27,7 +26,7 @@ import org.openxava.jpa.*;
 public class OnChangePropertyDoNothingValorMedido extends OnChangePropertyBaseAction { // 1
 
 	public void execute() throws Exception {
-		if (getView().getValueString("valorMedido").isEmpty() == false) {
+		if (getView().getValueString("valorMedido") != null && getView().getValueString("valorMedido").isEmpty() == false) {
 			String idMedicao = getView().getValueString("id");
 
 			Medicao medicao = XPersistence.getManager().find(Medicao.class,

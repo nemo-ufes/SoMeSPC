@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import javax.persistence.*;
@@ -27,7 +26,17 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View (members="Plano do Projeto [nome, date; versao; planoDeMedicaoDaOrganizacao; projeto; descricao; recursoHumano]; objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } MedidasDoPlano { medidaPlanoDeMedicao }"),
+	@View (members="data;" +
+					"nome, " +
+					"versao; " +
+					"descricao; " +
+					"alteracoes; " +
+					"planoDeMedicaoDaOrganizacao; " +
+					"projeto; " +
+					"recursoHumano; " +
+					"planoTree; " +
+					//"Objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } " +
+					"MedidasDoPlano { medidaPlanoDeMedicao }"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({
@@ -37,10 +46,16 @@ public class PlanoDeMedicaoDoProjeto extends PlanoDeMedicao {
  
 	@ManyToOne
 	@ReferenceView("Simple")
+	@NoCreate
+	@NoModify
+	@Required
 	private PlanoDeMedicaoDaOrganizacao planoDeMedicaoDaOrganizacao;
 	
 	@ManyToOne
 	@ReferenceView("Simple")
+	@NoCreate
+	@NoModify
+	@Required
 	private Projeto projeto;
 
 	public PlanoDeMedicaoDaOrganizacao getPlanoDeMedicaoDaOrganizacao() {

@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import java.util.*;
@@ -33,11 +32,12 @@ import org.openxava.annotations.*;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
 	@View(members="nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel"),
-	@View(name="Simple", members="nome")
+	@View(name="Simple", members="nome"),
+	@View(name="SimpleNoFrame", members="nome"),
 	})
 //@Tab(properties="nome")
 //@Tab(properties="nome", baseCondition="TYPE(e) = EntidadeMensuravel", defaultOrder="${nome} asc")
-@Tab(properties="nome", defaultOrder="${nome} asc")
+@Tab(properties="nome, tipoDeEntidadeMensuravel.nome", defaultOrder="${nome} asc")
 public class EntidadeMensuravel {
  
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
@@ -48,6 +48,7 @@ public class EntidadeMensuravel {
 	private String nome;
 	
 	@Stereotype("TEXT_AREA") 
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 	
 	@ManyToOne 
@@ -77,7 +78,7 @@ public class EntidadeMensuravel {
 /*    @Condition(
       		 "${id} = ${this.tipoDeEntidadeMensuravel.id}"
       		)*/
-    //@NewAction("EntidadeMensuravel.AddElementoMensuravel")
+    @NewAction("EntidadeMensuravel.AddElementoMensuravel")
     @ListProperties("nome")
 	private Collection<ElementoMensuravel> elementoMensuravel;
     
@@ -125,9 +126,35 @@ public class EntidadeMensuravel {
 		this.medicao = medicao;
 	}
 	
-
+/*	public String getTipo(){
+		return getTipoDeEntidadeMensuravel().getNome();
+	}
+*/
 	/*		 
 	private Collection<AnaliseDeMedicao> analiseDeMedicao;*/
+	
+	@PreCreate
+	@PreUpdate
+	public void ajustaElementosMensuraveis(){
+		if(elementoMensuravel == null)
+			elementoMensuravel = new ArrayList<ElementoMensuravel>();
+		
+		if(tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
+		{
+			boolean add;
+			for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel()) {
+				add = true;
+				for (ElementoMensuravel elem : elementoMensuravel) {
+					if(elem.getNome().compareTo(elemTipo.getNome())==0){
+						add = false;
+						break;
+					}
+				}
+				if(add)
+					elementoMensuravel.add(elemTipo);
+			}//elemTipo
+		}
+	}//ajusta
 	 
 }
  

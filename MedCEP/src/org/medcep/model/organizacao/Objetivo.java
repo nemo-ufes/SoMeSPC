@@ -17,40 +17,35 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.organizacao;
 
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.openxava.annotations.*;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="Objetivo [nome; necessidadeDeInformacao; indicadores; subobjetivo]"),
+	//@View(members="nome; necessidadeDeInformacao; indicadores; subobjetivo;"),
+	@View(members="nome"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")
-public class Objetivo { 
+public class Objetivo extends TreeItemPlanoMedicaoBase { 
 	 
-	@Id @GeneratedValue(generator="system-uuid") @Hidden
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;    
-    
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-    
     @Column(length=500, unique=true) @Required
 	private String nome;
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
     
     @ManyToMany
     @JoinTable(
@@ -75,6 +70,7 @@ public class Objetivo {
 	    		  @JoinColumn(name="objetivo_id2")
 	       }
 	      )
+    @ListProperties("nome")
 	private Collection<Objetivo> subobjetivo;
         
     @ManyToMany
@@ -87,6 +83,7 @@ public class Objetivo {
   	    		  @JoinColumn(name="necessidadeDeInformacao_id")
   	       }
   	      )
+    @ListProperties("nome")
     private Collection<NecessidadeDeInformacao> necessidadeDeInformacao;
 
 	public Collection<Objetivo> getSubobjetivo() {
@@ -104,14 +101,6 @@ public class Objetivo {
 	public void setNecessidadeDeInformacao(
 			Collection<NecessidadeDeInformacao> necessidadeDeInformacao) {
 		this.necessidadeDeInformacao = necessidadeDeInformacao;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 
 	public Collection<Medida> getIndicadores() {
@@ -132,6 +121,7 @@ public class Objetivo {
   	    		  @JoinColumn(name="objetivo_id")
   	       }
   	      )
+    @ListProperties("nome")
 	private Collection<Projeto> projeto;
 
 	public Collection<Projeto> getProjeto() {
@@ -141,8 +131,7 @@ public class Objetivo {
 	public void setProjeto(Collection<Projeto> projeto) {
 		this.projeto = projeto;
 	}
-    
-    
+
 }
  
  

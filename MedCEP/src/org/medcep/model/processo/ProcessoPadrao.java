@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.processo;
 
 import java.util.*;
@@ -27,23 +26,30 @@ import javax.persistence.*;
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.processo.comportamento.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Processo Padrão [nome; versao; tipoDeEntidadeMensuravel; ehEstavel, ehCapaz; descricao]; atividadePadrao; elementoMensuravel;"),
+	@View(members="nome, versao;  tipoDeEntidadeMensuravel; descricao; atividadePadrao; elementoMensuravel; capacidadeDeProcesso;"),
 	@View(name="Simple", members="nome"),
-	@View(name="Simple2", members="nome")
+	@View(name="SimpleNoFrame", members="nome")
 })
 @Tab(properties="nome, versao", defaultOrder="${nome} asc, ${versao} desc")
+@EntityValidator(
+		value=ProcessoPadraoValidator.class, 
+		properties={
+			@PropertyValue(name="tipoDeEntidadeMensuravel")
+		}
+)
 public class ProcessoPadrao  extends EntidadeMensuravel {
  
 	@Required
 	private String versao;
 	
-	private Boolean ehEstavel;
+/*	private Boolean ehEstavel;
 	 
-	private Boolean ehCapaz;
+	private Boolean ehCapaz;*/
 	 
 	@OneToMany(mappedBy="processoPadrao")
 	private Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso;
@@ -75,7 +81,7 @@ public class ProcessoPadrao  extends EntidadeMensuravel {
 		this.versao = versao;
 	}
 	
-	public Boolean getEhEstavel() {
+/*	public Boolean getEhEstavel() {
 		return ehEstavel;
 	}
 
@@ -89,7 +95,7 @@ public class ProcessoPadrao  extends EntidadeMensuravel {
 
 	public void setEhCapaz(Boolean ehCapaz) {
 		this.ehCapaz = ehCapaz;
-	}
+	}*/
 
 	public Collection<BaselineDeDesempenhoDeProcesso> getBaselineDeDesempenhoDeProcesso() {
 		return baselineDeDesempenhoDeProcesso;
@@ -132,6 +138,21 @@ public class ProcessoPadrao  extends EntidadeMensuravel {
 	//removido por questões de navegabilidade
 	//private Collection<CapacidadeDeProcesso> capacidadeDeProcesso;
 	
+	@ReadOnly
+	@OneToMany(mappedBy="processoPadrao")
+	@ListProperties("medida.nome, data, capaz")
+	private Collection<CapacidadeDeProcesso> capacidadeDeProcesso;
+		
+	public Collection<CapacidadeDeProcesso> getCapacidadeDeProcesso() {
+		return capacidadeDeProcesso;
+	}
+
+	public void setCapacidadeDeProcesso(
+			Collection<CapacidadeDeProcesso> capacidadeDeProcesso) {
+		this.capacidadeDeProcesso = capacidadeDeProcesso;
+	}
+	
+	
 	@ManyToOne
 	@Required
 	@Transient
@@ -152,5 +173,16 @@ public class ProcessoPadrao  extends EntidadeMensuravel {
 		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
 	}
 	
+	/*
+	public String getEstabilidadeDoProcesso(){
+		if(capacidadeDeProcesso != null)
+		{
+			if(capacidadeDeProcesso.size() > 0)
+			{
+				return "É estável.";
+			}
+		}
+		return "Não é estável.";
+	}*/
 }
  

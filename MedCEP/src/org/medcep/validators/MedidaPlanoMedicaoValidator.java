@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.validators;
 
 import org.medcep.model.medicao.planejamento.*;
@@ -26,12 +25,8 @@ import org.openxava.validators.*;
 
 public class MedidaPlanoMedicaoValidator implements IValidator { // Must implement IValidator
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -609729388992201878L;
-	private Medida medida; // Properties to be injected from Order
-	private DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida; // Properties to be injected from Order
+	private Medida medida; // Properties to be injected 
+	private DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida; // Properties to be injected 
 	
 	public void validate(Messages errors) throws Exception
 	{

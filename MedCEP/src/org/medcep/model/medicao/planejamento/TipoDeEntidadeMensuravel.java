@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import java.util.*;
@@ -32,6 +31,7 @@ import org.openxava.annotations.*;
 @Views({
 	@View(members="nome; descricao; elementoMensuravel"),
 	@View(name="Simple", members="nome"),
+	@View(name="SimpleNoFrame", members="nome"),
 	})
 @Tabs({
 	@Tab(properties="nome", defaultOrder="${nome} asc")
@@ -46,6 +46,7 @@ public class TipoDeEntidadeMensuravel {
 	private String nome;
 
 	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 
 	@OneToMany(mappedBy="tipoDeEntidadeMensuravel")

@@ -27,34 +27,52 @@ import javax.persistence.*;
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="Atividade Instanciada [nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; adotaProcedimento; requer; produz; realizadoPor; elementoMensuravel;]"),
+	@View(members="nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; requer; produz; realizadoPor; elementoMensuravel;"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({
-	@Tab(properties="nome", defaultOrder="${nome} asc")	
+	@Tab(properties="nome", defaultOrder="${nome} asc", baseCondition="TYPE(e) = AtividadeInstanciada")	
 })
+@EntityValidator(
+		value=AtividadeInstanciadaValidator.class, 
+		properties={
+			@PropertyValue(name="tipoDeEntidadeMensuravel")
+		}
+)
 public class AtividadeInstanciada extends EntidadeMensuravel {
  
 	@ManyToOne
 	@ReferenceView("Simple")
+	//@SearchAction("AtividadeInstanciada.search")
 	private AtividadePadrao baseadoEm;
 	 
-	@ManyToOne
-	private ProcessoInstanciado processoInstanciado;
-
-/*	public Collection<Medicao> getMedicao() {
-		return medicao;
+	@ManyToMany(fetch=FetchType.LAZY) 
+    @JoinTable(
+	      name="ProcessoInstanciado_AtividadeInstanciada"
+	      , joinColumns={
+	    		  @JoinColumn(name="atividadeInstanciada_id")
+	       }
+	      , inverseJoinColumns={
+	    		  @JoinColumn(name="processoInstanciado_id")
+	       }
+	      )
+	private Collection<ProcessoInstanciado> processoInstanciado;
+		
+	public Collection<ProcessoInstanciado> getProcessoInstanciado() {
+		return processoInstanciado;
 	}
 
-	public void setMedicao(Collection<Medicao> medicao) {
-		this.medicao = medicao;
+	public void setProcessoInstanciado(
+			Collection<ProcessoInstanciado> processoInstanciado) {
+		this.processoInstanciado = processoInstanciado;
 	}
-	 */
+
 	@ManyToMany(fetch=FetchType.LAZY) 
     @JoinTable(
 	      name="AtividadeInstanciada_dependeDe_AtividadeInstanciada"
@@ -80,8 +98,6 @@ public class AtividadeInstanciada extends EntidadeMensuravel {
 	      )
 	@ListProperties("nome") 
 	private Collection<RecursoHumano> realizadoPor;
-	 
-	//private Collection<AnaliseDeMedicao> analiseDeMedicao;
 	 
 	@ManyToMany(fetch=FetchType.LAZY) 
     @JoinTable(
@@ -109,7 +125,7 @@ public class AtividadeInstanciada extends EntidadeMensuravel {
 	@ListProperties("nome") 
 	private Collection<Artefato> requer;
 	 
-	@ManyToMany(fetch=FetchType.LAZY) 
+/*	@ManyToMany(fetch=FetchType.LAZY) 
     @JoinTable(
 	      name="AtividadeInstanciada_adota_Procedimento"
 	      , joinColumns={
@@ -120,10 +136,7 @@ public class AtividadeInstanciada extends EntidadeMensuravel {
 	       }
 	      )
 	@ListProperties("nome") 
-	private Collection<Procedimento> adotaProcedimento;
-/*	
-	@OneToMany(mappedBy="momentoRealDaMedicao")
-	private Collection<Medicao> momentoRealDaMedicao;*/
+	private Collection<Procedimento> adotaProcedimento;*/
 
 	public AtividadePadrao getBaseadoEm() {
 		return baseadoEm;
@@ -133,29 +146,12 @@ public class AtividadeInstanciada extends EntidadeMensuravel {
 		this.baseadoEm = baseadoEm;
 	}
 
-	public ProcessoInstanciado getProcessoDeSoftwareDeProjeto() {
-		return processoInstanciado;
-	}
-
-	public void setProcessoDeSoftwareDeProjeto(
-			ProcessoInstanciado processoDeSoftwareDeProjeto) {
-		this.processoInstanciado = processoDeSoftwareDeProjeto;
-	}
-
-	public Collection<AtividadeInstanciada> getDependeDe() {
+		public Collection<AtividadeInstanciada> getDependeDe() {
 		return dependeDe;
 	}
 
 	public void setDependeDe(Collection<AtividadeInstanciada> dependeDe) {
 		this.dependeDe = dependeDe;
-	}
-
-	public ProcessoInstanciado getProcessoInstanciado() {
-		return processoInstanciado;
-	}
-
-	public void setProcessoInstanciado(ProcessoInstanciado processoInstanciado) {
-		this.processoInstanciado = processoInstanciado;
 	}
 
 	public Collection<RecursoHumano> getRealizadoPor() {
@@ -198,13 +194,13 @@ public class AtividadeInstanciada extends EntidadeMensuravel {
 		this.requer = artefato;
 	}
 
-	public Collection<Procedimento> getAdotaProcedimento() {
+/*	public Collection<Procedimento> getAdotaProcedimento() {
 		return adotaProcedimento;
 	}
 
 	public void setAdotaProcedimento(Collection<Procedimento> adotaProcedimento) {
 		this.adotaProcedimento = adotaProcedimento;
-	}
+	}*/
 	 	
 	@ManyToOne
 	@Required

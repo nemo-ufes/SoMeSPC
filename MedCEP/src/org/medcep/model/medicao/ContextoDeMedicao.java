@@ -56,6 +56,7 @@ public class ContextoDeMedicao {
 	}
 	
 	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 
 	@OneToMany(mappedBy="contextoDeMedicao")

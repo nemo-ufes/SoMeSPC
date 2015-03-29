@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.processo;
 
 import java.util.*;
@@ -30,7 +29,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Tipo de Artefato [nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel;]"),
+	@View(members="nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel;"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({

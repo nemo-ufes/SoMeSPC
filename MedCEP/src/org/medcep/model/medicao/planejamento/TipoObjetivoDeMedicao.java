@@ -17,10 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
-
-import java.util.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -44,26 +41,16 @@ public class TipoObjetivoDeMedicao {
 		this.id = id;
 	}
  
-    @Column(length=500, unique=true) @Required
+	@Required
+	@Column(length=500, unique=true) 
 	private String nome;
 	
-    @OneToMany(mappedBy="tipoObjetivoMedicao")
-	private Collection<ObjetivoDeMedicao> objetivoDeMedicao;
-
-	public String getNome() {
+ 	public String getNome() {
 		return nome;
 	}
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Collection<ObjetivoDeMedicao> getObjetivoDeMedicao() {
-		return objetivoDeMedicao;
-	}
-
-	public void setObjetivoDeMedicao(Collection<ObjetivoDeMedicao> objetivoDeMedicao) {
-		this.objetivoDeMedicao = objetivoDeMedicao;
 	}
 
     

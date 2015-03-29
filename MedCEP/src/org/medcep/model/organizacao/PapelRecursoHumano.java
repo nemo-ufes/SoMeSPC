@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.organizacao;
 
 import java.util.*;
@@ -36,7 +35,7 @@ import org.openxava.annotations.*;
  */
 @Entity
 @Views({
-	@View(members="Papel do Recurso Humano  [nome; descricao] "),
+	@View(members="nome; descricao"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")
@@ -58,6 +57,7 @@ public class PapelRecursoHumano {
     private String nome;
 	
 	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 	 
 	@OneToMany(mappedBy="responsavelPelaMedicao")

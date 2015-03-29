@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import java.util.*;
@@ -25,6 +24,7 @@ import java.util.*;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.*;
 import org.medcep.model.organizacao.*;
@@ -33,13 +33,29 @@ import org.openxava.annotations.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View (members="nome, versao, date; descricao; recursoHumano; objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } MedidasDoPlano { medidaPlanoDeMedicao }"),
+	@View (members="data;" +
+			"nome, " +
+			"versao; " +
+			"descricao; " +
+			"alteracoes; " +
+			"recursoHumano; " +
+			"planoTree; " +
+			//"objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } " +
+			"MedidasDoPlano { medidaPlanoDeMedicao }"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({
 	@Tab(properties="nome, versao", defaultOrder="${nome} asc, ${versao} desc")	
 })
 public class PlanoDeMedicao {
+
+	public String getAlteracoes() {
+		return alteracoes;
+	}
+
+	public void setAlteracoes(String alteracoes) {
+		this.alteracoes = alteracoes;
+	}
 
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -56,11 +72,16 @@ public class PlanoDeMedicao {
     @Column(length=500, unique=true) @Required
 	private String nome;
 
-	private Date date;
+	private Date data;
 	 
 	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
 	private String descricao;
-	 
+
+	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
+	private String alteracoes;
+	
 	private String versao;
 	 
     @ManyToMany 
@@ -73,6 +94,7 @@ public class PlanoDeMedicao {
   	    		  @JoinColumn(name="recursoHumano_id")
   	       }
   	      )
+    @ListProperties("nome")
 	private Collection<RecursoHumano> recursoHumano;
     
     @ManyToMany 
@@ -85,6 +107,7 @@ public class PlanoDeMedicao {
   	    		  @JoinColumn(name="objetivoDeMedicao_id")
   	       }
   	      )
+    @ListProperties("nome")
     private Collection<ObjetivoDeMedicao> objetivoDeMedicao;
 	 
     @ManyToMany 
@@ -97,6 +120,7 @@ public class PlanoDeMedicao {
   	    		  @JoinColumn(name="objetivoEstrategico_id")
   	       }
   	      )
+    @ListProperties("nome")
 	private Collection<ObjetivoEstrategico> objetivoEstrategico;
 	 
     @ManyToMany 
@@ -109,6 +133,7 @@ public class PlanoDeMedicao {
   	    		  @JoinColumn(name="objetivoDeSoftware_id")
   	       }
   	      )
+    @ListProperties("nome")
 	private Collection<ObjetivoDeSoftware> objetivoDeSoftware;
 	 
     @ManyToMany 
@@ -121,9 +146,50 @@ public class PlanoDeMedicao {
   	    		  @JoinColumn(name="necessidadeDeInformacao_id")
   	       }
   	      )
+    @ListProperties("nome")
 	private Collection<NecessidadeDeInformacao> necessidadeDeInformacao;
-	 
-    @OneToMany(mappedBy="planoDeMedicao", cascade=CascadeType.REMOVE)
+    
+    
+	@OneToMany(mappedBy="planoDeMedicaoContainer", cascade = CascadeType.REMOVE)
+    //@OneToMany(mappedBy="planoDeMedicaoContainer")
+	@Editor("TreeView")
+	@ListProperties("nome")
+	@OrderBy("path")
+	//@NewAction("TreeContainer.addObjetivosToPlanoMedicao")
+	//@NewAction("TreeContainer.NewTreeViewItem3")
+    private Collection<TreeItemPlanoMedicao> planoTree;
+     
+    public Collection<TreeItemPlanoMedicao> getPlanoTree() {
+		ajustes();
+    	return planoTree;
+	}
+
+	public void setPlanoTree(Collection<TreeItemPlanoMedicao> planoTree) {
+		this.planoTree = planoTree;
+	}
+	
+	
+/*	
+	@OneToMany(mappedBy="parentContainer2", cascade = CascadeType.REMOVE)
+	//@OneToMany(mappedBy="parentContainer")
+	@Editor("TreeView")
+	@ListProperties("description")
+	//@OrderBy("path, treeOrder")
+	@OrderBy("treeOrder")
+	//@NewAction("TreeContainer.addObjetivosToPlanoMedicao")
+	private Collection<TreeItem> treeItems;	
+
+	public Collection<TreeItem> getTreeItems() {
+		return treeItems;
+	}
+
+	public void setTreeItems(Collection<TreeItem> treeItems) {
+		this.treeItems = treeItems;
+	}
+	*/
+	
+
+	@OneToMany(mappedBy="planoDeMedicao", cascade=CascadeType.REMOVE)
     @ListProperties("medida.nome, definicaoOperacionalDeMedida.nome")
     @CollectionView("PlanoMedicao")
 	private Collection<MedidaPlanoDeMedicao> medidaPlanoDeMedicao;
@@ -134,6 +200,14 @@ public class PlanoDeMedicao {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
 	}
 
 	public String getDescricao() {
@@ -203,16 +277,49 @@ public class PlanoDeMedicao {
 			Collection<MedidaPlanoDeMedicao> medidaPlanoDeMedicao) {
 		this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
 	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
 	
     
+	@PreCreate
+	@PreUpdate
+	@PrePersist
+	public void ajustes()
+	{
+		//Transpoe os objets da tree view para listas separadas
+		if(objetivoEstrategico != null)
+			objetivoEstrategico.clear();
+		if(objetivoDeSoftware != null)
+			objetivoDeSoftware.clear();
+		if(objetivoDeMedicao != null)
+			objetivoDeMedicao.clear();
+		if(necessidadeDeInformacao != null)
+			necessidadeDeInformacao.clear();
+		
+		if(planoTree != null)
+		{
+			for (TreeItemPlanoMedicao itemTree : planoTree) 
+			{
+				TreeItemPlanoMedicaoBase item = itemTree.getItem();
+				
+				if(item instanceof ObjetivoEstrategico)
+				{
+					objetivoEstrategico.add((ObjetivoEstrategico)item);		
+				}
+				else if(item instanceof ObjetivoDeSoftware)
+				{
+					objetivoDeSoftware.add((ObjetivoDeSoftware)item);
+				}
+				else if(item instanceof ObjetivoDeMedicao)
+				{
+					objetivoDeMedicao.add((ObjetivoDeMedicao)item);
+				}
+				else if(item instanceof NecessidadeDeInformacao)
+				{
+					necessidadeDeInformacao.add((NecessidadeDeInformacao)item);
+				}			
+			}
+		}
+		
+	}//ajustes
     
 	/*private Collection<Medicao> medicao;
 	

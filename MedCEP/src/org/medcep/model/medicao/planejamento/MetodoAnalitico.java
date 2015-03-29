@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import javax.persistence.*;
@@ -29,6 +28,10 @@ import org.openxava.annotations.*;
  * Histograms and bar charts
  */
 @Entity
+@Views({
+	@View(members="nome, ehMetodoCEP; descricao"),
+	@View(name="Simple", members="nome")
+})
 @Tabs({
 	@Tab(properties="nome, ehMetodoCEP", defaultOrder="${nome} asc")
 })

@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.processo;
 
 import java.util.*;
@@ -26,26 +25,44 @@ import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.planejamento.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Processo Instanciado [nome; versao; tipoDeEntidadeMensuravel; baseadoEm]; atividadeInstanciada; elementoMensuravel;"),
+	@View(members="nome; tipoDeEntidadeMensuravel; baseadoEm; atividadeInstanciada; elementoMensuravel;"),
 	@View(name="Simple", members="nome"),
 	})
-@Tab(properties="nome, versao", defaultOrder="${nome} asc, ${versao} desc")
+@Tab(properties="nome, versao", defaultOrder="${nome} asc, ${versao} desc", baseCondition="TYPE(e) = ProcessoInstanciado")
+@EntityValidator(
+		value=ProcessoInstanciadoValidator.class, 
+		properties={
+			@PropertyValue(name="tipoDeEntidadeMensuravel")
+		}
+)
 public class ProcessoInstanciado extends EntidadeMensuravel {
     
-	@Required
+	//@Required
 	private String versao;
 	
 	@ManyToOne @Required
 	@ReferenceView("Simple")
 	private ProcessoPadrao  baseadoEm;
 	
-	@OneToMany(mappedBy="processoInstanciado")
+	@ManyToMany(fetch=FetchType.LAZY) 
+    @JoinTable(
+	      name="ProcessoInstanciado_AtividadeInstanciada"
+	      , joinColumns={
+	    		  @JoinColumn(name="processoInstanciado_id")
+	       }
+	      , inverseJoinColumns={
+	    		  @JoinColumn(name="atividadeInstanciada_id")
+	       }
+	      )
+	@ListProperties("nome")
+	@NewAction("ProcessoInstanciado.add")
 	private Collection<AtividadeInstanciada> atividadeInstanciada;
-
+	
 	public String getVersao() {
 		return versao;
 	}

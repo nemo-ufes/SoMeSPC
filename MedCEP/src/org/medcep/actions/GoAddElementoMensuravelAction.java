@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.actions;
 
 import org.openxava.actions.*;
@@ -27,12 +26,14 @@ public class GoAddElementoMensuravelAction extends GoAddElementsToCollectionActi
 	// adding collection elements list
 	public void execute() throws Exception {
 		super.execute(); 
-	
+		
 		String id = getPreviousView().getValueString("id");
 		String idTipoDeEntidadeMensuravel = getPreviousView().getValueString("tipoDeEntidadeMensuravel.id"); 
 
-		getTab().setBaseCondition( 
-			"'" + idTipoDeEntidadeMensuravel + "' IN (SELECT id from ${tipoDeEntidadeMensuravel}) AND '" + id + "' NOT IN (SELECT id from ${entidadeMensuravel})" 
+		getTab().setBaseCondition(
+			//permite apenas os do mesmo tipo
+			//"'" + idTipoDeEntidadeMensuravel + "' IN (SELECT id from ${tipoDeEntidadeMensuravel}) AND '" + id + "' NOT IN (SELECT id from ${entidadeMensuravel})" 
+			"${id} NOT IN (SELECT el.id from EntidadeMensuravel em JOIN em.elementoMensuravel el WHERE em.id = '" + id + "')"
 		);
 	}
 	

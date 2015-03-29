@@ -17,12 +17,13 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.actions;
 
 import org.medcep.model.medicao.planejamento.*;
 import org.openxava.actions.*;
 import org.openxava.jpa.*;
+
+//import static org.openxava.jpa.XPersistence.*;
 
 public class SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction extends ReferenceSearchAction { 
 	
@@ -42,7 +43,8 @@ public class SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction extends Refer
 			if(idMedida != null && idMedida.isEmpty() == false)
 			{
 				getTab().setBaseCondition( 
-					"'" + idMedida + "' IN (SELECT id from ${medida}) " 
+					"'" + idMedida + "' IN (SELECT id FROM ${medida}) "
+					//+ "'" + idMedida + "' NOT IN (SELECT medida.id FROM ${medidaPlanoDeMedicao})" 
 				);
 			}
 			return;

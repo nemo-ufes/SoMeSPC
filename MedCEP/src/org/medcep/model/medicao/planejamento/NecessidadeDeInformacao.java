@@ -17,40 +17,40 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.medcep.model.organizacao.*;
 import org.openxava.annotations.*;
 
 @Entity
-@View(name="Simple", members="nome")
+@Views({
+	@View(members="nome;"
+			+ " subnecessidade;"
+			+ " indicadoPelosObjetivos;"
+			+ " medidas;"
+	),	
+	@View(name="Simple", members="nome")
+})
 @Tabs({
 	@Tab(properties="nome", defaultOrder="${nome} asc")
 })
-public class NecessidadeDeInformacao {
-	 
-	@Id @GeneratedValue(generator="system-uuid") @Hidden
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;    
-    
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+public class NecessidadeDeInformacao extends TreeItemPlanoMedicaoBase {
     
     @Column(length=500, unique=true) @Required
 	private String nome;
-	 
+	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+    
     @ManyToMany
     @JoinTable(
   	      name="subnecessidade"
@@ -75,6 +75,7 @@ public class NecessidadeDeInformacao {
   	       }
   	      )
     @ListProperties("nome")
+    @NewAction("NecessidadeDeInformacao.addObjetivoDeMedicao")
 	private Collection<Objetivo> indicadoPelosObjetivos;
     
     public Collection<Objetivo> getIndicadoPelosObjetivos() {
@@ -97,25 +98,17 @@ public class NecessidadeDeInformacao {
 	       }
 	      )
 	@ListProperties("nome, tipoMedida.nome, mnemonico")
-	private Collection<Medida> listaMedida;
-    
+	private Collection<Medida> medidas;
 
-	public Collection<Medida> getListaMedida() {
-		return listaMedida;
+	public Collection<Medida> getMedidas() {
+		return medidas;
 	}
 
-	public void setListaMedida(Collection<Medida> listaMedida) {
-		this.listaMedida = listaMedida;
+	public void setMedidas(Collection<Medida> medidas) {
+		this.medidas = medidas;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
+	
 	public Collection<NecessidadeDeInformacao> getSubnecessidade() {
 		return subnecessidade;
 	}
@@ -124,16 +117,6 @@ public class NecessidadeDeInformacao {
 		this.subnecessidade = subnecessidade;
 	}
 /*
-    @ManyToMany 
-    @JoinTable(
-  	      name="planoDeMedicao_necessidadeDeInformacao"
-  	      , joinColumns={
-  	    		  @JoinColumn(name="necessidadeDeInformacao_id")
-  	       }
-  	      , inverseJoinColumns={
-  	    		  @JoinColumn(name="planoDeMedicao_id")
-  	       }
-  	      )
 	private Collection<PlanoDeMedicao> planoDeMedicao;*/
 
 /*	public Collection<PlanoDeMedicao> getPlanoDeMedicao() {

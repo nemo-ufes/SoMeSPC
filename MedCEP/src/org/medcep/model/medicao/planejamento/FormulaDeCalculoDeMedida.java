@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import java.util.*;
@@ -32,7 +31,7 @@ import org.openxava.annotations.*;
  * Taxa de Alteração de requisitos = Requisitos alterado / Requisitos Homologados
  */
 @Entity
-@View(name="Simple", members="nome, formula")
+@View(name="Simple", members="nome, data; formula")
 @Tabs({
 	@Tab(properties="nome", defaultOrder="${nome} asc")
 })
@@ -64,14 +63,26 @@ public class FormulaDeCalculoDeMedida {
     //@OneToOne(mappedBy = "calculadaPor", cascade=CascadeType.PERSIST)
     //@OneToOne(mappedBy = "calculadaPor", orphanRemoval=true)
     //@OneToOne(mappedBy = "calculadaPor", optional=true)
-    @OneToOne(mappedBy = "calculadaPor")
+    @ManyToOne
     @Required
     @ReferenceView("Simple")
+    @NoCreate
+    @NoModify
 	private Medida calcula;
     
-	/*private Collection<ProcedimentoDeMedicao> procedimentoDeMedicao;*/
-	
-    @ManyToMany 
+    /*private Collection<ProcedimentoDeMedicao> procedimentoDeMedicao;*/
+    
+	private Date data;
+		
+    public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+	@ManyToMany 
     @JoinTable(
 	      name="formulaDeCalculoDeMedida_usa_medida"
 	      , joinColumns={

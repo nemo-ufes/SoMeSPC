@@ -24,16 +24,25 @@ import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.planejamento.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Artefato [nome; tipoDeEntidadeMensuravel; tipoDeArtefato; descricao; elementoMensuravel;]"),
-	@View(name="Simple", members="nome")
+	@View(members="nome; tipoDeEntidadeMensuravel; tipoDeArtefato; descricao; elementoMensuravel;"),
+	@View(name="Simple", members="nome"),
+	@View(name="SimpleNoFrame", members="nome")
 })
 @Tabs({
-	@Tab(properties="nome", defaultOrder="${nome} asc")
+	@Tab(properties="nome, tipoDeArtefato.nome", defaultOrder="${nome} asc")
 })
+
+@EntityValidator(
+		value=ArtefatoValidator.class, 
+		properties={
+			@PropertyValue(name="tipoDeEntidadeMensuravel")
+		}
+)
 public class Artefato extends EntidadeMensuravel {
 
 	@ManyToOne @Required

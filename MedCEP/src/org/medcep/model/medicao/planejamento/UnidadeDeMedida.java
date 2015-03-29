@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.medicao.planejamento;
 
 import java.util.*;
@@ -58,6 +57,7 @@ public class UnidadeDeMedida {
     private String nome;
 	
 	@Stereotype("TEXT_AREA")	
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 	 
 	@OneToMany(mappedBy="unidadeDeMedida")

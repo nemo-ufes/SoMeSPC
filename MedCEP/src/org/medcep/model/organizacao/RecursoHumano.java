@@ -17,27 +17,56 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.organizacao;
 
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
 
-import org.medcep.calculators.*;
+import org.hibernate.annotations.*;
 import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.processo.comportamento.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Recurso Humano [nome; tipoDeEntidadeMensuravel; elementoMensuravel;]"),
+	@View(members="nome;"),
+	//@View(members="nome; tipoDeEntidadeMensuravel; elementoMensuravel;"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")
-public class RecursoHumano extends EntidadeMensuravel {
+/*@EntityValidator(
+		value=RecursoHumanoValidator.class, 
+		properties={
+			@PropertyValue(name="tipoDeEntidadeMensuravel")
+		}
+)*/
+public class RecursoHumano {//extends EntidadeMensuravel {
 	 
+	@Id @GeneratedValue(generator="system-uuid") @Hidden
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;   
+    
+    @Column(length=500, unique=true) @Required
+	private String nome;
+        
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
 /*    @ManyToMany 
     @JoinTable(
   	      name="recursoHumano_planoDeMedicao"
@@ -125,8 +154,8 @@ public class RecursoHumano extends EntidadeMensuravel {
 		this.sexo = sexo;
 	}*/
 	
-	@ManyToOne
-	@Required
+/*	@ManyToOne
+	//@Required
 	@Transient
 	@DefaultValueCalculator(
 		value=TipoDeEntidadeMensuravelCalculator.class,
@@ -143,7 +172,7 @@ public class RecursoHumano extends EntidadeMensuravel {
 	public void setTipoDeEntidadeMensuravel(
 			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel) {
 		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
-	}
+	}*/
 	 
 
 	

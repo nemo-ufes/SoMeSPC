@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.organizacao;
 
 import java.util.*;
@@ -59,11 +58,16 @@ public class AlocacaoEquipe {
 	 
 	@ManyToOne 
 	@Required
+	@NoCreate
+	@NoModify
 	@ReferenceView("Simple")
+	@SearchAction("AlocacaoEquipe.searchRecursoHumano")
 	private RecursoHumano recursoHumano;
 	 
 	@ManyToOne 
 	@Required
+	@NoCreate
+	@NoModify
 	@ReferenceView("Simple")
 	private PapelRecursoHumano papelRecursoHumano;
 

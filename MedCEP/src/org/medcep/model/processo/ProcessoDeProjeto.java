@@ -17,7 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.processo;
 
 import java.util.*;
@@ -27,14 +26,21 @@ import javax.persistence.*;
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
+import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="Processo de Projeto [nome; versao; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeDeProjeto; elementoMensuravel;]"),
+	@View(members="nome; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeDeProjeto; elementoMensuravel;"),
 	@View(name="Simple", members="nome"),
 	})
 @Tab(properties="nome, versao", defaultOrder="${nome} asc, ${versao} desc")
+@EntityValidator(
+		value=ProcessoDeProjetoValidator.class, 
+		properties={
+			@PropertyValue(name="tipoDeEntidadeMensuravel")
+		}
+)
 public class ProcessoDeProjeto extends ProcessoInstanciado {
 	
 	@OneToOne
@@ -49,12 +55,26 @@ public class ProcessoDeProjeto extends ProcessoInstanciado {
 		this.projeto = projeto;
 	}
 	
-	@OneToMany(mappedBy="processoDeProjeto")
+	/*@OneToMany(mappedBy="processoDeProjeto")
 	@ListProperties("nome") 
 	@NewAction("ProcessoDeProjeto.AddAtividadeProjetoAction")
 	//@NewAction("EntidadeMensuravel.AddElementoMensuravel")
+	private Collection<AtividadeDeProjeto> atividadeDeProjeto;*/
+	
+	@ManyToMany(fetch=FetchType.LAZY) 
+    @JoinTable(
+	      name="ProcessoDeProjeto_AtividadeDeProjeto"
+	      , joinColumns={
+	    		  @JoinColumn(name="processoDeProjeto_id")
+	       }
+	      , inverseJoinColumns={
+	    		  @JoinColumn(name="atividadeDeProjeto_id")
+	       }
+	      )
+	@ListProperties("nome")
+	@NewAction("ProcessoDeProjeto.add")
 	private Collection<AtividadeDeProjeto> atividadeDeProjeto;
-
+	
 	public Collection<AtividadeDeProjeto> getAtividadeDeProjeto() {
 		return atividadeDeProjeto;
 	}

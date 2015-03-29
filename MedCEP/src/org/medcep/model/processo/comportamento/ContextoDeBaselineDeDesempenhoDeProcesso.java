@@ -1,8 +1,11 @@
 /*
     MedCEP - A powerful tool for measure
     
-    Copyright (C) 2013 Ciro Xavier Maretto
-    Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
+  import javax.persistence.*;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.*;
+import org.openxava.annotations.*;
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Lesser General Public License as published by
@@ -17,13 +20,13 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-
 package org.medcep.model.processo.comportamento;
 
+import java.util.*;
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import org.openxava.annotations.*;
 
 /**
