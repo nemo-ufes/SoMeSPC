@@ -68,7 +68,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 8. Informar o usuário <b>Administrator</b> e senha <b>root</b> para acessar o Mantis Bug Tracking.
 -->
 
-###IMPORTANTE
+##IMPORTANTE
 <b>Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL e local de instalação deverão ser alteradas de acordo com cada necessidade.</b>
 
 ## Referência
