@@ -36,6 +36,12 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 3. Execute a Ant Build <b>MedCEP.Implantar</b>.
 4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
 
+##Configuração do Jenkins
+###Requisitos
+
+- Jenkins CI 1.593 - [Download](http://mirrors.jenkins-ci.org/war/1.593/jenkins.war)
+
+<!---
 ##Configuração do Mantis Bug Tracking
 ###Requisitos
 - Wamp Server 2.5 (Windows + Apache + MySQL + PHP server) (x64) - [Download](http://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.5/wampserver2.5-Apache-2.4.9-Mysql-5.6.17-php5.5.12-64b.exe/download)
@@ -60,6 +66,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 6. Informar <b>Type of Database: MySQL (default), Hostname: localhost, Username: mantis, Password: mantis, Database name: mantis</b>, clicar em <b>"Install/Upgrade Database"</b>.
 7. Após a instalação, acessar novamente a URL [http://localhost/mantis/](http://localhost/mantis/)
 8. Informar o usuário <b>Administrator</b> e senha <b>root</b> para acessar o Mantis Bug Tracking.
+-->
 
 <b><i>IMPORTANTE: Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL e local de instalação deverão ser alteradas de acordo com cada necessidade.</i></b>
 
