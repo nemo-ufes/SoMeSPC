@@ -41,6 +41,12 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 
 - Jenkins CI 1.593 - [Download](http://mirrors.jenkins-ci.org/war/1.593/jenkins.war)
 
+##Instruções para configuração do Jenkins
+
+1. Fazer o download do arquivo <b>"jenkins.war"</b> conforme a URL de download acima.
+2. Colocar o arquivo <b>"jenkins.war"</b> no diretório <b>webapps</b> do Apache Tomcat (ex: C:\apache-tomcat-7.0.59\webapps).
+3. Abrir o Jenkins no browser pela URL: [http://localhost:8080/jenkins/](http://localhost:8080/jenkins/).
+
 ##Configuração do Sonar
 ###Requisitos
 
