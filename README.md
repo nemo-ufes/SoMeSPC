@@ -40,13 +40,23 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 ###Requisitos
 
 - Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
+- Cliente Git 1.9.5 (Windows) - [Download](https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20150319/Git-1.9.5-preview20150319.exe
 - Jenkins CI 1.593 - [Download](http://mirrors.jenkins-ci.org/war/1.593/jenkins.war)
 
 ##Instruções para configuração do Jenkins
 
-1. Fazer o download do arquivo <b>"jenkins.war"</b> conforme a URL de download acima.
+1. Baixar e instalar o cliente **Git** da URL de download acima.
+1. Baixar o <b>Jenkins</b> conforme a URL de download acima.
 2. Colocar o arquivo <b>"jenkins.war"</b> no diretório <b>webapps</b> do Apache Tomcat (ex: C:\apache-tomcat-7.0.59\webapps).
-3. Abrir o Jenkins no browser pela URL: [http://localhost:8080/jenkins/](http://localhost:8080/jenkins/).
+3. Abrir o Jenkins no browser pela URL: [http://localhost:8080/jenkins/](http://localhost:8080/jenkins/). Pode demorar vários minutos no primeiro carregamento.
+4. Acessar **Gerenciar Jenkins -> Gerenciar Plugins**.
+5. Abrir a aba **Disponíveis**.
+6. Filtrar por **"Github"**, selecionar **GitHub plugin** e clicar em **Instalar sem reiniciar**.
+7. Voltar para o menu principal do **Jenkins**, acessar **Gerenciar Jenkins -> Configurar o sistema**.
+8. Na seção **Git**, informar no campo 	***Path to Git executable*** o caminho de instalação do **cliente Git** (caminho padrão C:\Program Files (x86)\Git\bin\git.exe) e clicar em **Salvar**.
+7. Clicar em **Novo job**.
+8. Selecionar **Construir um projeto de software free-style**, informar o nome **MedCEP** e clicar em OK.
+9. 
 
 ##Configuração do Sonar
 ###Requisitos
