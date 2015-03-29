@@ -56,6 +56,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 8. Na seção **Git**, informar no campo 	***Path to Git executable*** o caminho de instalação do **cliente Git** (caminho padrão C:\Program Files (x86)\Git\bin\git.exe) e clicar em **Salvar**.
 7. Clicar em **Novo job**.
 8. Selecionar **Construir um projeto de software free-style**, informar o nome **MedCEP** e clicar em OK.
+9. No campo ***GitHub project***, informar a URL https://github.com/vinnysoft/MedCEP.
 9. Na seção **Gerenciamento do código fonte**, selecionar **Git**.
 10. No campo ***Repository URL***, informar a URL https://github.com/vinnysoft/MedCEP.git.
 11. No campo ***Credentials***, clicar em ***Add*** e informar o usuário e senha do GitHub.
