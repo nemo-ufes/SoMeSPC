@@ -1,8 +1,11 @@
 package org.openxava.mestrado.model.MedicaoDeSoftware.AnaliseDeMedicao;
 
+import java.util.*;
+
 import javax.persistence.*;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import org.openxava.annotations.*;
 
 //@Entity
@@ -20,6 +23,7 @@ public class Conclusao {
     private String id; 
 	
 	@Stereotype("TEXT_AREA") 
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 
 	public String getDescricao() {
