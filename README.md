@@ -41,6 +41,12 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 
 - Jenkins CI 1.593 - [Download](http://mirrors.jenkins-ci.org/war/1.593/jenkins.war)
 
+##Configuração do Sonar
+###Requisitos
+
+- SonarQube 4.5.1 - [Download](http://dist.sonar.codehaus.org/sonarqube-4.5.1.zip)
+
+
 <!---
 ##Configuração do Mantis Bug Tracking
 ###Requisitos
