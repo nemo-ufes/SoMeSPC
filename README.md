@@ -39,6 +39,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 ##Configuração do Jenkins
 ###Requisitos
 
+- Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
 - Jenkins CI 1.593 - [Download](http://mirrors.jenkins-ci.org/war/1.593/jenkins.war)
 
 ##Instruções para configuração do Jenkins
