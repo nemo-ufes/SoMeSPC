@@ -40,12 +40,12 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 ###Requisitos
 
 - Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
-- Cliente Git 1.9.5 (Windows) - [Download](https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20150319/Git-1.9.5-preview20150319.exe
+- Cliente Git 1.9.5 (Windows) - [Download](https://github.com/msysgit/msysgit/releases/download/Git-1.9.5-preview20150319/Git-1.9.5-preview20150319.exe)
 - Jenkins CI 1.593 - [Download](http://mirrors.jenkins-ci.org/war/1.593/jenkins.war)
 
 ##Instruções para configuração do Jenkins
 
-1. Baixar e instalar o cliente **Git** da URL de download acima.
+1. Baixar e instalar o cliente **Git** conforme a URL de download acima.
 1. Baixar o <b>Jenkins</b> conforme a URL de download acima.
 2. Colocar o arquivo <b>"jenkins.war"</b> no diretório <b>webapps</b> do Apache Tomcat (ex: C:\apache-tomcat-7.0.59\webapps).
 3. Abrir o Jenkins no browser pela URL: [http://localhost:8080/jenkins/](http://localhost:8080/jenkins/). Pode demorar vários minutos no primeiro carregamento.
