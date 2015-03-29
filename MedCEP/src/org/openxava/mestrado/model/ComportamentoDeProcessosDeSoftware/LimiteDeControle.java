@@ -1,18 +1,19 @@
  package org.openxava.mestrado.model.ComportamentoDeProcessosDeSoftware;
 
  import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import org.openxava.annotations.*;
 
-@Entity
+//TODO: caso o autorelacionamento "precede" fosse tratado seria melhor não usar o Embeddable
+@Embeddable
 @Views({
-	@View(members="limiteInferior, limiteCentral,  limiteSuperior,"),
+	@View(members="limiteInferior, limiteSuperior"),
 })
 public class LimiteDeControle {
  
-	@Id @GeneratedValue(generator="system-uuid") @Hidden
+/*	@Id @GeneratedValue(generator="system-uuid") @Hidden
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;    
     
@@ -22,19 +23,24 @@ public class LimiteDeControle {
 
 	public void setId(String id) {
 		this.id = id;
-	}
+	}*/
  
+	//@Required
 	private float limiteInferior;
-	 
+	
+	
 	private float limiteCentral;
-	 
+	
+	//@Required
 	private float limiteSuperior;
 	 
 	//private BaselineDeDesempenhoDeProcesso baselineDeDesempenhoDeProcesso;
-	 
+	
+	/*
 	@OneToOne
 	//@PrimaryKeyJoinColumn
 	private LimiteDeControle precedeLimiteDeControle;
+	 */
 	 
 	//private DesempenhoDeProcessoEspecificado desempenhoDeProcessoEspecificado;
 
@@ -71,6 +77,7 @@ public class LimiteDeControle {
 		this.baselineDeDesempenhoDeProcesso = baselineDeDesempenhoDeProcesso;
 	}*/
 
+	/*
 	public LimiteDeControle getPrecedeLimiteDeControle() {
 		return precedeLimiteDeControle;
 	}
@@ -78,6 +85,7 @@ public class LimiteDeControle {
 	public void setPrecedeLimiteDeControle(LimiteDeControle precedeLimiteDeControle) {
 		this.precedeLimiteDeControle = precedeLimiteDeControle;
 	}
+	*/
 /*
 	public DesempenhoDeProcessoEspecificado getDesempenhoDeProcessoEspecificado() {
 		return desempenhoDeProcessoEspecificado;

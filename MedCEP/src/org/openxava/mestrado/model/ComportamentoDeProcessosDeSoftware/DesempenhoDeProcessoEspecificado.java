@@ -1,12 +1,14 @@
 package org.openxava.mestrado.model.ComportamentoDeProcessosDeSoftware;
 
 import java.util.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import org.openxava.annotations.*;
+import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.DefinicaoOperacional.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.*;
 import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 
@@ -16,11 +18,11 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
  */
 @Entity
 @Views({
-	@View(members="data; processoPadrao; medida; descricao; limiteDeControle"),
-	@View(name="Simple", members="data; limiteDeControle")
+	@View(members="data; processoPadrao; medida; limiteDeControle; descricao"),
+	@View(name="Simple", members="data; Limites [ limiteDeControle; ];")
 })
 @Tabs({
-	@Tab(properties="processoPadrao.nome, limiteDeControle.limiteInferior, limiteDeControle.limiteCentral, limiteDeControle.limiteSuperior", defaultOrder="${processoPadrao.nome} asc")
+	@Tab(properties="processoPadrao.nome, medida.nome, limiteDeControle.limiteInferior, limiteDeControle.limiteSuperior", defaultOrder="${processoPadrao.nome} asc")
 })
 public class DesempenhoDeProcessoEspecificado {
  
@@ -39,22 +41,56 @@ public class DesempenhoDeProcessoEspecificado {
 	private Date data;
 	 
 	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 	 
-	@ManyToOne 
-	//@Required
+	@Required
+	@NoCreate
+	@ManyToOne
+	//@NoFrame
 	@ReferenceView("Simple")
-	private ProcessoPadrao  processoPadrao ;
-	 
+	//@DescriptionsList(descriptionProperties="nome")
+	private ProcessoPadrao processoPadrao;
+		
+	public ProcessoPadrao getProcessoPadrao() {
+		return processoPadrao;
+	}
+
+	public void setProcessoPadrao(ProcessoPadrao processoPadrao) {
+		this.processoPadrao = processoPadrao;
+	}
+	
+/*	@Required
+	@NoCreate
+	@ManyToOne
+	@DescriptionsList(
+			descriptionProperties="nome, mnemonico"
+			,depends="processoPadrao"
+			,condition="${entidadeMedida.id} = ?"
+			,order="${nome} asc"
+			)*/
+	@Required
+	@NoCreate
 	@ManyToOne
 	@ReferenceView("Simple")
+	@SearchAction("AnaliseDeComportamentoDeProcesso.searchMedida")
 	private Medida medida;
+	
+	public Medida getMedida() {
+		return medida;
+	}
+
+	public void setMedida(Medida medida) {
+		this.medida = medida;
+	}
 	 
 /*	@OneToMany(mappedBy="desempenhoDeProcessoEspecificado")
 	private Collection<CapacidadeDeProcesso> capacidadeDeProcesso;*/
 	 
-	@OneToOne
 	//@PrimaryKeyJoinColumn
+	@NoFrame(forViews="Simple")
+	@Embedded
+	
 	private LimiteDeControle limiteDeControle;
 
 	public Date getData() {
@@ -71,22 +107,6 @@ public class DesempenhoDeProcessoEspecificado {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public ProcessoPadrao getProcessoPadrao() {
-		return processoPadrao;
-	}
-
-	public void setProcessoPadrao(ProcessoPadrao processoPadrao) {
-		this.processoPadrao = processoPadrao;
-	}
-
-	public Medida getMedida() {
-		return medida;
-	}
-
-	public void setMedida(Medida medida) {
-		this.medida = medida;
 	}
 
 /*	public Collection<CapacidadeDeProcesso> getCapacidadeDeProcesso() {

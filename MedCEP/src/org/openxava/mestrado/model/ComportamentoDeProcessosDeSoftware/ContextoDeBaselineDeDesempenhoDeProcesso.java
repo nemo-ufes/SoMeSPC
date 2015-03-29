@@ -1,9 +1,10 @@
 package org.openxava.mestrado.model.ComportamentoDeProcessosDeSoftware;
 
+import java.util.*;
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import org.openxava.annotations.*;
 
 /**
@@ -31,6 +32,7 @@ public class ContextoDeBaselineDeDesempenhoDeProcesso {
 	}
 	
 	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 	 
 /*	@OneToMany(mappedBy="contextoDeBaselineDeDesempenhoDeProcesso")

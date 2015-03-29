@@ -3,12 +3,13 @@ package org.openxava.mestrado.model.ComportamentoDeProcessosDeSoftware;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import org.openxava.annotations.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.AnaliseDeMedicao.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.*;
+import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.DefinicaoOperacional.*;
 import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.EntidadeMensuravel.*;
 import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 import org.openxava.mestrado.model.ProcessoDeSoftware.*;
@@ -19,23 +20,26 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
  */
 @Entity
 @Views({
-	@View(members="data;"
-			+ "processoPadrao;"
-			+ "limiteDeControle;"
+	@View(members=
+			"nome; "
+			+ "data; "
+			//+ "processoPadrao;"
 			//+ "descricao;"
 			//+ "medida;"
-			+ "Execução {"
-			+ "contextoDeBaselineDeDesempenhoDeProcesso;"
-			+ "modeloDeDesempenhoDeProcesso;"
-			+ "registradoPor; },"
-			+ "Atualizar Baseline {" 
-			+ "atualizaBaselineDeDesempenhoDeProcesso;"
-			+ "}"
+			//+ "Limites ["
+			//+ "limiteDeControle; "
+			//+ "];"
+			//+ "Detalhes do Registro {"
+			+ "registradoPor; "
+			//+ "modeloDeDesempenhoDeProcesso;"
+			+ "contextoDeBaselineDeDesempenhoDeProcesso;"			
+			//+ "atualizaBaselineDeDesempenhoDeProcesso; " 
+			//+ "}"
 	),
 	@View(name="Simple", members="data; limiteDeControle; Processo Padrão [processoPadrao.nome]; Medida [medida.nome];"),
 	})
 @Tabs({
-	@Tab(properties="processoPadrao.nome, medida.nome, data", defaultOrder="${processoPadrao.nome} asc, ${data} desc")
+	@Tab(properties="medida.nome, processoPadrao.nome, data, limiteDeControle.limiteInferior, limiteDeControle.limiteSuperior", defaultOrder="${processoPadrao.nome} asc, ${data} desc")
 })
 public class BaselineDeDesempenhoDeProcesso {
    
@@ -51,12 +55,27 @@ public class BaselineDeDesempenhoDeProcesso {
 		this.id = id;
 	}
     
+	@Stereotype("NO_CHANGE_DATE")
 	private Date data;
 	
+    @Required 
+	@Column(length=500, unique=true) 
+    private String nome;
+	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
 	private String descricao;
 	 
-	@ManyToOne 
+	@ManyToOne
+	@NoFrame
 	//@Required
 	private ContextoDeBaselineDeDesempenhoDeProcesso contextoDeBaselineDeDesempenhoDeProcesso;
 	 
@@ -72,17 +91,7 @@ public class BaselineDeDesempenhoDeProcesso {
 		this.analiseDeMedicao = analiseDeMedicao;
 	}
 
-	@ManyToMany 
-    @JoinTable(
-	      name="baselineDeDesempenhoDeProcesso_modeloDeDesempenhoDeProcesso"
-	      , joinColumns={
-	    		  @JoinColumn(name="baselineDeDesempenhoDeProcesso_id")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="modeloDeDesempenhoDeProcesso_id")
-	       }
-	      )
-	private Collection<FormulaDeCalculoDeMedida> modeloDeDesempenhoDeProcesso;
+	//private Collection<ModeloDeDesempenhoDeProcesso> modeloDeDesempenhoDeProcesso;
 	 
 	@ManyToOne 
 	//@Required
@@ -102,6 +111,8 @@ public class BaselineDeDesempenhoDeProcesso {
 	private Collection<Medicao> medicao;
 	 
 	@ManyToOne 
+	@NoCreate
+	@NoModify
 	//@Required
 	@ReferenceView("Simple")
 	private RecursoHumano registradoPor;
@@ -114,13 +125,17 @@ public class BaselineDeDesempenhoDeProcesso {
 	//private CapacidadeDeProcesso capacidadeDeProcesso;
 	 
 	//private Collection<LimiteDeControle> limiteDeControle;
-	@OneToOne
+	//@OneToOne
 	//@PrimaryKeyJoinColumn
+	@Embedded
+	@NoFrame
 	private LimiteDeControle limiteDeControle;
 	 
 	@OneToOne
 	//@PrimaryKeyJoinColumn
 	@ReferenceView("Simple")
+	@NoCreate
+	@NoModify
 	private BaselineDeDesempenhoDeProcesso atualizaBaselineDeDesempenhoDeProcesso;
 
 	public Date getData() {
@@ -146,15 +161,6 @@ public class BaselineDeDesempenhoDeProcesso {
 	public void setContextoDeBaselineDeDesempenhoDeProcesso(
 			ContextoDeBaselineDeDesempenhoDeProcesso contextoDeBaselineDeDesempenhoDeProcesso) {
 		this.contextoDeBaselineDeDesempenhoDeProcesso = contextoDeBaselineDeDesempenhoDeProcesso;
-	}
-
-	public Collection<FormulaDeCalculoDeMedida> getModeloDeDesempenhoDeProcesso() {
-		return modeloDeDesempenhoDeProcesso;
-	}
-
-	public void setModeloDeDesempenhoDeProcesso(
-			Collection<FormulaDeCalculoDeMedida> modeloDeDesempenhoDeProcesso) {
-		this.modeloDeDesempenhoDeProcesso = modeloDeDesempenhoDeProcesso;
 	}
 
 	public Medida getMedida() {
@@ -204,6 +210,17 @@ public class BaselineDeDesempenhoDeProcesso {
 
 	public void setRegistradoPor(RecursoHumano registradoPor) {
 		this.registradoPor = registradoPor;
+	}
+	
+	@PreCreate
+	public void ajustaLimite(){
+		if(limiteDeControle == null)
+		{
+			limiteDeControle = new LimiteDeControle();
+			limiteDeControle.setLimiteCentral(0);
+			limiteDeControle.setLimiteInferior(0);
+			limiteDeControle.setLimiteSuperior(0);
+		}
 	}
 	 
 }
