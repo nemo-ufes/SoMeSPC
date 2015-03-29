@@ -15,10 +15,10 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 
 @Entity
 @Views({
-	@View(members="nome, data;"
+	@View(members="Dados [nome, data;"
 					+ "descricao;"
 					+ "medida;"
-					+ "objetivoDeMedicao;"
+					+ "objetivoDeMedicao];"
 					+ "Medicao {"
 					+ "momentoDeMedicao;"
 					+ "periodicidadeDeMedicao;"

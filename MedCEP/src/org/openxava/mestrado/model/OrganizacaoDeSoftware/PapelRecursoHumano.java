@@ -16,7 +16,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Defin
  */
 @Entity
 @Views({
-	@View(members="nome; descricao"),
+	@View(members="Papel do Recurso Humano  [nome; descricao] "),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")

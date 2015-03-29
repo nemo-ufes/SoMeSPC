@@ -10,7 +10,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Entid
 
 @Entity
 @Views({
-	@View(members="nome, versao; tipoDeEntidadeMensuravel; baseadoEm; atividadeInstanciada; elementoMensuravel;"),
+	@View(members="Processo Instanciado [nome; versao; tipoDeEntidadeMensuravel; baseadoEm]; atividadeInstanciada; elementoMensuravel;"),
 	@View(name="Simple", members="nome"),
 	})
 @Tab(properties="nome, versao", defaultOrder="${nome} asc, ${versao} desc")

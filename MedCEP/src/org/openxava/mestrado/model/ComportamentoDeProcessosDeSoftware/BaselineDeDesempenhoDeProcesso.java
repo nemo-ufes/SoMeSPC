@@ -28,7 +28,7 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 			+ "contextoDeBaselineDeDesempenhoDeProcesso;"
 			+ "modeloDeDesempenhoDeProcesso;"
 			+ "registradoPor; },"
-			+ "Atualiza a Baseline {" 
+			+ "Atualizar Baseline {" 
 			+ "atualizaBaselineDeDesempenhoDeProcesso;"
 			+ "}"
 	),

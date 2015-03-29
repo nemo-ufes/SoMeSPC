@@ -9,7 +9,7 @@ import org.openxava.annotations.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="nome; descricao"),
+	@View(members="Procedimento [nome; descricao]"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({

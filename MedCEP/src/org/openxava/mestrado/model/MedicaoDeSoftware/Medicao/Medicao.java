@@ -28,8 +28,8 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 			+"executorDaMedicao; "
 			+"contextoDeMedicao}"
 	),*/
-	@View(members="data; "
-			+ "planoDeMedicao;"
+	@View(members="Cadastro Medição [data, "
+			+ "planoDeMedicao,"
 			+ "medidaPlanoDeMedicao;"
 			+ "valorMedido;"
 			//+"entidadeMensuravel; "
@@ -38,7 +38,7 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 			//+"medidaPlanoDeMedicao;},"
 			+"momentoRealDaMedicao; "
 			+"executorDaMedicao; "
-			+"contextoDeMedicao"
+			+"contextoDeMedicao;]"
 	),
 	@View(name="Simple", members="nome")
 })

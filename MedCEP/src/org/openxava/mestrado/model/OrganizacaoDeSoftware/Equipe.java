@@ -11,7 +11,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="nome; Membros { recursoHumano; }, Alocações { alocacaoEquipe }"),
+	@View(members="Equipe [nome; recursoHumano; alocacaoEquipe]"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")

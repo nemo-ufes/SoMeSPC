@@ -11,7 +11,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Plano
 
 @Entity
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; dataInicio, dataFim; equipe; objetivo; elementoMensuravel;"),
+	@View(members="Projeto [dataInicio, dataFim; nome; tipoDeEntidadeMensuravel]; equipe; objetivo; elementoMensuravel;"),
 	@View(name="Simple", members="nome"),
 	})
 @Tab(properties="nome, dataInicio, dataFim", defaultOrder="${nome} asc")

@@ -12,7 +12,7 @@ import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; adotaProcedimento; requer; produz; realizadoPor; elementoMensuravel;"),
+	@View(members="Atividade Instanciada [nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; adotaProcedimento; requer; produz; realizadoPor; elementoMensuravel;]"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({

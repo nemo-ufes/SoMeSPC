@@ -11,7 +11,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Entid
 
 @Entity
 @Views({
-	@View(members="nome, versao;  ehEstavel, ehCapaz; tipoDeEntidadeMensuravel; descricao; atividadePadrao;; elementoMensuravel;"),
+	@View(members="Processo Padrão [nome; versao; tipoDeEntidadeMensuravel; ehEstavel, ehCapaz; descricao]; atividadePadrao; elementoMensuravel;"),
 	@View(name="Simple", members="nome"),
 	@View(name="Simple2", members="nome")
 })

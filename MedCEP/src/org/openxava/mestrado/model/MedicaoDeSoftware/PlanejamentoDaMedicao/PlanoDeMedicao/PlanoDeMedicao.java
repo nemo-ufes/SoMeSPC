@@ -14,7 +14,7 @@ import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View (members="nome, versao, data; descricao; recursoHumano; objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } MedidasDoPlano { medidaPlanoDeMedicao }"),
+	@View (members="nome, versao, date; descricao; recursoHumano; objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } MedidasDoPlano { medidaPlanoDeMedicao }"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({
@@ -37,7 +37,7 @@ public class PlanoDeMedicao {
     @Column(length=500, unique=true) @Required
 	private String nome;
 
-	private Date data;
+	private Date date;
 	 
 	@Stereotype("TEXT_AREA")
 	private String descricao;
@@ -117,14 +117,6 @@ public class PlanoDeMedicao {
 		this.nome = nome;
 	}
 
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
-
 	public String getDescricao() {
 		return descricao;
 	}
@@ -191,6 +183,14 @@ public class PlanoDeMedicao {
 	public void setMedidaPlanoDeMedicao(
 			Collection<MedidaPlanoDeMedicao> medidaPlanoDeMedicao) {
 		this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
     

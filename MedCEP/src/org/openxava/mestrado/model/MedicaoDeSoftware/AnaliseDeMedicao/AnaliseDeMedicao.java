@@ -27,16 +27,16 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 			+ "definicaoOperacionalDeMedida; }"
 			+ "Medicoes {medicao;};"
 	),*/
-	@View (members="data;"
-			+ "planoDeMedicao;"
-			+ "medidaPlanoDeMedicao;"
+	@View (members="Cadastro Analise de Medição [data,"
+			+ "planoDeMedicao,"
+			+ "medidaPlanoDeMedicao];"
 			+ "resultado;"
 			//+ " Medida [ medidaPlanoDeMedicao.medida.nome]; "
 			//+ "Definição Operacional [ medidaPlanoDeMedicao.definicaoOperacionalDeMedida.nome ];"
-			+ "Execucao {"
+			+ "Execução {"
 			+ "executorDaAnaliseDeMedicao;"
 			+ "momentoRealDaAnaliseDeMedicao; }"
-			+ "Medicoes {medicao;};"
+			+ "Medições {medicao;};"
 	),
 	@View (name="CEP",
 			members="data;"
@@ -45,15 +45,15 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 			+ "resultado;"
 			//+ " Medida [ medidaPlanoDeMedicao.medida.nome]; "
 			//+ "Definição Operacional [ medidaPlanoDeMedicao.definicaoOperacionalDeMedida.nome ];"
-			+ "Execucao {"
+			+ "Execução {"
 			+ "executorDaAnaliseDeMedicao;"
 			+ "momentoRealDaAnaliseDeMedicao; }"
-			+ "Medicoes {medicao;};"
+			+ "Medições {medicao;};"
 	),
 	@View(name="Simple", members="resultado")
 })
 @Tabs({
-	@Tab(properties="data, entidadeMensuravel.nome, executorDaAnaliseDeMedicao.nome, momentoRealDaAnaliseDeMedicao.nome", defaultOrder="${data} desc")	
+	@Tab(properties="data, entidadeMensuravel.nome", defaultOrder="${data} desc")	
 })
 public class AnaliseDeMedicao {
 

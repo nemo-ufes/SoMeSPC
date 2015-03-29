@@ -22,7 +22,7 @@ if (manager.isButtonBarVisible()) {
 %>
 	<div class="<%=style.getButtonBar()%>">
 	<div id="<xava:id name='controllers'/>">
-	<span style="float: left">
+	<span style="float: left;">
 	<%
 	java.util.Iterator it = manager.getMetaActions().iterator();
 	boolean showLabels = XavaPreferences.getInstance().isShowLabelsForToolBarActions(); 
@@ -62,7 +62,7 @@ if (manager.isButtonBarVisible()) {
 	</div>
 	
 	<div id="<xava:id name='modes'/>">
-	<span style="float: right">	
+	<span style="float: left; margin-top: 50px; margin-bottom: 20px">
 	<%
 	java.util.Stack previousViews = (java.util.Stack) context.get(request, "xava_previousViews"); 
 	if (headerButtonBar && previousViews.isEmpty()) { 

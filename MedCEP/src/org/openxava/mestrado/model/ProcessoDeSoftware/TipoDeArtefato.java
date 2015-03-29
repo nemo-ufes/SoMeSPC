@@ -10,7 +10,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Entid
 
 @Entity
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel;"),
+	@View(members="Tipo de Artefato [nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel;]"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({

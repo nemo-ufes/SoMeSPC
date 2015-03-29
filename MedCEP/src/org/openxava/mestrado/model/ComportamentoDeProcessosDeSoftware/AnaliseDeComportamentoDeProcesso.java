@@ -10,7 +10,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.AnaliseDeMedicao.*;
 @Views({
 	@View (members="Analise De Medicao { analiseDeMedicao }," +
 			"Registrar Baseline { baselineDeDesempenhoDeProcesso }," +
-			"Determinar a Capacidade { capacidadeDeProcesso }"),
+			"Determinar Capacidade { capacidadeDeProcesso }"),
 	//@View(name="PlanoMedicao", members="medida; definicaoOperacionalDeMedida"),
 	//@View(name="Simple", members="medida.nome"),
 	//@View(name="Medicao", members="medida.nome; medida; Definição Operacional [ definicaoOperacionalDeMedida.nome ]")

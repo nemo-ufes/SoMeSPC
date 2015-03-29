@@ -6,7 +6,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View (members="nome, versao, data; descricao; recursoHumano; objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } MedidasDoPlano { medidaPlanoDeMedicao }"),
+	@View (members="Plano da Organização [nome, date; versao; descricao; recursoHumano]; Objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } MedidasDoPlano { medidaPlanoDeMedicao }"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({

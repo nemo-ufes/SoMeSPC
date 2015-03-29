@@ -42,10 +42,10 @@
 
 <body <%=NaviOXStyle.getBodyClass(request)%>>
 
-	<div id="main_navigation">
+	<%-- <div id="main_navigation">
 		<jsp:include page="mainNavigation.jsp" />
 	</div>
-
+	--%>
 	<table width="100%">
 		<tr>
 		<%--

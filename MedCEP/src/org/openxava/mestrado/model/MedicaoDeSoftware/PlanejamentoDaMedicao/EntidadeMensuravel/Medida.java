@@ -13,13 +13,13 @@ import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 
 @Entity
 @Views({
-	@View(members="nome, mnemonico; "
-			+"tipoMedida; "
-			+"tipoDeEntidadeMedida; "
-			+"entidadeMedida; "
-			+"elementoMensuravel; "
-			+"escala; "
-			+"unidadeDeMedida; " 
+	@View(members="Medida [nome; mnemonico; "
+			+"tipoMedida,  			"
+			+"tipoDeEntidadeMedida; 		"
+			+"unidadeDeMedida,   		" 
+			+"entidadeMedida;   		"
+			+"elementoMensuravel, 		"
+			+"escala];"
 			+"medidasCorrelatas; "
 			//+"listaObjetivos; "
 			+"Para Medidas Derivadas: [ calculadaPor; "

@@ -11,7 +11,7 @@ import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 
 @Entity
 @Views({
-	@View(members="nome, versao; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeDeProjeto; elementoMensuravel;"),
+	@View(members="Processo de Projeto [nome; versao; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeDeProjeto; elementoMensuravel;]"),
 	@View(name="Simple", members="nome"),
 	})
 @Tab(properties="nome, versao", defaultOrder="${nome} asc, ${versao} desc")

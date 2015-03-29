@@ -20,7 +20,7 @@ import org.openxava.mestrado.model.ProcessoDeSoftware.*;
 	@View(name="Simple", members="data; limiteDeControle")
 })
 @Tabs({
-	@Tab(properties="processoPadrao.nome, medida.nome, limiteDeControle.limiteInferior, limiteDeControle.limiteCentral, limiteDeControle.limiteSuperior", defaultOrder="${processoPadrao.nome} asc")
+	@Tab(properties="processoPadrao.nome, limiteDeControle.limiteInferior, limiteDeControle.limiteCentral, limiteDeControle.limiteSuperior", defaultOrder="${processoPadrao.nome} asc")
 })
 public class DesempenhoDeProcessoEspecificado {
  

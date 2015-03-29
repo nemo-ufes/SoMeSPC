@@ -11,7 +11,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.*;
 
 @Entity
 @Views({
-	@View(members="grupo 1 [nome, tipoElementoMensuravel; descricao]"),
+	@View(members="Elemento Mensuravel [nome; tipoElementoMensuravel; descricao]"),
 	@View(name="Simple", members="nome"),
 	})
 @Tabs({

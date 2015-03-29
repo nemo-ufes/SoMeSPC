@@ -13,7 +13,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Objet
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="nome; necessidadeDeInformacao; indicadores; subobjetivo"),
+	@View(members="Objetivo [nome; necessidadeDeInformacao; indicadores; subobjetivo]"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")

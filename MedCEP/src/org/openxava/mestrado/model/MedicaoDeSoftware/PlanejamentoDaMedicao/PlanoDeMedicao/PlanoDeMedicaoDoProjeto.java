@@ -7,7 +7,7 @@ import org.openxava.mestrado.model.OrganizacaoDeSoftware.*;
 
 @Entity
 @Views({
-	@View (members="nome, versao, data; planoDeMedicaoDaOrganizacao; projeto; descricao; recursoHumano; objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } MedidasDoPlano { medidaPlanoDeMedicao }"),
+	@View (members="Plano do Projeto [nome, date; versao; planoDeMedicaoDaOrganizacao; projeto; descricao; recursoHumano]; objetivos { objetivoEstrategico; objetivoDeSoftware; objetivoDeMedicao; necessidadeDeInformacao; } MedidasDoPlano { medidaPlanoDeMedicao }"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({

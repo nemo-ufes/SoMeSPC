@@ -14,7 +14,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Entid
  */
 @Entity
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; descricao; requerTipoDeArtefato; produzTipoDeArtefato; dependeDe; elementoMensuravel;"),
+	@View(members="Atividade Padrão [nome; tipoDeEntidadeMensuravel; descricao]; Dados Complementares [requerTipoDeArtefato, produzTipoDeArtefato; dependeDe; elementoMensuravel;]"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")

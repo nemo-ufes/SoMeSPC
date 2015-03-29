@@ -9,7 +9,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Entid
 
 @Entity
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; adotaProcedimento; requer; produz; realizadoPor; elementoMensuravel;"),
+	@View(members="Atividade Projeto: [nome; tipoDeEntidadeMensuravel; baseadoEm]; Dados Complementares [dependeDe, adotaProcedimento; requer, produz; realizadoPor; elementoMensuravel;]"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({

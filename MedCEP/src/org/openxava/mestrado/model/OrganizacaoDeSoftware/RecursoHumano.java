@@ -12,7 +12,7 @@ import org.openxava.mestrado.model.MedicaoDeSoftware.PlanejamentoDaMedicao.Entid
 
 @Entity
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; elementoMensuravel;"),
+	@View(members="Recurso Humano [nome; tipoDeEntidadeMensuravel; elementoMensuravel;]"),
 	@View(name="Simple", members="nome")
 })
 @Tab(properties="nome", defaultOrder="${nome} asc")
