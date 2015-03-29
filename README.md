@@ -5,6 +5,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 <br/>Baseada na arquitetura de referência de medição de software de MARETTO (2014).
 
 ##Requisitos
+- Microsoft Windows 7 SP1 64 bits (compatível com outros Sistemas Operacionais)
 - Java SDK 7 Update 75 (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 - IDE Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
 - PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
@@ -67,6 +68,12 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 ###Requisitos
 
 - SonarQube 4.5.1 - [Download](http://dist.sonar.codehaus.org/sonarqube-4.5.1.zip)
+
+##Instruções para configuração do SonarQube
+
+1. Descompactar o SonarQube em C:\sonarqube-4.5.1 (caminho padrão).
+2. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
+
 
 
 <!---
