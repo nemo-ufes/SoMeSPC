@@ -19,7 +19,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 5. Descompactar o IDE Eclipse Luna.
 6. Executar o Eclipse.
 7. Clonar o repositório MedCEP do GitHub.
-8. Configurar o Apache Tomcat como servidor web (<b>Window -> Preferences -> Server -> Runtime Environments -> Add...</b>). 
+8. Configurar o Apache Tomcat como servidor web no Eclipse (<b>Window -> Preferences -> Server -> Runtime Environments -> Add...</b>). 
 9. Na aba Server (parte inferior do Eclipse), dar duplo clique em <b>Tomcat v7 Server</b>. No arquivo que abrir, selecionar a opção <b>"Use Tomcat Installation (takes control of Tomcat installation)"</b> na área Server Locations. 
 10. Iniciar o Apache Tomcat.
 11. Abrir a pasta do projeto MedCEP no IDE Eclipse.
@@ -72,7 +72,15 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 ##Instruções para configuração do SonarQube
 
 1. Descompactar o SonarQube em C:\sonarqube-4.5.1 (caminho padrão).
-2. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
+2. Criar um banco de dados no PostgreSQL chamado <b>"sonar"</b> e informar como dono o usuário <b>"postgres"</b>.
+3. Abrir o arquivo **C:\sonarqube-4.5.1\conf\sonar.properties** e informar os parâmetros de conexão com o banco de dados conforme abaixo:
+
+ ```
+  sonar.jdbc.username=postgres
+  sonar.jdbc.password=postgres
+  sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
+ ```
+4. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
 
 
 
