@@ -79,15 +79,27 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 4. Acessar **Gerenciar Jenkins -> Gerenciar Plugins**.
 5. Abrir a aba **Disponíveis**.
 6. Filtrar por **"Github"**, selecionar **GitHub plugin** e clicar em **Instalar sem reiniciar**.
+7. Filtrar por **"SonarQube"**, selecionar **SonarQube plugin** e clicar em **Instalar sem reiniciar**.
 7. Voltar para o menu principal do **Jenkins**, acessar **Gerenciar Jenkins -> Configurar o sistema**.
-8. Na seção **Git**, informar no campo 	***Path to Git executable*** o caminho de instalação do **cliente Git** (caminho padrão C:\Program Files (x86)\Git\bin\git.exe) e clicar em **Salvar**.
+8. Na seção **Git**, informar no campo 	***Path to Git executable*** o caminho de instalação do **cliente Git** (caminho padrão C:\Program Files (x86)\Git\bin\git.exe).
+9. Na seção **SonarQube** (atenção: não é a mesma que a seção **SonarQube Runner**), clicar em **Avançado** e informar os parâmetros:
+ ```
+  Name: SonarQube 4.5.1
+  Server URL: http://localhost:9000
+  SonarQube account login: admin
+  SonarQube account password: admin
+  Database URL: jdbc:postgresql://localhost/sonar
+  Database login: postgres
+  Database password: postgres
+ ```
+10. Clicar em clicar em **Salvar**
 7. Clicar em **Novo job**.
 8. Selecionar **Construir um projeto de software free-style**, informar o nome **MedCEP** e clicar em OK.
 9. No campo ***GitHub project***, informar a URL https://github.com/vinnysoft/MedCEP.
 9. Na seção **Gerenciamento do código fonte**, selecionar **Git**.
 10. No campo ***Repository URL***, informar a URL https://github.com/vinnysoft/MedCEP.git.
 11. No campo ***Credentials***, clicar em ***Add*** e informar o usuário e senha do GitHub.
-12. Na seção **Trigger de builds**, marcar ***Build when a change is pushed to GitHub*** e **Construir periodicamente**, informando o parâmetro `@hourly` (para verificar o repositório a cada hora). 
+12. Na seção **Trigger de builds**, marcar **Construir periodicamente** informando o parâmetro `@hourly` (para verificar o repositório a cada hora). 
 13. Clicar em **Salvar**.
 
 <!---
