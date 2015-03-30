@@ -4,18 +4,20 @@
 Ferramenta para Medição de Software e Controle Estatístico de Processos. 
 <br/>Baseada na arquitetura de referência de medição de software de MARETTO (2014).
 
-##Requisitos
-- Microsoft Windows 7 SP1 64 bits (compatível com outros Sistemas Operacionais)
+##Configuração da MedCEP
+###Requisitos
+- Microsoft Windows 7 SP1 64 bits (ou outro sistema operacional com suporte à plataforma Java)
 - Java SDK 7 Update 75 (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 - IDE Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
 - PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
 - Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
 
-##Instruções para configuração do ambiente
+###Instruções para configuração da MedCEP
 1. Instalar o Java SDK.
 2. Instalar o PostgreSQL com usuário e senha <b>"postgres"</b>.
 3. Criar um banco de dados no PostgreSQL chamado <b>"medcep"</b> e informar como dono o usuário <b>"postgres"</b>.
 4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira executar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
+5. Criar um arquivo `setenv.bat` no diretório C:\apache-tomcat-7.0.59\bin com o conteúdo: `set JAVA_OPTS=-Dfile.encoding=UTF-8 -Xms512m -Xmx2048m -XX:PermSize=256m -XX:MaxPermSize=1024m`. Isto aumentará a memória disponível para o Apache Tomcat.
 5. Descompactar o IDE Eclipse Luna.
 6. Executar o Eclipse.
 7. Clonar o repositório MedCEP do GitHub.
@@ -37,6 +39,31 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 3. Execute a Ant Build <b>MedCEP.Implantar</b>.
 4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
 
+##Configuração do Sonar
+###Requisitos
+
+- PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
+- SonarQube 4.5.1 - [Download](http://dist.sonar.codehaus.org/sonarqube-4.5.1.zip)
+
+##Instruções para configuração do SonarQube
+
+1. Descompactar o SonarQube em C:\sonarqube-4.5.1 (caminho padrão).
+2. Criar um banco de dados no PostgreSQL chamado <b>"sonar"</b> e informar como dono o usuário <b>"postgres"</b>.
+3. Abrir o arquivo **C:\sonarqube-4.5.1\conf\sonar.properties** e informar os parâmetros de conexão com o banco de dados conforme abaixo:
+
+ ```
+  sonar.jdbc.username=postgres
+  sonar.jdbc.password=postgres
+  sonar.jdbc.url=jdbc:postgresql://localhost/sonar
+ ```
+4. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
+5. Aguardar a inicialização do SonarQube (aparecerá no console a mensagem **"Process[web] is up"**).
+5. Abrir o SonarQube no browser pela URL: [http://localhost:9000/](http://localhost:9000/)
+6. Fazer login no SonarQube com usuário e senha **"admin"**.
+7. Acessar o menu **"Settings -> Update Center"**.
+8. Selecionar a aba **"Available Plugins"**, procurar e instalar o **"Portuguese Pack"**.
+9. Reiniciar o SonarQube (fechar o console aberto e iniciar novamente o script **StartSonar.bat**).
+
 ##Configuração do Jenkins
 ###Requisitos
 
@@ -53,34 +80,38 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 4. Acessar **Gerenciar Jenkins -> Gerenciar Plugins**.
 5. Abrir a aba **Disponíveis**.
 6. Filtrar por **"Github"**, selecionar **GitHub plugin** e clicar em **Instalar sem reiniciar**.
+7. Filtrar por **"SonarQube"**, selecionar **SonarQube plugin** e clicar em **Instalar sem reiniciar**.
 7. Voltar para o menu principal do **Jenkins**, acessar **Gerenciar Jenkins -> Configurar o sistema**.
-8. Na seção **Git**, informar no campo 	***Path to Git executable*** o caminho de instalação do **cliente Git** (caminho padrão C:\Program Files (x86)\Git\bin\git.exe) e clicar em **Salvar**.
+8. Na seção **Git**, informar no campo 	***Path to Git executable*** o caminho de instalação do **cliente Git** (caminho padrão C:\Program Files (x86)\Git\bin\git.exe).
+9. Na seção **SonarQube** (atenção: não é a mesma que a seção **SonarQube Runner**), clicar em **Avançado** e informar os parâmetros:
+
+ ```
+  Name: SonarQube 4.5.1
+  Server URL: http://localhost:9000
+  SonarQube account login: admin
+  SonarQube account password: admin
+  Database URL: jdbc:postgresql://localhost/sonar
+  Database login: postgres
+  Database password: postgres
+ ```
+10. Clicar em clicar em **Salvar**
 7. Clicar em **Novo job**.
 8. Selecionar **Construir um projeto de software free-style**, informar o nome **MedCEP** e clicar em OK.
 9. No campo ***GitHub project***, informar a URL https://github.com/vinnysoft/MedCEP.
 9. Na seção **Gerenciamento do código fonte**, selecionar **Git**.
 10. No campo ***Repository URL***, informar a URL https://github.com/vinnysoft/MedCEP.git.
 11. No campo ***Credentials***, clicar em ***Add*** e informar o usuário e senha do GitHub.
-12. Na seção **Trigger de builds**, marcar ***Build when a change is pushed to GitHub*** e **Construir periodicamente**, informando o parâmetro `@hourly` (para verificar o repositório a cada hora). 
+12. Na seção **Trigger de builds**, marcar **Construir periodicamente** informando o parâmetro `@hourly` (para verificar o repositório a cada hora). 
+13. Na seção **Build**, clicar em **Adicionar passo no build -> Invoke Standalone SonarQube Analysis**.
+14. No campo ***Analysis properties***, informar os parâmetros:
+
+ ```
+  sonar.projectKey=medcep
+  sonar.projectName=MedCEP
+  sonar.projectVersion=1.0
+  sonar.sources=.
+ ``` 
 13. Clicar em **Salvar**.
-
-##Configuração do Sonar
-###Requisitos
-
-- SonarQube 4.5.1 - [Download](http://dist.sonar.codehaus.org/sonarqube-4.5.1.zip)
-
-##Instruções para configuração do SonarQube
-
-1. Descompactar o SonarQube em C:\sonarqube-4.5.1 (caminho padrão).
-2. Criar um banco de dados no PostgreSQL chamado <b>"sonar"</b> e informar como dono o usuário <b>"postgres"</b>.
-3. Abrir o arquivo **C:\sonarqube-4.5.1\conf\sonar.properties** e informar os parâmetros de conexão com o banco de dados conforme abaixo:
-
- ```
-  sonar.jdbc.username=postgres
-  sonar.jdbc.password=postgres
-  sonar.jdbc.url=jdbc:postgresql://localhost/sonar
- ```
-4. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
 
 <!---
 ##Configuração do Mantis Bug Tracking
