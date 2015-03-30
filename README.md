@@ -38,6 +38,31 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 3. Execute a Ant Build <b>MedCEP.Implantar</b>.
 4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
 
+##Configuração do Sonar
+###Requisitos
+
+- PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
+- SonarQube 4.5.1 - [Download](http://dist.sonar.codehaus.org/sonarqube-4.5.1.zip)
+
+##Instruções para configuração do SonarQube
+
+1. Descompactar o SonarQube em C:\sonarqube-4.5.1 (caminho padrão).
+2. Criar um banco de dados no PostgreSQL chamado <b>"sonar"</b> e informar como dono o usuário <b>"postgres"</b>.
+3. Abrir o arquivo **C:\sonarqube-4.5.1\conf\sonar.properties** e informar os parâmetros de conexão com o banco de dados conforme abaixo:
+
+ ```
+  sonar.jdbc.username=postgres
+  sonar.jdbc.password=postgres
+  sonar.jdbc.url=jdbc:postgresql://localhost/sonar
+ ```
+4. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
+5. Aguardar a inicialização do SonarQube (aparecerá no console a mensagem **"Process[web] is up"**).
+5. Abrir o SonarQube no browser pela URL: [http://localhost:9000/](http://localhost:9000/)
+6. Fazer login no SonarQube com usuário e senha **"admin"**.
+7. Acessar o menu **"Settings -> Update Center"**.
+8. Selecionar a aba **"Available Plugins"**, procurar e instalar o **"Portuguese Pack"**.
+9. Reiniciar o SonarQube (fechar o console aberto e iniciar novamente o script **StartSonar.bat**).
+
 ##Configuração do Jenkins
 ###Requisitos
 
@@ -64,31 +89,6 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 11. No campo ***Credentials***, clicar em ***Add*** e informar o usuário e senha do GitHub.
 12. Na seção **Trigger de builds**, marcar ***Build when a change is pushed to GitHub*** e **Construir periodicamente**, informando o parâmetro `@hourly` (para verificar o repositório a cada hora). 
 13. Clicar em **Salvar**.
-
-##Configuração do Sonar
-###Requisitos
-
-- PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
-- SonarQube 4.5.1 - [Download](http://dist.sonar.codehaus.org/sonarqube-4.5.1.zip)
-
-##Instruções para configuração do SonarQube
-
-1. Descompactar o SonarQube em C:\sonarqube-4.5.1 (caminho padrão).
-2. Criar um banco de dados no PostgreSQL chamado <b>"sonar"</b> e informar como dono o usuário <b>"postgres"</b>.
-3. Abrir o arquivo **C:\sonarqube-4.5.1\conf\sonar.properties** e informar os parâmetros de conexão com o banco de dados conforme abaixo:
-
- ```
-  sonar.jdbc.username=postgres
-  sonar.jdbc.password=postgres
-  sonar.jdbc.url=jdbc:postgresql://localhost/sonar
- ```
-4. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
-5. Aguardar a inicialização do SonarQube (aparecerá no console a mensagem **"Process[web] is up"**).
-5. Abrir o SonarQube no browser pela URL: [http://localhost:9000/](http://localhost:9000/)
-6. Fazer login no SonarQube com usuário e senha **"admin"**.
-7. Acessar o menu **"Settings -> Update Center"**.
-8. Selecionar a aba **"Available Plugins"**, procurar e instalar o **"Portuguese Pack"**.
-9. Reiniciar o SonarQube (fechar o console aberto e iniciar novamente o script **StartSonar.bat**).
 
 <!---
 ##Configuração do Mantis Bug Tracking
