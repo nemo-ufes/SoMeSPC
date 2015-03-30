@@ -17,6 +17,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 2. Instalar o PostgreSQL com usuário e senha <b>"postgres"</b>.
 3. Criar um banco de dados no PostgreSQL chamado <b>"medcep"</b> e informar como dono o usuário <b>"postgres"</b>.
 4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira executar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
+5. Criar um arquivo `setenv.bat` no diretório C:\apache-tomcat-7.0.59\bin com o conteúdo: `set JAVA_OPTS=-Dfile.encoding=UTF-8 -Xms512m -Xmx2048m -XX:PermSize=256m -XX:MaxPermSize=1024m`. Isto aumentará a memória disponível para o Apache Tomcat.
 5. Descompactar o IDE Eclipse Luna.
 6. Executar o Eclipse.
 7. Clonar o repositório MedCEP do GitHub.
