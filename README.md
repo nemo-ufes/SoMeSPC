@@ -6,7 +6,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 
 ##Configuração da MedCEP
 ###Requisitos
-- Microsoft Windows 7 SP1 64 bits (compatível com outros Sistemas Operacionais)
+- Microsoft Windows 7 SP1 64 bits (ou outro sistema operacional com suporte à plataforma Java)
 - Java SDK 7 Update 75 (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 - IDE Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
 - PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
