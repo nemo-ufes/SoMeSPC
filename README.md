@@ -4,8 +4,6 @@
 Ferramenta para Medição de Software e Controle Estatístico de Processos. 
 <br/>Baseada na arquitetura de referência de medição de software de MARETTO (2014).
 
-##Índice
-
 ##Configuração da MedCEP
 ###Requisitos
 - Microsoft Windows 7 SP1 64 bits (compatível com outros Sistemas Operacionais)
