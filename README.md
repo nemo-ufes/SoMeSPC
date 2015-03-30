@@ -67,6 +67,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 ##Configuração do Sonar
 ###Requisitos
 
+- PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
 - SonarQube 4.5.1 - [Download](http://dist.sonar.codehaus.org/sonarqube-4.5.1.zip)
 
 ##Instruções para configuração do SonarQube
