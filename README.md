@@ -78,11 +78,9 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
  ```
   sonar.jdbc.username=postgres
   sonar.jdbc.password=postgres
-  sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
+  sonar.jdbc.url=jdbc:postgresql://localhost/sonar
  ```
 4. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
-
-
 
 <!---
 ##Configuração do Mantis Bug Tracking
