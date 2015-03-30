@@ -81,6 +81,11 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
   sonar.jdbc.url=jdbc:postgresql://localhost/sonar
  ```
 4. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
+5. Abrir o SonarQube no browser pela URL: [http://localhost:9000/](http://localhost:9000/)
+6. Fazer login no SonarQube com usuário e senha **"admin"**.
+7. Acessar o menu **"Settings -> Update Center"**.
+8. Selecionar a aba **"Available Plugins"**, procurar e instalar o **"Portuguese Pack"**.
+9. Reiniciar o SonarQube (fechar o console aberto e iniciar novamente o script **StartSonar.bat**).
 
 <!---
 ##Configuração do Mantis Bug Tracking
