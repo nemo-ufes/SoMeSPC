@@ -81,6 +81,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
   sonar.jdbc.url=jdbc:postgresql://localhost/sonar
  ```
 4. Abrir o diretório **bin/windows-x86-64** e executar o script **StartSonar.bat**.
+5. Aguardar a inicialização do SonarQube (aparecerá no console a mensagem **"Process[web] is up"**).
 5. Abrir o SonarQube no browser pela URL: [http://localhost:9000/](http://localhost:9000/)
 6. Fazer login no SonarQube com usuário e senha **"admin"**.
 7. Acessar o menu **"Settings -> Update Center"**.
