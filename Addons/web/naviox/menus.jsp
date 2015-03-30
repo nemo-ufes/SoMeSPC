@@ -6,9 +6,9 @@ position: relative;
 border-radius: 7px;
 ">
 	<ul>
-		<li class="jstree-open">Cadastros
+		<li class="jstree-close">Cadastros
 			<ul>
-				<li class="jstree-open">Organização
+				<li class="jstree-close">Organização
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/m/PapelRecursoHumano"> Papéis dos Recursos Humanos</a></li>
 						<li><a href="<%=request.getContextPath()%>/m/RecursoHumano"> Recursos Humanos</a></li>
@@ -17,7 +17,7 @@ border-radius: 7px;
 						<li><a href="<%=request.getContextPath()%>/m/Objetivo"> Objetivo</a></li>
 					</ul>
 				</li>
-				<li class="jstree-open">Processos
+				<li class="jstree-close">Processos
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/m/ProcessoPadrao"> Processo Padrão</a></li>
 						<li><a href="<%=request.getContextPath()%>/m/AtividadePadrao"> Atividade Padrão</a></li>
@@ -31,7 +31,7 @@ border-radius: 7px;
 					</ul>
 					
 				</li>
-				<li class="jstree-open">Medição
+				<li class="jstree-close">Medição
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/m/TipoDeEntidadeMensuravel"> Tipo de Entidade Mensurável</a></li>
 						<li><a href="<%=request.getContextPath()%>/m/TipoEscala"> Tipo de Escala</a></li>
@@ -53,23 +53,23 @@ border-radius: 7px;
 		</li>
 		
 		
-		<li class="jstree-open">Planejamento de Medição
+		<li class="jstree-close">Planejamento de Medição
 			<ul>
 				<li><a href="<%=request.getContextPath()%>/m/PlanoDeMedicaoDaOrganizacao"> Elaborar Plano de Medição da Organização</a></li>
 				<li><a href="<%=request.getContextPath()%>/m/PlanoDeMedicaoDoProjeto"> Elaborar Plano de Medição do Projeto</a></li>			
 			</ul>	
 		</li>
-		<li class="jstree-open">Realização de Medições
+		<li class="jstree-close">Realização de Medições
 			<ul>
 				<li><a href="<%=request.getContextPath()%>/m/Medicao"> Registrar Medição</a></li>
 			</ul>
 		</li>
-			<li class="jstree-open">Analise de Medições
+			<li class="jstree-close">Analise de Medições
 			<ul>
 				<li><a href="<%=request.getContextPath()%>/m/AnaliseDeMedicao">Realizar Análise Tradicional de Medições</a></li>
 			</ul>
 			<ul>
-				<li class="jstree-open">Realizar Análise de Comportamento de Processos
+				<li class="jstree-close">Realizar Análise de Comportamento de Processos
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/m/DesempenhoDeProcessoEspecificado"> Registrar Desempenho Especificado para Processo</a></li>
 						<li><a href="<%=request.getContextPath()%>/m/AnaliseDeComportamentoDeProcesso"> Analisar Comportamento de Processo</a></li>
