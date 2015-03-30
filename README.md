@@ -83,6 +83,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 7. Voltar para o menu principal do **Jenkins**, acessar **Gerenciar Jenkins -> Configurar o sistema**.
 8. Na seção **Git**, informar no campo 	***Path to Git executable*** o caminho de instalação do **cliente Git** (caminho padrão C:\Program Files (x86)\Git\bin\git.exe).
 9. Na seção **SonarQube** (atenção: não é a mesma que a seção **SonarQube Runner**), clicar em **Avançado** e informar os parâmetros:
+
  ```
   Name: SonarQube 4.5.1
   Server URL: http://localhost:9000
