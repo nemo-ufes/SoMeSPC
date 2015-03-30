@@ -101,6 +101,15 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 10. No campo ***Repository URL***, informar a URL https://github.com/vinnysoft/MedCEP.git.
 11. No campo ***Credentials***, clicar em ***Add*** e informar o usuário e senha do GitHub.
 12. Na seção **Trigger de builds**, marcar **Construir periodicamente** informando o parâmetro `@hourly` (para verificar o repositório a cada hora). 
+13. Na seção **Build**, clicar em **Adicionar passo no build -> Invoke Standalone SonarQube Analysis**.
+14. No campo ***Analysis properties***, informar os parâmetros:
+
+ ```
+  sonar.projectKey=medcep
+  sonar.projectName=MedCEP
+  sonar.projectVersion=1.0
+  sonar.sources=.
+ ``` 
 13. Clicar em **Salvar**.
 
 <!---
