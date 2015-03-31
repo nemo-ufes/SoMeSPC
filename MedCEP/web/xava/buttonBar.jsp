@@ -62,7 +62,7 @@ if (manager.isButtonBarVisible()) {
 	</div>
 	
 	<div id="<xava:id name='modes'/>">
-	<span style="float: left; margin-top: 50px; margin-bottom: 20px">
+	<span style="float: left; clear: both; margin-top: 30px; margin-bottom: 10px;">
 	<%
 	java.util.Stack previousViews = (java.util.Stack) context.get(request, "xava_previousViews"); 
 	if (headerButtonBar && previousViews.isEmpty()) { 
