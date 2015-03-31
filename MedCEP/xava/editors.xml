@@ -9,5 +9,36 @@
 	<editor url="textEditorNoChange.jsp">
 		<for-stereotype stereotype="NO_CHANGE" />
 	</editor>
+	
+	<editor url="dateCalendarNoChangeEditor.jsp">
+		<for-stereotype stereotype="NO_CHANGE_DATE" />
+	</editor>
 		
+	<editor name="TextArea" url="textAreaEditorSemLimites.jsp" frame="false">
+		<for-stereotype stereotype="TEXTO_GRANDE" />
+		<for-stereotype stereotype="MEMO" />
+		<for-stereotype stereotype="TEXT_AREA" />
+	</editor>
+	
+	<editor name="TreeView" url="treeViewEditor2.jsp">
+		<property name="reader" value="org.openxava.web.editors.TreeViewReaderImpl" />
+	</editor>	
+	
+	<!-- <editor url="cepChart.jsp">
+		<for-stereotype stereotype="CEP_CHART" />
+	</editor> -->
+	
+	<editor url="blogCommentsEditor.jsp">
+ 		<for-collection model="Comentario"/>
+	</editor>
+	
+	<editor url="analiseDeMedicaoCollectionEditor2.jsp">
+ 		<for-collection model="Medicao"/>
+	</editor>
+	
+	<editor url="cepChart.jsp">
+ 		<for-collection model="CepChart"/>
+	</editor>
+
+	
 </editors>

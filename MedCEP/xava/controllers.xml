@@ -3,32 +3,223 @@
 <!DOCTYPE controllers SYSTEM "dtds/controllers.dtd">
 <controllers>
 	
+	<controller name="Typical">
+		<extends controller="Navigation"/>
+		<extends controller="CRUD"/>
+		<extends controller="ExtendedPrint"/>
+	    <action name="save" 
+	        mode="detail"
+	        by-default="if-possible"
+	        class="org.openxava.actions.SaveAction"
+	        image="images/save.gif"
+	        keystroke="Control S">
+	        <set property="resetAfter" value="false"/>
+	    </action>
+	</controller>
+	
+	
+	
+	<controller name="TreeView"> 
+		<action name="new" mode="list" image="create_new.gif"
+			class="org.medcep.actions.NewTreeViewItemPlanoMedicaoAction">
+		</action>
+		<action name="remove" class="org.openxava.actions.RemoveTreeViewNodeAction">
+		</action>
+		<action name="save" class="org.openxava.actions.SaveElementInTreeViewAction" 
+			mode="detail">
+		</action>
+		<action name="removeSelected" confirm="true" image="delete.gif"
+			class="org.openxava.actions.RemoveSelectedTreeViewNodeAction">
+		</action>
+		<action name="up" mode="list" image="level-up.gif"
+			class="org.openxava.actions.TreeViewMoveNodeAction">
+			<set property="actionType" value="UP" />
+		</action>
+		<action name="down" mode="list" image="level-down.gif"
+			class="org.openxava.actions.TreeViewMoveNodeAction">
+			<set property="actionType" value="DOWN" />
+		</action>
+		<action name="left" mode="list" image="level-left.gif"
+			hidden="true" class="org.openxava.actions.TreeViewMoveNodeAction">
+			<set property="actionType" value="LEFT" />
+		</action>
+		<action name="right" mode="list" image="level-right.gif"
+			hidden="true" class="org.openxava.actions.TreeViewMoveNodeAction">
+			<set property="actionType" value="RIGHT" />
+		</action>
+		<action name="expand"
+			class="org.openxava.actions.TreeViewExpandCollapseAction" mode="ALL">
+			<set value="true" property="expanded" />
+		</action>
+		<action name="collapse"
+			class="org.openxava.actions.TreeViewExpandCollapseAction" mode="ALL">
+			<set value="false" property="expanded" />
+		</action>
+	</controller>
+	
+	<controller name="Reference">
+		<action name="search"
+			class="org.medcep.actions.ReferenceSearch2Action"
+			image="search.gif"/>		
+		<action name="createNew" 
+			class="org.openxava.actions.CreateNewFromReferenceAction"
+			image="create_new.gif"/>
+		<action name="modify" 
+			class="org.openxava.actions.ModifyFromReferenceAction"
+			image="edit.gif"/>
+	</controller>
+	
+	<!-- problema dos botoes de pdf e excel na treeview -->
+<!-- 	<controller name="DefaultListActionsForCollections"> 
+	</controller> -->
+
+	<!-- tentativa de sobrescrever o comportamento de change section no CEP -->	
+	<controller name="Sections">
+		<action name="change" class="org.openxava.actions.ChangeSectionAction" keystroke="Control 1..9"/>
+		<!-- <action name="change" class="org.medcep.actions.OnChangeSectionCEPAction" keystroke="Control 1..9"/> -->
+	</controller>
+	
+	
+		
+	<!-- Não é mais usada pois se considera que a def usada é a mesma da medida do plano medicao -->	
+	<!-- <controller name="Medicao">
+		<extends controller="Typical" />
+		<action name="searchDefinicaoOperacional"
+			class="org.medcep.actions.SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction" 
+			hidden="true" image="images/search.gif"/>
+		<action name="searchEntidadeMensuravel"
+			class="org.medcep.actions.SearchEntidadeMensuravelAction" 
+			hidden="true" image="images/search.gif"/>
+	</controller> -->
+	
+	<!-- 	
+	<controller name="PlanoTreeItem">
+		<extends controller="Typical" />
+		<action name="searchPlanoTreeItemNome"
+			class="org.medcep.actions.SearchItemForTreePlanoMedicaoAction"
+			hidden="true" image="images/search.gif"/>
+	</controller> -->
+	
+	
+			<!-- <action name="CalcularCapacidade"
+			class="org.openxava.actions.CalcularCapacidadeAction"/> -->
+	
+	
+	<!-- DEFINITIVOS -->
+	<!-- ======================================================================================================== -->
+	
+	<controller name="MedidaPlanoDeMedicao"> 
+		<extends controller="Typical"/>
+		<action name="searchMedidaOfPlanoMedicao"
+			class="org.medcep.actions.SearchMedidaForMedidaPlanoMedicaoAction"
+			hidden="true" image="images/search.gif"/>
+	</controller>
+		
+	<controller name="ProcessoDeProjeto"> 
+		<extends controller="Typical"/>
+		<action name="add"
+			class="org.medcep.actions.GoAddAtividadeProjetoAction"
+			hidden="true" image="images/create_new.gif"/>
+	</controller>
+	
+	<controller name="ProcessoInstanciado"> 
+		<extends controller="Typical"/>
+		<action name="add"
+			class="org.medcep.actions.GoAddAtividadeInstanciadaAction"
+			hidden="true" image="images/create_new.gif"/>
+	</controller>
+		
+	<controller name="AnaliseDeMedicao">
+		<extends controller="Typical" />
+		<!-- Não é mais usada pois se considera que a def usada é a mesma da medida do plano medicao -->
+		<action name="searchDefinicaoOperacional"
+			class="org.medcep.actions.SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction" 
+			hidden="true" image="images/search.gif"/>
+		<action name="addMedicao"
+			class="org.medcep.actions.GoAddMedicaoToAnaliseAction"
+			hidden="true" image="images/create_new.gif"/>
+		<action name="generateExcel" mode="list"
+			class="org.medcep.actions.GenerateReportAction"
+			image="excel.gif"
+			keystroke="Control Alt X">
+			<set property="type" value="csv"/>	
+		</action>
+	</controller>
+	
+	<controller name="AnaliseDeComportamentoDeProcesso">
+		<extends controller="Typical" />
+		<action name="searchMedida"
+			class="org.medcep.actions.SearchMedidaAction" 
+			hidden="true" image="images/search.gif"/>
+		<action name="searchAnaliseDeMedicao"
+			class="org.medcep.actions.SearchAnaliseDeMedicaoForCEPAction" 
+			hidden="true" image="images/search.gif"/>
+		<action name="SearchWhereProcessoPadraoEMedidaForCEP"
+			class="org.medcep.actions.SearchWhereProcessoPadraoEMedidaForCEPAction" 
+			hidden="true" image="images/search.gif"/>
+	</controller>
+		
+	<controller name="AlocacaoEquipe">
+		<extends controller="Typical" />	
+		<action name="searchRecursoHumano"
+			class="org.medcep.actions.SearchRecursoHumanoForAlocacaoAction"
+			hidden="true" image="images/search.gif"/>
+	</controller>
+	
+	<controller name="CapacidadeDeProcesso">
+		<extends controller="Typical" />	
+		<action name="calcular"
+			class="org.medcep.actions.CalcularCapacidadeAction"/>
+	</controller>
+	
+	<controller name="Medida">
+		<extends controller="Typical" />	
+		<action name="searchElementoMensuravelForMedida"
+			class="org.medcep.actions.SearchElementoMensuravelForMedidaAction"
+			hidden="true" image="images/search.gif"/>
+		<action name="searchEntidadeMensuravelForMedida"
+			class="org.medcep.actions.SearchEntidadeMensuravelForMedidaAction"
+			hidden="true" image="images/search.gif"/>
+	</controller>
+	
+	
+	<controller name="ObjetivoDeSoftware">
+		<extends controller="Typical" />	
+		<action name="save"
+			class="org.medcep.actions.SaveObjetivoDeSoftwareAction"
+			image="images/save.gif">
+			<set property="resetAfter" value="false"/>
+		</action>
+	</controller>
+	
+	<controller name="ObjetivoDeMedicao">
+		<extends controller="Typical" />	
+		<action name="save"
+			class="org.medcep.actions.SaveObjetivoDeMedicaoAction"
+			image="images/save.gif">
+			<set property="resetAfter" value="false"/>
+		</action>
+	</controller>
+	
 	<controller name="EntidadeMensuravel"> 
 		<extends controller="Typical"/>
 		<action name="AddElementoMensuravel"
-			class="org.openxava.mestrado.actions.GoAddElementoMensuravelAction"
+			class="org.medcep.actions.GoAddElementoMensuravelAction"
 			hidden="true" image="images/create_new.gif"/>
 	</controller>
-	<controller name="ProcessoDeProjeto"> 
-		<extends controller="Typical"/>
-		<action name="AddAtividadeProjetoAction"
-			class="org.openxava.mestrado.actions.GoAddAtividadeProjetoAction"
+	
+	<controller name="NecessidadeDeInformacao">
+		<extends controller="Typical" />	
+		<action name="addObjetivoDeMedicao"
+			class="org.medcep.actions.GoAddObjetivoMedicaoAction"
 			hidden="true" image="images/create_new.gif"/>
-	</controller>
-	<controller name="Medicao">
-		<extends controller="Typical" />
-		<action name="searchDefinicaoOperacional"
-			class="org.openxava.mestrado.actions.SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction" 
-			hidden="true" image="images/search.gif"/>
-		<action name="save"
-			class="org.openxava.mestrado.actions.SaveMedicaoAction" 
-			image="images/save.gif"/>
-	</controller>
-	<controller name="AnaliseDeMedicao">
-		<extends controller="Typical" />
-		<action name="searchDefinicaoOperacional"
-			class="org.openxava.mestrado.actions.SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction" 
-			hidden="true" image="images/search.gif"/>
 	</controller>
 
+	<controller name="Medicao">
+		<extends controller="Typical" />	
+		<action name="searchEntidadeMensuravel"
+			class="org.medcep.actions.SearchEntidadeMensuravelActionForMedicao"
+			hidden="true" image="images/search.gif"/>
+	</controller>
+	
 </controllers>
