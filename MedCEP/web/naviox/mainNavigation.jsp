@@ -21,8 +21,6 @@
 <div id="main_navigation_left">
 <nobr>
 <span style="color: white; font-size: 14px; font-weight: bold;">MedCEP - A powerful tool for measure</span>
-
-
 &nbsp; 
 <%--
 <% 

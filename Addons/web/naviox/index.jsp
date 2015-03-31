@@ -114,11 +114,17 @@
 		$(function() {
 			naviox.init();
 			$('#menu_tree').jstree();
+			
+			var partesUrl = window.location.href.split("/");
+			var moduloAtual = partesUrl[partesUrl.length-1];
+			
+			$('#menu_tree').jstree('select_node', '#'+moduloAtual);
 
 			$('#menu_tree').on("changed.jstree", function(e, data) {
 				var href = data.node.a_attr.href;
 				window.location = href;
-			});
+			});		
+			
 		});
 	</script>
 
