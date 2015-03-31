@@ -144,7 +144,7 @@ Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicaçã
 <b>Os passos informados nas instruções de configuração foram baseados em um ambiente de desenvolvimento. Para ambientes de produção, as variáveis como senha, URL e local de instalação deverão ser alteradas de acordo com cada necessidade.</b>
 
 ## Referência
-C. X. MARETTO and M. P. BARCELLOS, <b>“Uma Arquitetura de Referência para Medição de Software,”</b> in XIII Simpósio Brasileiro de Qualidade de Software (SBQS 2014), 2014.
+C. X. MARETTO and M. P. BARCELLOS, <b>[Uma Arquitetura de Referência para Medição de Software](http://nemo.inf.ufes.br/wp-content/papercite-data/pdf/uma_arquitetura_de_referccncia_para_medicccco_de_software_2014.pdf)</b> in XIII Simpósio Brasileiro de Qualidade de Software (SBQS 2014), 2014.
 
 ##Licença
 ```
