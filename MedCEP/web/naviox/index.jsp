@@ -42,13 +42,12 @@
 
 <body <%=NaviOXStyle.getBodyClass(request)%>>
 
-	<%-- <div id="main_navigation">
+	 <div id="main_navigation">
 		<jsp:include page="mainNavigation.jsp" />
 	</div>
-	--%>
 	<table width="100%">
 		<tr>
-		<%--
+		
 			<td id="modules_list">
 				<div id="modules_list_popup">
 					<img id="modules_list_corner"
@@ -62,7 +61,7 @@
 					</div>
 				</div>
 			</td>
-			 --%>
+			 
 			<td valign="top">
 				<%
 					if (!"SignIn".equals(module)) {

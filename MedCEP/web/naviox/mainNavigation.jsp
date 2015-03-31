@@ -9,18 +9,22 @@
 
 <jsp:useBean id="modules" class="com.openxava.naviox.Modules" scope="session"/>
 
+<%--
 <% if (modules.hasModules()) { %>
 <a id="show_modules" href=""><xava:message key="all_modules"/></a>	
 <% } %>
+ --%>
+ 
 
-<%
-String allModulesClass = modules.hasModules()?"main-navigation-left-with-all-modules":"main-navigation-left-without-all-modules";
-%>
 
 &nbsp; 
-<div id="main_navigation_left" class="<%=allModulesClass%>">
+<div id="main_navigation_left">
 <nobr>
+<span style="color: white; font-size: 14px; font-weight: bold;">MedCEP - A powerful tool for measure</span>
+
+
 &nbsp; 
+<%--
 <% 
 for (Iterator it= modules.getTopModules().iterator(); it.hasNext();) {
 	MetaModule module = (MetaModule) it.next();
@@ -34,6 +38,7 @@ for (Iterator it= modules.getTopModules().iterator(); it.hasNext();) {
 <%
 }
 %>
+ --%>
 </nobr>
 </div>
 
