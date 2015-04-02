@@ -112,7 +112,20 @@ If you want to add filters add them in filters.xml file in WEB-INF.
 		<load-on-startup>12</load-on-startup>
 	</servlet>	
 		
-	
+	<servlet>
+    <servlet-name>Jersey REST Service</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+     <!-- Register resources and providers under com.vogella.jersey.first package. -->
+    <init-param>
+        <param-name>jersey.config.server.provider.packages</param-name>
+        <param-value>org.medcep.webservices.rest</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Jersey REST Service</servlet-name>
+    <url-pattern>/api/*</url-pattern>
+  </servlet-mapping>
 	
 	<servlet-mapping>
 		<servlet-name>naviox</servlet-name>
