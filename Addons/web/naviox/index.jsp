@@ -9,10 +9,8 @@
 <%@page import="org.openxava.util.Locales"%>
 <%@page import="com.openxava.naviox.web.NaviOXStyle"%>
 
-<jsp:useBean id="context" class="org.openxava.controller.ModuleContext"
-	scope="session" />
-<jsp:useBean id="modules" class="com.openxava.naviox.Modules"
-	scope="session" />
+<jsp:useBean id="context" class="org.openxava.controller.ModuleContext"	scope="session" />
+<jsp:useBean id="modules" class="com.openxava.naviox.Modules" scope="session" />
 
 <%
 	String app = request.getParameter("application");
@@ -20,10 +18,8 @@
 	Locales.setCurrent(request);
 	String sretainOrder = request.getParameter("retainOrder");
 	boolean retainOrder = "true".equals(sretainOrder);
-	modules.setCurrent(request.getParameter("application"),
-			request.getParameter("module"), retainOrder);
-	String oxVersion = org.openxava.controller.ModuleManager
-			.getVersion();
+	modules.setCurrent(request.getParameter("application"),request.getParameter("module"), retainOrder);
+	String oxVersion = org.openxava.controller.ModuleManager.getVersion();
 %>
 
 <!DOCTYPE html>
@@ -65,9 +61,11 @@
 			<td valign="top">
 				<%
 					if (!"SignIn".equals(module)) {
-				%> <jsp:include page="menus.jsp" /> <%
- 	}
- %>
+				%> 
+					<jsp:include page="menus.jsp" /> 
+				<%
+ 				} 
+ 				%>
 			</td>
 
 			<td valign="top">
@@ -83,11 +81,8 @@
 					<div id="module_description">
 						<%=modules.getCurrentModuleDescription(request)%>
 						<a href="javascript:naviox.bookmark()"
-							title="<xava:message key='<%=modules.isCurrentBookmarked()
-						? "unbookmark_module"
-						: "bookmark_module"%>'/>">
-							<img id="bookmark"
-							src="<%=request.getContextPath()%>/naviox/images/bookmark-<%=modules.isCurrentBookmarked() ? "on" : "off"%>.png" />
+							title="<xava:message key='<%=modules.isCurrentBookmarked() ? "unbookmark_module" : "bookmark_module"%>'/>">
+							<img id="bookmark" src="<%=request.getContextPath()%>/naviox/images/bookmark-<%=modules.isCurrentBookmarked() ? "on" : "off"%>.png" />
 						</a>
 					</div>
 					<jsp:include
@@ -101,33 +96,33 @@
 		</tr>
 	</table>
 
-	<link rel='stylesheet'
-		href='<%=request.getContextPath()%>/naviox/js/themes/default/style.min.css' />
-	<script type='text/javascript'
-		src='<%=request.getContextPath()%>/naviox/js/typewatch.js'></script>
-	<script type='text/javascript'
-		src='<%=request.getContextPath()%>/naviox/js/naviox.js'></script>
-	<script type='text/javascript'
-		src='<%=request.getContextPath()%>/naviox/js/jstree.min.js'></script>
+	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/js/themes/default/style.min.css' />
+	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/typewatch.js'></script>
+	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/naviox.js'></script>
+	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/jstree.min.js'></script>
 
 	<script>
+	
 		$(function() {
 			naviox.init();
-			$('#menu_tree').jstree();
-			
+
+			$('#menu_tree').jstree({
+						"core": {
+							"themes": {"dots":false}
+						},
+						"plugins" : [ "state", "types" ]
+					});
+
 			var partesUrl = window.location.href.split("/");
-			var moduloAtual = partesUrl[partesUrl.length-1];
-			
-			$('#menu_tree').jstree('select_node', '#'+moduloAtual);
+			var moduloAtual = partesUrl[partesUrl.length - 1];
+
+			$('#menu_tree').jstree('select_node', '#' + moduloAtual);
 
 			$('#menu_tree').on("changed.jstree", function(e, data) {
 				var href = data.node.a_attr.href;
 				window.location = href;
-			});		
-			
+			});
 		});
 	</script>
-
-
 </body>
 </html>
