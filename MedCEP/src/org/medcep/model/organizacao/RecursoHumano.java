@@ -23,6 +23,7 @@ import java.util.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.*;
 
 import org.hibernate.annotations.*;
 import org.medcep.model.medicao.*;
@@ -42,6 +43,7 @@ import org.openxava.annotations.*;
 			@PropertyValue(name="tipoDeEntidadeMensuravel")
 		}
 )*/
+@XmlRootElement
 public class RecursoHumano {//extends EntidadeMensuravel {
 	 
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
@@ -100,6 +102,7 @@ public class RecursoHumano {//extends EntidadeMensuravel {
   	      )
 	private Collection<Equipe> equipe;
 	 
+    @XmlTransient
 	public Collection<Equipe> getEquipe() {
 		return equipe;
 	}
@@ -111,6 +114,7 @@ public class RecursoHumano {//extends EntidadeMensuravel {
 	@OneToMany(mappedBy="recursoHumano") 
 	private Collection<AlocacaoEquipe> alocacaoEquipe;
 
+	@XmlTransient
 	public Collection<AlocacaoEquipe> getAlocacaoEquipe() {
 		return alocacaoEquipe;
 	}
@@ -122,6 +126,7 @@ public class RecursoHumano {//extends EntidadeMensuravel {
 	@OneToMany(mappedBy="executorDaMedicao")
 	private Collection<Medicao> medicaoExecutada;
 		 
+	@XmlTransient
 	public Collection<Medicao> getMedicaoExecutada() {
 		return medicaoExecutada;
 	}
@@ -133,6 +138,7 @@ public class RecursoHumano {//extends EntidadeMensuravel {
 	@OneToMany(mappedBy="registradoPor")
 	private Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso;
 
+	@XmlTransient
 	public Collection<BaselineDeDesempenhoDeProcesso> getBaselineDeDesempenhoDeProcesso() {
 		return baselineDeDesempenhoDeProcesso;
 	}
