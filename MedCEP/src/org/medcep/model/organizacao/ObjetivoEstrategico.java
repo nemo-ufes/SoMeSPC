@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.model.medicao.planejamento;
+package org.medcep.model.organizacao;
 
 import java.util.*;
 
@@ -27,31 +27,45 @@ import org.medcep.model.organizacao.*;
 import org.openxava.annotations.*;
 
 @Entity
+/*@View(members="nome;" 
+		+ "indicadores;" 
+		+ "Necessidade de Informacao { necessidadeDeInformacao }"
+		+ "Objetivos de Medicao { objetivoDeMedicao }"
+		//+ "Objetivos de Software { objetivoDeSoftware }"
+		//+ "Objetivos Estrategicos { objetivoEstrategico }"
+		)*/
 @Views({
 	@View(members="nome;" 
 			//+ "necessidadeDeInformacao;"
-			//+ "indicadores;"
-			+ "objetivoEstrategico;"
-			//+ "objetivoDeMedicao;"
+			//+ "indicadores;" 
+			//+ "objetivoDeSoftware;"
+			//+ "objetivoDeMedicao;"			
 			),
 	@View(name="Simple", members="nome"),
 	})
 @Tabs({
 	@Tab(properties="nome", defaultOrder="${nome} asc")
 })
-/*@EntityValidator(
-		value=ObjetivoDeSoftwareValidator.class, 
-		properties={
-			@PropertyValue(name="objetivoEstrategico")
-		}
-)*/
-public class ObjetivoDeSoftware extends Objetivo {
+public class ObjetivoEstrategico extends Objetivo { 
 
 	@ManyToMany
     @JoinTable(
-	      name="ObjetivoDeMedicao_BaseadoEm_ObjetivoDeSoftware"
+	      name="ObjetivoDeSoftware_BaseadoEm_ObjetivoEstrategico"//TODO: remover o "O" a mais do inicio
 	      , joinColumns={
+	    		  @JoinColumn(name="ObjetivoEstrategico")
+	       }
+	      , inverseJoinColumns={
 	    		  @JoinColumn(name="ObjetivoDeSoftware")
+	       }
+	      )
+	@ListProperties("nome")
+	private Collection<ObjetivoDeSoftware> objetivoDeSoftware;
+	
+	@ManyToMany
+    @JoinTable(
+	      name="ObjetivoDeMedicao_BaseadoEm_ObjetivoEstrategico"
+	      , joinColumns={
+	    		  @JoinColumn(name="ObjetivoEstrategico")
 	       }
 	      , inverseJoinColumns={
 	    		  @JoinColumn(name="ObjetivoDeMedicao")
@@ -59,19 +73,15 @@ public class ObjetivoDeSoftware extends Objetivo {
 	      )
 	@ListProperties("nome")
 	private Collection<ObjetivoDeMedicao> objetivoDeMedicao;
-	
-	@ManyToMany
-    @JoinTable(
-	      name="ObjetivoDeSoftware_BaseadoEm_ObjetivoEstrategico"
-	      , joinColumns={
-	    		  @JoinColumn(name="ObjetivoDeSoftware")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="ObjetivoEstrategico")
-	       }
-	      )
-	@ListProperties("nome")
-	private Collection<ObjetivoEstrategico> objetivoEstrategico;
+
+	public Collection<ObjetivoDeSoftware> getObjetivoDeSoftware() {
+		return objetivoDeSoftware;
+	}
+
+	public void setObjetivoDeSoftware(
+			Collection<ObjetivoDeSoftware> objetivoDeSoftware) {
+		this.objetivoDeSoftware = objetivoDeSoftware;
+	}
 
 	public Collection<ObjetivoDeMedicao> getObjetivoDeMedicao() {
 		return objetivoDeMedicao;
@@ -79,15 +89,6 @@ public class ObjetivoDeSoftware extends Objetivo {
 
 	public void setObjetivoDeMedicao(Collection<ObjetivoDeMedicao> objetivoDeMedicao) {
 		this.objetivoDeMedicao = objetivoDeMedicao;
-	}
-
-	public Collection<ObjetivoEstrategico> getObjetivoEstrategico() {
-		return objetivoEstrategico;
-	}
-
-	public void setObjetivoEstrategico(
-			Collection<ObjetivoEstrategico> objetivoEstrategico) {
-		this.objetivoEstrategico = objetivoEstrategico;
 	}
 	 
 /*  
@@ -101,22 +102,7 @@ public class ObjetivoDeSoftware extends Objetivo {
 		this.planoDeMedicao = planoDeMedicao;
 	}*/
     
-/*    @PreCreate
-    @PreUpdate
-    public void validate() throws Exception
-    {
-		if(objetivoEstrategico == null || objetivoEstrategico.size() < 1)
-			throw new Exception("necessario_objetivo_estrategico");
-    		throw new InvalidStateException( // The validation exception from
-    				new InvalidValue[] { // Hibernate Validator framework
-    						new InvalidValue(
-    								"necessario_objetivo_estrategico",
-    								getClass(), "delivered",
-    								true, this
-    						)
-    				}
-			);
-    }//validate
-*/    	
+
+    
 }
  

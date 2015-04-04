@@ -22,6 +22,7 @@ package org.medcep.actions;
 import java.util.*;
 
 import org.medcep.model.medicao.planejamento.*;
+import org.medcep.model.organizacao.*;
 import org.openxava.actions.*;
 import org.openxava.view.*;
 
