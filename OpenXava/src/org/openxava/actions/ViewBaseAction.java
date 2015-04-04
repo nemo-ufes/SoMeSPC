@@ -108,7 +108,7 @@ abstract public class ViewBaseAction extends BaseAction {
 				previousView.setRequest(getRequest());
 				setView(previousView);
 				setNextMode((String) getView().getObject("xava.mode"));	
-				getView().refresh();
+				//getView().refresh();
 			}
 			else {
 				log.warn(XavaResources.getString("no_more_previous_views")); 
