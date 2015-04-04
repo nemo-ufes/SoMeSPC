@@ -35,7 +35,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
  2. Inicie novamente o Apache Tomcat.
  3. Execute a Ant Build <b>MedCEP.Implantar</b>.
  4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
-19. Abrir o PgAdmin (ferramenta para administração do banco de dados PostgreSQL) e executar a SQL no arquivo MedCEP/Persistence/script.sql, para inicializar o banco de dados.
+19. Abrir o PgAdmin (ferramenta para administração do banco de dados PostgreSQL) e executar a SQL no arquivo **MedCEP/Persistence/script.sql**, para inicializar o banco de dados.
 
 ##Configuração do Sonar
 ###Requisitos
