@@ -35,22 +35,15 @@ import org.openxava.annotations.*;
 			+"tipoMedida; "
 			+"escala; "
 			+"unidadeDeMedida; " 
-			//+"listaObjetivos; "
 			+"tipoDeEntidadeMedida; "
-			//+"entidadeMedida; "
 			+"elementoMensuravel; "
 			+"medidasCorrelatas; "
-			//+"definicaoOperacionalDeMedida; "
-			+"Se a Medida é Derivada [ " 
+			+"grupo_medida_derivada [ " 
 			+"derivaDe; "
 			+"calculadaPor; ]; "
-			/*+"Detalhes para Medidas Derivadas { calculadaPor; "
-			+"derivaDe; }; "
-			+"Medidas Correlatas {"
-			+"medidasCorrelatas; }"*/ //TODO: possivel bug do openxava, auto relacionamentos dentro de { } acarretam em um loop infinito 
+		
 	),
 	@View(name="ForMedicao", members="nome, mnemonico; "
-			//+"Entidade Mensurável [ entidadeMedida.nome; ];"
 			+"Tipo de Entidade Mensurável [ tipoDeEntidadeMedida.nome; ];"
 			+"Elemento Mensurável [ elementoMensuravel.nome; ]"
 	),
@@ -58,7 +51,6 @@ import org.openxava.annotations.*;
 	@View(name="SimpleNoFrame", members="nome")
 })
 @Tabs({
-	//@Tab(properties="nome, mnemonico, indicador", defaultOrder="${nome} asc")
 	@Tab(properties="nome, mnemonico", defaultOrder="${nome} asc")
 })
 @EntityValidator(
@@ -89,24 +81,6 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 	@DescriptionsList(descriptionProperties="nome", order="${nome} asc")
 	private TipoMedida tipoMedida;
 
-/*
-	@ManyToOne 
-	@Required
-	//@NoCreate
-	//@NoModify
-	//@NoFrame
-	@ReferenceView("Simple")
-	//@SearchAction("Medida.searchEntidadeMensuravelForMedida")
-    private EntidadeMensuravel entidadeMedida;
-	
-	public EntidadeMensuravel getEntidadeMedida() {
-		return entidadeMedida;
-	}
-
-	public void setEntidadeMedida(EntidadeMensuravel entidadeMedida) {
-		this.entidadeMedida = entidadeMedida;
-	}*/
-	
 	@ManyToOne 
 	@DescriptionsList(descriptionProperties="nome", order="${nome} asc")
 	@Required
@@ -139,8 +113,6 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 
 	@ManyToOne
 	@Required
-	//@NoCreate
-	//@NoModify
 	@ReferenceView("Simple")
 	@SearchAction("Medida.searchElementoMensuravelForMedida")
     private ElementoMensuravel elementoMensuravel;
@@ -152,7 +124,6 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 	 
 	@ManyToOne 
 	@DescriptionsList(descriptionProperties="nome") 
-	//@Required
 	private UnidadeDeMedida unidadeDeMedida;
 	
     @ManyToMany 
@@ -277,27 +248,8 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 	public void setElementoMensuravel(ElementoMensuravel elementoMensuravel) {
 		this.elementoMensuravel = elementoMensuravel;
 	}
-
-
-    /*@OneToMany(mappedBy="medida") 
-	private Collection<MedidaPlanoDeMedicao> medidaPlanoDeMedicao;*/
-	
-/*	public Collection<MedidaPlanoDeMedicao> getMedidaPlanoDeMedicao() {
-		return medidaPlanoDeMedicao;
-	}
-
-	public void setMedidaPlanoDeMedicao(Collection<MedidaPlanoDeMedicao> medidaPlanoDeMedicao) {
-		this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
-	}*/
-    
-	//@OneToOne(cascade=CascadeType.REFRESH)
-	//@OneToOne(cascade=CascadeType.REMOVE)
+   
 	@OneToMany(mappedBy="calcula", cascade = CascadeType.REMOVE)
-	//@OneToMany(mappedBy="calcula")
-	//@ListProperties("nome")
-	//@OneToOne
-    //@PrimaryKeyJoinColumn
-   // @ReferenceView("Simple")
 	private Collection<FormulaDeCalculoDeMedida> calculadaPor;
 		
 	public Collection<FormulaDeCalculoDeMedida> getCalculadaPor() {
@@ -327,42 +279,5 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 	public boolean isIndicador(){
 		return (listaObjetivos != null && listaObjetivos.size() > 0) || (listaNecessidadeDeInformacao != null && listaNecessidadeDeInformacao.size() > 0);
 	}
-	
-/*	@OneToMany(mappedBy="medida")
-	private Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso;
-
-	public Collection<BaselineDeDesempenhoDeProcesso> getBaselineDeDesempenhoDeProcesso() {
-		return baselineDeDesempenhoDeProcesso;
-	}
-
-	public void setBaselineDeDesempenhoDeProcesso(
-			Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso) {
-		this.baselineDeDesempenhoDeProcesso = baselineDeDesempenhoDeProcesso;
-	}*/
-    
-/*	@OneToMany(mappedBy="medida")
-	private Collection<CapacidadeDeProcesso> capacidadeDeProcesso;*/
-	
-/*	@OneToMany(mappedBy="medida")
-	private Collection<ModeloPreditivo> modeloPreditivo;*/
-
-/*	public Collection<CapacidadeDeProcesso> getCapacidadeDeProcesso() {
-		return capacidadeDeProcesso;
-	}
-
-	public void setCapacidadeDeProcesso(
-			Collection<CapacidadeDeProcesso> capacidadeDeProcesso) {
-		this.capacidadeDeProcesso = capacidadeDeProcesso;
-	}*/
-
-/*	public Collection<ModeloPreditivo> getModeloPreditivo() {
-		return modeloPreditivo;
-	}
-
-	public void setModeloPreditivo(Collection<ModeloPreditivo> modeloPreditivo) {
-		this.modeloPreditivo = modeloPreditivo;
-	}*/
-	
-	
-	
+		
 }
