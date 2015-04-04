@@ -21,17 +21,12 @@ package org.medcep.actions;
 
 import org.openxava.actions.*;
 
-//import static org.openxava.jpa.XPersistence.*;
-
 //Exibe para busca a junção de todos os elementos mensuráveis do tipo de entidade mensuráveis e da entiade mensurável
 public class SearchElementoMensuravelForMedidaAction extends ReferenceSearchAction { 
 	
-	// adding collection elements list
-	public void execute() throws Exception {
+	public void execute() throws Exception {		
+		super.execute(); 		
 		
-		super.execute(); 
-		
-		//String idEntidadeMedida = getPreviousView().getValueString("entidadeMedida.id");
 		String idTipoDeEntidadeMensuravel = getPreviousView().getValueString("tipoDeEntidadeMedida.id");
 		
 		if(idTipoDeEntidadeMensuravel != null && idTipoDeEntidadeMensuravel.isEmpty() == false)
@@ -40,44 +35,9 @@ public class SearchElementoMensuravelForMedidaAction extends ReferenceSearchActi
 		}
 		else
 		{
-			throw new Exception("Retorne e selecione primeiro ao menos o Tipo de Entidade Mensurável.");
-		}
-		
-/*		String condition = "";
-		if(idEntidadeMedida != null && idEntidadeMedida.isEmpty() == false)
-		{			
-			EntidadeMensuravel entidadeMensuravel = XPersistence.getManager().find(EntidadeMensuravel.class, idEntidadeMedida);
-			
-			String id = entidadeMensuravel.getId();
-			
-			if(id != null && id.isEmpty() == false)
-			{
-				condition += "'" + id + "' IN (SELECT id from ${entidadeMensuravel}) "; 
-			}
-		}
-		else
-		{
-			throw new Exception("Retorne e selecione primeiro a Entidade Mensurável.");
-		}*/
-		/*if((idEntidadeMedida != null && idEntidadeMedida.isEmpty() == false)
-			&& (idTipoDeEntidadeMensuravel != null && idTipoDeEntidadeMensuravel.isEmpty() == false))
-		{
-			condition += "OR ";
-		}
-		if(idTipoDeEntidadeMensuravel != null && idTipoDeEntidadeMensuravel.isEmpty() == false)
-		{			
-			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = XPersistence.getManager().find(TipoDeEntidadeMensuravel.class, idTipoDeEntidadeMensuravel);
-			
-			String id = tipoDeEntidadeMensuravel.getId();
-			
-			if(id != null && id.isEmpty() == false)
-			{
-				condition += "'" + id + "' IN (SELECT id from ${tipoDeEntidadeMensuravel}) "; 
-			}
-		}*/
-				
-		//getTab().setBaseCondition(condition);
-		
-	}//execute
+			getPreviousView().getMessages().add("selecione_tipo_entidade_mensuravel");
+			return;		
+		}			
+	}
 	
 }
