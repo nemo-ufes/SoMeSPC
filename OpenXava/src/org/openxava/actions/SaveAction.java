@@ -1,10 +1,8 @@
 package org.openxava.actions;
 
-import java.util.Map;
+import java.util.*;
 
 import javax.ejb.*;
-
-
 
 import org.openxava.model.*;
 import org.openxava.validators.*;
@@ -55,6 +53,7 @@ public class SaveAction extends ViewBaseAction {
 				if (isRefreshAfter()) getView().setValues(values); 
 			}			
 			resetDescriptionsCache();
+			getView().refreshCollections();			
 		}
 		catch (ValidationException ex) {			
 			addErrors(ex.getErrors());
