@@ -95,19 +95,7 @@ public class FormulaDeCalculoDeMedida {
     @ListProperties("nome, mnemonico")
 	private Collection<Medida> usaMedidas;
 	 
-    @ManyToMany 
-    @JoinTable(
-	      name="formulaDeCalculoDeMedida_usa_formulaDeCalculoDeMedida"
-	      , joinColumns={
-	    		  @JoinColumn(name="formulaDeCalculoDeMedida_id")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="formulaDeCalculoDeMedida_id2")
-	       }
-	      )
-	private Collection<FormulaDeCalculoDeMedida> usaFormulaDeCalculoDeMedida;
-
-	public String getNome() {
+   	public String getNome() {
 		return nome;
 	}
 
@@ -129,15 +117,6 @@ public class FormulaDeCalculoDeMedida {
 
 	public void setCalcula(Medida calcula) {
 		this.calcula = calcula;
-	}
-
-	public Collection<FormulaDeCalculoDeMedida> getUsaFormulaDeCalculoDeMedida() {
-		return usaFormulaDeCalculoDeMedida;
-	}
-
-	public void setUsaFormulaDeCalculoDeMedida(
-			Collection<FormulaDeCalculoDeMedida> usaFormulaDeCalculoDeMedida) {
-		this.usaFormulaDeCalculoDeMedida = usaFormulaDeCalculoDeMedida;
 	}
 
 	public Collection<Medida> getUsaMedidas() {
