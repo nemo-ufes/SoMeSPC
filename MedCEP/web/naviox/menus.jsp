@@ -37,19 +37,20 @@ border-radius: 7px;
 					</ul>					
 				</li>
 				<li class="jstree-close">Medição
-					<ul>
-						<li id="TipoDeEntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/TipoDeEntidadeMensuravel"> Tipo de Entidade Mensurável</a></li>						
+					<ul>												
 						<li id="EntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/EntidadeMensuravel"> Entidade Mensurável</a></li>
-						<li id="TipoElementoMensuravel"><a href="<%=request.getContextPath()%>/m/TipoElementoMensuravel"> Tipo de Elemento Mensurável</a></li>	
+						<li id="TipoDeEntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/TipoDeEntidadeMensuravel"> Tipo de Entidade Mensurável</a></li>
 						<li id="ElementoMensuravel"><a href="<%=request.getContextPath()%>/m/ElementoMensuravel"> Elemento Mensurável</a></li>						
-						<li id="TipoEscala"><a href="<%=request.getContextPath()%>/m/TipoEscala"> Tipo de Escala</a></li>
-						<li id="ValorDeEscala"><a href="<%=request.getContextPath()%>/m/ValorDeEscala"> Valores de Escala</a></li>
+						<li id="TipoElementoMensuravel"><a href="<%=request.getContextPath()%>/m/TipoElementoMensuravel"> Tipo de Elemento Mensurável</a></li>	
 						<li id="Escala"><a href="<%=request.getContextPath()%>/m/Escala"> Escala</a></li>
+						<li id="TipoEscala"><a href="<%=request.getContextPath()%>/m/TipoEscala"> Tipo de Escala</a></li>
+						<li id="ValorDeEscala"><a href="<%=request.getContextPath()%>/m/ValorDeEscala"> Valores de Escala</a></li>						
 						<li id="ObjetivoEstrategico"><a href="<%=request.getContextPath()%>/m/ObjetivoEstrategico"> Objetivo Estratégico</a></li>
 						<li id="ObjetivoDeSoftware"><a href="<%=request.getContextPath()%>/m/ObjetivoDeSoftware"> Objetivo de Software</a></li>
 						<li id="ObjetivoDeMedicao"><a href="<%=request.getContextPath()%>/m/ObjetivoDeMedicao"> Objetivo de Medição</a></li>
 						<li id="NecessidadeDeInformacao"><a href="<%=request.getContextPath()%>/m/NecessidadeDeInformacao"> Necessidade de Informação</a></li>
 						<li id="Medida"><a href="<%=request.getContextPath()%>/m/Medida"> Medida</a></li>
+						<li id="TipoMedida"><a href="<%=request.getContextPath()%>/m/TipoMedida"> Tipo de Medida</a></li>
 						<li id="DefinicaoOperacionalDeMedida"><a href="<%=request.getContextPath()%>/m/DefinicaoOperacionalDeMedida"> Definição Operacional de Medida</a></li>
 						<li id="UnidadeDeMedida"><a href="<%=request.getContextPath()%>/m/UnidadeDeMedida"> Unidade de Medida</a></li>
 						<li id="ProcedimentoDeMedicao"><a href="<%=request.getContextPath()%>/m/ProcedimentoDeMedicao"> Procedimento de Medição</a></li>

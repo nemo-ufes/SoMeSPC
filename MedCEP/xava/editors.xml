@@ -6,6 +6,8 @@
 
 <editors>
 
+	<editor name="readOnlyListEditor" url="readOnlyListEditor.jsp"/>	
+
 	<editor url="textEditorNoChange.jsp">
 		<for-stereotype stereotype="NO_CHANGE" />
 	</editor>

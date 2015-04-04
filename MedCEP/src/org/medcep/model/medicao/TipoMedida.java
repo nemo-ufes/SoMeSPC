@@ -25,7 +25,6 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
-import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
 @Entity
@@ -33,6 +32,9 @@ import org.openxava.annotations.*;
 	@View(members="nome"),
 	@View(name="Simple", members="nome"),
 	})
+@Tabs({
+	@Tab(properties="nome", editor="readOnlyListEditor", defaultOrder="${nome} asc")
+})
 public class TipoMedida {
 	 
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
