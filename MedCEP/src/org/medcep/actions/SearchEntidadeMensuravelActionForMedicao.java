@@ -19,9 +19,7 @@
  */
 package org.medcep.actions;
 
-import org.medcep.model.medicao.planejamento.*;
 import org.openxava.actions.*;
-import org.openxava.jpa.*;
 
 //import static org.openxava.jpa.XPersistence.*;
 
@@ -32,14 +30,15 @@ public class SearchEntidadeMensuravelActionForMedicao extends ReferenceSearchAct
 		
 		super.execute(); 
 		
+		//TODO: Verificar a situação abaixo, agora que a medida possui mais de um tipo de entidade mensurável.
+		/*
 		String idMedidaPlanoDeMedicao = getPreviousView().getValueString("medidaPlanoDeMedicao.id");
 		
 		if(idMedidaPlanoDeMedicao != null && idMedidaPlanoDeMedicao.isEmpty() == false)
 		{
 			MedidaPlanoDeMedicao medidaPlanoDeMedicao = XPersistence.getManager().find(MedidaPlanoDeMedicao.class, idMedidaPlanoDeMedicao);
-			
-			//String idMedida = medidaPlanoDeMedicao.getMedida().getId();
-			String idTipoEntidade = medidaPlanoDeMedicao.getMedida().getTipoDeEntidadeMedida().getId();
+						
+			String idTipoEntidade = medidaPlanoDeMedicao.getMedida().getTipoDeEntidadeMensuravel().getId();
 			
 			if(idTipoEntidade != null && idTipoEntidade.isEmpty() == false)
 			{
@@ -52,7 +51,7 @@ public class SearchEntidadeMensuravelActionForMedicao extends ReferenceSearchAct
 		}
 		
 		throw new Exception("A medição deve ser feita para Entidades que sejam do mesmo Tipo de Entidade Mensurável da Medida.");
-		
+		*/
 	}//execute
 	
 }

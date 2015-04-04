@@ -65,6 +65,18 @@ public class TipoDeEntidadeMensuravel {
 	      )
 	private Collection<ElementoMensuravel> elementoMensuravel;
 
+    @ManyToMany 
+    @JoinTable(
+	      name="medida_tipoDeEntidadeMensuravel"
+	      , joinColumns={
+	    		  @JoinColumn(name="tipoDeEntidadeMensuravel_id")
+	       }
+	      , inverseJoinColumns={
+	    		  @JoinColumn(name="medida_id")
+	       }
+	      )
+    private Collection<Medida> medida;
+    
 	public String getId() {
 		return id;
 	}
@@ -107,7 +119,14 @@ public class TipoDeEntidadeMensuravel {
 		this.elementoMensuravel = elementoMensuravel;
 	}
 
-    
+	
+    public Collection<Medida> getMedida() {
+		return medida;
+	}
+
+	public void setMedida(Collection<Medida> medida) {
+		this.medida = medida;
+	}    
     
 }
  

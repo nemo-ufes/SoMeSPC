@@ -34,9 +34,9 @@ import org.openxava.annotations.*;
 	@View(members="nome, mnemonico; "
 			+"tipoMedida; "
 			+"escala; "
-			+"unidadeDeMedida; " 
-			+"tipoDeEntidadeMedida; "
+			+"unidadeDeMedida; "
 			+"elementoMensuravel; "
+			+"tipoDeEntidadeMensuravel; "			
 			+"medidasCorrelatas; "
 			+"grupo_medida_derivada [ " 
 			+"derivaDe; "
@@ -44,7 +44,7 @@ import org.openxava.annotations.*;
 		
 	),
 	@View(name="ForMedicao", members="nome, mnemonico; "
-			+"Tipo de Entidade Mensurável [ tipoDeEntidadeMedida.nome; ];"
+			+"Tipo de Entidade Mensurável [ tipoDeEntidadeMensuravel.nome; ];"
 			+"Elemento Mensurável [ elementoMensuravel.nome; ]"
 	),
 	@View(name="Simple", members="nome"),
@@ -81,23 +81,19 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 	@DescriptionsList(descriptionProperties="nome", order="${nome} asc")
 	private TipoMedida tipoMedida;
 
-	@ManyToOne 
-	@DescriptionsList(descriptionProperties="nome", order="${nome} asc")
-	@Required
-	@NoFrame
-	@ReferenceView("SimpleNoFrame")
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMedida;
+    @ManyToMany 
+    @JoinTable(
+	      name="medida_tipoDeEntidadeMensuravel"
+	      , joinColumns={
+	    		  @JoinColumn(name="medida_id")
+	       }
+	      , inverseJoinColumns={
+	    		  @JoinColumn(name="tipoDeEntidadeMensuravel_id")
+	       }
+	      )
+    @ListProperties("nome")
+    private Collection<TipoDeEntidadeMensuravel> tipoDeEntidadeMensuravel;
 	
-	public TipoDeEntidadeMensuravel getTipoDeEntidadeMedida() {
-		return tipoDeEntidadeMedida;
-	}
-
-	public void setTipoDeEntidadeMedida(
-			TipoDeEntidadeMensuravel tipoDeEntidadeMedida) {
-		this.tipoDeEntidadeMedida = tipoDeEntidadeMedida;
-	}
-
-
 	@ListProperties("nome")
 	@OneToMany(mappedBy="medida")
 	private Collection<DefinicaoOperacionalDeMedida> definicaoOperacionalDeMedida;
@@ -278,6 +274,14 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 	
 	public boolean isIndicador(){
 		return (listaObjetivos != null && listaObjetivos.size() > 0) || (listaNecessidadeDeInformacao != null && listaNecessidadeDeInformacao.size() > 0);
+	}
+
+	public Collection<TipoDeEntidadeMensuravel> getTipoDeEntidadeMensuravel() {
+		return tipoDeEntidadeMensuravel;
+	}
+
+	public void setTipoDeEntidadeMensuravel(Collection<TipoDeEntidadeMensuravel> tipoDeEntidadeMensuravel) {
+		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
 	}
 		
 }

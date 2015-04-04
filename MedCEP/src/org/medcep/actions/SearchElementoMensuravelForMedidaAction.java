@@ -27,6 +27,7 @@ public class SearchElementoMensuravelForMedidaAction extends ReferenceSearchActi
 	public void execute() throws Exception {		
 		super.execute(); 		
 		
+		/*
 		String idTipoDeEntidadeMensuravel = getPreviousView().getValueString("tipoDeEntidadeMedida.id");
 		
 		if(idTipoDeEntidadeMensuravel != null && idTipoDeEntidadeMensuravel.isEmpty() == false)
@@ -37,7 +38,8 @@ public class SearchElementoMensuravelForMedidaAction extends ReferenceSearchActi
 		{
 			getPreviousView().getMessages().add("selecione_tipo_entidade_mensuravel");
 			return;		
-		}			
+		}		
+		*/	
 	}
 	
 }
