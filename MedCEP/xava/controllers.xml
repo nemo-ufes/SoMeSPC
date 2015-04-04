@@ -6,7 +6,7 @@
 	<controller name="Typical">
 		<extends controller="Navigation"/>
 		<extends controller="CRUD"/>
-		<extends controller="ExtendedPrint"/>
+		<!-- <extends controller="ExtendedPrint"/> -->
 	    <action name="save" 
 	        mode="detail"
 	        by-default="if-possible"

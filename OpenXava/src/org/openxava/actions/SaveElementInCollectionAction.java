@@ -36,6 +36,7 @@ public class SaveElementInCollectionAction extends CollectionElementViewBaseActi
 		getCollectionElementView().setCollectionEditingRow(-1);
 		getCollectionElementView().clear();		
 		resetDescriptionsCache();
+		getView().refresh();
 		if (containerSaved) getView().getRoot().refresh(); 
 		else getView().recalculateProperties();
 		closeDialog(); 		

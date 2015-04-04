@@ -57,6 +57,7 @@ public class AddElementsToCollectionAction extends SaveElementInCollectionAction
 		getView().setKeyEditable(false); // To mark as saved
 		getTab().deselectAll();
 		resetDescriptionsCache(); 		
+		getView().refresh();
 		closeDialog(); 
 	}
 

@@ -44,7 +44,7 @@
             <property name="hibernate.connection.password" value="postgres" />
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/medcep" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />            
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
         </properties>
     </persistence-unit>
 	

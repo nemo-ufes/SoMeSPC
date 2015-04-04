@@ -1,6 +1,7 @@
 package org.openxava.actions;
 
 import java.util.*;
+
 import org.openxava.view.*;
 
 /**
@@ -26,6 +27,7 @@ public abstract class UpdateReferenceBaseAction extends ViewBaseAction implement
 			closeDialog(); 
 		}
 		resetDescriptionsCache();
+		getView().refresh();
 	}
 	
 	protected Map getValuesToSave() throws Exception {

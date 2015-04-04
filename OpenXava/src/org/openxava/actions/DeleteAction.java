@@ -4,9 +4,7 @@ import java.util.*;
 
 import org.apache.commons.logging.*;
 import org.openxava.model.*;
-import org.openxava.tab.impl.*;
 import org.openxava.util.*;
-import org.openxava.validators.*;
 
 /**
  * @author Javier Paniza
@@ -28,6 +26,7 @@ public class DeleteAction extends ViewDetailAction {
 		MapFacade.remove(getModelName(), keyValues);
 		commit(); // If we change this, we should run all test suite using READ COMMITED (with hsqldb 2 for example)
 		resetDescriptionsCache();
+		getView().refresh();
 		addMessage("object_deleted", getModelName());
 		getView().clear();
 		boolean selected = false;
