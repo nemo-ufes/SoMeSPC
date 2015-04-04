@@ -25,6 +25,7 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
+import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.openxava.annotations.*;
 

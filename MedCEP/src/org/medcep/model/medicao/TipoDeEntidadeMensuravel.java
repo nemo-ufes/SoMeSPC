@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.model.medicao.planejamento;
+package org.medcep.model.medicao;
 
 import java.util.*;
 
@@ -25,22 +25,46 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
+import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="nome"),
-	@View(name="Simple", members="nome")
-})
+	@View(members="nome; descricao; elementoMensuravel"),
+	@View(name="Simple", members="nome"),
+	@View(name="SimpleNoFrame", members="nome"),
+	})
 @Tabs({
 	@Tab(properties="nome", defaultOrder="${nome} asc")
 })
-public class TipoElementoMensuravel {
-    
+public class TipoDeEntidadeMensuravel {
+ 
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;    
+    private String id;   
     
+	@Column(length=500, unique=true) @Required
+	private String nome;
+
+	@Stereotype("TEXT_AREA")
+	@Column(columnDefinition="TEXT")
+	private String descricao;
+
+	@OneToMany(mappedBy="tipoDeEntidadeMensuravel")
+	private Collection<EntidadeMensuravel> entidadeMensuravel;
+	
+    @ManyToMany
+    @JoinTable(
+	      name="elementoMensuravel_tipoDeEntidadeMensuravel"
+	      , joinColumns={
+	    		  @JoinColumn(name="tipoDeEntidadeMensuravel_id")
+	       }
+	      , inverseJoinColumns={
+	    		  @JoinColumn(name="elementoMensuravel_id")
+	       }
+	      )
+	private Collection<ElementoMensuravel> elementoMensuravel;
+
 	public String getId() {
 		return id;
 	}
@@ -48,13 +72,6 @@ public class TipoElementoMensuravel {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	@Column(length=500, unique=true) @Required
-	private String nome;
-	
-    @OneToMany(mappedBy="tipoElementoMensuravel")
-	private Collection<ElementoMensuravel> elementoMensuravel;
-
 
 	public String getNome() {
 		return nome;
@@ -62,6 +79,23 @@ public class TipoElementoMensuravel {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Collection<EntidadeMensuravel> getEntidadeMensuravel() {
+		return entidadeMensuravel;
+	}
+
+	public void setEntidadeMensuravel(
+			Collection<EntidadeMensuravel> entidadeMensuravel) {
+		this.entidadeMensuravel = entidadeMensuravel;
 	}
 
 	public Collection<ElementoMensuravel> getElementoMensuravel() {
@@ -72,6 +106,7 @@ public class TipoElementoMensuravel {
 			Collection<ElementoMensuravel> elementoMensuravel) {
 		this.elementoMensuravel = elementoMensuravel;
 	}
+
     
     
 }

@@ -23,6 +23,7 @@ package org.medcep.model.processo;
 import javax.persistence.*;
 
 import org.medcep.calculators.*;
+import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;

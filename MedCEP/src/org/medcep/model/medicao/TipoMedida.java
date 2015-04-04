@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.model.medicao.planejamento;
+package org.medcep.model.medicao;
 
 import java.util.*;
 
@@ -25,21 +25,16 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
+import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
-/**
- * Uma vez em cada projeto; Uma vez em cada ocorrência da atividade; 
- */
 @Entity
 @Views({
-	@View(members="nome; descricao"),
+	@View(members="nome"),
 	@View(name="Simple", members="nome"),
-})
-@Tabs({
-	@Tab(properties="nome", defaultOrder="${nome} asc")
-})
-public class Periodicidade {
- 
+	})
+public class TipoMedida {
+	 
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;    
@@ -51,13 +46,12 @@ public class Periodicidade {
 	public void setId(String id) {
 		this.id = id;
 	}
- 
-    @Column(length=500, unique=true) @Required 
-    private String nome;
+    
+	@Column(length=500, unique=true) @Required
+	private String nome;
 	
-	@Stereotype("TEXT_AREA")	
-	@Column(columnDefinition="TEXT")
-	private String descricao;
+    @OneToMany(mappedBy="tipoMedida")
+	private Collection<Medida> medida;
 
 	public String getNome() {
 		return nome;
@@ -67,40 +61,14 @@ public class Periodicidade {
 		this.nome = nome;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public Collection<Medida> getMedida() {
+		return medida;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setMedida(Collection<Medida> medida) {
+		this.medida = medida;
 	}
-	 
-	@OneToMany(mappedBy="periodicidadeDeMedicao")
-	private Collection<DefinicaoOperacionalDeMedida> periodicidadeDeMedicao;
-	 
-	@OneToMany(mappedBy="periodicidadeDeAnaliseDeMedicao")
-	private Collection<DefinicaoOperacionalDeMedida> periodicidadeDeAnaliseDeMedicao;
-
-	public Collection<DefinicaoOperacionalDeMedida> getPeriodicidadeDeMedicao() {
-		return periodicidadeDeMedicao;
-	}
-
-	public void setPeriodicidadeDeMedicao(
-			Collection<DefinicaoOperacionalDeMedida> periodicidadeDeMedicao) {
-		this.periodicidadeDeMedicao = periodicidadeDeMedicao;
-	}
-
-	public Collection<DefinicaoOperacionalDeMedida> getPeriodicidadeDeAnaliseDeMedicao() {
-		return periodicidadeDeAnaliseDeMedicao;
-	}
-
-	public void setPeriodicidadeDeAnaliseDemedicao(
-			Collection<DefinicaoOperacionalDeMedida> periodicidadeDeAnaliseDeMedicao) {
-		this.periodicidadeDeAnaliseDeMedicao = periodicidadeDeAnaliseDeMedicao;
-	}
-
-	
-	 
-	
+ 
+    
 }
  

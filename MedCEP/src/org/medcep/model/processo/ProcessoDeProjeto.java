@@ -24,6 +24,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.medcep.calculators.*;
+import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.validators.*;

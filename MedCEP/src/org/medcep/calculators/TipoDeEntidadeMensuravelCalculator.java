@@ -22,6 +22,7 @@ package org.medcep.calculators;
 
 import javax.persistence.*;
 
+import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.openxava.calculators.*;
 import org.openxava.jpa.*;

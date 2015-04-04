@@ -17,22 +17,39 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.model.medicao.planejamento;
+package org.medcep.model.medicao;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+
+import org.hibernate.annotations.*;
+import org.openxava.annotations.*;
 
 @Entity
-public class ValorDeEscalaAlfanumerico extends ValorDeEscala {
+@View(name="Simple", members="nome")
+public class TipoEscala {
+ 
+	@Id @GeneratedValue(generator="system-uuid") @Hidden
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+    private String id;    
     
-	private String valor;
-
-	public String getValor() {
-		return valor;
+	public String getId() {
+		return id;
 	}
 
-	public void setValor(String valor) {
-		this.valor = valor;
+	public void setId(String id) {
+		this.id = id;
 	}
-		 
+ 
+    @Column(length=500, unique=true) @Required 
+    private String nome;
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 }
  

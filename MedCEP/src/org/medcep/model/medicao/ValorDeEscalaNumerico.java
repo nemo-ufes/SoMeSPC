@@ -17,33 +17,22 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.validators;
+package org.medcep.model.medicao;
 
-import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
-import org.openxava.util.*;
-import org.openxava.validators.*;
+import javax.persistence.*;
 
-public class RecursoHumanoValidator implements IValidator { // Must implement IPropertyValidator (1)
-	
-	private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel; // Properties to be injected
-	
-	public void validate(Messages errors) throws Exception
-	{
-		if(tipoDeEntidadeMensuravel.getNome().compareTo("Recurso Humano")!=0)
-			errors.add("tipo_entidade_mensuravel_fixo");
-		
+@Entity
+public class ValorDeEscalaNumerico extends ValorDeEscala {
+ 
+	private float valorNumerico;
+
+	public float getValorNumerico() {
+		return valorNumerico;
 	}
 
-	public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel() {
-		return tipoDeEntidadeMensuravel;
+	public void setValorNumerico(float valor) {
+		this.valorNumerico = valor;
 	}
-
-	public void setTipoDeEntidadeMensuravel(
-			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel) {
-		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
-	}
-
-	
 	
 }
+ 

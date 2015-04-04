@@ -17,55 +17,31 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.model.medicao.planejamento;
+package org.medcep.model.medicao;
+
+import java.util.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
+import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
-
-
-/**
- * Números inteiros positivos; baixo, medio, alto;
- */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="valor; numerico"),
+	@View(members="nome"),
 	@View(name="Simple", members="nome")
 })
 @Tabs({
-	@Tab(properties="valor, numerico", defaultOrder="${valor} desc")
+	@Tab(properties="nome", defaultOrder="${nome} asc")
 })
-public class ValorDeEscala {
- 
+public class TipoElementoMensuravel {
+    
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
-	
-	@Column(length=500, unique=true) @Required 
-	private String valor;
-	
-	private boolean numerico;
-	
-	public String getValor() {
-		return valor;
-	}
-
-	public void setValor(String valor) {
-		this.valor = valor;
-	}
-
-	public boolean isNumerico() {
-		return numerico;
-	}
-
-	public void setNumerico(boolean numerico) {
-		this.numerico = numerico;
-	}
-
+    private String id;    
+    
 	public String getId() {
 		return id;
 	}
@@ -73,17 +49,31 @@ public class ValorDeEscala {
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+	@Column(length=500, unique=true) @Required
+	private String nome;
+	
+    @OneToMany(mappedBy="tipoElementoMensuravel")
+	private Collection<ElementoMensuravel> elementoMensuravel;
+
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public Collection<ElementoMensuravel> getElementoMensuravel() {
+		return elementoMensuravel;
+	}
+
+	public void setElementoMensuravel(
+			Collection<ElementoMensuravel> elementoMensuravel) {
+		this.elementoMensuravel = elementoMensuravel;
+	}
     
-	@ManyToOne
-	private Escala escala;
-
-	public Escala getEscala() {
-		return escala;
-	}
-
-	public void setEscala(Escala escala) {
-		this.escala = escala;
-	}
-
+    
 }
  

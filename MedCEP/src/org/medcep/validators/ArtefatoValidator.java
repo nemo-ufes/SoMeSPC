@@ -19,6 +19,7 @@
  */
 package org.medcep.validators;
 
+import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.openxava.util.*;
 import org.openxava.validators.*;

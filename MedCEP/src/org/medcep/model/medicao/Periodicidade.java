@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.model.medicao.planejamento;
+package org.medcep.model.medicao;
 
 import java.util.*;
 
@@ -25,45 +25,26 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
+import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
+/**
+ * Uma vez em cada projeto; Uma vez em cada ocorrência da atividade; 
+ */
 @Entity
 @Views({
-	@View(members="nome; descricao; elementoMensuravel"),
+	@View(members="nome; descricao"),
 	@View(name="Simple", members="nome"),
-	@View(name="SimpleNoFrame", members="nome"),
-	})
+})
 @Tabs({
 	@Tab(properties="nome", defaultOrder="${nome} asc")
 })
-public class TipoDeEntidadeMensuravel {
+public class Periodicidade {
  
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;   
+    private String id;    
     
-	@Column(length=500, unique=true) @Required
-	private String nome;
-
-	@Stereotype("TEXT_AREA")
-	@Column(columnDefinition="TEXT")
-	private String descricao;
-
-	@OneToMany(mappedBy="tipoDeEntidadeMensuravel")
-	private Collection<EntidadeMensuravel> entidadeMensuravel;
-	
-    @ManyToMany
-    @JoinTable(
-	      name="elementoMensuravel_tipoDeEntidadeMensuravel"
-	      , joinColumns={
-	    		  @JoinColumn(name="tipoDeEntidadeMensuravel_id")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="elementoMensuravel_id")
-	       }
-	      )
-	private Collection<ElementoMensuravel> elementoMensuravel;
-
 	public String getId() {
 		return id;
 	}
@@ -71,6 +52,13 @@ public class TipoDeEntidadeMensuravel {
 	public void setId(String id) {
 		this.id = id;
 	}
+ 
+    @Column(length=500, unique=true) @Required 
+    private String nome;
+	
+	@Stereotype("TEXT_AREA")	
+	@Column(columnDefinition="TEXT")
+	private String descricao;
 
 	public String getNome() {
 		return nome;
@@ -87,26 +75,33 @@ public class TipoDeEntidadeMensuravel {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	 
+	@OneToMany(mappedBy="periodicidadeDeMedicao")
+	private Collection<DefinicaoOperacionalDeMedida> periodicidadeDeMedicao;
+	 
+	@OneToMany(mappedBy="periodicidadeDeAnaliseDeMedicao")
+	private Collection<DefinicaoOperacionalDeMedida> periodicidadeDeAnaliseDeMedicao;
 
-	public Collection<EntidadeMensuravel> getEntidadeMensuravel() {
-		return entidadeMensuravel;
+	public Collection<DefinicaoOperacionalDeMedida> getPeriodicidadeDeMedicao() {
+		return periodicidadeDeMedicao;
 	}
 
-	public void setEntidadeMensuravel(
-			Collection<EntidadeMensuravel> entidadeMensuravel) {
-		this.entidadeMensuravel = entidadeMensuravel;
+	public void setPeriodicidadeDeMedicao(
+			Collection<DefinicaoOperacionalDeMedida> periodicidadeDeMedicao) {
+		this.periodicidadeDeMedicao = periodicidadeDeMedicao;
 	}
 
-	public Collection<ElementoMensuravel> getElementoMensuravel() {
-		return elementoMensuravel;
+	public Collection<DefinicaoOperacionalDeMedida> getPeriodicidadeDeAnaliseDeMedicao() {
+		return periodicidadeDeAnaliseDeMedicao;
 	}
 
-	public void setElementoMensuravel(
-			Collection<ElementoMensuravel> elementoMensuravel) {
-		this.elementoMensuravel = elementoMensuravel;
+	public void setPeriodicidadeDeAnaliseDemedicao(
+			Collection<DefinicaoOperacionalDeMedida> periodicidadeDeAnaliseDeMedicao) {
+		this.periodicidadeDeAnaliseDeMedicao = periodicidadeDeAnaliseDeMedicao;
 	}
 
-    
-    
+	
+	 
+	
 }
  

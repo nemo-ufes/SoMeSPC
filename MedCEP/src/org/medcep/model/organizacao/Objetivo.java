@@ -23,6 +23,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.openxava.annotations.*;
 

@@ -17,27 +17,56 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.model.medicao.planejamento;
-
-import java.util.*;
+package org.medcep.model.medicao;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
+import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
+
+
+/**
+ * Números inteiros positivos; baixo, medio, alto;
+ */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="nome"),
-	@View(name="Simple", members="nome"),
-	})
-public class TipoMedida {
-	 
+	@View(members="valor; numerico"),
+	@View(name="Simple", members="nome")
+})
+@Tabs({
+	@Tab(properties="valor, numerico", defaultOrder="${valor} desc")
+})
+public class ValorDeEscala {
+ 
 	@Id @GeneratedValue(generator="system-uuid") @Hidden
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;    
-    
+    private String id;
+	
+	@Column(length=500, unique=true) @Required 
+	private String valor;
+	
+	private boolean numerico;
+	
+	public String getValor() {
+		return valor;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
+
+	public boolean isNumerico() {
+		return numerico;
+	}
+
+	public void setNumerico(boolean numerico) {
+		this.numerico = numerico;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -46,28 +75,16 @@ public class TipoMedida {
 		this.id = id;
 	}
     
-	@Column(length=500, unique=true) @Required
-	private String nome;
-	
-    @OneToMany(mappedBy="tipoMedida")
-	private Collection<Medida> medida;
+	@ManyToOne
+	private Escala escala;
 
-	public String getNome() {
-		return nome;
+	public Escala getEscala() {
+		return escala;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setEscala(Escala escala) {
+		this.escala = escala;
 	}
 
-	public Collection<Medida> getMedida() {
-		return medida;
-	}
-
-	public void setMedida(Collection<Medida> medida) {
-		this.medida = medida;
-	}
- 
-    
 }
  

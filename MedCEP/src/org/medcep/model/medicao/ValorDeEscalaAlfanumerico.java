@@ -17,40 +17,22 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
-package org.medcep.model.medicao.planejamento;
+package org.medcep.model.medicao;
 
 import javax.persistence.*;
 
-import org.medcep.model.processo.*;
-import org.openxava.annotations.*;
-
-/**
- * Histograms and bar charts
- */
 @Entity
-@Views({
-	@View(members="nome, ehMetodoCEP; descricao"),
-	@View(name="Simple", members="nome")
-})
-@Tabs({
-	@Tab(properties="nome, ehMetodoCEP", defaultOrder="${nome} asc")
-})
-public class MetodoAnalitico extends Procedimento {
+public class ValorDeEscalaAlfanumerico extends ValorDeEscala {
     
-	private boolean ehMetodoCEP;
+	private String valor;
 
-	public boolean isEhMetodoCEP() {
-		return ehMetodoCEP;
+	public String getValor() {
+		return valor;
 	}
 
-	public void setEhMetodoCEP(boolean ehMetodoCEP) {
-		this.ehMetodoCEP = ehMetodoCEP;
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
-	 
-	/*private Collection<ProcedimentoDeAnaliseDeMedicao> procedimentoDeAnaliseDeMedicao;*/
-	 
-	//private Collection<AnaliseDeMedicao> analiseDeMedicao;
-	 
-	
+		 
 }
  

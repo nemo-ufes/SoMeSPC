@@ -18,12 +18,13 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
  */
 
-package org.medcep.model.medicao.planejamento;
+package org.medcep.model.medicao;
 
 import java.util.*;
 
 import javax.persistence.*;
 
+import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
