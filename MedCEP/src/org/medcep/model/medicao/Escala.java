@@ -70,7 +70,7 @@ public class Escala {
 	private Collection<Medida> medida;
 
 	@ManyToMany
-	@JoinTable(name = "escala_valorDeEscapa", joinColumns = { @JoinColumn(name = "escala_id") }, inverseJoinColumns = { @JoinColumn(name = "valorDeEscala_id") })
+	@JoinTable(name = "escala_valorDeEscala", joinColumns = { @JoinColumn(name = "escala_id") }, inverseJoinColumns = { @JoinColumn(name = "valorDeEscala_id") })
 	private Collection<ValorDeEscala> valorDeEscala;
 
 	public String getNome() {

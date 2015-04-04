@@ -49,7 +49,7 @@ public class ValorDeEscala {
 	private boolean numerico;
 
 	@ManyToMany
-	@JoinTable(name = "escala_valorDeEscapa", joinColumns = { @JoinColumn(name = "valorDeEscala_id") }, inverseJoinColumns = { @JoinColumn(name = "escala_id") })
+	@JoinTable(name = "escala_valorDeEscala", joinColumns = { @JoinColumn(name = "valorDeEscala_id") }, inverseJoinColumns = { @JoinColumn(name = "escala_id") })
 	private Collection<Escala> escala;
 
 	public String getValor() {
