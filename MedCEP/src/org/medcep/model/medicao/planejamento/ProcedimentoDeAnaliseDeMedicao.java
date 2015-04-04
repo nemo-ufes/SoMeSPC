@@ -24,6 +24,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.medcep.model.medicao.*;
+import org.medcep.model.medicao.analise.*;
 import org.medcep.model.processo.*;
 import org.openxava.annotations.*;
 
