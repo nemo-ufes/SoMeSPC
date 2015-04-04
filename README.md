@@ -18,26 +18,24 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 3. Criar um banco de dados no PostgreSQL chamado <b>"medcep"</b> e informar como dono o usuário <b>"postgres"</b>.
 4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira executar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
 5. Criar um arquivo `setenv.bat` no diretório C:\apache-tomcat-7.0.59\bin com o conteúdo: `set JAVA_OPTS=-Dfile.encoding=UTF-8 -Xms512m -Xmx2048m -XX:PermSize=256m -XX:MaxPermSize=1024m`. Isto aumentará a memória disponível para o Apache Tomcat.
-5. Descompactar o IDE Eclipse Luna.
-6. Executar o Eclipse.
-7. Clonar o repositório MedCEP do GitHub.
-8. Configurar o Apache Tomcat como servidor web no Eclipse (<b>Window -> Preferences -> Server -> Runtime Environments -> Add...</b>). 
-9. Na aba Server (parte inferior do Eclipse), dar duplo clique em <b>Tomcat v7 Server</b>. No arquivo que abrir, selecionar a opção <b>"Use Tomcat Installation (takes control of Tomcat installation)"</b> na área Server Locations. 
-10. Iniciar o Apache Tomcat.
-11. Abrir a pasta do projeto MedCEP no IDE Eclipse.
-12. Procurar pelo arquivo <b>build.xml</b>.
-13. Clicar com o botão direito do mouse, selecionar <b>"Run as"</b> e escolher a 3º opção <b>"Ant Build..."</b>.
-14. Defina um nome, por exemplo <b>"MedCEP.Implantar"</b>, depois clique em <b>Apply</b>.
-15. Clique em <b>Run</b>.
-16. Executar a Ant Build <b>MedCEP.Implantar</b>.
-17. Abrir a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
-
-Obs.: Caso, após a instrução 17, não tenha sido possível abrir a aplicação através da URL via browser, faça:
-
-1. Pare o Apache Tomcat.
-2. Inicie novamente o Apache Tomcat.
-3. Execute a Ant Build <b>MedCEP.Implantar</b>.
-4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
+6. Descompactar o IDE Eclipse Luna.
+7. Executar o Eclipse.
+8. Clonar o repositório MedCEP do GitHub.
+9. Configurar o Apache Tomcat como servidor web no Eclipse (<b>Window -> Preferences -> Server -> Runtime Environments -> Add...</b>). 
+10. Na aba Server (parte inferior do Eclipse), dar duplo clique em <b>Tomcat v7 Server</b>. No arquivo que abrir, selecionar a opção <b>"Use Tomcat Installation (takes control of Tomcat installation)"</b> na área Server Locations. 
+11. Iniciar o Apache Tomcat.
+12. Abrir a pasta do projeto MedCEP no IDE Eclipse.
+13. Procurar pelo arquivo <b>build.xml</b>.
+14. Clicar com o botão direito do mouse, selecionar <b>"Run as"</b> e escolher a 3º opção <b>"Ant Build..."</b>.
+15. Defina um nome, por exemplo <b>"MedCEP.Implantar"</b>, depois clique em <b>Apply</b>.
+16. Clique em <b>Run</b>.
+17. Executar a Ant Build <b>MedCEP.Implantar</b>.
+18. Abrir a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP). Caso não tenha sido possível abrir a aplicação através da URL via browser, faça:
+ 1. Pare o Apache Tomcat.
+ 2. Inicie novamente o Apache Tomcat.
+ 3. Execute a Ant Build <b>MedCEP.Implantar</b>.
+ 4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
+19. Abrir o PgAdmin (ferramenta para administração do banco de dados PostgreSQL) e executar a SQL no arquivo MedCEP/Persistence/script.sql, para inicializar o banco de dados.
 
 ##Configuração do Sonar
 ###Requisitos
