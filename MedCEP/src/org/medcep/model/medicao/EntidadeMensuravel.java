@@ -25,19 +25,15 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
-import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel"),
+	@View(members="nome; tipoDeEntidadeMensuravel; descricao; elementosMensuraveis"),
 	@View(name="Simple", members="nome"),
 	@View(name="SimpleNoFrame", members="nome"),
 	})
-//@Tab(properties="nome")
-//@Tab(properties="nome", baseCondition="TYPE(e) = EntidadeMensuravel", defaultOrder="${nome} asc")
 @Tab(properties="nome, tipoDeEntidadeMensuravel.nome", defaultOrder="${nome} asc")
 public class EntidadeMensuravel {
  
@@ -54,9 +50,10 @@ public class EntidadeMensuravel {
 	
 	@ManyToOne 
 	@Required
+	@NoModify
 	@DescriptionsList(descriptionProperties="nome") 
 	protected TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-
+	
 	public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel() {
 		return tipoDeEntidadeMensuravel;
 	}
@@ -65,24 +62,17 @@ public class EntidadeMensuravel {
 			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel) {
 		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
 	}	 
+		
+	@Transient
+	@ReadOnly
+	@ElementCollection
+	public Collection<ElementoMensuravel> getElementosMensuraveis() {
+		return tipoDeEntidadeMensuravel.getElementoMensuravel();
+	}
 	
-    @ManyToMany
-    @JoinTable(
-	      name="elementoMensuravel_entidadeMensuravel"
-	      , joinColumns={
-	    		  @JoinColumn(name="entidadeMensuravel_id")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="elementoMensuravel_id")
-	       }
-	      )
-/*    @Condition(
-      		 "${id} = ${this.tipoDeEntidadeMensuravel.id}"
-      		)*/
-    @NewAction("EntidadeMensuravel.AddElementoMensuravel")
-    @ListProperties("nome")
-	private Collection<ElementoMensuravel> elementoMensuravel;
-    
+	public void setElementosMensuraveis(Collection<ElementoMensuravel> elementosMensuraveis){		
+	}
+	
 	public String getId() {
 		return id;
 	}
@@ -106,16 +96,7 @@ public class EntidadeMensuravel {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
-	public Collection<ElementoMensuravel> getElementoMensuravel() {
-		return elementoMensuravel;
-	}
-
-	public void setElementoMensuravel(
-			Collection<ElementoMensuravel> elementoMensuravel) {
-		this.elementoMensuravel = elementoMensuravel;
-	}
-
+		
 	@OneToMany(mappedBy="entidadeMensuravel")
 	private Collection<Medicao> medicao;
 
@@ -126,36 +107,7 @@ public class EntidadeMensuravel {
 	public void setMedicao(Collection<Medicao> medicao) {
 		this.medicao = medicao;
 	}
-	
-/*	public String getTipo(){
-		return getTipoDeEntidadeMensuravel().getNome();
-	}
-*/
-	/*		 
-	private Collection<AnaliseDeMedicao> analiseDeMedicao;*/
-	
-	@PreCreate
-	@PreUpdate
-	public void ajustaElementosMensuraveis(){
-		if(elementoMensuravel == null)
-			elementoMensuravel = new ArrayList<ElementoMensuravel>();
-		
-		if(tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
-		{
-			boolean add;
-			for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel()) {
-				add = true;
-				for (ElementoMensuravel elem : elementoMensuravel) {
-					if(elem.getNome().compareTo(elemTipo.getNome())==0){
-						add = false;
-						break;
-					}
-				}
-				if(add)
-					elementoMensuravel.add(elemTipo);
-			}//elemTipo
-		}
-	}//ajusta
-	 
+
+
 }
  

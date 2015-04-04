@@ -25,7 +25,6 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.openxava.annotations.*;
 
 /**
@@ -107,6 +106,7 @@ public class Escala {
 		this.medida = medida;
 	}
 
+	@CollectionView("Simple")
 	public Collection<ValorDeEscala> getValorDeEscala() {
 		return valorDeEscala;
 	}

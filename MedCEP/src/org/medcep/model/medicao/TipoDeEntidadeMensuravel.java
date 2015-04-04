@@ -25,13 +25,13 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
-import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
 	@View(members="nome; descricao; elementoMensuravel"),
 	@View(name="Simple", members="nome"),
+	@View(name="elementosMensuraveis", members="nome; elementoMensuravel"),
 	@View(name="SimpleNoFrame", members="nome"),
 	})
 @Tabs({

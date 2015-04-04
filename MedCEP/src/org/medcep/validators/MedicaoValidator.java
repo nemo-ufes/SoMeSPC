@@ -31,6 +31,7 @@ public class MedicaoValidator implements IValidator {
 	
 	public void validate(Messages errors) throws Exception
 	{
+		/*
 		ElementoMensuravel elem = medidaPlanoDeMedicao.getMedida().getElementoMensuravel();
 		
 		boolean possui = false;
@@ -44,7 +45,8 @@ public class MedicaoValidator implements IValidator {
 				}
 			}
 		if(possui == false)
-			errors.add("entidade_mensuravel_ter_elementos_da_medida");		
+			errors.add("entidade_mensuravel_ter_elementos_da_medida");	
+			*/	
 	}
 
 	public MedidaPlanoDeMedicao getMedidaPlanoDeMedicao() {

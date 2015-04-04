@@ -14,6 +14,7 @@
 	        image="images/save.gif"
 	        keystroke="Control S">
 	        <set property="resetAfter" value="false"/>
+	        <set property="refreshAfter" value="true"/>
 	    </action>
 	</controller>
 	

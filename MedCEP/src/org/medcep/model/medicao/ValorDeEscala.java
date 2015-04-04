@@ -23,7 +23,6 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
-import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
 
@@ -38,7 +37,7 @@ import org.openxava.annotations.*;
 	@View(name="Simple", members="nome")
 })
 @Tabs({
-	@Tab(properties="valor, numerico", defaultOrder="${valor} desc")
+	@Tab(properties="valor, numerico", defaultOrder="${valor} asc")
 })
 public class ValorDeEscala {
  
