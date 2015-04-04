@@ -19,37 +19,39 @@
  */
 package org.medcep.model.medicao;
 
+import java.util.*;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
 
-
-
 /**
  * Números inteiros positivos; baixo, medio, alto;
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Views({
-	@View(members="valor; numerico"),
-	@View(name="Simple", members="nome")
-})
-@Tabs({
-	@Tab(properties="valor, numerico", defaultOrder="${valor} asc")
-})
+@Views({ @View(members = "valor; numerico"),
+		@View(name = "Simple", members = "nome") })
+@Tabs({ @Tab(properties = "valor, numerico", defaultOrder = "${valor} asc") })
 public class ValorDeEscala {
- 
-	@Id @GeneratedValue(generator="system-uuid") @Hidden
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;
-	
-	@Column(length=500, unique=true) @Required 
+
+	@Id
+	@GeneratedValue(generator = "system-uuid")
+	@Hidden
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	private String id;
+
+	@Column(length = 500, unique = true)
+	@Required
 	private String valor;
-	
+
 	private boolean numerico;
-	
+
+	@ManyToMany
+	@JoinTable(name = "escala_valorDeEscapa", joinColumns = { @JoinColumn(name = "valorDeEscala_id") }, inverseJoinColumns = { @JoinColumn(name = "escala_id") })
+	private Collection<Escala> escala;
+
 	public String getValor() {
 		return valor;
 	}
@@ -73,17 +75,13 @@ public class ValorDeEscala {
 	public void setId(String id) {
 		this.id = id;
 	}
-    
-	@ManyToOne
-	private Escala escala;
 
-	public Escala getEscala() {
+	public Collection<Escala> getEscala() {
 		return escala;
 	}
 
-	public void setEscala(Escala escala) {
+	public void setEscala(Collection<Escala> escala) {
 		this.escala = escala;
 	}
 
 }
- 

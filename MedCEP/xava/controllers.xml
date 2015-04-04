@@ -70,42 +70,12 @@
 			image="edit.gif"/>
 	</controller>
 	
-	<!-- problema dos botoes de pdf e excel na treeview -->
-<!-- 	<controller name="DefaultListActionsForCollections"> 
-	</controller> -->
-
 	<!-- tentativa de sobrescrever o comportamento de change section no CEP -->	
 	<controller name="Sections">
 		<action name="change" class="org.openxava.actions.ChangeSectionAction" keystroke="Control 1..9"/>
 		<!-- <action name="change" class="org.medcep.actions.OnChangeSectionCEPAction" keystroke="Control 1..9"/> -->
 	</controller>
-	
-	
 		
-	<!-- Não é mais usada pois se considera que a def usada é a mesma da medida do plano medicao -->	
-	<!-- <controller name="Medicao">
-		<extends controller="Typical" />
-		<action name="searchDefinicaoOperacional"
-			class="org.medcep.actions.SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction" 
-			hidden="true" image="images/search.gif"/>
-		<action name="searchEntidadeMensuravel"
-			class="org.medcep.actions.SearchEntidadeMensuravelAction" 
-			hidden="true" image="images/search.gif"/>
-	</controller> -->
-	
-	<!-- 	
-	<controller name="PlanoTreeItem">
-		<extends controller="Typical" />
-		<action name="searchPlanoTreeItemNome"
-			class="org.medcep.actions.SearchItemForTreePlanoMedicaoAction"
-			hidden="true" image="images/search.gif"/>
-	</controller> -->
-	
-	
-			<!-- <action name="CalcularCapacidade"
-			class="org.openxava.actions.CalcularCapacidadeAction"/> -->
-	
-	
 	<!-- DEFINITIVOS -->
 	<!-- ======================================================================================================== -->
 	

@@ -25,8 +25,6 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
-import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.openxava.annotations.*;
 
 @Entity
@@ -106,15 +104,6 @@ public class ElementoMensuravel {
 		this.subelemento = subelemento;
 	}
 
-	public Collection<EntidadeMensuravel> getEntidadeMensuravel() {
-		return entidadeMensuravel;
-	}
-
-	public void setEntidadeMensuravel(
-			Collection<EntidadeMensuravel> entidadeMensuravel) {
-		this.entidadeMensuravel = entidadeMensuravel;
-	}
-
 	@OneToMany(mappedBy="elementoMensuravel")
 	private Collection<Medida> medida;
 
@@ -141,19 +130,8 @@ public class ElementoMensuravel {
 	       }
 	      )
 	private Collection<TipoDeEntidadeMensuravel> tipoDeEntidadeMensuravel;
-	
-    @ManyToMany
-    @JoinTable(
-	      name="elementoMensuravel_entidadeMensuravel"
-	      , joinColumns={
-	    		  @JoinColumn(name="elementoMensuravel_id")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="entidadeMensuravel_id")
-	       }
-	      )
-	private Collection<EntidadeMensuravel> entidadeMensuravel;
-	
+
+
 	@OneToMany(mappedBy="elementoMensuravel")
 	private Collection<Medicao> medicao;
 

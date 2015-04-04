@@ -28,23 +28,21 @@ import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
 
 /**
- * Escala que caracteriza o grau de experiência de um Analista de
- * Sistemas considerando-se as características de um projeto.
+ * Escala que caracteriza o grau de experiência de um Analista de Sistemas
+ * considerando-se as características de um projeto.
  */
 @Entity
-@Views({
-	@View(members="nome; tipoEscala; descricao; valorDeEscala"),
-	@View(name="Simple", members="nome"),
-	})
-@Tabs({
-	@Tab(properties="nome, tipoEscala.nome", defaultOrder="${nome} asc")
-})
+@Views({ @View(members = "nome; tipoEscala; descricao; valorDeEscala"),
+		@View(name = "Simple", members = "nome"), })
+@Tabs({ @Tab(properties = "nome, tipoEscala.nome", defaultOrder = "${nome} asc") })
 public class Escala {
- 
-	@Id @GeneratedValue(generator="system-uuid") @Hidden
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;    
-    
+
+	@Id
+	@GeneratedValue(generator = "system-uuid")
+	@Hidden
+	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	private String id;
+
 	public String getId() {
 		return id;
 	}
@@ -52,26 +50,27 @@ public class Escala {
 	public void setId(String id) {
 		this.id = id;
 	}
- 
-    @Column(length=500, unique=true) 
-    @Required 
-    private String nome;
-    
+
+	@Column(length = 500, unique = true)
+	@Required
+	private String nome;
+
 	@Stereotype("TEXT_AREA")
-	@Column(columnDefinition="TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String descricao;
-	 
+
 	@ManyToOne
-	@DescriptionsList(descriptionProperties="nome") 
-	@Required 
-	@NoCreate 
+	@DescriptionsList(descriptionProperties = "nome")
+	@Required
+	@NoCreate
 	@NoModify
 	private TipoEscala tipoEscala;
-	
-	@OneToMany(mappedBy="escala")
+
+	@OneToMany(mappedBy = "escala")
 	private Collection<Medida> medida;
-	 
-	@OneToMany(mappedBy="escala")
+
+	@ManyToMany
+	@JoinTable(name = "escala_valorDeEscapa", joinColumns = { @JoinColumn(name = "escala_id") }, inverseJoinColumns = { @JoinColumn(name = "valorDeEscala_id") })
 	private Collection<ValorDeEscala> valorDeEscala;
 
 	public String getNome() {
@@ -106,7 +105,6 @@ public class Escala {
 		this.medida = medida;
 	}
 
-	@CollectionView("Simple")
 	public Collection<ValorDeEscala> getValorDeEscala() {
 		return valorDeEscala;
 	}
@@ -114,19 +112,14 @@ public class Escala {
 	public void setValorDeEscala(Collection<ValorDeEscala> valorDeEscala) {
 		this.valorDeEscala = valorDeEscala;
 	}
-	 
-	public boolean isNumerico()
-	{
-		if( tipoEscala != null
-			&& tipoEscala.getNome().compareTo("Absoluta") == 0 
-			|| tipoEscala.getNome().compareTo("Taxa") == 0)
-		{
+
+	public boolean isNumerico() {
+		if (tipoEscala != null
+				&& tipoEscala.getNome().compareTo("Absoluta") == 0
+				|| tipoEscala.getNome().compareTo("Taxa") == 0) {
 			return true;
-		}
-		else
-		{
-			return false;			
+		} else {
+			return false;
 		}
 	}
 }
- 
