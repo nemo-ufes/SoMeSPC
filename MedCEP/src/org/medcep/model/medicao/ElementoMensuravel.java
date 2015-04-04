@@ -51,8 +51,8 @@ public class ElementoMensuravel {
 	
 	@ManyToOne 
 	@DescriptionsList(descriptionProperties="nome")
-	//@NoCreate
-	//@NoModify
+	@NoCreate
+	@NoModify
 	@Required
 	private TipoElementoMensuravel tipoElementoMensuravel;
 
