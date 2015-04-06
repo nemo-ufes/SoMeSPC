@@ -45,6 +45,7 @@
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/medcep" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />            
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.jdbc.factory_class" value="org.hibernate.jdbc.NonBatchingBatcherFactory"/>            
         </properties>
     </persistence-unit>
 	

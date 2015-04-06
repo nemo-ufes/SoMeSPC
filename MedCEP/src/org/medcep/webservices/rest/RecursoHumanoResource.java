@@ -52,9 +52,6 @@ public class RecursoHumanoResource
 
 	Response response;
 
-	 if (!XPersistence.getManager().getTransaction().isActive())
-		XPersistence.getManager().getTransaction().begin();	
-	
 	if (id == null || id.isEmpty())
 	    response = Response.status(Status.BAD_REQUEST).build();
 
@@ -73,10 +70,7 @@ public class RecursoHumanoResource
     public Response getAll()
     {
 	Response response;
-	
-	 if (!XPersistence.getManager().getTransaction().isActive())
-		XPersistence.getManager().getTransaction().begin();
-	
+
 	TypedQuery<RecursoHumano> query = XPersistence.getManager().createQuery("FROM RecursoHumano", RecursoHumano.class);
 	List<RecursoHumano> result = query.getResultList();
 
@@ -96,32 +90,38 @@ public class RecursoHumanoResource
 	try
 	{
 	    Response response;
+	    EntityManager manager = XPersistence.createManager();
 
-	    if (!XPersistence.getManager().getTransaction().isActive())
-		XPersistence.getManager().getTransaction().begin();
-		
 	    if (recursoHumano == null || recursoHumano.getId() != null)
 	    {
 		response = Response.status(Status.BAD_REQUEST).build();
 	    }
-	    else if (XPersistence.getManager().contains(recursoHumano))
+	    else if (manager.contains(recursoHumano))
 	    {
 		response = Response.status(Status.CONFLICT).build();
 	    }
 	    else
 	    {
-		XPersistence.getManager().persist(recursoHumano);
-		XPersistence.getManager().getTransaction().commit();
-		URI location = new URI(String.format("%s/%s", uriInfo.getAbsolutePath().toString(), recursoHumano.getId()));
-		response = Response.created(location).entity(recursoHumano).build();
+		try
+		{
+		    manager.getTransaction().begin();
+		    manager.persist(recursoHumano);
+		    manager.getTransaction().commit();
+		    URI location = new URI(String.format("%s/%s", uriInfo.getAbsolutePath().toString(), recursoHumano.getId()));
+		    response = Response.created(location).entity(recursoHumano).build();
+		}
+		finally
+		{
+		    manager.close();
+		}
 	    }
 
 	    return response;
 	}
 	catch (Exception ex)
 	{
-	    if (ex.getCause() != null && 
-		    ex.getCause().getCause() != null && 
+	    if (ex.getCause() != null &&
+		    ex.getCause().getCause() != null &&
 		    ex.getCause().getCause() instanceof ConstraintViolationException)
 		return Response.status(Status.CONFLICT).build();
 
@@ -137,17 +137,23 @@ public class RecursoHumanoResource
 	try
 	{
 	    Response response;
-	    
-	    if (!XPersistence.getManager().getTransaction().isActive())
-		XPersistence.getManager().getTransaction().begin();
-	    
+	    EntityManager manager = XPersistence.createManager();
+
 	    if (recursoHumano == null || recursoHumano.getId() == null || recursoHumano.getId().isEmpty())
 		response = Response.status(Status.BAD_REQUEST).build();
 	    else
 	    {
-		XPersistence.getManager().merge(recursoHumano);
-		XPersistence.getManager().getTransaction().commit();
-		response = Response.status(Status.OK).build();
+		try
+		{
+		    manager.getTransaction().begin();
+		    manager.merge(recursoHumano);
+		    manager.getTransaction().commit();
+		    response = Response.status(Status.OK).build();
+		}
+		finally
+		{
+		    manager.close();
+		}
 	    }
 
 	    return response;
@@ -167,19 +173,25 @@ public class RecursoHumanoResource
 	try
 	{
 	    Response response;
-	    
-	    if (!XPersistence.getManager().getTransaction().isActive())
-		XPersistence.getManager().getTransaction().begin();
-	    
-	    RecursoHumano recursoHumano = XPersistence.getManager().find(RecursoHumano.class, id);
+	    EntityManager manager = XPersistence.createManager();
+
+	    RecursoHumano recursoHumano = manager.find(RecursoHumano.class, id);
 
 	    if (recursoHumano == null)
 		response = Response.status(Status.OK).build();
 	    else
 	    {
-		XPersistence.getManager().remove(recursoHumano);
-		XPersistence.getManager().getTransaction().commit();
-		response = Response.status(Status.OK).build();
+		try
+		{
+		    manager.getTransaction().begin();
+		    manager.remove(recursoHumano);
+		    manager.getTransaction().commit();
+		    response = Response.status(Status.OK).build();
+		}
+		finally
+		{
+		    manager.close();
+		}
 	    }
 
 	    return response;
