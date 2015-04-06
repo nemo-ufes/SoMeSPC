@@ -35,6 +35,7 @@ import org.openxava.annotations.*;
 			+"tipoMedida; "
 			+"escala; "
 			+"unidadeDeMedida; "
+			+"descricao; "
 			+"elementoMensuravel; "
 			+"tipoDeEntidadeMensuravel; "			
 			+"medidasCorrelatas; "
@@ -80,6 +81,8 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 	//@Editor("ValidValuesRadioButton")
 	@DescriptionsList(descriptionProperties="nome", order="${nome} asc")
 	private TipoMedida tipoMedida;
+	
+	
 
     @ManyToMany 
     @JoinTable(
@@ -121,7 +124,7 @@ public class Medida extends TreeItemPlanoMedicaoBase {
 	@ManyToOne 
 	@DescriptionsList(descriptionProperties="nome") 
 	private UnidadeDeMedida unidadeDeMedida;
-	
+
     @ManyToMany 
     @JoinTable(
 	      name="medida_correlatas"
