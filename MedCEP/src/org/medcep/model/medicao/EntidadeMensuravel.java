@@ -65,7 +65,6 @@ public class EntidadeMensuravel {
 		
 	@Transient
 	@ReadOnly
-	@ElementCollection
 	public Collection<ElementoMensuravel> getElementosMensuraveis() {
 		return tipoDeEntidadeMensuravel.getElementoMensuravel();
 	}
