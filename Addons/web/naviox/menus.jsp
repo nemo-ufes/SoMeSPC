@@ -23,12 +23,12 @@ border-radius: 7px;
 						<li id="ObjetivoEstrategico"><a href="<%=request.getContextPath()%>/m/ObjetivoEstrategico"> Objetivo Estratégico</a></li>
 						<li id="ObjetivoDeSoftware"><a href="<%=request.getContextPath()%>/m/ObjetivoDeSoftware"> Objetivo de Software</a></li>
 						<li id="ObjetivoDeMedicao"><a href="<%=request.getContextPath()%>/m/ObjetivoDeMedicao"> Objetivo de Medição</a></li>	
-						<li id="ProcessoPadrao"><a href="<%=request.getContextPath()%>/m/ProcessoPadrao"> Processo Padrão</a></li>
+						<li id="ProcessoPadrao"><a href="<%=request.getContextPath()%>/m/ProcessoPadrao"> Processo de Software Padrão</a></li>
 						<li id="AtividadePadrao"><a href="<%=request.getContextPath()%>/m/AtividadePadrao"> Atividade Padrão</a></li>
-						<li id="ProcessoInstanciado"><a href="<%=request.getContextPath()%>/m/ProcessoInstanciado"> Processo Instanciado</a></li>
-						<li id="AtividadeInstanciada"><a href="<%=request.getContextPath()%>/m/AtividadeInstanciada"> Atividade Instanciada</a></li>
-						<li id="ProcessoDeProjeto"><a href="<%=request.getContextPath()%>/m/ProcessoDeProjeto"> Processo de Projeto</a></li>
+						<li id="ProcessoDeProjeto"><a href="<%=request.getContextPath()%>/m/ProcessoDeProjeto"> Processo de Software em Projeto</a></li>
 						<li id="AtividadeDeProjeto"><a href="<%=request.getContextPath()%>/m/AtividadeDeProjeto"> Atividade de Projeto</a></li>
+						<li id="ProcessoInstanciado"><a href="<%=request.getContextPath()%>/m/ProcessoInstanciado"> Ocorrência de Processo de Software</a></li>
+						<li id="AtividadeInstanciada"><a href="<%=request.getContextPath()%>/m/AtividadeInstanciada"> Ocorrência de Atividade</a></li>
 						<li id="TipoDeArtefato"><a href="<%=request.getContextPath()%>/m/TipoDeArtefato"> Tipo de Artefato</a></li>
 						<li id="Artefato"><a href="<%=request.getContextPath()%>/m/Artefato"> Artefato</a></li>					
 						<li id="Procedimento"><a href="<%=request.getContextPath()%>/m/Procedimento"> Procedimento</a></li>	

@@ -25,7 +25,6 @@ import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
@@ -104,7 +103,7 @@ public class ProcessoInstanciado extends EntidadeMensuravel {
 	@DefaultValueCalculator(
 		value=TipoDeEntidadeMensuravelCalculator.class,
 		properties={
-			 @PropertyValue(name="nomeEntidade", value="Processo de Software Instanciado")
+			 @PropertyValue(name="nomeEntidade", value="Ocorrência de Processo de Software")
 			 }
 	)
 	private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
