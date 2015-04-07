@@ -40,7 +40,6 @@ border-radius: 7px;
 				</li>
 				<li class="jstree-close">Medição
 					<ul>												
-						<li id="EntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/EntidadeMensuravel"> Entidade Mensurável</a></li>
 						<li id="TipoDeEntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/TipoDeEntidadeMensuravel"> Tipo de Entidade Mensurável</a></li>
 						<li id="ElementoMensuravel"><a href="<%=request.getContextPath()%>/m/ElementoMensuravel"> Elemento Mensurável</a></li>						
 						<li id="TipoElementoMensuravel"><a href="<%=request.getContextPath()%>/m/TipoElementoMensuravel"> Tipo de Elemento Mensurável</a></li>	
