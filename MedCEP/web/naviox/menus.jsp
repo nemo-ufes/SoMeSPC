@@ -22,11 +22,7 @@ border-radius: 7px;
 						<li id="Equipe"><a href="<%=request.getContextPath()%>/m/Equipe"> Equipe</a></li>
 						<li id="ObjetivoEstrategico"><a href="<%=request.getContextPath()%>/m/ObjetivoEstrategico"> Objetivo Estratégico</a></li>
 						<li id="ObjetivoDeSoftware"><a href="<%=request.getContextPath()%>/m/ObjetivoDeSoftware"> Objetivo de Software</a></li>
-						<li id="ObjetivoDeMedicao"><a href="<%=request.getContextPath()%>/m/ObjetivoDeMedicao"> Objetivo de Medição</a></li>						
-					</ul>
-				</li>
-				<li class="jstree-close">Processos
-					<ul>
+						<li id="ObjetivoDeMedicao"><a href="<%=request.getContextPath()%>/m/ObjetivoDeMedicao"> Objetivo de Medição</a></li>	
 						<li id="ProcessoPadrao"><a href="<%=request.getContextPath()%>/m/ProcessoPadrao"> Processo Padrão</a></li>
 						<li id="AtividadePadrao"><a href="<%=request.getContextPath()%>/m/AtividadePadrao"> Atividade Padrão</a></li>
 						<li id="ProcessoInstanciado"><a href="<%=request.getContextPath()%>/m/ProcessoInstanciado"> Processo Instanciado</a></li>
@@ -39,8 +35,8 @@ border-radius: 7px;
 					</ul>					
 				</li>
 				<li class="jstree-close">Medição
-					<ul>												
-						<li id="EntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/EntidadeMensuravel"> Entidade Mensurável</a></li>
+					<ul>
+						<li id="EntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/EntidadeMensuravel"> Entidade Mensurável</a></li>												
 						<li id="TipoDeEntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/TipoDeEntidadeMensuravel"> Tipo de Entidade Mensurável</a></li>
 						<li id="ElementoMensuravel"><a href="<%=request.getContextPath()%>/m/ElementoMensuravel"> Elemento Mensurável</a></li>						
 						<li id="TipoElementoMensuravel"><a href="<%=request.getContextPath()%>/m/TipoElementoMensuravel"> Tipo de Elemento Mensurável</a></li>	
