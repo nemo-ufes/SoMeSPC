@@ -20,7 +20,6 @@
 package org.medcep.validators;
 
 import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.openxava.util.*;
 import org.openxava.validators.*;
 
@@ -30,7 +29,7 @@ public class ProcessoDeProjetoValidator implements IValidator { // Must implemen
 	
 	public void validate(Messages errors) throws Exception
 	{
-		if(tipoDeEntidadeMensuravel.getNome().compareTo("Processo de Software de Projeto")!=0)
+		if(tipoDeEntidadeMensuravel.getNome().compareTo("Processo de Software em Projeto")!=0)
 			errors.add("tipo_entidade_mensuravel_fixo");
 		
 	}

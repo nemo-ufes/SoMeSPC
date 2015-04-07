@@ -20,7 +20,6 @@
 package org.medcep.validators;
 
 import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.openxava.util.*;
 import org.openxava.validators.*;
 
@@ -30,7 +29,7 @@ public class AtividadeInstanciadaValidator implements IValidator { // Must imple
 	
 	public void validate(Messages errors) throws Exception
 	{
-		if(tipoDeEntidadeMensuravel.getNome().compareTo("Atividade Instanciada")!=0)
+		if(tipoDeEntidadeMensuravel.getNome().compareTo("Ocorrência de Atividade")!=0)
 			errors.add("tipo_entidade_mensuravel_fixo");
 		
 	}

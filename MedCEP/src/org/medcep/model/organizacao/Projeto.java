@@ -1,21 +1,21 @@
 /*
-    MedCEP - A powerful tool for measure
-    
-    Copyright (C) 2013 Ciro Xavier Maretto
-    Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
+ * MedCEP - A powerful tool for measure
+ * 
+ * Copyright (C) 2013 Ciro Xavier Maretto
+ * Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>.
  */
 package org.medcep.model.organizacao;
 
@@ -31,157 +31,156 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; dataInicio, dataFim; equipe; objetivo; elementoMensuravel; criterioDeProjeto;"),
-	@View(name="Simple", members="nome"),
-	@View(name="SimpleNoFrame", members="nome")
-	})
-@Tab(properties="nome, dataInicio, dataFim", defaultOrder="${nome} asc")
-public class Projeto extends EntidadeMensuravel {
-    
-	public Collection<CriterioDeProjeto> getCriterioDeProjeto() {
-		return criterioDeProjeto;
-	}
+	@View(members = "nome; tipoDeEntidadeMensuravel; dataInicio, dataFim; equipe; objetivo; elementoMensuravel; criterioDeProjeto;"),
+	@View(name = "Simple", members = "nome"),
+	@View(name = "SimpleNoFrame", members = "nome")
+})
+@Tab(properties = "nome, dataInicio, dataFim", defaultOrder = "${nome} asc")
+public class Projeto extends EntidadeMensuravel
+{
 
-	public void setCriterioDeProjeto(Collection<CriterioDeProjeto> criterioDeProjeto) {
-		this.criterioDeProjeto = criterioDeProjeto;
-	}
+    public Collection<CriterioDeProjeto> getCriterioDeProjeto()
+    {
+	return criterioDeProjeto;
+    }
 
-	private Date dataInicio;
-	 
-	private Date dataFim;
+    public void setCriterioDeProjeto(Collection<CriterioDeProjeto> criterioDeProjeto)
+    {
+	this.criterioDeProjeto = criterioDeProjeto;
+    }
 
-	public Date getDataInicio() {
-		return dataInicio;
-	}
+    private Date dataInicio;
 
-	public void setDataInicio(Date dataInicio) {
-		this.dataInicio = dataInicio;
-	}
+    private Date dataFim;
 
-	public Date getDataFim() {
-		return dataFim;
-	}
+    public Date getDataInicio()
+    {
+	return dataInicio;
+    }
 
-	public void setDataFim(Date dataFim) {
-		this.dataFim = dataFim;
-	}
-	
-	@OneToMany(mappedBy="projeto")
-	private Collection<PlanoDeMedicaoDoProjeto> planoDeMedicaoDoProjeto;
+    public void setDataInicio(Date dataInicio)
+    {
+	this.dataInicio = dataInicio;
+    }
 
-    @ManyToMany 
+    public Date getDataFim()
+    {
+	return dataFim;
+    }
+
+    public void setDataFim(Date dataFim)
+    {
+	this.dataFim = dataFim;
+    }
+
+    @OneToMany(mappedBy = "projeto")
+    private Collection<PlanoDeMedicaoDoProjeto> planoDeMedicaoDoProjeto;
+
+    @ManyToMany
     @JoinTable(
-  	      name="objetivo_projeto"
-  	      , joinColumns={
-  	    		  @JoinColumn(name="objetivo_id")
-  	       }
-  	      , inverseJoinColumns={
-  	    		  @JoinColumn(name="projeto_id")
-  	       }
-  	      )
+	    name = "objetivo_projeto"
+	    , joinColumns = {
+		    @JoinColumn(name = "objetivo_id")
+	    }
+	    , inverseJoinColumns = {
+		    @JoinColumn(name = "projeto_id")
+	    })
     @ListProperties("nome")
-	private Collection<Objetivo> objetivo;
+    private Collection<Objetivo> objetivo;
 
-	public Collection<PlanoDeMedicaoDoProjeto> getPlanoDeMedicaoDoProjeto() {
-		return planoDeMedicaoDoProjeto;
-	}
+    public Collection<PlanoDeMedicaoDoProjeto> getPlanoDeMedicaoDoProjeto()
+    {
+	return planoDeMedicaoDoProjeto;
+    }
 
-	public void setPlanoDeMedicaoDoProjeto(
-			Collection<PlanoDeMedicaoDoProjeto> planoDeMedicaoDoProjeto) {
-		this.planoDeMedicaoDoProjeto = planoDeMedicaoDoProjeto;
-	}
+    public void setPlanoDeMedicaoDoProjeto(
+	    Collection<PlanoDeMedicaoDoProjeto> planoDeMedicaoDoProjeto)
+    {
+	this.planoDeMedicaoDoProjeto = planoDeMedicaoDoProjeto;
+    }
 
-	public Collection<Objetivo> getObjetivo() {
-		return objetivo;
-	}
+    public Collection<Objetivo> getObjetivo()
+    {
+	return objetivo;
+    }
 
-	public void setObjetivo(Collection<Objetivo> objetivo) {
-		this.objetivo = objetivo;
-	}
-    
-    @ManyToMany 
+    public void setObjetivo(Collection<Objetivo> objetivo)
+    {
+	this.objetivo = objetivo;
+    }
+
+    @ManyToMany
     @JoinTable(
-  	      name="equipe_projeto"
-  	      , joinColumns={
-  	    		  @JoinColumn(name="projeto_id")
-  	       }
-  	      , inverseJoinColumns={
-  	    		  @JoinColumn(name="equipe_id")
-  	       }
-  	      )
-	private Collection<Equipe> equipe;
+	    name = "equipe_projeto"
+	    , joinColumns = {
+		    @JoinColumn(name = "projeto_id")
+	    }
+	    , inverseJoinColumns = {
+		    @JoinColumn(name = "equipe_id")
+	    })
+    private Collection<Equipe> equipe;
 
-	public Collection<Equipe> getEquipe() {
-		return equipe;
-	}
+    public Collection<Equipe> getEquipe()
+    {
+	return equipe;
+    }
 
-	public void setEquipe(Collection<Equipe> equipe) {
-		this.equipe = equipe;
-	}
-	
-	@OneToMany(mappedBy="projeto", cascade=CascadeType.REMOVE)
-	@ListProperties("criterio.nome, valorMedido.valorMedido")
+    public void setEquipe(Collection<Equipe> equipe)
+    {
+	this.equipe = equipe;
+    }
+
+    @OneToMany(mappedBy = "projeto", cascade = CascadeType.REMOVE)
+    @ListProperties("criterio.nome, valorMedido.valorMedido")
     @CollectionView("Projeto")
-	private Collection<CriterioDeProjeto> criterioDeProjeto;
-	
-/*	@ManyToOne 
-	@Required
-	@Transient
-	@NoModify
-	@NoCreate
-	@DescriptionsList(descriptionProperties="nome"
-						//,condition="${nome} = 'Projeto'"
-						)
-	private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
+    private Collection<CriterioDeProjeto> criterioDeProjeto;
 
-	public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel() {
-		return super.tipoDeEntidadeMensuravel;
+    @ManyToOne
+    @Required
+    @Transient
+    @DefaultValueCalculator(
+	    value = TipoDeEntidadeMensuravelCalculator.class,
+	    properties = {
+		    @PropertyValue(name = "nomeEntidade", value = "Projeto")
+	    })
+    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
+
+    public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
+    {
+	return tipoDeEntidadeMensuravel;
+    }
+
+    public void setTipoDeEntidadeMensuravel(
+	    TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel)
+    {
+	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
+    }
+
+    @PreCreate
+    @PreUpdate
+    public void ajustaElementosMensuraveis()
+    {
+	if (elementoMensuravel == null)
+	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+
+	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
+	{
+	    boolean add;
+	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
+	    {
+		add = true;
+		for (ElementoMensuravel elem : elementoMensuravel)
+		{
+		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
+		    {
+			add = false;
+			break;
+		    }
+		}
+		if (add)
+		    elementoMensuravel.add(elemTipo);
+	    }//elemTipo
 	}
+    }//ajusta
 
-	public void setTipoDeEntidadeMensuravel(
-			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel) {
-		super.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
-	}*/
-	
-	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	//A solução para setar por padrçao o tipo de entidade de projeto/outros pode ser dada pelo
-	//uso de uma consulta/atribuição do tipo ao objeto a ser salvo. (ex: projeto ou usar reflexão) 
-/*	public Collection getFellowCarriers() {
-		 Query query = XPersistence.getManager().createQuery("from Carrier c where " +
-		 "c.warehouse.zoneNumber = :zone AND " +
-		 "c.warehouse.number = :warehouseNumber AND " +
-		 "NOT (c.number = :number) ");
-		 query.setParameter("zone", getWarehouse().getZoneNumber());
-		 query.setParameter("warehouseNumber", getWarehouse().getNumber());
-		 query.setParameter("number", getNumber());
-		 return query.getResultList();
-		}*/
-	
-	@ManyToOne
-	@Required
-	@Transient
-	@DefaultValueCalculator(
-		value=TipoDeEntidadeMensuravelCalculator.class,
-		properties={
-			 @PropertyValue(name="nomeEntidade", value="Projeto")
-			 }
-	)
-	private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-	
-	public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel() {
-		return tipoDeEntidadeMensuravel;
-	}
-
-	public void setTipoDeEntidadeMensuravel(
-			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel) {
-		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
-	}
-	
-	
-	
-	/*private ProcessoDeSoftwareDeProjeto processoDeSoftwareDeProjeto;*/
-
-	
 }
- 

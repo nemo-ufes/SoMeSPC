@@ -1,21 +1,21 @@
 /*
-    MedCEP - A powerful tool for measure
-    
-    Copyright (C) 2013 Ciro Xavier Maretto
-    Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
+ * MedCEP - A powerful tool for measure
+ * 
+ * Copyright (C) 2013 Ciro Xavier Maretto
+ * Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>.
  */
 package org.medcep.model.processo;
 
@@ -31,78 +31,102 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members="nome; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeDeProjeto; elementoMensuravel;"),
-	@View(name="Simple", members="nome"),
-	})
-@Tab(properties="nome, versao", defaultOrder="${nome} asc, ${versao} desc")
+	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeDeProjeto; elementoMensuravel;"),
+	@View(name = "Simple", members = "nome"),
+})
+@Tab(properties = "nome, versao", defaultOrder = "${nome} asc, ${versao} desc")
 @EntityValidator(
-		value=ProcessoDeProjetoValidator.class, 
-		properties={
-			@PropertyValue(name="tipoDeEntidadeMensuravel")
-		}
-)
-public class ProcessoDeProjeto extends ProcessoInstanciado {
-	
-	@OneToOne
-	@ReferenceView("Simple")
-	private Projeto projeto;
+	value = ProcessoDeProjetoValidator.class,
+	properties = {
+		@PropertyValue(name = "tipoDeEntidadeMensuravel")
+	})
+public class ProcessoDeProjeto extends ProcessoInstanciado
+{
 
-	public Projeto getProjeto() {
-		return projeto;
-	}
+    @OneToOne
+    @ReferenceView("Simple")
+    private Projeto projeto;
 
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
-	}
-	
-	/*@OneToMany(mappedBy="processoDeProjeto")
-	@ListProperties("nome") 
-	@NewAction("ProcessoDeProjeto.AddAtividadeProjetoAction")
-	//@NewAction("EntidadeMensuravel.AddElementoMensuravel")
-	private Collection<AtividadeDeProjeto> atividadeDeProjeto;*/
-	
-	@ManyToMany(fetch=FetchType.LAZY) 
+    public Projeto getProjeto()
+    {
+	return projeto;
+    }
+
+    public void setProjeto(Projeto projeto)
+    {
+	this.projeto = projeto;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	      name="ProcessoDeProjeto_AtividadeDeProjeto"
-	      , joinColumns={
-	    		  @JoinColumn(name="processoDeProjeto_id")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="atividadeDeProjeto_id")
-	       }
-	      )
-	@ListProperties("nome")
-	@NewAction("ProcessoDeProjeto.add")
-	private Collection<AtividadeDeProjeto> atividadeDeProjeto;
-	
-	public Collection<AtividadeDeProjeto> getAtividadeDeProjeto() {
-		return atividadeDeProjeto;
-	}
+	    name = "ProcessoDeProjeto_AtividadeDeProjeto"
+	    , joinColumns = {
+		    @JoinColumn(name = "processoDeProjeto_id")
+	    }
+	    , inverseJoinColumns = {
+		    @JoinColumn(name = "atividadeDeProjeto_id")
+	    })
+    @ListProperties("nome")
+    @NewAction("ProcessoDeProjeto.add")
+    private Collection<AtividadeDeProjeto> atividadeDeProjeto;
 
-	public void setAtividadeDeProjeto(
-			Collection<AtividadeDeProjeto> atividadeDeProjeto) {
-		this.atividadeDeProjeto = atividadeDeProjeto;
-	}
-	
-	@ManyToOne
-	@Required
-	@Transient
-	@DefaultValueCalculator(
-		value=TipoDeEntidadeMensuravelCalculator.class,
-		properties={
-			 @PropertyValue(name="nomeEntidade", value="Processo de Software em Projeto")
-			 }
-	)
-	private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-	
-	public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel() {
-		return tipoDeEntidadeMensuravel;
-	}
+    public Collection<AtividadeDeProjeto> getAtividadeDeProjeto()
+    {
+	return atividadeDeProjeto;
+    }
 
-	public void setTipoDeEntidadeMensuravel(
-			TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel) {
-		this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
+    public void setAtividadeDeProjeto(
+	    Collection<AtividadeDeProjeto> atividadeDeProjeto)
+    {
+	this.atividadeDeProjeto = atividadeDeProjeto;
+    }
+
+    @ManyToOne
+    @Required
+    @Transient
+    @DefaultValueCalculator(
+	    value = TipoDeEntidadeMensuravelCalculator.class,
+	    properties = {
+		    @PropertyValue(name = "nomeEntidade", value = "Processo de Software em Projeto")
+	    })
+    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
+
+    public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
+    {
+	return tipoDeEntidadeMensuravel;
+    }
+
+    public void setTipoDeEntidadeMensuravel(
+	    TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel)
+    {
+	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
+    }
+
+    @PreCreate
+    @PreUpdate
+    public void ajustaElementosMensuraveis()
+    {
+	if (elementoMensuravel == null)
+	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+
+	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
+	{
+	    boolean add;
+	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
+	    {
+		add = true;
+		for (ElementoMensuravel elem : elementoMensuravel)
+		{
+		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
+		    {
+			add = false;
+			break;
+		    }
+		}
+		if (add)
+		    elementoMensuravel.add(elemTipo);
+	    }//elemTipo
 	}
-	
+    }//ajusta
+
 }
- 

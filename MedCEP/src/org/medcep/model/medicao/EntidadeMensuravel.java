@@ -86,7 +86,7 @@ public class EntidadeMensuravel
      */
     @NewAction("EntidadeMensuravel.AddElementoMensuravel")
     @ListProperties("nome")
-    private Collection<ElementoMensuravel> elementoMensuravel;
+    protected Collection<ElementoMensuravel> elementoMensuravel;
 
     public String getId()
     {
