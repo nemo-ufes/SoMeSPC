@@ -1,9 +1,10 @@
 package org.medcep.integracao.taiga;
 
+import java.util.*;
+
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.bind.annotation.*;
 
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.util.json.*;
@@ -67,7 +68,7 @@ public class TaigaIntegrator
      * 
      * @param nomeProjeto
      *            - Nome do projeto a ser buscado.
-     * @return JSON com os dados do projeto.
+     * @return Projeto
      */
     public Projeto obterProjeto(String nomeProjeto)
     {
@@ -99,9 +100,27 @@ public class TaigaIntegrator
     }
 
     /**
+     * Obtem todos os projetos.
+     * @return List<Projeto>
+     */
+    public List<Projeto> obterProjetos()
+    {
+	//Busca informações dos projetos.
+	WebTarget target = client.target(this.urlTaiga).path("projects");
+
+	List<Projeto> projetos = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Projeto>>(){});
+
+	return projetos;
+    }
+
+    /**
      * Os membros já vem populados pelo método obterProjeto.
+     * 
      * @param nomeProjeto
-     * @return
+     * @return Projeto
      */
     @Deprecated
     public String obterMembrosDoProjeto(String nomeProjeto)
@@ -148,6 +167,13 @@ public class TaigaIntegrator
 	return membrosInfoJson.toString();
     }
 
+    /**
+     * Obtem os dados do Membro pelo ID.
+     * 
+     * @param idMembro
+     *            - ID do membro a ser buscado.
+     * @return Membro
+     */
     public Membro obterMembro(int idMembro)
     {
 	//Busca informações do membro.
@@ -158,60 +184,7 @@ public class TaigaIntegrator
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
 		.get(Membro.class);
 
-	
 	return membro;
-    }
-
-    /**
-     * Classe para mapear as informações de autenticação com o Taiga.
-     * 
-     * @author Vinicius
-     *
-     */
-    @XmlRootElement
-    public class AuthInfo
-    {
-	//TODO: Avaliar implementação do tipo Github.
-	private String type = "normal";
-	private String username;
-	private String password;
-
-	public AuthInfo()
-	{
-
-	}
-
-	public AuthInfo(String username, String password)
-	{
-	    this.username = username;
-	    this.password = password;
-	}
-
-	public String getType()
-	{
-	    return type;
-	}
-
-	public String getUsername()
-	{
-	    return username;
-	}
-
-	public void setUsername(String username)
-	{
-	    this.username = username;
-	}
-
-	public String getPassword()
-	{
-	    return password;
-	}
-
-	public void setPassword(String password)
-	{
-	    this.password = password;
-	}
-
     }
 
 }

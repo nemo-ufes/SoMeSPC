@@ -3,6 +3,8 @@ package org.medcep.integracao.taiga.test;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.*;
+
 import org.junit.*;
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
@@ -25,6 +27,9 @@ public class TaigaIntegratorTest
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Projeto projeto = integrator.obterProjeto("paflopes-sincap");
+	assertNotNull(projeto);
+	assertNotEquals(projeto.getId(), 0);
+	
 	System.out.println("Id: " + projeto.getId());
 	System.out.println("Nome: " + projeto.getNome());
 	System.out.println("Descricao: " + projeto.getDescricao());
@@ -38,8 +43,24 @@ public class TaigaIntegratorTest
 	}
 	System.out.println("----------------------------------------");
 
-	assertNotNull(projeto);
-	assertNotEquals(projeto.getId(), 0);
+	
+    }
+    
+    @Test
+    public void testObterProjetos()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	List<Projeto> projetos = integrator.obterProjetos();
+	assertNotNull(projetos);
+	assertNotEquals(projetos.size(), 0);
+	
+	for (Projeto proj : projetos)
+	{
+	    	System.out.println("Id: " + proj.getId());
+		System.out.println("Nome: " + proj.getNome());
+		System.out.println("Descricao: " + proj.getDescricao());
+		System.out.println("----------------------------------------");    
+	}	
     }
 
     @Test
