@@ -12,12 +12,21 @@ public class TaigaIntegratorTest
     @Test
     public void testObterAuthToken()
     {
-	TaigaIntegrator integrator = new TaigaIntegrator("https://api.taiga.io/", "vinnysoft", "teste123");
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	String token = integrator.obterAuthToken();
 	System.out.println("token: " + token);
 	assertNotNull(token);
-	assertNotEquals(token, "");
-	
+	assertNotEquals(token, "");	
+    }
+    
+    @Test
+    public void testObterProjeto()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	String projetoJson = integrator.obterProjeto("paflopes-sincap");
+	System.out.println("projeto: " + projetoJson);
+	assertNotNull(projetoJson);
+	assertNotEquals(projetoJson, "");	
     }
 
 }
