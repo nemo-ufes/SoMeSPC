@@ -2,15 +2,22 @@ package org.medcep.integracao.taiga.model;
 
 import java.util.*;
 
+import javax.xml.bind.annotation.*;
+
 /**
  * Projeto do Taiga.
  * @author Vinicius
  *
  */
+@XmlRootElement
 public class Projeto
 {
     private int id;
+    @XmlElement(name="name")
     private String nome;
+    @XmlElement(name="description")
+    private String descricao;
+    @XmlElement(name="memberships")
     private List<Membro> membros;
     
     public int getId()
@@ -21,6 +28,7 @@ public class Projeto
     {
         this.id = id;
     }
+    
     public String getNome()
     {
         return nome;
@@ -29,6 +37,15 @@ public class Projeto
     {
         this.nome = nome;
     }
+    public String getDescricao()
+    {
+        return descricao;
+    }
+    public void setDescricao(String descricao)
+    {
+        this.descricao = descricao;
+    }
+    
     public List<Membro> getMembros()
     {
         return membros;

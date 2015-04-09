@@ -1,14 +1,19 @@
 package org.medcep.integracao.taiga.model;
 
+import javax.xml.bind.annotation.*;
+
 /**
  * Papel do Taiga.
  * @author Vinicius
  *
  */
+@XmlRootElement
 public class Membro
 {
     private int id;
+    @XmlElement(name="full_name")
     private String nome;
+    @XmlElement(name="role_name")
     private String papel;
     
     public int getId()
