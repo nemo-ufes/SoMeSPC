@@ -148,24 +148,18 @@ public class TaigaIntegrator
 	return membrosInfoJson.toString();
     }
 
-    public String obterMembro(int idMembro)
+    public Membro obterMembro(int idMembro)
     {
 	//Busca informações do membro.
 	WebTarget target = client.target(this.urlTaiga).path("memberships/" + idMembro);
 
-	Response response = target
+	Membro membro = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
+		.get(Membro.class);
 
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    System.out.println(String.format("Erro ao obter dados do membro de código %s. HTTP Code: %s", idMembro, response.getStatus()));
-	    return "Erro: HTTP Code " + response.getStatus();
-	}
-
-	JSONObject json = new JSONObject(response.readEntity(String.class));
-	return json.toString();
+	
+	return membro;
     }
 
     /**
