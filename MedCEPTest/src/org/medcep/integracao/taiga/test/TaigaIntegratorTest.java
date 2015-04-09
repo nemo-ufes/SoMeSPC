@@ -1,5 +1,8 @@
 package org.medcep.integracao.taiga.test;
 
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.*;
 import org.medcep.integracao.taiga.*;
 
@@ -10,7 +13,11 @@ public class TaigaIntegratorTest
     public void testObterAuthToken()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("https://api.taiga.io/", "vinnysoft", "teste123");
-	integrator.obterAuthToken();
+	String token = integrator.obterAuthToken();
+	System.out.println("token: " + token);
+	assertNotNull(token);
+	assertNotEquals(token, "");
+	
     }
 
 }
