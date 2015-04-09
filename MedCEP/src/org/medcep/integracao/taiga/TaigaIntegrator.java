@@ -24,6 +24,9 @@ public class TaigaIntegrator
 	this.authInfo = new AuthInfo(usuario, senha);
     }
 
+    /**
+     * Busca o token de autenticação do Taiga.
+     */
     public void obterAuthToken()
     {
 	Client client = ClientBuilder.newClient();
@@ -37,10 +40,7 @@ public class TaigaIntegrator
 	}
 
 	JSONObject json = new JSONObject(response.readEntity(String.class));	
-	this.authToken = json.get("auth_token").toString();
-	
-	System.out.println(json);
-	System.out.println("token: " + this.authToken);
+	this.authToken = json.get("auth_token").toString();	
     }
 
     public void obterProjeto(String nomeProjeto)
