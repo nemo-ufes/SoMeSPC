@@ -127,6 +127,25 @@ public class TaigaIntegratorTest
 
 	dump(equipe);
     }
+    
+    @Test
+    public void testCriarProjetoMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	Projeto sincap = integrator.obterProjetoTaiga("paflopes-sincap");
+
+	assertNotNull(sincap);
+	assertNotEquals(sincap.getId(), 0);
+	
+	dump(sincap);
+
+	org.medcep.model.organizacao.Projeto projeto = integrator.criarProjetoMedCEP(sincap);
+
+	assertNotNull(projeto);
+	assertNotEquals(projeto.getId(), "");
+
+	dump(projeto);
+    }
 
     private void dump(Object object)
     {

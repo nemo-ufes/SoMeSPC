@@ -289,45 +289,56 @@ public class TaigaIntegrator
 	return papel;
     }
 
+    /**
+     * Cria uma Equipe na MedCEP baseado nos Membros do projeto Taiga.
+     * Se já existir, retorna a Equipe existente.
+     * 
+     * @param nomeEquipe
+     *            - Nome da equipe a ser criada.
+     * @param membrosDaEquipe
+     *            - Membros da equipe.
+     * @return Equipe criada/existente.
+     * @throws Exception
+     */
     public Equipe criarEquipeMedCEP(String nomeEquipe, List<Membro> membrosDaEquipe) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
-	
+
 	Equipe equipe = new Equipe();
 	equipe.setNome(nomeEquipe);
 
 	//Cria os recursos humanos, papeis e faz a alocação.
 	List<AlocacaoEquipe> alocacoes = new ArrayList<AlocacaoEquipe>();
 	List<RecursoHumano> recursosHumanos = new ArrayList<RecursoHumano>();
-	
+
 	for (Membro membro : membrosDaEquipe)
 	{
 	    AlocacaoEquipe alocacao = new AlocacaoEquipe();
 	    alocacao.setEquipe(equipe);
-	    
+
 	    //Insere o Recurso Humano na Equipe e na Alocacao. 
 	    //Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
-	    RecursoHumano rec = this.criarRecursoHumanoMedCEP(membro); 
+	    RecursoHumano rec = this.criarRecursoHumanoMedCEP(membro);
 	    recursosHumanos.add(rec);
-	
+
 	    alocacao.setRecursoHumano(rec);
 	    alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoMedCEP(membro));
 	    alocacoes.add(alocacao);
 	}
-	
-	equipe.setRecursoHumano(recursosHumanos);	
+
+	equipe.setRecursoHumano(recursosHumanos);
 	equipe.setAlocacaoEquipe(alocacoes);
 
 	try
 	{
 	    manager.getTransaction().begin();
 	    manager.persist(equipe);
-	    
+
 	    for (AlocacaoEquipe alocacaoEquipe : alocacoes)
 	    {
 		manager.persist(alocacaoEquipe);
 	    }
-	    
+
 	    manager.getTransaction().commit();
 	}
 	catch (Exception ex)
@@ -354,6 +365,49 @@ public class TaigaIntegrator
 	}
 
 	return equipe;
+    }
+
+    public org.medcep.model.organizacao.Projeto criarProjetoMedCEP(Projeto projeto) throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+	Equipe equipe = this.criarEquipeMedCEP("Equipe " + projeto.getNome(), projeto.getMembros());
+	List<Equipe> equipes = new ArrayList<Equipe>();
+	equipes.add(equipe);
+
+	org.medcep.model.organizacao.Projeto projetoMedCEP = new org.medcep.model.organizacao.Projeto();
+	projetoMedCEP.setNome(projeto.getNome());
+	projetoMedCEP.setEquipe(equipes);
+
+	try
+	{
+	    manager.getTransaction().begin();
+	    manager.persist(projetoMedCEP);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (ex.getCause() != null &&
+		    ex.getCause().getCause() != null &&
+		    ex.getCause().getCause() instanceof ConstraintViolationException)
+	    {
+		System.out.println(String.format("Projeto %s já existe.", projeto.getNome()));
+
+		String query = String.format("SELECT p FROM Projeto p WHERE p.nome='%s'", projeto.getNome());
+		TypedQuery<org.medcep.model.organizacao.Projeto> typedQuery = XPersistence.getManager().createQuery(query, org.medcep.model.organizacao.Projeto.class);
+
+		projetoMedCEP = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return projetoMedCEP;
     }
 
 }
