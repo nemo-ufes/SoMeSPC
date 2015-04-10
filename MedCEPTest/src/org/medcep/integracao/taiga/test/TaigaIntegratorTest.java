@@ -8,6 +8,8 @@ import java.util.*;
 import org.junit.*;
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
+import org.medcep.integracao.taiga.model.Projeto;
+import org.medcep.model.organizacao.*;
 
 public class TaigaIntegratorTest
 {
@@ -26,7 +28,7 @@ public class TaigaIntegratorTest
     public void testObterProjeto()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	Projeto projeto = integrator.obterProjeto("paflopes-sincap");
+	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 	assertNotNull(projeto);
 	assertNotEquals(projeto.getId(), 0);
 
@@ -49,7 +51,7 @@ public class TaigaIntegratorTest
     public void testObterProjetos()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	List<Projeto> projetos = integrator.obterProjetos();
+	List<Projeto> projetos = integrator.obterProjetosTaiga();
 	assertNotNull(projetos);
 	assertNotEquals(projetos.size(), 0);
 
@@ -66,7 +68,7 @@ public class TaigaIntegratorTest
     public void testObterMembro()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	Membro membro = integrator.obterMembro(4);
+	Membro membro = integrator.obterMembroTaiga(4);
 
 	System.out.println("Id do Membro: " + membro.getId());
 	System.out.println("Nome do Membro: " + membro.getNome());
@@ -80,7 +82,7 @@ public class TaigaIntegratorTest
     public void testCriarRecursoHumanoMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	Membro membro = integrator.obterMembro(4);
+	Membro membro = integrator.obterMembroTaiga(4);
 	
 	assertNotNull(membro);
 	assertNotEquals(membro.getId(), 0);
@@ -89,11 +91,31 @@ public class TaigaIntegratorTest
 	System.out.println("Nome do Membro: " + membro.getNome());
 	System.out.println("Papel do Membro: " + membro.getPapel());
 	
-	String id = integrator.criarRecursoHumanoMedCEP(membro);
+	RecursoHumano recurso = integrator.criarRecursoHumanoMedCEP(membro);
 	
-	assertNotNull(id);
+	assertNotNull(recurso);
 	
-	System.out.println("Id do Recurso Humano: " + id);
+	System.out.println("Id do Recurso Humano: " + recurso.getId());
+    }
+    
+    @Test
+    public void testCriarPapelRecursoHumanoMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	Membro membro = integrator.obterMembroTaiga(4);
+	
+	assertNotNull(membro);
+	assertNotEquals(membro.getId(), 0);
+	
+	System.out.println("Id do Membro: " + membro.getId());
+	System.out.println("Nome do Membro: " + membro.getNome());
+	System.out.println("Papel do Membro: " + membro.getPapel());
+	
+	PapelRecursoHumano papel = integrator.criarPapelRecursoHumanoMedCEP(membro);
+	
+	assertNotNull(papel);
+	
+	System.out.println("Id do Papel de Recurso Humano: " + papel.getId());
     }
 
 }

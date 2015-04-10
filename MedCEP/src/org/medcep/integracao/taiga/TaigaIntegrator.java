@@ -77,7 +77,7 @@ public class TaigaIntegrator
      *            - Nome do projeto a ser buscado.
      * @return Projeto
      */
-    public Projeto obterProjeto(String nomeProjeto)
+    public Projeto obterProjetoTaiga(String nomeProjeto)
     {
 	//Resolve o ID do projeto.
 	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", nomeProjeto.toLowerCase());
@@ -111,7 +111,7 @@ public class TaigaIntegrator
      * 
      * @return List<Projeto>
      */
-    public List<Projeto> obterProjetos()
+    public List<Projeto> obterProjetosTaiga()
     {
 	//Busca informações dos projetos.
 	WebTarget target = client.target(this.urlTaiga).path("projects");
@@ -170,7 +170,7 @@ public class TaigaIntegrator
 	for (int i = 0; i < membrosJson.length() - 1; i++)
 	{
 	    int idMembro = membrosJson.getInt(i);
-	    membrosInfoJson.put(i, obterMembro(idMembro));
+	    membrosInfoJson.put(i, obterMembroTaiga(idMembro));
 	}
 
 	return membrosInfoJson.toString();
@@ -183,7 +183,7 @@ public class TaigaIntegrator
      *            - ID do membro a ser buscado.
      * @return Membro
      */
-    public Membro obterMembro(int idMembro)
+    public Membro obterMembroTaiga(int idMembro)
     {
 	//Busca informações do membro.
 	WebTarget target = client.target(this.urlTaiga).path("memberships/" + idMembro);
@@ -198,14 +198,14 @@ public class TaigaIntegrator
 
     /**
      * Cadastra um RecursoHumano na MedCEP a partir de um Membro do Taiga.
-     * Se já existir, retorna o ID do RecursoHumano existente.
+     * Se já existir, retorna o RecursoHumano existente.
      * 
      * @param membro
      *            - Membro a ser cadastrado.
-     * @return ID do RecursoHumano criado/existente.
+     * @return RecursoHumano criado/existente.
      * @throws Exception
      */
-    public String criarRecursoHumanoMedCEP(Membro membro) throws Exception
+    public RecursoHumano criarRecursoHumanoMedCEP(Membro membro) throws Exception
     {
 
 	EntityManager manager = XPersistence.createManager();
@@ -240,7 +240,106 @@ public class TaigaIntegrator
 	    manager.close();
 	}
 
-	return recursoHumano.getId();
+	return recursoHumano;
+    }
+
+    /**
+     * Cadastra um Papel de Recurso Humano na MedCEP a partir de um Membro do Taiga.
+     * Se já existir, retorna o Papel existente.
+     * 
+     * @param membro
+     *            - Membro a ser cadastrado.
+     * @return Papel criado/existente.
+     * @throws Exception
+     */
+    public PapelRecursoHumano criarPapelRecursoHumanoMedCEP(Membro membro) throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+	PapelRecursoHumano papel = TaigaConverter.converterMembroParaPapelRecursoHumano(membro);
+
+	try
+	{
+	    manager.getTransaction().begin();
+	    manager.persist(papel);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (ex.getCause() != null &&
+		    ex.getCause().getCause() != null &&
+		    ex.getCause().getCause() instanceof ConstraintViolationException)
+	    {
+		System.out.println(String.format("Papel de Recurso Humano %s já existe.", membro.getPapel()));
+
+		String query = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='%s'", membro.getPapel());
+		TypedQuery<PapelRecursoHumano> typedQuery = XPersistence.getManager().createQuery(query, PapelRecursoHumano.class);
+
+		papel = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return papel;
+    }
+
+    public Equipe criarEquipeMedCEP(String nomeEquipe, List<Membro> membrosDaEquipe) throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+	
+	Equipe equipe = new Equipe();
+	equipe.setNome(nomeEquipe);
+
+	//Cria os recursos humanos, papeis e faz a alocação.
+	List<AlocacaoEquipe> alocacoes = new ArrayList<AlocacaoEquipe>();
+	
+	for (Membro membro : membrosDaEquipe)
+	{
+	    AlocacaoEquipe alocacao = new AlocacaoEquipe();
+	    alocacao.setEquipe(equipe);
+	    alocacao.setRecursoHumano(this.criarRecursoHumanoMedCEP(membro));
+	    alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoMedCEP(membro));
+	    alocacoes.add(alocacao);
+	}
+	
+	equipe.setAlocacaoEquipe(alocacoes);
+
+	try
+	{
+	    manager.getTransaction().begin();
+	    manager.persist(equipe);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (ex.getCause() != null &&
+		    ex.getCause().getCause() != null &&
+		    ex.getCause().getCause() instanceof ConstraintViolationException)
+	    {
+		System.out.println(String.format("Equipe %s já existe.", equipe.getNome()));
+
+		String query = String.format("SELECT e FROM Equipe e WHERE e.nome='%s'", equipe.getNome());
+		TypedQuery<Equipe> typedQuery = XPersistence.getManager().createQuery(query, Equipe.class);
+
+		equipe = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return equipe;
     }
 
 }
