@@ -15,6 +15,8 @@ public class Membro
     private String nome;
     @XmlElement(name="role_name")
     private String papel;
+    @XmlElement(name="user")
+    private int idUsuario;
     
     public int getId()
     {
@@ -39,6 +41,14 @@ public class Membro
     public void setPapel(String papel)
     {
         this.papel = papel;
+    }
+    public int getIdUsuario()
+    {
+        return idUsuario;
+    }
+    public void setIdUsuario(int idUsuario)
+    {
+        this.idUsuario = idUsuario;
     }
     
     

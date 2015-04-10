@@ -11,6 +11,9 @@ import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.organizacao.*;
 
+import com.thoughtworks.xstream.*;
+import com.thoughtworks.xstream.io.json.*;
+
 public class TaigaIntegratorTest
 {
 
@@ -32,16 +35,12 @@ public class TaigaIntegratorTest
 	assertNotNull(projeto);
 	assertNotEquals(projeto.getId(), 0);
 
-	System.out.println("Id: " + projeto.getId());
-	System.out.println("Nome: " + projeto.getNome());
-	System.out.println("Descricao: " + projeto.getDescricao());
+	dump(projeto);
 
 	System.out.println("Membros do projeto " + projeto.getNome());
 	for (Membro membro : projeto.getMembros())
 	{
-	    System.out.println("Id do Membro: " + membro.getId());
-	    System.out.println("Nome do Membro: " + membro.getNome());
-	    System.out.println("Papel do Membro: " + membro.getPapel());
+	    dump(membro);
 	}
 	System.out.println("----------------------------------------");
 
@@ -57,9 +56,7 @@ public class TaigaIntegratorTest
 
 	for (Projeto proj : projetos)
 	{
-	    System.out.println("Id: " + proj.getId());
-	    System.out.println("Nome: " + proj.getNome());
-	    System.out.println("Descricao: " + proj.getDescricao());
+	    dump(proj);
 	    System.out.println("----------------------------------------");
 	}
     }
@@ -70,74 +67,71 @@ public class TaigaIntegratorTest
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Membro membro = integrator.obterMembroTaiga(4);
 
-	System.out.println("Id do Membro: " + membro.getId());
-	System.out.println("Nome do Membro: " + membro.getNome());
-	System.out.println("Papel do Membro: " + membro.getPapel());
-
 	assertNotNull(membro);
 	assertNotEquals(membro.getId(), 0);
+
+	dump(membro);
     }
-    
+
     @Test
     public void testCriarRecursoHumanoMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Membro membro = integrator.obterMembroTaiga(4);
-	
+
 	assertNotNull(membro);
 	assertNotEquals(membro.getId(), 0);
-	
-	System.out.println("Id do Membro: " + membro.getId());
-	System.out.println("Nome do Membro: " + membro.getNome());
-	System.out.println("Papel do Membro: " + membro.getPapel());
-	
+
+	dump(membro);
+
 	RecursoHumano recurso = integrator.criarRecursoHumanoMedCEP(membro);
-	
+
 	assertNotNull(recurso);
-	
-	System.out.println("Id do Recurso Humano: " + recurso.getId());
+
+	dump(recurso);
     }
-    
+
     @Test
     public void testCriarPapelRecursoHumanoMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Membro membro = integrator.obterMembroTaiga(4);
-	
+
 	assertNotNull(membro);
 	assertNotEquals(membro.getId(), 0);
-	
-	System.out.println("Id do Membro: " + membro.getId());
-	System.out.println("Nome do Membro: " + membro.getNome());
-	System.out.println("Papel do Membro: " + membro.getPapel());
-	
+
+	dump(membro);
+
 	PapelRecursoHumano papel = integrator.criarPapelRecursoHumanoMedCEP(membro);
-	
+
 	assertNotNull(papel);
-	
-	System.out.println("Id do Papel de Recurso Humano: " + papel.getId());
+
+	dump(papel);
     }
-    
+
     @Test
     public void testCriarEquipeMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Projeto sincap = integrator.obterProjetoTaiga("paflopes-sincap");
-	
+
 	assertNotNull(sincap);
 	assertNotEquals(sincap.getId(), 0);
 	assertNotNull(sincap.getMembros());
-	
-	System.out.println("Id: " + sincap.getId());
-	System.out.println("Nome: " + sincap.getNome());
-	System.out.println("Descricao: " + sincap.getDescricao());
+
+	dump(sincap);
 
 	Equipe equipe = integrator.criarEquipeMedCEP(sincap.getNome() + " Team", sincap.getMembros());
-	
+
 	assertNotNull(equipe);
-	
-	System.out.println("Id da Equipe : " + equipe.getId());
+
+	dump(equipe);
     }
-    
+
+    private void dump(Object object)
+    {
+	XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+	System.out.println(xstream.toXML(object));
+    }
 
 }
