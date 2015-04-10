@@ -9,6 +9,7 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
+import org.medcep.integracao.*;
 import org.medcep.integracao.conversores.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
@@ -48,6 +49,16 @@ public class TaigaIntegrator
 	this.urlTaiga = urlTaiga + "/api/v1/";
 	this.authInfo = new AuthInfo(usuario, senha);
 	client = ClientBuilder.newClient();
+
+	try
+	{
+	    MedCEPStarter.inicializarMedCEP();
+	}
+	catch (Exception e)
+	{
+	    System.out.println("Erro ao inicializar a MedCEP com dados básicos.");
+	    e.printStackTrace();
+	}
     }
 
     /**
@@ -371,7 +382,8 @@ public class TaigaIntegrator
      * Cria um Projeto na MedCEP baseado em um Projeto Taiga.
      * Se já existir, retorna o Projeto MedCEP existente.
      * 
-     * @param projeto - projeto Taiga a ser criado.
+     * @param projeto
+     *            - projeto Taiga a ser criado.
      * @return Projeto MedCEP criado/existente.
      * @throws Exception
      */
