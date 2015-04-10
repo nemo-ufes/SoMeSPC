@@ -367,6 +367,14 @@ public class TaigaIntegrator
 	return equipe;
     }
 
+    /**
+     * Cria um Projeto na MedCEP baseado em um Projeto Taiga.
+     * Se já existir, retorna o Projeto MedCEP existente.
+     * 
+     * @param projeto - projeto Taiga a ser criado.
+     * @return Projeto MedCEP criado/existente.
+     * @throws Exception
+     */
     public org.medcep.model.organizacao.Projeto criarProjetoMedCEP(Projeto projeto) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
