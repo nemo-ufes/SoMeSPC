@@ -29,7 +29,7 @@ public class TaigaIntegratorTest
 	Projeto projeto = integrator.obterProjeto("paflopes-sincap");
 	assertNotNull(projeto);
 	assertNotEquals(projeto.getId(), 0);
-	
+
 	System.out.println("Id: " + projeto.getId());
 	System.out.println("Nome: " + projeto.getNome());
 	System.out.println("Descricao: " + projeto.getDescricao());
@@ -43,9 +43,8 @@ public class TaigaIntegratorTest
 	}
 	System.out.println("----------------------------------------");
 
-	
     }
-    
+
     @Test
     public void testObterProjetos()
     {
@@ -53,14 +52,14 @@ public class TaigaIntegratorTest
 	List<Projeto> projetos = integrator.obterProjetos();
 	assertNotNull(projetos);
 	assertNotEquals(projetos.size(), 0);
-	
+
 	for (Projeto proj : projetos)
 	{
-	    	System.out.println("Id: " + proj.getId());
-		System.out.println("Nome: " + proj.getNome());
-		System.out.println("Descricao: " + proj.getDescricao());
-		System.out.println("----------------------------------------");    
-	}	
+	    System.out.println("Id: " + proj.getId());
+	    System.out.println("Nome: " + proj.getNome());
+	    System.out.println("Descricao: " + proj.getDescricao());
+	    System.out.println("----------------------------------------");
+	}
     }
 
     @Test
@@ -75,6 +74,26 @@ public class TaigaIntegratorTest
 
 	assertNotNull(membro);
 	assertNotEquals(membro.getId(), 0);
+    }
+    
+    @Test
+    public void testCriarRecursoHumanoMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	Membro membro = integrator.obterMembro(4);
+	
+	assertNotNull(membro);
+	assertNotEquals(membro.getId(), 0);
+	
+	System.out.println("Id do Membro: " + membro.getId());
+	System.out.println("Nome do Membro: " + membro.getNome());
+	System.out.println("Papel do Membro: " + membro.getPapel());
+	
+	String id = integrator.criarRecursoHumanoMedCEP(membro);
+	
+	assertNotNull(id);
+	
+	System.out.println("Id do Recurso Humano: " + id);
     }
 
 }

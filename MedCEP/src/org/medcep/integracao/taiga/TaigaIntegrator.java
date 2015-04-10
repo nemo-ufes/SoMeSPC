@@ -2,12 +2,19 @@ package org.medcep.integracao.taiga;
 
 import java.util.*;
 
+import javax.persistence.*;
 import javax.ws.rs.client.*;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
+import org.hibernate.exception.*;
+import org.medcep.integracao.conversores.*;
 import org.medcep.integracao.taiga.model.*;
+import org.medcep.integracao.taiga.model.Projeto;
+import org.medcep.model.organizacao.*;
 import org.medcep.util.json.*;
+import org.openxava.jpa.*;
 
 /**
  * Classe para integração do Taiga com a MedCEP.
@@ -101,6 +108,7 @@ public class TaigaIntegrator
 
     /**
      * Obtem todos os projetos.
+     * 
      * @return List<Projeto>
      */
     public List<Projeto> obterProjetos()
@@ -111,7 +119,8 @@ public class TaigaIntegrator
 	List<Projeto> projetos = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get(new GenericType<List<Projeto>>(){});
+		.get(new GenericType<List<Projeto>>() {
+		});
 
 	return projetos;
     }
@@ -185,6 +194,53 @@ public class TaigaIntegrator
 		.get(Membro.class);
 
 	return membro;
+    }
+
+    /**
+     * Cadastra um RecursoHumano na MedCEP a partir de um Membro do Taiga.
+     * Se já existir, retorna o ID do RecursoHumano existente.
+     * 
+     * @param membro
+     *            - Membro a ser cadastrado.
+     * @return ID do RecursoHumano criado/existente.
+     * @throws Exception
+     */
+    public String criarRecursoHumanoMedCEP(Membro membro) throws Exception
+    {
+
+	EntityManager manager = XPersistence.createManager();
+	RecursoHumano recursoHumano = TaigaConverter.converterMembroParaRecursoHumano(membro);
+
+	try
+	{
+	    manager.getTransaction().begin();
+	    manager.persist(recursoHumano);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (ex.getCause() != null &&
+		    ex.getCause().getCause() != null &&
+		    ex.getCause().getCause() instanceof ConstraintViolationException)
+	    {
+		System.out.println(String.format("Recurso Humano %s já existe.", membro.getNome()));
+
+		String query = String.format("SELECT r FROM RecursoHumano r WHERE r.nome='%s'", membro.getNome());
+		TypedQuery<RecursoHumano> typedQuery = XPersistence.getManager().createQuery(query, RecursoHumano.class);
+
+		recursoHumano = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return recursoHumano.getId();
     }
 
 }
