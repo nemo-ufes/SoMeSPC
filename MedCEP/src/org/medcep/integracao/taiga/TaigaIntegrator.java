@@ -298,22 +298,36 @@ public class TaigaIntegrator
 
 	//Cria os recursos humanos, papeis e faz a alocação.
 	List<AlocacaoEquipe> alocacoes = new ArrayList<AlocacaoEquipe>();
+	List<RecursoHumano> recursosHumanos = new ArrayList<RecursoHumano>();
 	
 	for (Membro membro : membrosDaEquipe)
 	{
 	    AlocacaoEquipe alocacao = new AlocacaoEquipe();
 	    alocacao.setEquipe(equipe);
-	    alocacao.setRecursoHumano(this.criarRecursoHumanoMedCEP(membro));
+	    
+	    //Insere o Recurso Humano na Equipe e na Alocacao. 
+	    //Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
+	    RecursoHumano rec = this.criarRecursoHumanoMedCEP(membro); 
+	    recursosHumanos.add(rec);
+	
+	    alocacao.setRecursoHumano(rec);
 	    alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoMedCEP(membro));
 	    alocacoes.add(alocacao);
 	}
 	
+	equipe.setRecursoHumano(recursosHumanos);	
 	equipe.setAlocacaoEquipe(alocacoes);
 
 	try
 	{
 	    manager.getTransaction().begin();
 	    manager.persist(equipe);
+	    
+	    for (AlocacaoEquipe alocacaoEquipe : alocacoes)
+	    {
+		manager.persist(alocacaoEquipe);
+	    }
+	    
 	    manager.getTransaction().commit();
 	}
 	catch (Exception ex)

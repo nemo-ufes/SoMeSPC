@@ -117,5 +117,27 @@ public class TaigaIntegratorTest
 	
 	System.out.println("Id do Papel de Recurso Humano: " + papel.getId());
     }
+    
+    @Test
+    public void testCriarEquipeMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	Projeto sincap = integrator.obterProjetoTaiga("paflopes-sincap");
+	
+	assertNotNull(sincap);
+	assertNotEquals(sincap.getId(), 0);
+	assertNotNull(sincap.getMembros());
+	
+	System.out.println("Id: " + sincap.getId());
+	System.out.println("Nome: " + sincap.getNome());
+	System.out.println("Descricao: " + sincap.getDescricao());
+
+	Equipe equipe = integrator.criarEquipeMedCEP(sincap.getNome() + " Team", sincap.getMembros());
+	
+	assertNotNull(equipe);
+	
+	System.out.println("Id da Equipe : " + equipe.getId());
+    }
+    
 
 }
