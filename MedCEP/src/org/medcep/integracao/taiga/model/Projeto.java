@@ -5,7 +5,7 @@ import java.util.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.*;
 
-import org.medcep.integracao.conversores.*;
+import org.medcep.integracao.util.*;
 
 /**
  * Projeto do Taiga.
