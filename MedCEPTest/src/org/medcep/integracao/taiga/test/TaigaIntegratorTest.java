@@ -61,6 +61,18 @@ public class TaigaIntegratorTest
 
 	System.out.println(projeto);
     }
+    
+    @Test
+    public void testObterEstadoProjetoTaiga()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	EstadoProjeto estado = integrator.obterEstadoProjetoTaiga("paflopes-sincap");
+	
+	assertNotNull(estado);
+
+	dump(estado);
+    }
+
 
     @Test
     public void testObterProjetos()

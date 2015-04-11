@@ -85,14 +85,14 @@ public class TaigaIntegrator
     /**
      * Obtem os dados do projeto Taiga.
      * 
-     * @param nomeProjeto
-     *            - Nome do projeto a ser buscado.
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto a ser buscado.
      * @return Projeto
      */
-    public Projeto obterProjetoTaiga(String nomeProjeto)
+    public Projeto obterProjetoTaiga(String apelidoProjeto)
     {
 	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", nomeProjeto.toLowerCase());
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
 
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
@@ -101,7 +101,7 @@ public class TaigaIntegrator
 
 	if (response.getStatus() != Status.OK.getStatusCode())
 	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", nomeProjeto, response.getStatus()));
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
 	}
 
 	JSONObject json = new JSONObject(response.readEntity(String.class));
@@ -121,14 +121,14 @@ public class TaigaIntegrator
     /**
      * Obtem os dados do projeto Taiga.
      * 
-     * @param nomeProjeto
-     *            - Nome do projeto a ser buscado.
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto a ser buscado.
      * @return Json do projeto Taiga
      */
-    public String obterProjetoTaigaJson(String nomeProjeto)
+    public String obterProjetoTaigaJson(String apelidoProjeto)
     {
 	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", nomeProjeto.toLowerCase());
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
 
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
@@ -137,7 +137,7 @@ public class TaigaIntegrator
 
 	if (response.getStatus() != Status.OK.getStatusCode())
 	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", nomeProjeto, response.getStatus()));
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
 	}
 
 	JSONObject json = new JSONObject(response.readEntity(String.class));
@@ -159,14 +159,14 @@ public class TaigaIntegrator
     /**
      * Obtem demais dados de andamento do projeto Taiga.
      * 
-     * @param nomeProjeto
-     *            - Nome do projeto a ser buscado.
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto a ser buscado.
      * @return Json de dados do andamento do projeto Taiga
      */
-    public String obterAndamentoProjetoTaigaJson(String nomeProjeto)
+    public String obterAndamentoProjetoTaigaJson(String apelidoProjeto)
     {
 	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", nomeProjeto.toLowerCase());
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
 
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
@@ -175,7 +175,7 @@ public class TaigaIntegrator
 
 	if (response.getStatus() != Status.OK.getStatusCode())
 	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", nomeProjeto, response.getStatus()));
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
 	}
 
 	JSONObject json = new JSONObject(response.readEntity(String.class));
@@ -282,6 +282,43 @@ public class TaigaIntegrator
 		.get(Membro.class);
 
 	return membro;
+    }
+    
+    
+    /**
+     * Obtem o estado de um projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto a ser obtido.
+     * @return EstadoProjeto - Estado do Projeto com medidas obtidas do projeto Taiga.
+     */
+    public EstadoProjeto obterEstadoProjetoTaiga(String apelidoProjeto)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path(String.format("projects/%d/stats", idProjeto));
+
+	EstadoProjeto estado = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(EstadoProjeto.class);
+	
+	return estado;
     }
 
     /**

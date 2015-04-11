@@ -17,16 +17,19 @@ import org.medcep.integracao.conversores.*;
 public class Projeto
 {
     private int id;
-    
+
     @XmlElement(name = "name")
     private String nome;
-    
+
+    @XmlElement(name = "slug")
+    private String apelido;
+
     @XmlElement(name = "description")
     private String descricao;
-    
+
     @XmlElement(name = "memberships")
     private List<Membro> membros;
-    
+
     @XmlElement(name = "created_date")
     @XmlJavaTypeAdapter(DateAdapter.class)
     private Date dataCriacao;
@@ -79,6 +82,16 @@ public class Projeto
     public void setDataCriacao(Date dataCriacao)
     {
 	this.dataCriacao = dataCriacao;
+    }
+
+    public String getApelido()
+    {
+	return apelido;
+    }
+
+    public void setApelido(String apelido)
+    {
+	this.apelido = apelido;
     }
 
 }
