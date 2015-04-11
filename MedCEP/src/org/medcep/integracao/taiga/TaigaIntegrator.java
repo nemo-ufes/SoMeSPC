@@ -398,6 +398,7 @@ public class TaigaIntegrator
 	org.medcep.model.organizacao.Projeto projetoMedCEP = new org.medcep.model.organizacao.Projeto();
 	projetoMedCEP.setNome(projeto.getNome());
 	projetoMedCEP.setEquipe(equipes);
+	projetoMedCEP.setDataInicio(projeto.getDataCriacao());
 
 	//Tenta preencher o Tipo de Entidade Mensurável do Projeto.
 	try

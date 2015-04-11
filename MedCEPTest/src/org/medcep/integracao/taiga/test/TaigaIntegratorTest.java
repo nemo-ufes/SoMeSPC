@@ -23,6 +23,7 @@ public class TaigaIntegratorTest
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	String token = integrator.obterAuthToken();
 	System.out.println("token: " + token);
+	
 	assertNotNull(token);
 	assertNotEquals(token, "");
     }
@@ -32,18 +33,11 @@ public class TaigaIntegratorTest
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
+	
 	assertNotNull(projeto);
 	assertNotEquals(projeto.getId(), 0);
 
 	dump(projeto);
-
-	System.out.println("Membros do projeto " + projeto.getNome());
-	for (Membro membro : projeto.getMembros())
-	{
-	    dump(membro);
-	}
-	System.out.println("----------------------------------------");
-
     }
 
     @Test
@@ -51,14 +45,11 @@ public class TaigaIntegratorTest
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	List<Projeto> projetos = integrator.obterProjetosTaiga();
+	
 	assertNotNull(projetos);
 	assertNotEquals(projetos.size(), 0);
-
-	for (Projeto proj : projetos)
-	{
-	    dump(proj);
-	    System.out.println("----------------------------------------");
-	}
+	
+	dump(projetos);
     }
 
     @Test
@@ -127,7 +118,7 @@ public class TaigaIntegratorTest
 
 	dump(equipe);
     }
-    
+
     @Test
     public void testCriarProjetoMedCEP() throws Exception
     {
@@ -136,7 +127,7 @@ public class TaigaIntegratorTest
 
 	assertNotNull(sincap);
 	assertNotEquals(sincap.getId(), 0);
-	
+
 	dump(sincap);
 
 	org.medcep.model.organizacao.Projeto projeto = integrator.criarProjetoMedCEP(sincap);

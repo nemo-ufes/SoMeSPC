@@ -3,9 +3,13 @@ package org.medcep.integracao.taiga.model;
 import java.util.*;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.*;
+
+import org.medcep.integracao.conversores.*;
 
 /**
  * Projeto do Taiga.
+ * 
  * @author Vinicius
  *
  */
@@ -13,47 +17,68 @@ import javax.xml.bind.annotation.*;
 public class Projeto
 {
     private int id;
-    @XmlElement(name="name")
+    
+    @XmlElement(name = "name")
     private String nome;
-    @XmlElement(name="description")
+    
+    @XmlElement(name = "description")
     private String descricao;
-    @XmlElement(name="memberships")
+    
+    @XmlElement(name = "memberships")
     private List<Membro> membros;
     
+    @XmlElement(name = "created_date")
+    @XmlJavaTypeAdapter(DateAdapter.class)
+    private Date dataCriacao;
+
     public int getId()
     {
-        return id;
+	return id;
     }
+
     public void setId(int id)
     {
-        this.id = id;
+	this.id = id;
     }
-    
+
     public String getNome()
     {
-        return nome;
+	return nome;
     }
+
     public void setNome(String nome)
     {
-        this.nome = nome;
+	this.nome = nome;
     }
+
     public String getDescricao()
     {
-        return descricao;
+	return descricao;
     }
+
     public void setDescricao(String descricao)
     {
-        this.descricao = descricao;
+	this.descricao = descricao;
     }
-    
+
     public List<Membro> getMembros()
     {
-        return membros;
+	return membros;
     }
+
     public void setMembros(List<Membro> membros)
     {
-        this.membros = membros;
+	this.membros = membros;
     }
-    
-    
+
+    public Date getDataCriacao()
+    {
+	return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao)
+    {
+	this.dataCriacao = dataCriacao;
+    }
+
 }
