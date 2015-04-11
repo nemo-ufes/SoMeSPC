@@ -15,6 +15,6 @@
 
 <servlet>
 	<servlet-name>MedCEPStarter</servlet-name>
-	<servlet-class>org.medcep.integracao.MedCEPStarter</servlet-class>
+	<servlet-class>org.medcep.inicializacao.MedCEPStarter</servlet-class>
 	<load-on-startup>1</load-on-startup>
 </servlet>

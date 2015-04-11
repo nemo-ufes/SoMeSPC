@@ -1,4 +1,4 @@
-package org.medcep.integracao;
+package org.medcep.inicializacao;
 
 import java.util.*;
 
