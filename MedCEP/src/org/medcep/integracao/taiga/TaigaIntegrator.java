@@ -576,11 +576,6 @@ public class TaigaIntegrator
 	TypedQuery<UnidadeDeMedida> typedQuery3 = XPersistence.getManager().createQuery(query3, UnidadeDeMedida.class);
 	UnidadeDeMedida unidadeMedida = typedQuery3.getSingleResult();
 
-	//Obtem o tipo Elemento Diretamente Mensurável.
-	String query4 = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Diretamente Mensurável'";
-	TypedQuery<TipoElementoMensuravel> typedQuery4 = XPersistence.getManager().createQuery(query4, TipoElementoMensuravel.class);
-	TipoElementoMensuravel elementoDiretamenteMensuravel = typedQuery4.getSingleResult();
-
 	//Obtem o tipo de Entidade Mensurável Projeto.
 	String query5 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Projeto'";
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery5 = XPersistence.getManager().createQuery(query5, TipoDeEntidadeMensuravel.class);
@@ -591,76 +586,28 @@ public class TaigaIntegrator
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = XPersistence.getManager().createQuery(query6, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoRecursoHumano = typedQuery6.getSingleResult();
 
-	//Cadastra ou obtem o ElementoMensuravel Desempenho.
-	ElementoMensuravel desempenho = new ElementoMensuravel();
-	try
-	{
-	    desempenho.setNome("Desempenho");
-	    desempenho.setDescricao("Desempenho");
-	    desempenho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
-
-	    manager.getTransaction().begin();
-	    manager.persist(desempenho);
-	    manager.getTransaction().commit();
-	}
-	catch (Exception ex)
-	{
-	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
-	    {
-		String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-		TypedQuery<ElementoMensuravel> typedQueryDesempenho = XPersistence.getManager().createQuery(queryDesempenho, ElementoMensuravel.class);
-
-		desempenho = typedQueryDesempenho.getSingleResult();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
-	}
-
-	//Cadastra ou obtem o ElementoMensuravel Tamanho.
-	ElementoMensuravel tamanho = new ElementoMensuravel();
-	try
-	{
-	    tamanho.setNome("Tamanho");
-	    tamanho.setDescricao("Tamanho");
-	    tamanho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
-
-	    manager.getTransaction().begin();
-	    manager.persist(tamanho);
-	    manager.getTransaction().commit();
-	}
-	catch (Exception ex)
-	{
-	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
-	    {
-		String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-		TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
-
-		tamanho = typedQueryTamanho.getSingleResult();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
-	}
+	//Obtem o ElementoMensuravel Desempenho.
+	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = XPersistence.getManager().createQuery(queryDesempenho, ElementoMensuravel.class);
+	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
+	
+	//Obtem o ElementoMensuravel Tamanho.
+	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
+	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
 
 	//Define a medida de acordo com a lista informada.
 	for (MedidasTaiga medidaTaiga : medidasDoProjetoTaiga)
 	{
 	    Medida medida = new Medida();
 	    List<TipoDeEntidadeMensuravel> tiposEntidadesMensuraveis = new ArrayList<TipoDeEntidadeMensuravel>();
-	    
+
 	    switch (medidaTaiga)
 	    {
 		case PONTOS_ALOCADOS:
 		    medida.setNome("Pontos Alocados");
 		    medida.setMnemonico("TAIGA-PA");
-		    medida.setElementoMensuravel(desempenho);		    
+		    medida.setElementoMensuravel(desempenho);
 		    tiposEntidadesMensuraveis.add(tipoProjeto);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
@@ -724,12 +671,10 @@ public class TaigaIntegrator
 		    throw new Exception("Medida inexistente no Taiga.");
 	    }
 
-	    medida.setDescricao("Medida obtida pela API Taiga conforme a documentação: http://taigaio.github.io/taiga-doc/dist/api.html#projects-stats");
+	    medida.setDescricao("Medida obtida pela API Taiga conforme a documentação: http://taigaio.github.io/taiga-doc/dist/api.html");
 	    medida.setTipoMedida(medidaBase);
 	    medida.setEscala(escala);
 	    medida.setUnidadeDeMedida(unidadeMedida);
-
-	  
 
 	    try
 	    {
@@ -760,6 +705,18 @@ public class TaigaIntegrator
 	}
 
 	return medidasCadastradas;
+    }
+
+    /**
+     * Cria os marcos (Sprints) do Taiga na MedCEP como Atividade Padrão, Atividades de Projeto e Ocorrência de Atividade.
+     * 
+     * @param projeto
+     *            - Projeto Taiga para obter os marcos.
+     * @return
+     */
+    public boolean criarMarcosMedCEP(Projeto projeto)
+    {
+	return false;
     }
 
 }

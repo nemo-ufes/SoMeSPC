@@ -42,6 +42,7 @@ public class MedCEPStarter extends HttpServlet
     public static void inicializarMedCEP() throws Exception
     {
 	inicializarTiposElementosMensuraveis();
+	inicializarElementosMensuraveis();
 	inicializarTiposMedidas();
 	inicializarTiposEntidadesMensuraveis();
 	inicializarPeriodicidades();
@@ -86,6 +87,59 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    manager.close();
 	}
+    }
+
+    private static void inicializarElementosMensuraveis() throws Exception
+    {
+	//Instancia os elementos mensuráveis.	
+	EntityManager manager = XPersistence.createManager();
+
+	ElementoMensuravel desempenho = new ElementoMensuravel();
+	ElementoMensuravel tamanho = new ElementoMensuravel();
+
+	//Obtem o tipo Elemento Diretamente Mensurável.
+	String query = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Diretamente Mensurável'";
+	TypedQuery<TipoElementoMensuravel> typedQuery = XPersistence.getManager().createQuery(query, TipoElementoMensuravel.class);
+	TipoElementoMensuravel elementoDiretamenteMensuravel = typedQuery.getSingleResult();
+
+	//Configura os elementos mensuráveis.
+	desempenho.setNome("Desempenho");
+	desempenho.setDescricao("Desempenho");
+	desempenho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
+
+	tamanho.setNome("Tamanho");
+	tamanho.setDescricao("Tamanho");
+	tamanho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
+
+	List<ElementoMensuravel> elementosParaPersistir = new ArrayList<ElementoMensuravel>();
+	elementosParaPersistir.add(desempenho);
+	elementosParaPersistir.add(tamanho);
+
+	//Persiste.
+	for (ElementoMensuravel elementoMensuravel : elementosParaPersistir)
+	{
+	    try
+	    {
+		manager.getTransaction().begin();
+		manager.persist(elementoMensuravel);
+		manager.getTransaction().commit();
+	    }
+	    catch (Exception ex)
+	    {
+		if (ex.getCause() != null &&
+			ex.getCause().getCause() != null &&
+			ex.getCause().getCause() instanceof ConstraintViolationException)
+		{
+		    System.out.println(String.format("O Elemento Mensurável %s já existe.", elementoMensuravel.getNome()));
+		}
+		else
+		{
+		    throw ex;
+		}
+	    }
+	}
+
+	manager.close();
     }
 
     private static void inicializarTiposMedidas() throws Exception
@@ -143,7 +197,7 @@ public class MedCEPStarter extends HttpServlet
 	TipoDeEntidadeMensuravel tipoArtefato = new TipoDeEntidadeMensuravel();
 	TipoDeEntidadeMensuravel tipoRecursoHumano = new TipoDeEntidadeMensuravel();
 	TipoDeEntidadeMensuravel tipoPapelRecursoHumano = new TipoDeEntidadeMensuravel();
-	
+
 	tipoProjeto.setNome("Projeto");
 	tipoProjeto.setDescricao("Representa um novo Projeto de software.");
 
@@ -173,10 +227,10 @@ public class MedCEPStarter extends HttpServlet
 
 	tipoRecursoHumano.setNome("Recurso Humano");
 	tipoRecursoHumano.setDescricao("Recurso Humano da organização.");
-	
-	tipoPapelRecursoHumano.setNome("Papel Recurso Humano");	
+
+	tipoPapelRecursoHumano.setNome("Papel Recurso Humano");
 	tipoPapelRecursoHumano.setDescricao("Papel de Recurso Humano da organização.");
-	
+
 	//Persiste.
 	List<TipoDeEntidadeMensuravel> tiposParaPersistir = new ArrayList<TipoDeEntidadeMensuravel>();
 	tiposParaPersistir.add(tipoProjeto);
@@ -340,14 +394,14 @@ public class MedCEPStarter extends HttpServlet
 
 	List<ValorDeEscala> valoresPercentuais = new ArrayList<ValorDeEscala>();
 	ValorDeEscala valorPercentual = new ValorDeEscala();
-	valorPercentual.setNumerico(true);	
+	valorPercentual.setNumerico(true);
 	valorPercentual.setValor("Números racionais de 0 a 100");
 	valoresPercentuais.add(valorPercentual);
-	
-	List<Escala> escalasPercentuais = new ArrayList<Escala>();	
+
+	List<Escala> escalasPercentuais = new ArrayList<Escala>();
 	escalaPercentual.setValorDeEscala(valoresPercentuais);
 	escalasPercentuais.add(escalaPercentual);
-	
+
 	Escala escalaNumerosRacionais = new Escala();
 	escalaNumerosRacionais.setNome("Números Racionais");
 	escalaNumerosRacionais.setTipoEscala(tipoRacional);
@@ -357,8 +411,8 @@ public class MedCEPStarter extends HttpServlet
 	valorRacional.setNumerico(true);
 	valorRacional.setValor("Números racionais");
 	valoresRacionais.add(valorRacional);
-	
-	List<Escala> escalasRacionais = new ArrayList<Escala>();	
+
+	List<Escala> escalasRacionais = new ArrayList<Escala>();
 	escalaNumerosRacionais.setValorDeEscala(valoresRacionais);
 	escalasRacionais.add(escalaNumerosRacionais);
 
@@ -384,24 +438,23 @@ public class MedCEPStarter extends HttpServlet
 		throw ex;
 	    }
 	}
-	
+
 	manager.close();
     }
-    
+
     private static void inicializarUnidadesMedida() throws Exception
     {
 	//Configura as periodicidades.	
 	EntityManager manager = XPersistence.createManager();
 
 	UnidadeDeMedida pontosEstoria = new UnidadeDeMedida();
-	
+
 	pontosEstoria.setNome("Pontos de Estória");
 	pontosEstoria.setDescricao("Pontos de Estória do Scrum.");
 
 	//Persiste.
 	List<UnidadeDeMedida> unidadesParaPersistir = new ArrayList<UnidadeDeMedida>();
 	unidadesParaPersistir.add(pontosEstoria);
-	
 
 	for (UnidadeDeMedida u : unidadesParaPersistir)
 	{
@@ -428,5 +481,5 @@ public class MedCEPStarter extends HttpServlet
 
 	manager.close();
     }
-    
+
 }
