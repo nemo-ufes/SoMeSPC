@@ -23,30 +23,39 @@ public class EstadoProjeto
     @XmlElement(name="name")
     private String nomeProjeto;
     
+    //Andamento do Projeto
     @XmlElement(name = "assigned_points")
     private float pontosAlocados;
 
+    //Andamento do Projeto
     @XmlElement(name = "closed_points_per_role")
     private Map<String, Float> pontosFechadosPorPapel;
 
+    //Andamento do Projeto
     @XmlElement(name = "speed")
     private float velocidade;
 
+    //Andamento do Projeto
     @XmlElement(name = "defined_points")
     private float pontosDefinidos;
 
+    //Andamento do Projeto
     @XmlElement(name = "closed_points")
     private float pontosFechados;
 
+    //Andamento do Projeto
     @XmlElement(name = "defined_points_per_role")
     private Map<String, Float> pontosDefinidosPorPapel;
 
+    //Tamanho do Projeto
     @XmlElement(name = "total_milestones")
     private float totalMarcos;
 
+    //Andamento do Projeto
     @XmlElement(name = "assigned_points_per_role")
     private Map<String, Float> pontosAlocadosPorPapel;
 
+    //Tamanho do Projeto
     @XmlElement(name = "total_points")
     private float totalPontos;
 
