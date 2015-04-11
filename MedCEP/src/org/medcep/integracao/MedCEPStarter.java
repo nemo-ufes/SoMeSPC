@@ -25,6 +25,7 @@ public class MedCEPStarter
     public static void inicializarMedCEP() throws Exception
     {
 	inicializarTiposElementosMensuraveis();
+	inicializarTiposMedidas();
 	inicializarTiposEntidadesMensuraveis();
 	inicializarPeriodicidades();
 	inicializarEscalas();
@@ -57,6 +58,45 @@ public class MedCEPStarter
 		    ex.getCause().getCause() instanceof ConstraintViolationException)
 	    {
 		System.out.println("Tipos de Elementos Mensuráveis já cadastrados.");
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+    }
+
+    private static void inicializarTiposMedidas() throws Exception
+    {
+	//Configura os tipos de elementos mensuráveis.	
+	EntityManager manager = XPersistence.createManager();
+
+	TipoMedida mb = new TipoMedida();
+	TipoMedida md = new TipoMedida();
+
+	mb.setNome("Medida Base");
+	md.setNome("Medida Derivada");
+
+	//Persiste.
+	try
+	{
+	    manager.getTransaction().begin();
+
+	    manager.persist(mb);
+	    manager.persist(md);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (ex.getCause() != null &&
+		    ex.getCause().getCause() != null &&
+		    ex.getCause().getCause() instanceof ConstraintViolationException)
+	    {
+		System.out.println("Tipos de Medidas já cadastrados.");
 	    }
 	    else
 	    {
@@ -292,7 +332,7 @@ public class MedCEPStarter
 	List<Escala> escalasParaPersistir = new ArrayList<Escala>();
 	escalasParaPersistir.add(escalaPercentual);
 	escalasParaPersistir.add(escalaNumerosRacionais);
-		
+
 	for (Escala escala : escalasParaPersistir)
 	{
 	    try
@@ -315,7 +355,7 @@ public class MedCEPStarter
 		}
 	    }
 	}
-	
+
 	manager.close();
     }
 
