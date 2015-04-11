@@ -184,16 +184,16 @@ public class TaigaIntegratorTest
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 
-	List<EstadoProjeto.Medidas> medidasTaiga = new ArrayList<EstadoProjeto.Medidas>();
-	medidasTaiga.add(EstadoProjeto.Medidas.PONTOS_ALOCADOS);
-	medidasTaiga.add(EstadoProjeto.Medidas.PONTOS_ALOCADOS_POR_PAPEL);
-	medidasTaiga.add(EstadoProjeto.Medidas.PONTOS_DEFINIDOS);
-	medidasTaiga.add(EstadoProjeto.Medidas.PONTOS_DEFINIDOS_POR_PAPEL);
-	medidasTaiga.add(EstadoProjeto.Medidas.PONTOS_FECHADOS);
-	medidasTaiga.add(EstadoProjeto.Medidas.PONTOS_FECHADOS_POR_PAPEL);
-	medidasTaiga.add(EstadoProjeto.Medidas.TOTAL_MARCOS);
-	medidasTaiga.add(EstadoProjeto.Medidas.TOTAL_PONTOS);
-	medidasTaiga.add(EstadoProjeto.Medidas.VELOCIDADE);
+	List<MedidasTaiga> medidasTaiga = new ArrayList<MedidasTaiga>();
+	medidasTaiga.add(MedidasTaiga.PONTOS_ALOCADOS);
+	medidasTaiga.add(MedidasTaiga.PONTOS_ALOCADOS_POR_PAPEL);
+	medidasTaiga.add(MedidasTaiga.PONTOS_DEFINIDOS);
+	medidasTaiga.add(MedidasTaiga.PONTOS_DEFINIDOS_POR_PAPEL);
+	medidasTaiga.add(MedidasTaiga.PONTOS_FECHADOS);
+	medidasTaiga.add(MedidasTaiga.PONTOS_FECHADOS_POR_PAPEL);
+	medidasTaiga.add(MedidasTaiga.TOTAL_MARCOS);
+	medidasTaiga.add(MedidasTaiga.TOTAL_PONTOS);
+	medidasTaiga.add(MedidasTaiga.VELOCIDADE);
 
 	List<Medida> medidas = integrator.criarMedidasMedCEP(medidasTaiga);
 

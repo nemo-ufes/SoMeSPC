@@ -10,7 +10,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
 import org.medcep.integracao.taiga.model.*;
-import org.medcep.integracao.taiga.model.EstadoProjeto.Medidas;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.medicao.*;
 import org.medcep.model.organizacao.*;
@@ -557,7 +556,7 @@ public class TaigaIntegrator
      * @return List<Medida> - Medidas criadas na MedCEP.
      * @throws Exception
      */
-    public List<Medida> criarMedidasMedCEP(List<EstadoProjeto.Medidas> medidasDoProjetoTaiga) throws Exception
+    public List<Medida> criarMedidasMedCEP(List<MedidasTaiga> medidasDoProjetoTaiga) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
 	List<Medida> medidasCadastradas = new ArrayList<Medida>();
@@ -651,7 +650,7 @@ public class TaigaIntegrator
 	}
 
 	//Define a medida de acordo com a lista informada.
-	for (Medidas medidaTaiga : medidasDoProjetoTaiga)
+	for (MedidasTaiga medidaTaiga : medidasDoProjetoTaiga)
 	{
 	    Medida medida = new Medida();
 	    List<TipoDeEntidadeMensuravel> tiposEntidadesMensuraveis = new ArrayList<TipoDeEntidadeMensuravel>();
