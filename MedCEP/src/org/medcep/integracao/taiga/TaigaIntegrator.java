@@ -10,7 +10,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
 import org.medcep.integracao.*;
-import org.medcep.integracao.conversores.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.medicao.*;
@@ -334,7 +333,8 @@ public class TaigaIntegrator
     {
 
 	EntityManager manager = XPersistence.createManager();
-	RecursoHumano recursoHumano = TaigaConverter.converterMembroParaRecursoHumano(membro);
+	RecursoHumano recursoHumano = new RecursoHumano();
+	recursoHumano.setNome(membro.getNome());
 
 	try
 	{
@@ -380,7 +380,8 @@ public class TaigaIntegrator
     public PapelRecursoHumano criarPapelRecursoHumanoMedCEP(Membro membro) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
-	PapelRecursoHumano papel = TaigaConverter.converterMembroParaPapelRecursoHumano(membro);
+	PapelRecursoHumano papel = new PapelRecursoHumano();
+	papel.setNome(membro.getNome());
 
 	try
 	{

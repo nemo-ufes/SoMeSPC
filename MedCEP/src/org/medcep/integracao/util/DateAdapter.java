@@ -1,4 +1,4 @@
-package org.medcep.integracao.conversores;
+package org.medcep.integracao.util;
 
 import java.text.*;
 import java.util.*;
