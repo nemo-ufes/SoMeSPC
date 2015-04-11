@@ -141,7 +141,9 @@ public class MedCEPStarter extends HttpServlet
 	TipoDeEntidadeMensuravel tipoOcorrenciaAtividade = new TipoDeEntidadeMensuravel();
 	TipoDeEntidadeMensuravel tipoTipoArtefato = new TipoDeEntidadeMensuravel();
 	TipoDeEntidadeMensuravel tipoArtefato = new TipoDeEntidadeMensuravel();
-
+	TipoDeEntidadeMensuravel tipoRecursoHumano = new TipoDeEntidadeMensuravel();
+	TipoDeEntidadeMensuravel tipoPapelRecursoHumano = new TipoDeEntidadeMensuravel();
+	
 	tipoProjeto.setNome("Projeto");
 	tipoProjeto.setDescricao("Representa um novo Projeto de software.");
 
@@ -169,6 +171,12 @@ public class MedCEPStarter extends HttpServlet
 	tipoArtefato.setNome("Artefato");
 	tipoArtefato.setDescricao("Representa um novo artefato de software.");
 
+	tipoRecursoHumano.setNome("Recurso Humano");
+	tipoRecursoHumano.setDescricao("Recurso Humano da organização.");
+	
+	tipoPapelRecursoHumano.setNome("Papel Recurso Humano");	
+	tipoPapelRecursoHumano.setDescricao("Papel de Recurso Humano da organização.");
+	
 	//Persiste.
 	List<TipoDeEntidadeMensuravel> tiposParaPersistir = new ArrayList<TipoDeEntidadeMensuravel>();
 	tiposParaPersistir.add(tipoProjeto);
@@ -180,6 +188,8 @@ public class MedCEPStarter extends HttpServlet
 	tiposParaPersistir.add(tipoOcorrenciaAtividade);
 	tiposParaPersistir.add(tipoTipoArtefato);
 	tiposParaPersistir.add(tipoArtefato);
+	tiposParaPersistir.add(tipoRecursoHumano);
+	tiposParaPersistir.add(tipoPapelRecursoHumano);
 
 	for (TipoDeEntidadeMensuravel tipo : tiposParaPersistir)
 	{
