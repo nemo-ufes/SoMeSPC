@@ -46,6 +46,7 @@ public class MedCEPStarter extends HttpServlet
 	inicializarTiposEntidadesMensuraveis();
 	inicializarPeriodicidades();
 	inicializarEscalas();
+	inicializarUnidadesMedida();
     }
 
     private static void inicializarTiposElementosMensuraveis() throws Exception
@@ -376,5 +377,46 @@ public class MedCEPStarter extends HttpServlet
 	
 	manager.close();
     }
+    
+    private static void inicializarUnidadesMedida() throws Exception
+    {
+	//Configura as periodicidades.	
+	EntityManager manager = XPersistence.createManager();
 
+	UnidadeDeMedida pontosEstoria = new UnidadeDeMedida();
+	
+	pontosEstoria.setNome("Pontos de Estória");
+	pontosEstoria.setDescricao("Pontos de Estória do Scrum.");
+
+	//Persiste.
+	List<UnidadeDeMedida> unidadesParaPersistir = new ArrayList<UnidadeDeMedida>();
+	unidadesParaPersistir.add(pontosEstoria);
+	
+
+	for (UnidadeDeMedida u : unidadesParaPersistir)
+	{
+	    try
+	    {
+		manager.getTransaction().begin();
+		manager.persist(u);
+		manager.getTransaction().commit();
+	    }
+	    catch (Exception ex)
+	    {
+		if (ex.getCause() != null &&
+			ex.getCause().getCause() != null &&
+			ex.getCause().getCause() instanceof ConstraintViolationException)
+		{
+		    System.out.println(String.format("A Unidade de Medida %s já existe.", u.getNome()));
+		}
+		else
+		{
+		    throw ex;
+		}
+	    }
+	}
+
+	manager.close();
+    }
+    
 }
