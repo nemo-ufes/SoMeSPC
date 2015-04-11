@@ -71,7 +71,8 @@ public class Medida extends TreeItemPlanoMedicaoBase
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
-    @Column(length = 6)
+    @DisplaySize(value=20)
+    @Column(length = 10)
     private String mnemonico;
 
     @ManyToOne
