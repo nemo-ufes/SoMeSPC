@@ -117,6 +117,82 @@ public class TaigaIntegrator
 
 	return projeto;
     }
+    
+    /**
+     * Obtem os dados do projeto Taiga.
+     * 
+     * @param nomeProjeto
+     *            - Nome do projeto a ser buscado.
+     * @return Json do projeto Taiga
+     */
+    public String obterProjetoTaigaJson(String nomeProjeto)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", nomeProjeto.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", nomeProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("projects/" + idProjeto);
+
+	Response projetoResponse = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	JSONObject projetoJson = new JSONObject(projetoResponse.readEntity(String.class));
+	
+	return projetoJson.toString();
+    }
+    
+    /**
+     * Obtem demais dados de andamento do projeto Taiga.
+     * 
+     * @param nomeProjeto
+     *            - Nome do projeto a ser buscado.
+     * @return Json de dados do andamento do projeto Taiga
+     */
+    public String obterAndamentoProjetoTaigaJson(String nomeProjeto)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", nomeProjeto.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", nomeProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path(String.format("projects/%d/stats", idProjeto));
+
+	Response projetoResponse = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	JSONObject projetoJson = new JSONObject(projetoResponse.readEntity(String.class));
+	
+	return projetoJson.toString();
+    }
 
     /**
      * Obtem todos os projetos.

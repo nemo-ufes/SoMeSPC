@@ -39,6 +39,28 @@ public class TaigaIntegratorTest
 
 	dump(projeto);
     }
+    
+    @Test
+    public void testObterProjetoJson()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	String projeto = integrator.obterProjetoTaigaJson("paflopes-sincap");
+	
+	assertNotNull(projeto);
+
+	System.out.println(projeto);
+    }
+    
+    @Test
+    public void testObterAndamentoProjetoJson()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	String projeto = integrator.obterAndamentoProjetoTaigaJson("paflopes-sincap");
+	
+	assertNotNull(projeto);
+
+	System.out.println(projeto);
+    }
 
     @Test
     public void testObterProjetos()
