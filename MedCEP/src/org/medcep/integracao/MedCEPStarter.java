@@ -3,6 +3,8 @@ package org.medcep.integracao;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 import org.hibernate.exception.*;
 import org.medcep.model.medicao.*;
@@ -14,8 +16,23 @@ import org.openxava.jpa.*;
  * @author Vinicius
  *
  */
-public class MedCEPStarter
+public class MedCEPStarter extends HttpServlet
 {
+
+    private static final long serialVersionUID = -718214408262760803L;
+
+    public void init() throws ServletException
+    {
+	try
+	{
+	    MedCEPStarter.inicializarMedCEP();
+	}
+	catch (Exception e)
+	{
+	    System.out.println("Erro ao inicializar os dados básicos da MedCEP.");
+	    e.printStackTrace();
+	}
+    }
 
     /**
      * Inicializa o banco de dados da MedCEP com informações básicas.
@@ -312,12 +329,14 @@ public class MedCEPStarter
 
 	List<ValorDeEscala> valoresPercentuais = new ArrayList<ValorDeEscala>();
 	ValorDeEscala valorPercentual = new ValorDeEscala();
-	valorPercentual.setNumerico(true);
+	valorPercentual.setNumerico(true);	
 	valorPercentual.setValor("Números racionais de 0 a 100");
 	valoresPercentuais.add(valorPercentual);
-
+	
+	List<Escala> escalasPercentuais = new ArrayList<Escala>();	
 	escalaPercentual.setValorDeEscala(valoresPercentuais);
-
+	escalasPercentuais.add(escalaPercentual);
+	
 	Escala escalaNumerosRacionais = new Escala();
 	escalaNumerosRacionais.setNome("Números Racionais");
 	escalaNumerosRacionais.setTipoEscala(tipoRacional);
@@ -327,35 +346,34 @@ public class MedCEPStarter
 	valorRacional.setNumerico(true);
 	valorRacional.setValor("Números racionais");
 	valoresRacionais.add(valorRacional);
+	
+	List<Escala> escalasRacionais = new ArrayList<Escala>();	
+	escalaNumerosRacionais.setValorDeEscala(valoresRacionais);
+	escalasRacionais.add(escalaNumerosRacionais);
 
-	//Persiste.
-	List<Escala> escalasParaPersistir = new ArrayList<Escala>();
-	escalasParaPersistir.add(escalaPercentual);
-	escalasParaPersistir.add(escalaNumerosRacionais);
-
-	for (Escala escala : escalasParaPersistir)
+	try
 	{
-	    try
+	    manager.getTransaction().begin();
+	    manager.persist(escalaPercentual);
+	    manager.persist(escalaNumerosRacionais);
+	    manager.persist(valorPercentual);
+	    manager.persist(valorRacional);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (ex.getCause() != null &&
+		    ex.getCause().getCause() != null &&
+		    ex.getCause().getCause() instanceof ConstraintViolationException)
 	    {
-		manager.getTransaction().begin();
-		manager.persist(escala);
-		manager.getTransaction().commit();
+		System.out.println("As escalas já existem.");
 	    }
-	    catch (Exception ex)
+	    else
 	    {
-		if (ex.getCause() != null &&
-			ex.getCause().getCause() != null &&
-			ex.getCause().getCause() instanceof ConstraintViolationException)
-		{
-		    System.out.println(String.format("A Escala %s já existe.", escala.getNome()));
-		}
-		else
-		{
-		    throw ex;
-		}
+		throw ex;
 	    }
 	}
-
+	
 	manager.close();
     }
 

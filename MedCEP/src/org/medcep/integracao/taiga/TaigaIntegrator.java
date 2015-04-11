@@ -9,7 +9,6 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
-import org.medcep.integracao.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.medicao.*;
@@ -48,17 +47,7 @@ public class TaigaIntegrator
 
 	this.urlTaiga = urlTaiga + "/api/v1/";
 	this.authInfo = new AuthInfo(usuario, senha);
-	client = ClientBuilder.newClient();
-
-	try
-	{
-	    MedCEPStarter.inicializarMedCEP();
-	}
-	catch (Exception e)
-	{
-	    System.out.println("Erro ao inicializar a MedCEP com dados básicos.");
-	    e.printStackTrace();
-	}
+	client = ClientBuilder.newClient();	
     }
 
     /**
@@ -558,5 +547,5 @@ public class TaigaIntegrator
 
 	return projetoMedCEP;
     }
-
+    
 }

@@ -15,6 +15,11 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement
 public class EstadoProjeto
 {
+    
+    public enum Medidas { PONTOS_ALOCADOS, PONTOS_FECHADOS_POR_PAPEL, VELOCIDADE, 
+			  PONTOS_DEFINIDOS, PONTOS_FECHADOS, PONTOS_DEFINIDOS_POR_PAPEL,
+			  TOTAL_MARCOS, PONTOS_ALOCADOS_POR_PAPEL, TOTAL_PONTOS};
+    
     @XmlElement(name="name")
     private String nomeProjeto;
     
