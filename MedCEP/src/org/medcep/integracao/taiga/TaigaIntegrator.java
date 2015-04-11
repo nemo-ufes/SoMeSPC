@@ -13,6 +13,7 @@ import org.medcep.integracao.*;
 import org.medcep.integracao.conversores.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
+import org.medcep.model.medicao.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.util.json.*;
 import org.openxava.jpa.*;
@@ -397,6 +398,19 @@ public class TaigaIntegrator
 	org.medcep.model.organizacao.Projeto projetoMedCEP = new org.medcep.model.organizacao.Projeto();
 	projetoMedCEP.setNome(projeto.getNome());
 	projetoMedCEP.setEquipe(equipes);
+
+	//Tenta preencher o Tipo de Entidade Mensurável do Projeto.
+	try
+	{
+	    String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Projeto'");
+	    TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = XPersistence.getManager().createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
+	    TipoDeEntidadeMensuravel tipoProjeto = tipoEntidadeTypedQuery.getSingleResult();
+	    projetoMedCEP.setTipoDeEntidadeMensuravel(tipoProjeto);
+	}
+	catch (Exception ex)
+	{
+	    System.out.println("Erro ao cadastrar o tipo de entidade mensurável do projeto.");
+	}
 
 	try
 	{
