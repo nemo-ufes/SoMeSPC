@@ -1,21 +1,21 @@
 /*
-    MedCEP - A powerful tool for measure
-    
-    Copyright (C) 2013 Ciro Xavier Maretto
-    Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
+ * MedCEP - A powerful tool for measure
+ * 
+ * Copyright (C) 2013 Ciro Xavier Maretto
+ * Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>.
  */
 package org.medcep.model.medicao;
 
@@ -33,333 +33,241 @@ import org.medcep.model.processo.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
-
 @Entity
 @Views({
-	@View(members="data; "
-			+ "planoDeMedicao;"
-			+ "medidaPlanoDeMedicao;"
-			+ "entidadeMensuravel;"
-			+ "valorMedido;"
-			//+ "projeto;"
-			+ "momentoRealDaMedicao; "
-			+ "executorDaMedicao; "
-			+ "contextoDeMedicao"
+	@View(members = "data; "
+		+ "planoDeMedicao;"
+		+ "medidaPlanoDeMedicao;"
+		+ "entidadeMensuravel;"
+		+ "valorMedido;"
+		+ "momentoRealDaMedicao; "
+		+ "executorDaMedicao; "
+		+ "contextoDeMedicao"
 	)
-	//@View(name="Simple", members="nome")
 })
 @Tabs({
-	@Tab(properties="medidaPlanoDeMedicao.medida.nome, " +
-					//"medidaPlanoDeMedicao.medida.entidadeMedida.nome, " + //"medidaPlanoDeMedicao.medida.elementoMensuravel.nome, " +
-					"projeto.nome, " +
-					"data, " +
-					"valorMedido.valorMedido", defaultOrder="${data} desc")
+	@Tab(properties = "medidaPlanoDeMedicao.medida.nome, " +
+		"projeto.nome, " +
+		"data, " +
+		"valorMedido.valorMedido", defaultOrder = "${data} desc")
 })
 @EntityValidator(
-		value=MedicaoValidator.class, 
-		properties={
-			@PropertyValue(name="medidaPlanoDeMedicao"),
-			@PropertyValue(name="entidadeMensuravel")
-		}
-)
-public class Medicao implements Comparable<Medicao>{
- 
-	@Id @GeneratedValue(generator="system-uuid") @Hidden
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;    
-    
-	public String getId() {
-		return id;
-	}
+	value = MedicaoValidator.class,
+	properties = {
+		@PropertyValue(name = "medidaPlanoDeMedicao"),
+		@PropertyValue(name = "entidadeMensuravel")
+	})
+public class Medicao implements Comparable<Medicao>
+{
 
-	public void setId(String id) {
-		this.id = id;
-	}
-    
-	private Date data;
-	
-/*	@Transient
-	@Editor("ValidValuesRadioButton")
-	private Type tipo;	
-	public enum Type { NUMERICO, ALFANUMERICO };
-*/		
-	@ManyToOne
-	@Required
-	@NoCreate
-	@NoModify
-	//@ReferenceView("Simple")
-	@DescriptionsList(descriptionProperties="nome")
-	private PlanoDeMedicao planoDeMedicao;
-	
-	@ManyToOne
-	@Required
-	@NoCreate
-	@NoModify
-	@ReferenceView("Simple")
-	@DescriptionsList(
-			descriptionProperties="medida.nome, medida.mnemonico"
-			,depends="planoDeMedicao"
-			,condition="${planoDeMedicao.id} = ?"
-			,order="${medida.nome} asc"
-			)
-	private MedidaPlanoDeMedicao medidaPlanoDeMedicao;
-	
-	@ManyToOne 
-	@Required
-	@ReferenceView("Simple")
-/*	@DescriptionsList(
-			descriptionProperties="nome"
-			//,depends="medidaPlanoDeMedicao.medida.entidadeMensuravel.id"
-			,depends="medidaPlanoDeMedicao"
-			,condition="${id} = ?"
-			,order="${nome} asc"
-			)*/
-	//@SearchAction("Medicao.searchEntidadeMensuravel")
-	private EntidadeMensuravel entidadeMensuravel;
-	
-	@ManyToOne 
-	//@Required
-	//@ReferenceView("Simple")
-	@DescriptionsList(
-			descriptionProperties="nome"
-/*			,depends="entidadeMensuravel"
-			,condition="${entidadeMensuravel.id} = ?"*/
-			,order="${nome} asc"
-			)
-	private ElementoMensuravel elementoMensuravel;
-	
-	@ManyToOne 
-	@DescriptionsList(
-			descriptionProperties="nome"
-			//,depends="medidaPlanoDeMedicao"
-			,order="${nome} asc"
-			)
-	private Projeto projeto;
-	
-	public Projeto getProjeto()
-	{
-	/*	if(medidaPlanoDeMedicao != null 
-			&& medidaPlanoDeMedicao.getPlanoDeMedicao() != null)
-		{
-			if(medidaPlanoDeMedicao.getPlanoDeMedicao() instanceof PlanoDeMedicaoDoProjeto)
-			{
-				if(((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto() != null)
-				{
-					return ((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto().getNome();
-					//return ((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto();
-				}
-			}	
-			
-		}
-		return "";*/ 	
-		return this.projeto;
-	}
-	
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
-	}
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @Hidden
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
 
-	@ManyToOne 
-	//@Required
-	@ReferenceView("Simple")
-	private ContextoDeMedicao contextoDeMedicao;
-	
-/*	@ManyToOne 
-	//@Required
-	@NoCreate
-	@NoModify
-	@ReferenceView("Simple")
-	@SearchAction("Medicao.searchDefinicaoOperacional")
-	private DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida;*/
-	
-	@ManyToOne 
-	//@Required
-	@ReferenceView("Simple")
-	private AtividadeInstanciada momentoRealDaMedicao;
-	
-	@ManyToOne 
-	//@Required
-	@ReferenceView("Simple")
-	private RecursoHumano executorDaMedicao;
-	 
-    @OneToOne(cascade=CascadeType.ALL)
-	//@ManyToOne(cascade=CascadeType.REMOVE)
-    //@PrimaryKeyJoinColumn
-    @NoSearch
-    //@NoFrame
-    @OnChange(OnChangePropertyDoNothingValorMedido.class)
-    //@OnChangeSearch(OnChangeSectionCEPAction.class)
+    public String getId()
+    {
+	return id;
+    }
+
+    public void setId(String id)
+    {
+	this.id = id;
+    }
+
+    private Date data;
+
+    @ManyToOne
     @Required
-    //@Embedded
-	private ValorMedido valorMedido;
+    @NoCreate
+    @NoModify
+    @DescriptionsList(descriptionProperties = "nome")
+    private PlanoDeMedicao planoDeMedicao;
 
-/*    @ManyToMany
-    @JoinTable(
-	      name="analiseDeMedicao_medicao"
-	      , joinColumns={
-	    		  @JoinColumn(name="medicao_id")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="analiseDeMedicao_id")
-	       }
-	      )
-	private Collection<AnaliseDeMedicao> analiseDeMedicao;	*/
-   
-	//private Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso;
+    @ManyToOne
+    @Required
+    @NoCreate
+    @NoModify
+    @ReferenceView("Simple")
+    @DescriptionsList(
+	    descriptionProperties = "medida.nome, medida.mnemonico"
+	    , depends = "planoDeMedicao"
+	    , condition = "${planoDeMedicao.id} = ?"
+	    , order = "${medida.nome} asc")
+    private MedidaPlanoDeMedicao medidaPlanoDeMedicao;
 
-	public Date getData() {
-		return data;
-	}
+    @ManyToOne
+    @Required
+    @ReferenceView("Simple")
+    private EntidadeMensuravel entidadeMensuravel;
 
-	public void setData(Date data) {
-		this.data = data;
-	}
+    @ManyToOne
+    @DescriptionsList(
+	    descriptionProperties = "nome"
+	    , order = "${nome} asc")
+    private ElementoMensuravel elementoMensuravel;
 
-	public EntidadeMensuravel getEntidadeMensuravel() {
-		return entidadeMensuravel;
-	}
+    @ManyToOne
+    @DescriptionsList(
+	    descriptionProperties = "nome",
+	    order = "${nome} asc")
+    private Projeto projeto;
 
-	public void setEntidadeMensuravel(EntidadeMensuravel entidadeMensuravel) {
-		this.entidadeMensuravel = entidadeMensuravel;
-	}
+    public Projeto getProjeto()
+    {
+	return this.projeto;
+    }
 
-	public ContextoDeMedicao getContextoDeMedicao() {
-		return contextoDeMedicao;
-	}
+    public void setProjeto(Projeto projeto)
+    {
+	this.projeto = projeto;
+    }
 
-	public void setContextoDeMedicao(ContextoDeMedicao contextoDeMedicao) {
-		this.contextoDeMedicao = contextoDeMedicao;
-	}
-/*
-	public DefinicaoOperacionalDeMedida getDefinicaoOperacionalDeMedida() {
-		return definicaoOperacionalDeMedida;
-	}
+    @ManyToOne
+    @ReferenceView("Simple")
+    private ContextoDeMedicao contextoDeMedicao;
 
-	public void setDefinicaoOperacionalDeMedida(
-			DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida) {
-		this.definicaoOperacionalDeMedida = definicaoOperacionalDeMedida;
-	}*/
+    @ManyToOne
+    @ReferenceView("Simple")
+    private OcorrenciaAtividade momentoRealDaMedicao;
 
-	public AtividadeInstanciada getMomentoRealDaMedicao() {
-		return momentoRealDaMedicao;
-	}
+    @ManyToOne
+    @ReferenceView("Simple")
+    private RecursoHumano executorDaMedicao;
 
-	public void setMomentoRealDaMedicao(AtividadeInstanciada momentoRealDaMedicao) {
-		this.momentoRealDaMedicao = momentoRealDaMedicao;
-	}
+    @OneToOne(cascade = CascadeType.ALL)
+    @NoSearch
+    @OnChange(OnChangePropertyDoNothingValorMedido.class)
+    @Required
+    private ValorMedido valorMedido;
 
-/*	public Collection<BaselineDeDesempenhoDeProcesso> getBaselineDeDesempenhoDeProcesso() {
-		return baselineDeDesempenhoDeProcesso;
-	}
+    public Date getData()
+    {
+	return data;
+    }
 
-	public void setBaselineDeDesempenhoDeProcesso(
-			Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso) {
-		this.baselineDeDesempenhoDeProcesso = baselineDeDesempenhoDeProcesso;
-	}*/
-/*
-	public ProcedimentoDeMedicao getProcedimentoDeMedicao() {
-		return procedimentoDeMedicao;
-	}
+    public void setData(Date data)
+    {
+	this.data = data;
+    }
 
-	public void setProcedimentoDeMedicao(ProcedimentoDeMedicao procedimentoDeMedicao) {
-		this.procedimentoDeMedicao = procedimentoDeMedicao;
-	}
-*/
-	public RecursoHumano getExecutorDaMedicao() {
-		return executorDaMedicao;
-	}
+    public EntidadeMensuravel getEntidadeMensuravel()
+    {
+	return entidadeMensuravel;
+    }
 
-	public void setExecutorDaMedicao(RecursoHumano executorDaMedicao) {
-		this.executorDaMedicao = executorDaMedicao;
-	}
+    public void setEntidadeMensuravel(EntidadeMensuravel entidadeMensuravel)
+    {
+	this.entidadeMensuravel = entidadeMensuravel;
+    }
 
-/*	public Collection<AnaliseDeMedicao> getAnaliseDeMedicao() {
-		return analiseDeMedicao;
-	}
+    public ContextoDeMedicao getContextoDeMedicao()
+    {
+	return contextoDeMedicao;
+    }
 
-	public void setAnaliseDeMedicao(Collection<AnaliseDeMedicao> analiseDeMedicao) {
-		this.analiseDeMedicao = analiseDeMedicao;
-	}*/
+    public void setContextoDeMedicao(ContextoDeMedicao contextoDeMedicao)
+    {
+	this.contextoDeMedicao = contextoDeMedicao;
+    }
 
-	public PlanoDeMedicao getPlanoDeMedicao() {
-		return planoDeMedicao;
-	}
+    public OcorrenciaAtividade getMomentoRealDaMedicao()
+    {
+	return momentoRealDaMedicao;
+    }
 
-	public void setPlanoDeMedicao(PlanoDeMedicao planoDeMedicao) {
-		this.planoDeMedicao = planoDeMedicao;
-	}
+    public void setMomentoRealDaMedicao(OcorrenciaAtividade momentoRealDaMedicao)
+    {
+	this.momentoRealDaMedicao = momentoRealDaMedicao;
+    }
 
-	public MedidaPlanoDeMedicao getMedidaPlanoDeMedicao() {
-		return medidaPlanoDeMedicao;
-	}
+    public RecursoHumano getExecutorDaMedicao()
+    {
+	return executorDaMedicao;
+    }
 
-	public void setMedidaPlanoDeMedicao(MedidaPlanoDeMedicao medidaPlanoDeMedicao) {
-		this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
-	}
+    public void setExecutorDaMedicao(RecursoHumano executorDaMedicao)
+    {
+	this.executorDaMedicao = executorDaMedicao;
+    }
 
-	public ElementoMensuravel getElementoMensuravel() {
-		return elementoMensuravel;
-	}
+    public PlanoDeMedicao getPlanoDeMedicao()
+    {
+	return planoDeMedicao;
+    }
 
-	public void setElementoMensuravel(ElementoMensuravel elementoMensuravel) {
-		this.elementoMensuravel = elementoMensuravel;
-	}
+    public void setPlanoDeMedicao(PlanoDeMedicao planoDeMedicao)
+    {
+	this.planoDeMedicao = planoDeMedicao;
+    }
 
-	public ValorMedido getValorMedido() {
-		return valorMedido;
-	}
+    public MedidaPlanoDeMedicao getMedidaPlanoDeMedicao()
+    {
+	return medidaPlanoDeMedicao;
+    }
 
-	public void setValorMedido(ValorMedido valorMedido) {
-/*		if(this.valorMedido != null && this.valorMedido instanceof ValorNumerico)
-		{
-			this.valorMedido = new ValorNumerico();
-			this.valorMedido.setValorMedido(valorMedido.getValorMedido());
-		}
-		else
-		{
-			this.valorMedido = valorMedido;		
-		}*/
-		this.valorMedido = valorMedido;	
-		
-	}
-	
-	@PreCreate
-	//@PreUpdate
-	public void ajusteValorMedido() 
+    public void setMedidaPlanoDeMedicao(MedidaPlanoDeMedicao medidaPlanoDeMedicao)
+    {
+	this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
+    }
+
+    public ElementoMensuravel getElementoMensuravel()
+    {
+	return elementoMensuravel;
+    }
+
+    public void setElementoMensuravel(ElementoMensuravel elementoMensuravel)
+    {
+	this.elementoMensuravel = elementoMensuravel;
+    }
+
+    public ValorMedido getValorMedido()
+    {
+	return valorMedido;
+    }
+
+    public void setValorMedido(ValorMedido valorMedido)
+    {
+	this.valorMedido = valorMedido;
+    }
+
+    @PreCreate
+    //@PreUpdate
+    public void ajusteValorMedido()
+    {
+	ValorMedido valorMedidoAux = valorMedido;
+	if (getMedidaPlanoDeMedicao().getMedida().getEscala().isNumerico())
 	{
-		ValorMedido valorMedidoAux = valorMedido;
-		if(getMedidaPlanoDeMedicao().getMedida().getEscala().isNumerico())
-    	{
-    		valorMedido = new ValorNumerico();
-    		((ValorNumerico)valorMedido).setValorMedido(valorMedidoAux.getValorMedido());
-    	}
-		else
-    	{
-    		valorMedido = new ValorAlfanumerico();
-    		((ValorAlfanumerico)valorMedido).setValorMedido(valorMedidoAux.getValorMedido()); 		
-    	}
-		//TODO: e se alterar a medida plano medição depois que a medição for criada?
-		
-		
-		//Seta projeto para facilitar pesquisa
-		if(medidaPlanoDeMedicao != null 
-				&& medidaPlanoDeMedicao.getPlanoDeMedicao() != null)
-			{
-				if(medidaPlanoDeMedicao.getPlanoDeMedicao() instanceof PlanoDeMedicaoDoProjeto)
-				{
-					if(((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto() != null)
-					{
-						projeto = ((PlanoDeMedicaoDoProjeto)medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto();
-					}
-				}	
-				
-			}
-		
+	    valorMedido = new ValorNumerico();
+	    ((ValorNumerico) valorMedido).setValorMedido(valorMedidoAux.getValorMedido());
 	}
-	
-	public int compareTo(Medicao o) {
-		return getData().compareTo(o.getData());
+	else
+	{
+	    valorMedido = new ValorAlfanumerico();
+	    ((ValorAlfanumerico) valorMedido).setValorMedido(valorMedidoAux.getValorMedido());
 	}
-	
+	//TODO: e se alterar a medida plano medição depois que a medição for criada?
+
+	//Seta projeto para facilitar pesquisa
+	if (medidaPlanoDeMedicao != null
+		&& medidaPlanoDeMedicao.getPlanoDeMedicao() != null)
+	{
+	    if (medidaPlanoDeMedicao.getPlanoDeMedicao() instanceof PlanoDeMedicaoDoProjeto)
+	    {
+		if (((PlanoDeMedicaoDoProjeto) medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto() != null)
+		{
+		    projeto = ((PlanoDeMedicaoDoProjeto) medidaPlanoDeMedicao.getPlanoDeMedicao()).getProjeto();
+		}
+	    }
+
+	}
+
+    }
+
+    public int compareTo(Medicao o)
+    {
+	return getData().compareTo(o.getData());
+    }
+
 }
- 

@@ -30,7 +30,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; atividadeInstanciada; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; ocorrenciaAtividade; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome"),
 })
 @Tab(properties = "nome, versao", defaultOrder = "${nome} asc, ${versao} desc", baseCondition = "TYPE(e) = ProcessoInstanciado")
@@ -39,7 +39,7 @@ import org.openxava.annotations.*;
 	properties = {
 		@PropertyValue(name = "tipoDeEntidadeMensuravel")
 	})
-public class ProcessoInstanciado extends EntidadeMensuravel
+public class OcorrenciaProcesso extends EntidadeMensuravel
 {
 
     //@Required
@@ -52,16 +52,16 @@ public class ProcessoInstanciado extends EntidadeMensuravel
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	    name = "ProcessoInstanciado_AtividadeInstanciada"
+	    name = "OcorrenciaProcesso_OcorrenciaAtividade"
 	    , joinColumns = {
-		    @JoinColumn(name = "processoInstanciado_id")
+		    @JoinColumn(name = "ocorrenciaProcesso_id")
 	    }
 	    , inverseJoinColumns = {
-		    @JoinColumn(name = "atividadeInstanciada_id")
+		    @JoinColumn(name = "ocorrenciaAtividade_id")
 	    })
     @ListProperties("nome")
     @NewAction("ProcessoInstanciado.add")
-    private Collection<AtividadeInstanciada> atividadeInstanciada;
+    private Collection<OcorrenciaAtividade> ocorrenciaAtividade;
 
     public String getVersao()
     {
@@ -94,15 +94,15 @@ public class ProcessoInstanciado extends EntidadeMensuravel
 	this.baseadoEm = baseadoEm;
     }
 
-    public Collection<AtividadeInstanciada> getAtividadeInstanciada()
+    public Collection<OcorrenciaAtividade> getOcorrenciaAtividade()
     {
-	return atividadeInstanciada;
+	return ocorrenciaAtividade;
     }
 
-    public void setAtividadeInstanciada(
-	    Collection<AtividadeInstanciada> atividadeInstanciada)
+    public void setOcorrenciaAtividade(
+	    Collection<OcorrenciaAtividade> atividadeInstanciada)
     {
-	this.atividadeInstanciada = atividadeInstanciada;
+	this.ocorrenciaAtividade = atividadeInstanciada;
     }
 
     @ManyToOne

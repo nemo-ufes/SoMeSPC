@@ -42,27 +42,27 @@ import org.openxava.annotations.*;
 	properties = {
 		@PropertyValue(name = "tipoDeEntidadeMensuravel")
 	})
-public class AtividadeDeProjeto extends AtividadeInstanciada
+public class AtividadeProjeto extends OcorrenciaAtividade
 {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	    name = "ProcessoDeProjeto_AtividadeDeProjeto"
+	    name = "ProcessoProjeto_AtividadeProjeto"
 	    , joinColumns = {
-		    @JoinColumn(name = "atividadeDeProjeto_id")
+		    @JoinColumn(name = "atividadeProjeto_id")
 	    }
 	    , inverseJoinColumns = {
-		    @JoinColumn(name = "processoDeProjeto_id")
+		    @JoinColumn(name = "processoProjeto_id")
 	    })
     @ListProperties("nome")
-    private Collection<ProcessoDeProjeto> processoDeProjeto;
+    private Collection<ProcessoProjeto> processoDeProjeto;
 
-    public Collection<ProcessoDeProjeto> getProcessoDeProjeto()
+    public Collection<ProcessoProjeto> getProcessoDeProjeto()
     {
 	return processoDeProjeto;
     }
 
-    public void setProcessoDeProjeto(Collection<ProcessoDeProjeto> processoDeProjeto)
+    public void setProcessoDeProjeto(Collection<ProcessoProjeto> processoDeProjeto)
     {
 	this.processoDeProjeto = processoDeProjeto;
     }

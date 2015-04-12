@@ -53,7 +53,7 @@ public class AtividadePadrao extends EntidadeMensuravel
     private Collection<DefinicaoOperacionalDeMedida> momentoDeAnaliseDeMedicao;
 
     @OneToMany(mappedBy = "baseadoEm")
-    private Collection<AtividadeInstanciada> atividadeDeProjeto;
+    private Collection<OcorrenciaAtividade> atividadeDeProjeto;
 
     @ManyToOne
     @Required
@@ -112,13 +112,13 @@ public class AtividadePadrao extends EntidadeMensuravel
     @ListProperties("nome")
     private Collection<TipoDeArtefato> requerTipoDeArtefato;
 
-    public Collection<AtividadeInstanciada> getAtividadeDeProjeto()
+    public Collection<OcorrenciaAtividade> getAtividadeDeProjeto()
     {
 	return atividadeDeProjeto;
     }
 
     public void setAtividadeDeProjeto(
-	    Collection<AtividadeInstanciada> atividadeDeProjeto)
+	    Collection<OcorrenciaAtividade> atividadeDeProjeto)
     {
 	this.atividadeDeProjeto = atividadeDeProjeto;
     }

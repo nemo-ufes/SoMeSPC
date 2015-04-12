@@ -37,60 +37,59 @@ import org.openxava.annotations.*;
 	@View(name = "Simple", members = "nome")
 })
 @Tabs({
-	@Tab(properties = "nome", defaultOrder = "${nome} asc", baseCondition = "TYPE(e) = AtividadeInstanciada")
+	@Tab(properties = "nome", defaultOrder = "${nome} asc", baseCondition = "TYPE(e) = OcorrenciaAtividade")
 })
 @EntityValidator(
 	value = AtividadeInstanciadaValidator.class,
 	properties = {
 		@PropertyValue(name = "tipoDeEntidadeMensuravel")
 	})
-public class AtividadeInstanciada extends EntidadeMensuravel
+public class OcorrenciaAtividade extends EntidadeMensuravel
 {
 
     @ManyToOne
     @ReferenceView("Simple")
-    //@SearchAction("AtividadeInstanciada.search")
     private AtividadePadrao baseadoEm;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	    name = "ProcessoInstanciado_AtividadeInstanciada"
+	    name = "OcorrenciaProcesso_OcorrenciaAtividade"
 	    , joinColumns = {
-		    @JoinColumn(name = "atividadeInstanciada_id")
+		    @JoinColumn(name = "ocorrenciaAtividade_id")
 	    }
 	    , inverseJoinColumns = {
-		    @JoinColumn(name = "processoInstanciado_id")
+		    @JoinColumn(name = "ocorrenciaProcesso_id")
 	    })
-    private Collection<ProcessoInstanciado> processoInstanciado;
+    private Collection<OcorrenciaProcesso> ocorrenciaProcesso;
 
-    public Collection<ProcessoInstanciado> getProcessoInstanciado()
+    public Collection<OcorrenciaProcesso> getOcorrenciaProcessi()
     {
-	return processoInstanciado;
+	return ocorrenciaProcesso;
     }
 
-    public void setProcessoInstanciado(
-	    Collection<ProcessoInstanciado> processoInstanciado)
+    public void setOcorrenciaProcesso(
+	    Collection<OcorrenciaProcesso> processoInstanciado)
     {
-	this.processoInstanciado = processoInstanciado;
+	this.ocorrenciaProcesso = processoInstanciado;
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	    name = "AtividadeInstanciada_dependeDe_AtividadeInstanciada"
+	    name = "OcorrenciaAtividade_dependeDe_OcorrenciaAtividade"
 	    , joinColumns = {
-		    @JoinColumn(name = "atividadeInstanciada_id")
+		    @JoinColumn(name = "ocorrenciaAtividade_id")
 	    }
 	    , inverseJoinColumns = {
-		    @JoinColumn(name = "atividadeInstanciada_id2")
+		    @JoinColumn(name = "ocorrenciaAtividade_id2")
 	    })
     @ListProperties("nome")
-    private Collection<AtividadeInstanciada> dependeDe;
+    private Collection<OcorrenciaAtividade> dependeDe;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	    name = "AtividadeInstanciada_RealizadoPor_RecursoHumano"
+	    name = "OcorrenciaAtividade_RealizadoPor_RecursoHumano"
 	    , joinColumns = {
-		    @JoinColumn(name = "atividadeInstanciada_id")
+		    @JoinColumn(name = "ocorrenciaAtividade_id")
 	    }
 	    , inverseJoinColumns = {
 		    @JoinColumn(name = "recursoHumano_id")
@@ -100,9 +99,9 @@ public class AtividadeInstanciada extends EntidadeMensuravel
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	    name = "AtividadeInstanciada_produz_Artefato"
+	    name = "OcorrenciaAtividade_produz_Artefato"
 	    , joinColumns = {
-		    @JoinColumn(name = "atividadeInstanciada_id")
+		    @JoinColumn(name = "ocorrenciaAtividade_id")
 	    }
 	    , inverseJoinColumns = {
 		    @JoinColumn(name = "artefato_id")
@@ -112,9 +111,9 @@ public class AtividadeInstanciada extends EntidadeMensuravel
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	    name = "AtividadeInstanciada_requer_Artefato"
+	    name = "OcorrenciaAtividade_requer_Artefato"
 	    , joinColumns = {
-		    @JoinColumn(name = "atividadeInstanciada_id")
+		    @JoinColumn(name = "ocorrenciaAtividade_id")
 	    }
 	    , inverseJoinColumns = {
 		    @JoinColumn(name = "artefato_id")
@@ -132,12 +131,12 @@ public class AtividadeInstanciada extends EntidadeMensuravel
 	this.baseadoEm = baseadoEm;
     }
 
-    public Collection<AtividadeInstanciada> getDependeDe()
+    public Collection<OcorrenciaAtividade> getDependeDe()
     {
 	return dependeDe;
     }
 
-    public void setDependeDe(Collection<AtividadeInstanciada> dependeDe)
+    public void setDependeDe(Collection<OcorrenciaAtividade> dependeDe)
     {
 	this.dependeDe = dependeDe;
     }

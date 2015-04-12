@@ -26,10 +26,10 @@ border-radius: 7px;
 						<li id="NecessidadeDeInformacao"><a href="<%=request.getContextPath()%>/m/NecessidadeDeInformacao"> Necessidade de Informação</a></li>
 						<li id="ProcessoPadrao"><a href="<%=request.getContextPath()%>/m/ProcessoPadrao"> Processo de Software Padrão</a></li>
 						<li id="AtividadePadrao"><a href="<%=request.getContextPath()%>/m/AtividadePadrao"> Atividade Padrão</a></li>
-						<li id="ProcessoDeProjeto"><a href="<%=request.getContextPath()%>/m/ProcessoDeProjeto"> Processo de Software em Projeto</a></li>
-						<li id="AtividadeDeProjeto"><a href="<%=request.getContextPath()%>/m/AtividadeDeProjeto"> Atividade de Projeto</a></li>
-						<li id="ProcessoInstanciado"><a href="<%=request.getContextPath()%>/m/ProcessoInstanciado"> Ocorrência de Processo de Software</a></li>
-						<li id="AtividadeInstanciada"><a href="<%=request.getContextPath()%>/m/AtividadeInstanciada"> Ocorrência de Atividade</a></li>
+						<li id="ProcessoProjeto"><a href="<%=request.getContextPath()%>/m/ProcessoProjeto"> Processo de Software em Projeto</a></li>
+						<li id="AtividadeProjeto"><a href="<%=request.getContextPath()%>/m/AtividadeProjeto"> Atividade de Projeto</a></li>
+						<li id="OcorrenciaProcesso"><a href="<%=request.getContextPath()%>/m/OcorrenciaProcesso"> Ocorrência de Processo de Software</a></li>
+						<li id="OcorrenciaAtividade"><a href="<%=request.getContextPath()%>/m/OcorrenciaAtividade"> Ocorrência de Atividade</a></li>
 						<li id="TipoDeArtefato"><a href="<%=request.getContextPath()%>/m/TipoDeArtefato"> Tipo de Artefato</a></li>
 						<li id="Artefato"><a href="<%=request.getContextPath()%>/m/Artefato"> Artefato</a></li>					
 						<li id="Procedimento"><a href="<%=request.getContextPath()%>/m/Procedimento"> Procedimento</a></li>	

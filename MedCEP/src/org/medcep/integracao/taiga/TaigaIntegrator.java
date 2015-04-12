@@ -868,4 +868,6 @@ public class TaigaIntegrator
 	return tiposDeArtefatoParaPersistir;
     }
 
+    
+    
 }

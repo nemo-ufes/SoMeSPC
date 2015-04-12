@@ -31,7 +31,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeDeProjeto; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeProjeto; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome"),
 })
 @Tab(properties = "nome, versao", defaultOrder = "${nome} asc, ${versao} desc")
@@ -40,7 +40,7 @@ import org.openxava.annotations.*;
 	properties = {
 		@PropertyValue(name = "tipoDeEntidadeMensuravel")
 	})
-public class ProcessoDeProjeto extends ProcessoInstanciado
+public class ProcessoProjeto extends OcorrenciaProcesso
 {
 
     @OneToOne
@@ -59,26 +59,26 @@ public class ProcessoDeProjeto extends ProcessoInstanciado
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-	    name = "ProcessoDeProjeto_AtividadeDeProjeto"
+	    name = "ProcessoProjeto_AtividadeProjeto"
 	    , joinColumns = {
-		    @JoinColumn(name = "processoDeProjeto_id")
+		    @JoinColumn(name = "processoProjeto_id")
 	    }
 	    , inverseJoinColumns = {
-		    @JoinColumn(name = "atividadeDeProjeto_id")
+		    @JoinColumn(name = "atividadeProjeto_id")
 	    })
     @ListProperties("nome")
     @NewAction("ProcessoDeProjeto.add")
-    private Collection<AtividadeDeProjeto> atividadeDeProjeto;
+    private Collection<AtividadeProjeto> atividadeProjeto;
 
-    public Collection<AtividadeDeProjeto> getAtividadeDeProjeto()
+    public Collection<AtividadeProjeto> getAtividadeProjeto()
     {
-	return atividadeDeProjeto;
+	return atividadeProjeto;
     }
 
-    public void setAtividadeDeProjeto(
-	    Collection<AtividadeDeProjeto> atividadeDeProjeto)
+    public void setAtividadeProjeto(
+	    Collection<AtividadeProjeto> atividadeProjeto)
     {
-	this.atividadeDeProjeto = atividadeDeProjeto;
+	this.atividadeProjeto = atividadeProjeto;
     }
 
     @ManyToOne
