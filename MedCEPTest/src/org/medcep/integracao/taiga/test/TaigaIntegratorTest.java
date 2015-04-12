@@ -13,6 +13,7 @@ import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.medicao.*;
 import org.medcep.model.organizacao.*;
+import org.medcep.model.processo.*;
 
 import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.json.*;
@@ -235,6 +236,19 @@ public class TaigaIntegratorTest
 	assertEquals(medidas.size(), 9);
 
 	dump(medidas);
+    }
+    
+    @Test
+    public void testCriarTiposArtefatosScrumMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	List<TipoDeArtefato> tiposDeArtefato = integrator.criarTiposArtefatosScrumMedCEP();
+	
+	assertNotNull(tiposDeArtefato);
+	assertNotEquals(tiposDeArtefato.size(), 0);
+	assertEquals(tiposDeArtefato.size(), 5);
+
+	dump(tiposDeArtefato);
     }
 
     private void dump(Object object)

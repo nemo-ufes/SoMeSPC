@@ -13,6 +13,7 @@ import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.medicao.*;
 import org.medcep.model.organizacao.*;
+import org.medcep.model.processo.*;
 import org.medcep.util.json.*;
 import org.openxava.jpa.*;
 
@@ -612,12 +613,12 @@ public class TaigaIntegrator
      * Cria as Medidas do Taiga no banco de dados da MedCEP.
      * Não atribui valores, somente cria as definições das medidas.
      * 
-     * @param medidasDoProjetoTaiga
+     * @param medidasTaiga
      *            - Lista com as medidas Taiga a serem criadas na MedCEP.
      * @return List<Medida> - Medidas criadas na MedCEP.
      * @throws Exception
      */
-    public List<Medida> criarMedidasMedCEP(List<MedidasTaiga> medidasDoProjetoTaiga) throws Exception
+    public List<Medida> criarMedidasMedCEP(List<MedidasTaiga> medidasTaiga) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
 	List<Medida> medidasCadastradas = new ArrayList<Medida>();
@@ -643,9 +644,15 @@ public class TaigaIntegrator
 	TipoDeEntidadeMensuravel tipoProjeto = typedQuery5.getSingleResult();
 
 	//Obtem o tipo de Entidade Mensurável Recurso Humano.
-	String query6 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Recurso Humano'";
+	String query6 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Alocação de Recurso Humano'";
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = XPersistence.getManager().createQuery(query6, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoRecursoHumano = typedQuery6.getSingleResult();
+	TipoDeEntidadeMensuravel tipoAlocacaoEquipe = typedQuery6.getSingleResult();
+
+	//TODO: Criar medidas da sprint e de estórias.
+	//Obtem o tipo de Entidade Sprint.
+	//String query6 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
+	//TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = XPersistence.getManager().createQuery(query6, TipoDeEntidadeMensuravel.class);
+	//TipoDeEntidadeMensuravel tipoRecursoHumano = typedQuery6.getSingleResult();
 
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
@@ -657,11 +664,15 @@ public class TaigaIntegrator
 	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
 	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
 
+	//Obtem o ElementoMensuravel Duração.
+	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = XPersistence.getManager().createQuery(queryDuracao, ElementoMensuravel.class);
+	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
+
 	//Define a medida de acordo com a lista informada.
-	for (MedidasTaiga medidaTaiga : medidasDoProjetoTaiga)
+	for (MedidasTaiga medidaTaiga : medidasTaiga)
 	{
 	    Medida medida = new Medida();
-	    List<TipoDeEntidadeMensuravel> tiposEntidadesMensuraveis = new ArrayList<TipoDeEntidadeMensuravel>();
 
 	    switch (medidaTaiga)
 	    {
@@ -669,64 +680,61 @@ public class TaigaIntegrator
 		    medida.setNome("Pontos Alocados");
 		    medida.setMnemonico("TAIGA-PA");
 		    medida.setElementoMensuravel(desempenho);
-		    tiposEntidadesMensuraveis.add(tipoProjeto);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
 		case PONTOS_ALOCADOS_POR_PAPEL_PROJETO:
 		    medida.setNome("Pontos Alocados por Papel");
 		    medida.setMnemonico("TAIGA-PAP");
 		    medida.setElementoMensuravel(desempenho);
-		    tiposEntidadesMensuraveis.add(tipoRecursoHumano);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
 		    break;
 		case PONTOS_DEFINIDOS_PROJETO:
 		    medida.setNome("Pontos Definidos");
 		    medida.setMnemonico("TAIGA-PD");
 		    medida.setElementoMensuravel(desempenho);
-		    tiposEntidadesMensuraveis.add(tipoProjeto);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
 		case PONTOS_DEFINIDOS_POR_PAPEL_PROJETO:
 		    medida.setNome("Pontos Definidos por Papel");
 		    medida.setMnemonico("TAIGA-PDP");
 		    medida.setElementoMensuravel(desempenho);
-		    tiposEntidadesMensuraveis.add(tipoRecursoHumano);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
 		    break;
 		case PONTOS_FECHADOS_PROJETO:
 		    medida.setNome("Pontos Fechados");
 		    medida.setMnemonico("TAIGA-PF");
 		    medida.setElementoMensuravel(desempenho);
-		    tiposEntidadesMensuraveis.add(tipoProjeto);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
 		case PONTOS_FECHADOS_POR_PAPEL_PROJETO:
 		    medida.setNome("Pontos Fechados por Papel");
 		    medida.setMnemonico("TAIGA-PFP");
 		    medida.setElementoMensuravel(desempenho);
-		    tiposEntidadesMensuraveis.add(tipoRecursoHumano);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
 		    break;
 		case TOTAL_SPRINTS_PROJETO:
 		    medida.setNome("Total de Marcos (Sprints)");
 		    medida.setMnemonico("TAIGA-TM");
 		    medida.setElementoMensuravel(tamanho);
-		    tiposEntidadesMensuraveis.add(tipoProjeto);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
 		case TOTAL_PONTOS_PROJETO:
 		    medida.setNome("Total de Pontos");
 		    medida.setMnemonico("TAIGA-TP");
 		    medida.setElementoMensuravel(tamanho);
-		    tiposEntidadesMensuraveis.add(tipoProjeto);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
 		case VELOCIDADE_PROJETO:
 		    medida.setNome("Velocidade");
 		    medida.setMnemonico("TAIGA-VEL");
 		    medida.setElementoMensuravel(desempenho);
-		    tiposEntidadesMensuraveis.add(tipoProjeto);
-		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
+		    break;
+		case DOSES_IOCAINE_SPRINT:
+		    medida.setNome("Doses de Iocaine");
+		    medida.setMnemonico("TAIGA-IOC");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
 		default:
 		    throw new Exception("Medida inexistente no Taiga.");
@@ -766,6 +774,98 @@ public class TaigaIntegrator
 	}
 
 	return medidasCadastradas;
+    }
+
+    /**
+     * Cria os tipos de artefatos do Scrum.
+     * 
+     * @throws Exception
+     */
+    public List<TipoDeArtefato> criarTiposArtefatosScrumMedCEP() throws Exception
+    {
+
+	EntityManager manager = XPersistence.createManager();
+
+	//Instancia os tipos de artefatos.
+	TipoDeArtefato estoriaPB = new TipoDeArtefato();
+	TipoDeArtefato estoriaSB = new TipoDeArtefato();
+	TipoDeArtefato codigoFonte = new TipoDeArtefato();
+	TipoDeArtefato documentacao = new TipoDeArtefato();
+	TipoDeArtefato releaseSoftware = new TipoDeArtefato();
+
+	//Obtem o tipo de Entidade Mensurável Tipo de Artefato.
+	String query = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Tipo de Artefato'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery = XPersistence.getManager().createQuery(query, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoDeArtefato = typedQuery.getSingleResult();
+
+	//Obtem o ElementoMensuravel Tamanho.
+	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
+	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Duração.
+	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = XPersistence.getManager().createQuery(queryDuracao, ElementoMensuravel.class);
+	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
+
+	estoriaPB.setNome("Estória de Product Backlog");
+	estoriaPB.setDescricao("Estória de Product Backlog do Scrum.");
+	estoriaPB.setElementoMensuravel(Arrays.asList(tamanho, duracao));
+
+	estoriaSB.setNome("Estória de Sprint Backlog");
+	estoriaSB.setDescricao("Estória de Sprint Backlog do Scrum.");
+	estoriaSB.setElementoMensuravel(Arrays.asList(tamanho, duracao));
+
+	codigoFonte.setNome("Código Fonte");
+	codigoFonte.setDescricao("Código fonte de um software.");
+	codigoFonte.setElementoMensuravel(Arrays.asList(tamanho));
+
+	documentacao.setNome("Documentação");
+	documentacao.setDescricao("Documentação de software. Inclui modelos, diagramas, relatórios, etc.");
+	documentacao.setElementoMensuravel(Arrays.asList(tamanho));
+
+	releaseSoftware.setNome("Release de Software");
+	releaseSoftware.setDescricao("Incremento de software pronto para implantação.");
+	releaseSoftware.setElementoMensuravel(Arrays.asList(tamanho));
+
+	List<TipoDeArtefato> tiposDeArtefatoParaPersistir = new ArrayList<TipoDeArtefato>();
+
+	tiposDeArtefatoParaPersistir.add(estoriaPB);
+	tiposDeArtefatoParaPersistir.add(estoriaSB);
+	tiposDeArtefatoParaPersistir.add(codigoFonte);
+	tiposDeArtefatoParaPersistir.add(documentacao);
+	tiposDeArtefatoParaPersistir.add(releaseSoftware);
+
+	//Persiste.
+	for (TipoDeArtefato tipo : tiposDeArtefatoParaPersistir)
+	{
+
+	    tipo.setTipoDeEntidadeMensuravel(tipoDeArtefato);
+
+	    try
+	    {
+		manager.getTransaction().begin();
+		manager.persist(tipo);
+		manager.getTransaction().commit();
+	    }
+	    catch (Exception ex)
+	    {
+		if (ex.getCause() != null &&
+			ex.getCause().getCause() != null &&
+			ex.getCause().getCause() instanceof ConstraintViolationException)
+		{
+		    System.out.println(String.format("O Tipo de Artefato %s já existe.", tipo.getNome()));
+		}
+		else
+		{
+		    throw ex;
+		}
+	    }
+	}
+
+	manager.close();
+
+	return tiposDeArtefatoParaPersistir;
     }
 
 }
