@@ -17,10 +17,16 @@ public enum MedidasTaiga
     
     //Medidas da Sprint
     DOSES_IOCAINE_SPRINT,
+    DURACAO_SPRINT, //Data Fim - Data Inicio
     ESTORIAS_COMPLETADAS_SPRINT,
     PONTOS_COMPLETADOS_SPRINT,
     TAREFAS_COMPLETADAS_SPRINT,
     TOTAL_ESTORIAS_SPRINT,
     TOTAL_PONTOS_SPRINT,
-    TOTAL_TAREFAS_SPRINT
+    TOTAL_TAREFAS_SPRINT,
+        
+    //Medidas da Estória
+    DURACAO_ESTORIA, //Data Fim - Data Inicio
+    PONTOS_ESTORIA
+    
 };
