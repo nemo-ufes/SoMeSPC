@@ -164,6 +164,13 @@ public class TaigaIntegrator
 	return milestoneJson.toString();
     }
 
+    /**
+     * Obtem as Sprints de um determinado projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido do projeto.
+     * @return List<Sprint> - Sprints do projeto
+     */
     public List<Sprint> obterSprintsDoProjetoTaiga(String apelidoProjeto)
     {
 	//Resolve o ID do projeto.
@@ -182,7 +189,7 @@ public class TaigaIntegrator
 	JSONObject json = new JSONObject(response.readEntity(String.class));
 	int idProjeto = json.getInt("project");
 
-	//Busca informações do projeto.
+	//Busca informações das sprints.
 	target = client.target(this.urlTaiga).path("milestones");
 
 	List<Sprint> sprints = target
@@ -200,6 +207,35 @@ public class TaigaIntegrator
 	}
 
 	return sprintsProjeto;
+    }
+
+    public EstadoSprint obterEstadoSprintTaiga(String apelidoProjeto, String apelidoSprint)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase()).queryParam("milestone", apelidoSprint.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idSprint = json.getInt("milestone");
+
+	//Busca informações da sprint.
+	target = client.target(this.urlTaiga).path(String.format("milestones/%d/stats", idSprint));
+
+	EstadoSprint estadoSprint = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(EstadoSprint.class);
+
+	return estadoSprint;
     }
 
     /**

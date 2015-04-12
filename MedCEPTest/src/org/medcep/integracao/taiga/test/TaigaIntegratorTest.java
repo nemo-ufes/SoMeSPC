@@ -80,6 +80,17 @@ public class TaigaIntegratorTest
 
 	dump(sprints);
     }
+    
+    @Test
+    public void testObterEstadoSprintTaiga()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("paflopes-sincap","sprint-19");
+
+	assertNotNull(estadoSprint);
+
+	dump(estadoSprint);
+    }
 
     @Test
     public void testObterAndamentoProjetoJson()
