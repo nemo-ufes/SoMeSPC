@@ -717,63 +717,63 @@ public class TaigaIntegrator
 
 	    switch (medidaTaiga)
 	    {
-		case PONTOS_ALOCADOS:
+		case PONTOS_ALOCADOS_PROJETO:
 		    medida.setNome("Pontos Alocados");
 		    medida.setMnemonico("TAIGA-PA");
 		    medida.setElementoMensuravel(desempenho);
 		    tiposEntidadesMensuraveis.add(tipoProjeto);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
-		case PONTOS_ALOCADOS_POR_PAPEL:
+		case PONTOS_ALOCADOS_POR_PAPEL_PROJETO:
 		    medida.setNome("Pontos Alocados por Papel");
 		    medida.setMnemonico("TAIGA-PAP");
 		    medida.setElementoMensuravel(desempenho);
 		    tiposEntidadesMensuraveis.add(tipoRecursoHumano);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
-		case PONTOS_DEFINIDOS:
+		case PONTOS_DEFINIDOS_PROJETO:
 		    medida.setNome("Pontos Definidos");
 		    medida.setMnemonico("TAIGA-PD");
 		    medida.setElementoMensuravel(desempenho);
 		    tiposEntidadesMensuraveis.add(tipoProjeto);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
-		case PONTOS_DEFINIDOS_POR_PAPEL:
+		case PONTOS_DEFINIDOS_POR_PAPEL_PROJETO:
 		    medida.setNome("Pontos Definidos por Papel");
 		    medida.setMnemonico("TAIGA-PDP");
 		    medida.setElementoMensuravel(desempenho);
 		    tiposEntidadesMensuraveis.add(tipoRecursoHumano);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
-		case PONTOS_FECHADOS:
+		case PONTOS_FECHADOS_PROJETO:
 		    medida.setNome("Pontos Fechados");
 		    medida.setMnemonico("TAIGA-PF");
 		    medida.setElementoMensuravel(desempenho);
 		    tiposEntidadesMensuraveis.add(tipoProjeto);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
-		case PONTOS_FECHADOS_POR_PAPEL:
+		case PONTOS_FECHADOS_POR_PAPEL_PROJETO:
 		    medida.setNome("Pontos Fechados por Papel");
 		    medida.setMnemonico("TAIGA-PFP");
 		    medida.setElementoMensuravel(desempenho);
 		    tiposEntidadesMensuraveis.add(tipoRecursoHumano);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
-		case TOTAL_MARCOS:
+		case TOTAL_SPRINTS_PROJETO:
 		    medida.setNome("Total de Marcos (Sprints)");
 		    medida.setMnemonico("TAIGA-TM");
 		    medida.setElementoMensuravel(tamanho);
 		    tiposEntidadesMensuraveis.add(tipoProjeto);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
-		case TOTAL_PONTOS:
+		case TOTAL_PONTOS_PROJETO:
 		    medida.setNome("Total de Pontos");
 		    medida.setMnemonico("TAIGA-TP");
 		    medida.setElementoMensuravel(tamanho);
 		    tiposEntidadesMensuraveis.add(tipoProjeto);
 		    medida.setTipoDeEntidadeMensuravel(tiposEntidadesMensuraveis);
 		    break;
-		case VELOCIDADE:
+		case VELOCIDADE_PROJETO:
 		    medida.setNome("Velocidade");
 		    medida.setMnemonico("TAIGA-VEL");
 		    medida.setElementoMensuravel(desempenho);
