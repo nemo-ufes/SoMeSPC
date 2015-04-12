@@ -209,6 +209,15 @@ public class TaigaIntegrator
 	return sprintsProjeto;
     }
 
+    /**
+     * Obtem o Estado de uma Sprint de um projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido do projeto.
+     * @param apelidoSprint
+     *            - Apelido da Sprint.
+     * @return Estado atual da Sprint.
+     */
     public EstadoSprint obterEstadoSprintTaiga(String apelidoProjeto, String apelidoSprint)
     {
 	//Resolve o ID do projeto.
@@ -514,6 +523,11 @@ public class TaigaIntegrator
 
 	Equipe equipe = new Equipe();
 	equipe.setNome(nomeEquipe);
+	
+	String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Alocação de Recurso Humano'");
+	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = XPersistence.getManager().createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoAlocacaco = tipoEntidadeTypedQuery.getSingleResult();
+
 
 	//Cria os recursos humanos, papeis e faz a alocação.
 	List<AlocacaoEquipe> alocacoes = new ArrayList<AlocacaoEquipe>();
@@ -531,6 +545,7 @@ public class TaigaIntegrator
 
 	    alocacao.setRecursoHumano(rec);
 	    alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoMedCEP(membro));
+	    alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
 	    alocacoes.add(alocacao);
 	}
 
@@ -591,23 +606,15 @@ public class TaigaIntegrator
 	List<Equipe> equipes = new ArrayList<Equipe>();
 	equipes.add(equipe);
 
+	String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Projeto'");
+	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = XPersistence.getManager().createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoProjeto = tipoEntidadeTypedQuery.getSingleResult();
+
 	org.medcep.model.organizacao.Projeto projetoMedCEP = new org.medcep.model.organizacao.Projeto();
 	projetoMedCEP.setNome(projeto.getNome());
 	projetoMedCEP.setEquipe(equipes);
 	projetoMedCEP.setDataInicio(projeto.getDataCriacao());
-
-	//Tenta preencher o Tipo de Entidade Mensurável do Projeto.
-	try
-	{
-	    String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Projeto'");
-	    TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = XPersistence.getManager().createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
-	    TipoDeEntidadeMensuravel tipoProjeto = tipoEntidadeTypedQuery.getSingleResult();
-	    projetoMedCEP.setTipoDeEntidadeMensuravel(tipoProjeto);
-	}
-	catch (Exception ex)
-	{
-	    System.out.println("Erro ao cadastrar o tipo de entidade mensurável do projeto.");
-	}
+	projetoMedCEP.setTipoDeEntidadeMensuravel(tipoProjeto);
 
 	try
 	{
@@ -639,6 +646,18 @@ public class TaigaIntegrator
 	}
 
 	return projetoMedCEP;
+    }
+
+    /**
+     * Cria as (Sprints) do Taiga na MedCEP como Atividade Padrão, Atividades de Projeto e Ocorrência de Atividade.
+     * 
+     * @param projeto
+     *            - Projeto Taiga para obter os marcos.
+     * @return
+     */
+    public boolean criarSprintsMedCEP(Projeto projeto)
+    {
+	return false;
     }
 
     /**
@@ -799,18 +818,6 @@ public class TaigaIntegrator
 	}
 
 	return medidasCadastradas;
-    }
-
-    /**
-     * Cria os marcos (Sprints) do Taiga na MedCEP como Atividade Padrão, Atividades de Projeto e Ocorrência de Atividade.
-     * 
-     * @param projeto
-     *            - Projeto Taiga para obter os marcos.
-     * @return
-     */
-    public boolean criarMarcosMedCEP(Projeto projeto)
-    {
-	return false;
     }
 
 }

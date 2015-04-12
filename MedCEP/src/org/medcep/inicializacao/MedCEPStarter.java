@@ -197,6 +197,7 @@ public class MedCEPStarter extends HttpServlet
 	TipoDeEntidadeMensuravel tipoArtefato = new TipoDeEntidadeMensuravel();
 	TipoDeEntidadeMensuravel tipoRecursoHumano = new TipoDeEntidadeMensuravel();
 	TipoDeEntidadeMensuravel tipoPapelRecursoHumano = new TipoDeEntidadeMensuravel();
+	TipoDeEntidadeMensuravel tipoAlocacao = new TipoDeEntidadeMensuravel();
 
 	tipoProjeto.setNome("Projeto");
 	tipoProjeto.setDescricao("Representa um novo Projeto de software.");
@@ -230,6 +231,29 @@ public class MedCEPStarter extends HttpServlet
 
 	tipoPapelRecursoHumano.setNome("Papel Recurso Humano");
 	tipoPapelRecursoHumano.setDescricao("Papel de Recurso Humano da organização.");
+	
+	tipoAlocacao.setNome("Alocação de Recurso Humano");
+	tipoAlocacao.setDescricao("Alocação de um Recurso Humano para desempenhar um Papel em uma Equipe.");
+	
+	//Adiciona elementos mensuraveis.
+	//Obtem o ElementoMensuravel Desempenho.
+	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = XPersistence.getManager().createQuery(queryDesempenho, ElementoMensuravel.class);
+	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Tamanho.
+	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
+	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
+	
+	List<ElementoMensuravel> elementosProjeto = new ArrayList<ElementoMensuravel>();
+	elementosProjeto.add(desempenho);
+	elementosProjeto.add(tamanho);
+	tipoProjeto.setElementoMensuravel(elementosProjeto);
+	
+	List<ElementoMensuravel> elementosAlocacao = new ArrayList<ElementoMensuravel>();
+	elementosAlocacao.add(desempenho);
+	tipoAlocacao.setElementoMensuravel(elementosAlocacao);	
 
 	//Persiste.
 	List<TipoDeEntidadeMensuravel> tiposParaPersistir = new ArrayList<TipoDeEntidadeMensuravel>();
@@ -244,6 +268,7 @@ public class MedCEPStarter extends HttpServlet
 	tiposParaPersistir.add(tipoArtefato);
 	tiposParaPersistir.add(tipoRecursoHumano);
 	tiposParaPersistir.add(tipoPapelRecursoHumano);
+	tiposParaPersistir.add(tipoAlocacao);
 
 	for (TipoDeEntidadeMensuravel tipo : tiposParaPersistir)
 	{
