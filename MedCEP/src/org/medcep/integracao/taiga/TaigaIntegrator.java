@@ -254,7 +254,7 @@ public class TaigaIntegrator
      *            - Apelido (slug) do projeto a ser buscado.
      * @return Json de dados do andamento do projeto Taiga
      */
-    public String obterAndamentoProjetoTaigaJson(String apelidoProjeto)
+    public String obterEstadoProjetoTaigaJson(String apelidoProjeto)
     {
 	//Resolve o ID do projeto.
 	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
@@ -283,96 +283,6 @@ public class TaigaIntegrator
 	JSONObject projetoJson = new JSONObject(projetoResponse.readEntity(String.class));
 
 	return projetoJson.toString();
-    }
-
-    /**
-     * Obtem todos os projetos.
-     * 
-     * @return List<Projeto>
-     */
-    public List<Projeto> obterProjetosTaiga()
-    {
-	//Busca informações dos projetos.
-	WebTarget target = client.target(this.urlTaiga).path("projects");
-
-	List<Projeto> projetos = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get(new GenericType<List<Projeto>>() {
-		});
-
-	return projetos;
-    }
-
-    /**
-     * Os membros já vem populados pelo método obterProjeto.
-     * 
-     * @param nomeProjeto
-     * @return Projeto
-     */
-    @Deprecated
-    public String obterMembrosDoProjeto(String nomeProjeto)
-    {
-	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", nomeProjeto.toLowerCase());
-
-	Response response = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", nomeProjeto, response.getStatus()));
-	}
-
-	JSONObject json = new JSONObject(response.readEntity(String.class));
-	int idProjeto = json.getInt("project");
-
-	//Busca informações do projeto.
-	target = client.target(this.urlTaiga).path("projects/" + idProjeto);
-
-	response = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    throw new RuntimeException(String.format("Erro ao obter o projeto %s. HTTP Code: %s", nomeProjeto, response.getStatus()));
-	}
-
-	json = new JSONObject(response.readEntity(String.class));
-	JSONArray membrosJson = json.getJSONArray("members");
-	JSONArray membrosInfoJson = new JSONArray();
-
-	for (int i = 0; i < membrosJson.length() - 1; i++)
-	{
-	    int idMembro = membrosJson.getInt(i);
-	    membrosInfoJson.put(i, obterMembroTaiga(idMembro));
-	}
-
-	return membrosInfoJson.toString();
-    }
-
-    /**
-     * Obtem os dados do Membro pelo ID.
-     * 
-     * @param idMembro
-     *            - ID do membro a ser buscado.
-     * @return Membro
-     */
-    public Membro obterMembroTaiga(int idMembro)
-    {
-	//Busca informações do membro.
-	WebTarget target = client.target(this.urlTaiga).path("memberships/" + idMembro);
-
-	Membro membro = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get(Membro.class);
-
-	return membro;
     }
 
     /**
@@ -409,6 +319,45 @@ public class TaigaIntegrator
 		.get(EstadoProjeto.class);
 
 	return estado;
+    }
+
+    /**
+     * Obtem todos os projetos.
+     * 
+     * @return List<Projeto>
+     */
+    public List<Projeto> obterProjetosTaiga()
+    {
+	//Busca informações dos projetos.
+	WebTarget target = client.target(this.urlTaiga).path("projects");
+
+	List<Projeto> projetos = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Projeto>>() {
+		});
+
+	return projetos;
+    }
+
+    /**
+     * Obtem os dados do Membro pelo ID.
+     * 
+     * @param idMembro
+     *            - ID do membro a ser buscado.
+     * @return Membro
+     */
+    public Membro obterMembroTaiga(int idMembro)
+    {
+	//Busca informações do membro.
+	WebTarget target = client.target(this.urlTaiga).path("memberships/" + idMembro);
+
+	Membro membro = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(Membro.class);
+
+	return membro;
     }
 
     /**
@@ -523,11 +472,10 @@ public class TaigaIntegrator
 
 	Equipe equipe = new Equipe();
 	equipe.setNome(nomeEquipe);
-	
+
 	String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Alocação de Recurso Humano'");
 	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = XPersistence.getManager().createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoAlocacaco = tipoEntidadeTypedQuery.getSingleResult();
-
 
 	//Cria os recursos humanos, papeis e faz a alocação.
 	List<AlocacaoEquipe> alocacoes = new ArrayList<AlocacaoEquipe>();

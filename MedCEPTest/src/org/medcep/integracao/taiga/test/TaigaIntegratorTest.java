@@ -93,10 +93,10 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testObterAndamentoProjetoJson()
+    public void testObterEstadoProjetoTaigaJson()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	String projeto = integrator.obterAndamentoProjetoTaigaJson("paflopes-sincap");
+	String projeto = integrator.obterEstadoProjetoTaigaJson("paflopes-sincap");
 
 	assertNotNull(projeto);
 
