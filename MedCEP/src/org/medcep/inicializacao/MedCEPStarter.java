@@ -96,11 +96,17 @@ public class MedCEPStarter extends HttpServlet
 
 	ElementoMensuravel desempenho = new ElementoMensuravel();
 	ElementoMensuravel tamanho = new ElementoMensuravel();
+	ElementoMensuravel duracao = new ElementoMensuravel();
 
 	//Obtem o tipo Elemento Diretamente Mensurável.
 	String query = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Diretamente Mensurável'";
 	TypedQuery<TipoElementoMensuravel> typedQuery = XPersistence.getManager().createQuery(query, TipoElementoMensuravel.class);
 	TipoElementoMensuravel elementoDiretamenteMensuravel = typedQuery.getSingleResult();
+
+	//Obtem o tipo Elemento Indiretamente Mensurável.
+	String query2 = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Indiretamente Mensurável'";
+	TypedQuery<TipoElementoMensuravel> typedQuery2 = XPersistence.getManager().createQuery(query2, TipoElementoMensuravel.class);
+	TipoElementoMensuravel elementoIndiretamenteMensuravel = typedQuery2.getSingleResult();
 
 	//Configura os elementos mensuráveis.
 	desempenho.setNome("Desempenho");
@@ -111,9 +117,14 @@ public class MedCEPStarter extends HttpServlet
 	tamanho.setDescricao("Tamanho");
 	tamanho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
 
+	duracao.setNome("Duração");
+	duracao.setDescricao("Substração da data de fim pela data de início.");
+	duracao.setTipoElementoMensuravel(elementoIndiretamenteMensuravel);
+
 	List<ElementoMensuravel> elementosParaPersistir = new ArrayList<ElementoMensuravel>();
 	elementosParaPersistir.add(desempenho);
 	elementosParaPersistir.add(tamanho);
+	elementosParaPersistir.add(duracao);
 
 	//Persiste.
 	for (ElementoMensuravel elementoMensuravel : elementosParaPersistir)
@@ -231,10 +242,10 @@ public class MedCEPStarter extends HttpServlet
 
 	tipoPapelRecursoHumano.setNome("Papel Recurso Humano");
 	tipoPapelRecursoHumano.setDescricao("Papel de Recurso Humano da organização.");
-	
+
 	tipoAlocacao.setNome("Alocação de Recurso Humano");
 	tipoAlocacao.setDescricao("Alocação de um Recurso Humano para desempenhar um Papel em uma Equipe.");
-	
+
 	//Adiciona elementos mensuraveis.
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
@@ -245,15 +256,33 @@ public class MedCEPStarter extends HttpServlet
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
 	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
 	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
-	
+
+	//Obtem o ElementoMensuravel Duracao.
+	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = XPersistence.getManager().createQuery(queryDuracao, ElementoMensuravel.class);
+	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
+
 	List<ElementoMensuravel> elementosProjeto = new ArrayList<ElementoMensuravel>();
 	elementosProjeto.add(desempenho);
 	elementosProjeto.add(tamanho);
 	tipoProjeto.setElementoMensuravel(elementosProjeto);
 	
+	List<ElementoMensuravel> elementosAPadrao = new ArrayList<ElementoMensuravel>();
+	elementosAPadrao.add(duracao);
+	tipoAPadrao.setElementoMensuravel(elementosAPadrao);
+	
+	List<ElementoMensuravel> elementosAProjeto = new ArrayList<ElementoMensuravel>();
+	elementosAProjeto.add(duracao);
+	tipoAProjeto.setElementoMensuravel(elementosAProjeto);
+	
+	List<ElementoMensuravel> elementosOcorrenciaAtividade = new ArrayList<ElementoMensuravel>();
+	elementosOcorrenciaAtividade.add(duracao);
+	tipoOcorrenciaAtividade.setElementoMensuravel(elementosOcorrenciaAtividade);
+
 	List<ElementoMensuravel> elementosAlocacao = new ArrayList<ElementoMensuravel>();
 	elementosAlocacao.add(desempenho);
-	tipoAlocacao.setElementoMensuravel(elementosAlocacao);	
+	elementosAlocacao.add(duracao);
+	tipoAlocacao.setElementoMensuravel(elementosAlocacao);
 
 	//Persiste.
 	List<TipoDeEntidadeMensuravel> tiposParaPersistir = new ArrayList<TipoDeEntidadeMensuravel>();
