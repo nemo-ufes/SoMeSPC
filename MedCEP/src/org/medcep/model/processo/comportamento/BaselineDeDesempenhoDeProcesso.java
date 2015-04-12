@@ -1,21 +1,21 @@
 /*
-    MedCEP - A powerful tool for measure
-    
-    Copyright (C) 2013 Ciro Xavier Maretto
-    Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
+ * MedCEP - A powerful tool for measure
+ * 
+ * Copyright (C) 2013 Ciro Xavier Maretto
+ * Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>.
  */
 package org.medcep.model.processo.comportamento;
 
@@ -27,19 +27,17 @@ import javax.persistence.Entity;
 import org.hibernate.annotations.*;
 import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.analise.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.model.processo.*;
 import org.openxava.annotations.*;
-
 
 /**
  * BDP-01
  */
 @Entity
 @Views({
-	@View(members=
-			"nome; "
+	@View(members =
+		"nome; "
 			+ "data; "
 			//+ "processoPadrao;"
 			//+ "descricao;"
@@ -50,196 +48,222 @@ import org.openxava.annotations.*;
 			//+ "Detalhes do Registro {"
 			+ "registradoPor; "
 			//+ "modeloDeDesempenhoDeProcesso;"
-			+ "contextoDeBaselineDeDesempenhoDeProcesso;"			
-			//+ "atualizaBaselineDeDesempenhoDeProcesso; " 
-			//+ "}"
+			+ "contextoDeBaselineDeDesempenhoDeProcesso;"
+	//+ "atualizaBaselineDeDesempenhoDeProcesso; " 
+	//+ "}"
 	),
-	@View(name="Simple", members="data; limiteDeControle; Processo Padrão [processoPadrao.nome]; Medida [medida.nome];"),
-	})
-@Tabs({
-	@Tab(properties="medida.nome, processoPadrao.nome, data, limiteDeControle.limiteInferior, limiteDeControle.limiteSuperior", defaultOrder="${processoPadrao.nome} asc, ${data} desc")
+	@View(name = "Simple", members = "data; limiteDeControle; Processo Padrão [processoPadrao.nome]; Medida [medida.nome];"),
 })
-public class BaselineDeDesempenhoDeProcesso {
-   
-	@Id @GeneratedValue(generator="system-uuid") @Hidden
-	@GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String id;    
-    
-	public String getId() {
-		return id;
-	}
+@Tabs({
+	@Tab(properties = "medida.nome, processoPadrao.nome, data, limiteDeControle.limiteInferior, limiteDeControle.limiteSuperior", defaultOrder = "${processoPadrao.nome} asc, ${data} desc")
+})
+public class BaselineDeDesempenhoDeProcesso
+{
 
-	public void setId(String id) {
-		this.id = id;
-	}
-    
-	@Stereotype("NO_CHANGE_DATE")
-	private Date data;
-	
-    @Required 
-	@Column(length=500, unique=true) 
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @Hidden
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
+
+    public String getId()
+    {
+	return id;
+    }
+
+    public void setId(String id)
+    {
+	this.id = id;
+    }
+
+    @Stereotype("NO_CHANGE_DATE")
+    private Date data;
+
+    @Required
+    @Column(length = 500, unique = true)
     private String nome;
-	
-	public String getNome() {
-		return nome;
-	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getNome()
+    {
+	return nome;
+    }
 
-	@Stereotype("TEXT_AREA")
-	@Column(columnDefinition="TEXT")
-	private String descricao;
-	 
-	@ManyToOne
-	@NoFrame
-	//@Required
-	private ContextoDeBaselineDeDesempenhoDeProcesso contextoDeBaselineDeDesempenhoDeProcesso;
-	 
-	@OneToOne
-	//@Required
-	private AnaliseDeMedicao analiseDeMedicao;
-	
-    public AnaliseDeMedicao getAnaliseDeMedicao() {
-		return analiseDeMedicao;
-	}
+    public void setNome(String nome)
+    {
+	this.nome = nome;
+    }
 
-	public void setAnaliseDeMedicao(AnaliseDeMedicao analiseDeMedicao) {
-		this.analiseDeMedicao = analiseDeMedicao;
-	}
+    @Stereotype("TEXT_AREA")
+    @Column(columnDefinition = "TEXT")
+    private String descricao;
 
-	//private Collection<ModeloDeDesempenhoDeProcesso> modeloDeDesempenhoDeProcesso;
-	 
-	@ManyToOne 
-	//@Required
-	@ReferenceView("Simple")
-	private Medida medida;
-	 
-	@ManyToMany 
+    @ManyToOne
+    @NoFrame
+    //@Required
+    private ContextoDeBaselineDeDesempenhoDeProcesso contextoDeBaselineDeDesempenhoDeProcesso;
+
+    @OneToOne
+    //@Required
+    private AnaliseDeMedicao analiseDeMedicao;
+
+    public AnaliseDeMedicao getAnaliseDeMedicao()
+    {
+	return analiseDeMedicao;
+    }
+
+    public void setAnaliseDeMedicao(AnaliseDeMedicao analiseDeMedicao)
+    {
+	this.analiseDeMedicao = analiseDeMedicao;
+    }
+
+    //private Collection<ModeloDeDesempenhoDeProcesso> modeloDeDesempenhoDeProcesso;
+
+    @ManyToOne
+    //@Required
+    @ReferenceView("Simple")
+    private Medida medida;
+
+    @ManyToMany
     @JoinTable(
-	      name="baselineDeDesempenhoDeProcesso_Medicao"
-	      , joinColumns={
-	    		  @JoinColumn(name="baselineDeDesempenhoDeProcesso_id")
-	       }
-	      , inverseJoinColumns={
-	    		  @JoinColumn(name="medicao_id")
-	       }
-	      )
-	private Collection<Medicao> medicao;
-	 
-	@ManyToOne 
-	@NoCreate
-	@NoModify
-	//@Required
-	@ReferenceView("Simple")
-	private RecursoHumano registradoPor;
-	 
-	@ManyToOne 
-	//@Required
-	@ReferenceView(value="Simple",notForViews="Simple")
-	private ProcessoPadrao  processoPadrao ;
-	 
-	//private CapacidadeDeProcesso capacidadeDeProcesso;
-	 
-	//private Collection<LimiteDeControle> limiteDeControle;
-	//@OneToOne
-	//@PrimaryKeyJoinColumn
-	@Embedded
-	@NoFrame
-	private LimiteDeControle limiteDeControle;
-	 
-	@OneToOne
-	//@PrimaryKeyJoinColumn
-	@ReferenceView("Simple")
-	@NoCreate
-	@NoModify
-	private BaselineDeDesempenhoDeProcesso atualizaBaselineDeDesempenhoDeProcesso;
+	    name = "baselineDeDesempenhoDeProcesso_Medicao"
+	    , joinColumns = {
+		    @JoinColumn(name = "baselineDeDesempenhoDeProcesso_id")
+	    }
+	    , inverseJoinColumns = {
+		    @JoinColumn(name = "medicao_id")
+	    })
+    private Collection<Medicao> medicao;
 
-	public Date getData() {
-		return data;
-	}
+    @ManyToOne
+    @NoCreate
+    @NoModify
+    //@Required
+    @ReferenceView("Simple")
+    private RecursoHumano registradoPor;
 
-	public void setData(Date data) {
-		this.data = data;
-	}
+    @ManyToOne
+    //@Required
+    @ReferenceView(value = "Simple", notForViews = "Simple")
+    private ProcessoPadrao processoPadrao;
 
-	public String getDescricao() {
-		return descricao;
-	}
+    //private CapacidadeDeProcesso capacidadeDeProcesso;
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    //private Collection<LimiteDeControle> limiteDeControle;
+    //@OneToOne
+    //@PrimaryKeyJoinColumn
+    @Embedded
+    @NoFrame
+    private LimiteDeControle limiteDeControle;
 
-	public ContextoDeBaselineDeDesempenhoDeProcesso getContextoDeBaselineDeDesempenhoDeProcesso() {
-		return contextoDeBaselineDeDesempenhoDeProcesso;
-	}
+    @OneToOne
+    //@PrimaryKeyJoinColumn
+    @ReferenceView("Simple")
+    @NoCreate
+    @NoModify
+    private BaselineDeDesempenhoDeProcesso atualizaBaselineDeDesempenhoDeProcesso;
 
-	public void setContextoDeBaselineDeDesempenhoDeProcesso(
-			ContextoDeBaselineDeDesempenhoDeProcesso contextoDeBaselineDeDesempenhoDeProcesso) {
-		this.contextoDeBaselineDeDesempenhoDeProcesso = contextoDeBaselineDeDesempenhoDeProcesso;
-	}
+    public Date getData()
+    {
+	return data;
+    }
 
-	public Medida getMedida() {
-		return medida;
-	}
+    public void setData(Date data)
+    {
+	this.data = data;
+    }
 
-	public void setMedida(Medida medida) {
-		this.medida = medida;
-	}
+    public String getDescricao()
+    {
+	return descricao;
+    }
 
-	public Collection<Medicao> getMedicao() {
-		return medicao;
-	}
+    public void setDescricao(String descricao)
+    {
+	this.descricao = descricao;
+    }
 
-	public void setMedicao(Collection<Medicao> medicao) {
-		this.medicao = medicao;
-	}
-	
-	public ProcessoPadrao getProcessoPadrao() {
-		return processoPadrao;
-	}
+    public ContextoDeBaselineDeDesempenhoDeProcesso getContextoDeBaselineDeDesempenhoDeProcesso()
+    {
+	return contextoDeBaselineDeDesempenhoDeProcesso;
+    }
 
-	public void setProcessoPadrao(ProcessoPadrao processoPadrao) {
-		this.processoPadrao = processoPadrao;
-	}
+    public void setContextoDeBaselineDeDesempenhoDeProcesso(
+	    ContextoDeBaselineDeDesempenhoDeProcesso contextoDeBaselineDeDesempenhoDeProcesso)
+    {
+	this.contextoDeBaselineDeDesempenhoDeProcesso = contextoDeBaselineDeDesempenhoDeProcesso;
+    }
 
-	public BaselineDeDesempenhoDeProcesso getAtualizaBaselineDeDesempenhoDeProcesso() {
-		return atualizaBaselineDeDesempenhoDeProcesso;
-	}
+    public Medida getMedida()
+    {
+	return medida;
+    }
 
-	public LimiteDeControle getLimiteDeControle() {
-		return limiteDeControle;
-	}
+    public void setMedida(Medida medida)
+    {
+	this.medida = medida;
+    }
 
-	public void setLimiteDeControle(LimiteDeControle limiteDeControle) {
-		this.limiteDeControle = limiteDeControle;
-	}
+    public Collection<Medicao> getMedicao()
+    {
+	return medicao;
+    }
 
-	public void setAtualizaBaselineDeDesempenhoDeProcesso(
-			BaselineDeDesempenhoDeProcesso atualizaBaselineDeDesempenhoDeProcesso) {
-		this.atualizaBaselineDeDesempenhoDeProcesso = atualizaBaselineDeDesempenhoDeProcesso;
-	}
+    public void setMedicao(Collection<Medicao> medicao)
+    {
+	this.medicao = medicao;
+    }
 
-	public RecursoHumano getRegistradoPor() {
-		return registradoPor;
-	}
+    public ProcessoPadrao getProcessoPadrao()
+    {
+	return processoPadrao;
+    }
 
-	public void setRegistradoPor(RecursoHumano registradoPor) {
-		this.registradoPor = registradoPor;
+    public void setProcessoPadrao(ProcessoPadrao processoPadrao)
+    {
+	this.processoPadrao = processoPadrao;
+    }
+
+    public BaselineDeDesempenhoDeProcesso getAtualizaBaselineDeDesempenhoDeProcesso()
+    {
+	return atualizaBaselineDeDesempenhoDeProcesso;
+    }
+
+    public LimiteDeControle getLimiteDeControle()
+    {
+	return limiteDeControle;
+    }
+
+    public void setLimiteDeControle(LimiteDeControle limiteDeControle)
+    {
+	this.limiteDeControle = limiteDeControle;
+    }
+
+    public void setAtualizaBaselineDeDesempenhoDeProcesso(
+	    BaselineDeDesempenhoDeProcesso atualizaBaselineDeDesempenhoDeProcesso)
+    {
+	this.atualizaBaselineDeDesempenhoDeProcesso = atualizaBaselineDeDesempenhoDeProcesso;
+    }
+
+    public RecursoHumano getRegistradoPor()
+    {
+	return registradoPor;
+    }
+
+    public void setRegistradoPor(RecursoHumano registradoPor)
+    {
+	this.registradoPor = registradoPor;
+    }
+
+    @PreCreate
+    public void ajustaLimite()
+    {
+	if (limiteDeControle == null)
+	{
+	    limiteDeControle = new LimiteDeControle();
+	    limiteDeControle.setLimiteCentral(0);
+	    limiteDeControle.setLimiteInferior(0);
+	    limiteDeControle.setLimiteSuperior(0);
 	}
-	
-	@PreCreate
-	public void ajustaLimite(){
-		if(limiteDeControle == null)
-		{
-			limiteDeControle = new LimiteDeControle();
-			limiteDeControle.setLimiteCentral(0);
-			limiteDeControle.setLimiteInferior(0);
-			limiteDeControle.setLimiteSuperior(0);
-		}
-	}
-	 
+    }
+
 }
- 

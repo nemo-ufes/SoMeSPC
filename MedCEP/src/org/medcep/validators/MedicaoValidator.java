@@ -27,6 +27,10 @@ import org.openxava.validators.*;
 public class MedicaoValidator implements IValidator
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private MedidaPlanoDeMedicao medidaPlanoDeMedicao;
     private EntidadeMensuravel entidadeMensuravel;
 

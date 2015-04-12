@@ -26,7 +26,6 @@ import javax.persistence.Entity;
 
 import org.hibernate.annotations.*;
 import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.openxava.annotations.*;
 
 @Entity
@@ -56,17 +55,7 @@ public class ModeloDeDesempenhoDeProcesso {
 		this.id = id;
 	}
     
-/*    @Required 
-	@Column(length=500, unique=true) 
-    private String nome;
-	
-	public String getNome() {
-		return nome;
-	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}*/
 	
 	private Date data;
 
@@ -88,7 +77,6 @@ public class ModeloDeDesempenhoDeProcesso {
 	    		  @JoinColumn(name="modeloDeDesempenhoDeProcesso_id")
 	       }
 	      )
-    //@NewAction("EntidadeMensuravel.AddElementoMensuravel")
     @ListProperties("medida.nome, processoPadrao.nome, data, limiteDeControle.limiteInferior, limiteDeControle.limiteSuperior")
 	private Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso;
 		
