@@ -45,7 +45,7 @@ public class EstadoProjeto
 
     //Tamanho do Projeto
     @XmlElement(name = "total_milestones")
-    private float totalMarcos;
+    private int totalSprints;
 
     //Andamento do Projeto
     @XmlElement(name = "assigned_points_per_role")
@@ -93,16 +93,6 @@ public class EstadoProjeto
     public void setPontosFechados(float pontosFechados)
     {
 	this.pontosFechados = pontosFechados;
-    }
-
-    public float getTotalMarcos()
-    {
-	return totalMarcos;
-    }
-
-    public void setTotalMarcos(float totalMarcos)
-    {
-	this.totalMarcos = totalMarcos;
     }
 
     public float getTotalPontos()
@@ -153,6 +143,16 @@ public class EstadoProjeto
     public void setNomeProjeto(String nomeProjeto)
     {
 	this.nomeProjeto = nomeProjeto;
+    }
+
+    public int getTotalSprints()
+    {
+	return totalSprints;
+    }
+
+    public void setTotalSprints(int totalSprints)
+    {
+	this.totalSprints = totalSprints;
     }
 
 }

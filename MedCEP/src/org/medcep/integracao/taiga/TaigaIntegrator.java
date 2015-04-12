@@ -145,6 +145,64 @@ public class TaigaIntegrator
     }
 
     /**
+     * Obtem os dados de Sprints do Taiga em JSON.
+     * 
+     * @return Json das Sprints Taiga
+     */
+    public String obterSprintsTaigaJson()
+    {
+	//Busca informações de milestones.
+	WebTarget target = client.target(this.urlTaiga).path("milestones");
+
+	Response milestoneResponse = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	JSONArray milestoneJson = new JSONArray(milestoneResponse.readEntity(String.class));
+
+	return milestoneJson.toString();
+    }
+
+    public List<Sprint> obterSprintsDoProjetoTaiga(String apelidoProjeto)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("milestones");
+
+	List<Sprint> sprints = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Sprint>>() {
+		});
+
+	List<Sprint> sprintsProjeto = new ArrayList<Sprint>();
+
+	for (Sprint sprint : sprints)
+	{
+	    if (sprint.getIdProjeto() == idProjeto)
+		sprintsProjeto.add(sprint);
+	}
+
+	return sprintsProjeto;
+    }
+
+    /**
      * Obtem demais dados de andamento do projeto Taiga.
      * 
      * @param apelidoProjeto
@@ -590,7 +648,7 @@ public class TaigaIntegrator
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
 	TypedQuery<ElementoMensuravel> typedQueryDesempenho = XPersistence.getManager().createQuery(queryDesempenho, ElementoMensuravel.class);
 	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
-	
+
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
 	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
