@@ -37,7 +37,6 @@ public class AlocacaoEquipe extends EntidadeMensuravel
 {
 
     private Date inicio;
-
     private Date fim;
 
     @ManyToOne
@@ -133,8 +132,11 @@ public class AlocacaoEquipe extends EntidadeMensuravel
 
     @PreCreate
     @PreUpdate
-    public void ajustaElementosMensuraveis()
+    public void ajustar()
     {
+	if (super.getNome() == null || super.getNome().isEmpty())
+	    super.setNome(String.format("%s %s em %s", papelRecursoHumano.getNome(), recursoHumano.getNome(), equipe.getNome()));
+
 	if (elementoMensuravel == null)
 	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
 
