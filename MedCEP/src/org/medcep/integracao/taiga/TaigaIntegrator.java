@@ -394,7 +394,7 @@ public class TaigaIntegrator
 		System.out.println(String.format("Recurso Humano %s já existe.", membro.getNome()));
 
 		String query = String.format("SELECT r FROM RecursoHumano r WHERE r.nome='%s'", membro.getNome());
-		TypedQuery<RecursoHumano> typedQuery = XPersistence.getManager().createQuery(query, RecursoHumano.class);
+		TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
 
 		recursoHumano = typedQuery.getSingleResult();
 	    }
@@ -443,7 +443,7 @@ public class TaigaIntegrator
 		System.out.println(String.format("Papel de Recurso Humano %s já existe.", membro.getPapel()));
 
 		String query = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='%s'", membro.getPapel());
-		TypedQuery<PapelRecursoHumano> typedQuery = XPersistence.getManager().createQuery(query, PapelRecursoHumano.class);
+		TypedQuery<PapelRecursoHumano> typedQuery = manager.createQuery(query, PapelRecursoHumano.class);
 
 		papel = typedQuery.getSingleResult();
 	    }
@@ -479,7 +479,7 @@ public class TaigaIntegrator
 	equipe.setNome(nomeEquipe);
 
 	String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Alocação de Recurso Humano'");
-	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = XPersistence.getManager().createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
+	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = manager.createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoAlocacaco = tipoEntidadeTypedQuery.getSingleResult();
 
 	//Cria os recursos humanos, papeis e faz a alocação.
@@ -528,7 +528,7 @@ public class TaigaIntegrator
 		System.out.println(String.format("Equipe %s já existe.", equipe.getNome()));
 
 		String query = String.format("SELECT e FROM Equipe e WHERE e.nome='%s'", equipe.getNome());
-		TypedQuery<Equipe> typedQuery = XPersistence.getManager().createQuery(query, Equipe.class);
+		TypedQuery<Equipe> typedQuery = manager.createQuery(query, Equipe.class);
 
 		equipe = typedQuery.getSingleResult();
 	    }
@@ -562,7 +562,7 @@ public class TaigaIntegrator
 	equipes.add(equipe);
 
 	String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Projeto'");
-	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = XPersistence.getManager().createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
+	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = manager.createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoProjeto = tipoEntidadeTypedQuery.getSingleResult();
 
 	org.medcep.model.organizacao.Projeto projetoMedCEP = new org.medcep.model.organizacao.Projeto();
@@ -588,7 +588,7 @@ public class TaigaIntegrator
 		System.out.println(String.format("Projeto %s já existe.", projeto.getNome()));
 
 		String query = String.format("SELECT p FROM Projeto p WHERE p.nome='%s'", projeto.getNome());
-		TypedQuery<org.medcep.model.organizacao.Projeto> typedQuery = XPersistence.getManager().createQuery(query, org.medcep.model.organizacao.Projeto.class);
+		TypedQuery<org.medcep.model.organizacao.Projeto> typedQuery = manager.createQuery(query, org.medcep.model.organizacao.Projeto.class);
 
 		projetoMedCEP = typedQuery.getSingleResult();
 	    }
@@ -633,47 +633,47 @@ public class TaigaIntegrator
 
 	//Obtem o tipo de medida base.
 	String query = "SELECT mb FROM TipoMedida mb WHERE mb.nome='Medida Base'";
-	TypedQuery<TipoMedida> typedQuery = XPersistence.getManager().createQuery(query, TipoMedida.class);
+	TypedQuery<TipoMedida> typedQuery = manager.createQuery(query, TipoMedida.class);
 	TipoMedida medidaBase = typedQuery.getSingleResult();
 
 	//Obtem a escala racional.
 	String query2 = "SELECT e FROM Escala e WHERE e.nome='Números Racionais'";
-	TypedQuery<Escala> typedQuery2 = XPersistence.getManager().createQuery(query2, Escala.class);
+	TypedQuery<Escala> typedQuery2 = manager.createQuery(query2, Escala.class);
 	Escala escala = typedQuery2.getSingleResult();
 
 	//Obtem a unidade de medida Pontos de Estória.
 	String query3 = "SELECT u FROM UnidadeDeMedida u WHERE u.nome='Pontos de Estória'";
-	TypedQuery<UnidadeDeMedida> typedQuery3 = XPersistence.getManager().createQuery(query3, UnidadeDeMedida.class);
+	TypedQuery<UnidadeDeMedida> typedQuery3 = manager.createQuery(query3, UnidadeDeMedida.class);
 	UnidadeDeMedida unidadeMedida = typedQuery3.getSingleResult();
 
 	//Obtem o tipo de Entidade Mensurável Projeto.
 	String query5 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Projeto'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery5 = XPersistence.getManager().createQuery(query5, TipoDeEntidadeMensuravel.class);
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery5 = manager.createQuery(query5, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoProjeto = typedQuery5.getSingleResult();
 
 	//Obtem o tipo de Entidade Mensurável Recurso Humano.
 	String query6 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Alocação de Recurso Humano'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = XPersistence.getManager().createQuery(query6, TipoDeEntidadeMensuravel.class);
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = manager.createQuery(query6, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoAlocacaoEquipe = typedQuery6.getSingleResult();
 
 	//Obtem o tipo de Entidade Sprint.
-	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = XPersistence.getManager().createQuery(query7, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
+//	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
+//	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = manager.createQuery(query7, TipoDeEntidadeMensuravel.class);
+//	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
 
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-	TypedQuery<ElementoMensuravel> typedQueryDesempenho = XPersistence.getManager().createQuery(queryDesempenho, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
 	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
 
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
 	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
 
 	//Obtem o ElementoMensuravel Duração.
 	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = XPersistence.getManager().createQuery(queryDuracao, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	//Define a medida de acordo com a lista informada.
@@ -737,12 +737,12 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-		case DOSES_IOCAINE_SPRINT:
-		    medida.setNome("Doses de Iocaine");
-		    medida.setMnemonico("TAIGA-IOC");
-		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
-		    break;
+//		case DOSES_IOCAINE_SPRINT:
+//		    medida.setNome("Doses de Iocaine");
+//		    medida.setMnemonico("TAIGA-IOC");
+//		    medida.setElementoMensuravel(tamanho);
+//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+//		    break;
 		default:
 		    throw new Exception("Medida inexistente no Taiga.");
 	    }
@@ -769,7 +769,7 @@ public class TaigaIntegrator
 		    System.out.println(String.format("A Medida %s já existe.", medida.getNome()));
 
 		    String queryMedida = String.format("SELECT m FROM Medida m WHERE m.nome='%s'", medida.getNome());
-		    TypedQuery<Medida> typedQueryMedida = XPersistence.getManager().createQuery(queryMedida, Medida.class);
+		    TypedQuery<Medida> typedQueryMedida = manager.createQuery(queryMedida, Medida.class);
 
 		    medida = typedQueryMedida.getSingleResult();
 		}
@@ -804,17 +804,17 @@ public class TaigaIntegrator
 
 	//Obtem o tipo de Entidade Mensurável Tipo de Artefato.
 	String queryTipoArtefato = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Tipo de Artefato'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQueryTipoArtefato = XPersistence.getManager().createQuery(queryTipoArtefato, TipoDeEntidadeMensuravel.class);
+	TypedQuery<TipoDeEntidadeMensuravel> typedQueryTipoArtefato = manager.createQuery(queryTipoArtefato, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoDeArtefato = typedQueryTipoArtefato.getSingleResult();
 
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
 	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
 
 	//Obtem o ElementoMensuravel Duração.
 	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = XPersistence.getManager().createQuery(queryDuracao, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	estoriaPB.setNome("Estória de Product Backlog");
@@ -872,7 +872,7 @@ public class TaigaIntegrator
 		    System.out.println(String.format("O Tipo de Artefato %s já existe.", tipo.getNome()));
 
 		    String query = String.format("SELECT t FROM TipoDeArtefato t WHERE t.nome='%s'", tipo.getNome());
-		    TypedQuery<TipoDeArtefato> typedQuery = XPersistence.getManager().createQuery(query, TipoDeArtefato.class);
+		    TypedQuery<TipoDeArtefato> typedQuery = manager.createQuery(query, TipoDeArtefato.class);
 
 		    TipoDeArtefato tipoExistente = typedQuery.getSingleResult();
 		    tiposDeArtefato.add(tipoExistente);
@@ -897,6 +897,8 @@ public class TaigaIntegrator
      */
     public List<AtividadePadrao> criarAtividadesPadraoScrumMedCEP() throws Exception
     {
+	EntityManager manager = XPersistence.createManager();
+
 	//Instancia os tipos de artefatos.
 	AtividadePadrao reuniaoPS = new AtividadePadrao();
 	AtividadePadrao sprint = new AtividadePadrao();
@@ -907,22 +909,22 @@ public class TaigaIntegrator
 
 	//Obtem o tipo de Entidade Mensurável AtividadePadrao.
 	String queryAtividadePadrao = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Atividade Padrão'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQueryAP = XPersistence.getManager().createQuery(queryAtividadePadrao, TipoDeEntidadeMensuravel.class);
+	TypedQuery<TipoDeEntidadeMensuravel> typedQueryAP = manager.createQuery(queryAtividadePadrao, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel atividadePadrao = typedQueryAP.getSingleResult();
 
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
 	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
 
 	//Obtem o ElementoMensuravel Duração.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-	TypedQuery<ElementoMensuravel> typedQueryDesempenho = XPersistence.getManager().createQuery(queryDesempenho, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
 	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
 
 	//Obtem o ElementoMensuravel Duração.
 	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = XPersistence.getManager().createQuery(queryDuracao, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	//Preenche a Reunião de Planejamento da Sprint.
@@ -1018,13 +1020,11 @@ public class TaigaIntegrator
 	atividadesParaPersistir.add(sprint);
 	atividadesParaPersistir.add(reuniaoRS);
 
-	//Persiste.
-	EntityManager manager = XPersistence.createManager();
-
+	//Persiste.	
 	try
 	{
 	    manager.getTransaction().begin();
-	    
+
 	    for (AtividadePadrao atividade : atividadesParaPersistir)
 	    {
 		atividade.setTipoDeEntidadeMensuravel(atividadePadrao);
@@ -1041,7 +1041,7 @@ public class TaigaIntegrator
 	    if (ex.getCause() != null &&
 		    ex.getCause() instanceof ConstraintViolationException)
 	    {
-		System.out.println("A Atividades Padrão do Scrum já existem.");		
+		System.out.println("A Atividades Padrão do Scrum já existem.");
 	    }
 	    else
 	    {

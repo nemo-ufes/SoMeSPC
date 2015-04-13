@@ -102,12 +102,12 @@ public class MedCEPStarter extends HttpServlet
 
 	//Obtem o tipo Elemento Diretamente Mensurável.
 	String query = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Diretamente Mensurável'";
-	TypedQuery<TipoElementoMensuravel> typedQuery = XPersistence.getManager().createQuery(query, TipoElementoMensuravel.class);
+	TypedQuery<TipoElementoMensuravel> typedQuery = manager.createQuery(query, TipoElementoMensuravel.class);
 	TipoElementoMensuravel elementoDiretamenteMensuravel = typedQuery.getSingleResult();
 
 	//Obtem o tipo Elemento Indiretamente Mensurável.
 	String query2 = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Indiretamente Mensurável'";
-	TypedQuery<TipoElementoMensuravel> typedQuery2 = XPersistence.getManager().createQuery(query2, TipoElementoMensuravel.class);
+	TypedQuery<TipoElementoMensuravel> typedQuery2 = manager.createQuery(query2, TipoElementoMensuravel.class);
 	TipoElementoMensuravel elementoIndiretamenteMensuravel = typedQuery2.getSingleResult();
 
 	//Configura os elementos mensuráveis.
@@ -255,17 +255,17 @@ public class MedCEPStarter extends HttpServlet
 	//Adiciona elementos mensuraveis.
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-	TypedQuery<ElementoMensuravel> typedQueryDesempenho = XPersistence.getManager().createQuery(queryDesempenho, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
 	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
 
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
 	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
 
 	//Obtem o ElementoMensuravel Duracao.
 	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = XPersistence.getManager().createQuery(queryDuracao, ElementoMensuravel.class);
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	List<ElementoMensuravel> elementosProjeto = new ArrayList<ElementoMensuravel>();
