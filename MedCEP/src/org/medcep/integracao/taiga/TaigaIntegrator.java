@@ -656,11 +656,10 @@ public class TaigaIntegrator
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = XPersistence.getManager().createQuery(query6, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoAlocacaoEquipe = typedQuery6.getSingleResult();
 
-	//TODO: Criar medidas da sprint e de estórias.
 	//Obtem o tipo de Entidade Sprint.
-	//String query6 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
-	//TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = XPersistence.getManager().createQuery(query6, TipoDeEntidadeMensuravel.class);
-	//TipoDeEntidadeMensuravel tipoRecursoHumano = typedQuery6.getSingleResult();
+	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = XPersistence.getManager().createQuery(query7, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
 
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
@@ -742,7 +741,7 @@ public class TaigaIntegrator
 		    medida.setNome("Doses de Iocaine");
 		    medida.setMnemonico("TAIGA-IOC");
 		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
 		    break;
 		default:
 		    throw new Exception("Medida inexistente no Taiga.");

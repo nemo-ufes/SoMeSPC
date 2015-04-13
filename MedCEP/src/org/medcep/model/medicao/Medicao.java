@@ -22,12 +22,14 @@ package org.medcep.model.medicao;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 
+import org.hibernate.annotations.*;
 import org.medcep.actions.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.model.processo.*;
-import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
@@ -48,29 +50,19 @@ import org.openxava.annotations.*;
 		"data, " +
 		"valorMedido.valorMedido", defaultOrder = "${data} desc")
 })
-@EntityValidator(
-	value = MedicaoValidator.class,
-	properties = {
-		@PropertyValue(name = "medidaPlanoDeMedicao"),
-		@PropertyValue(name = "entidadeMensuravel")
-	})
-public class Medicao implements Comparable<Medicao>
+//@EntityValidator(
+//	value = MedicaoValidator.class,
+//	properties = {
+//		@PropertyValue(name = "medidaPlanoDeMedicao"),
+//		@PropertyValue(name = "entidadeMensuravel")
+//	})
+public class Medicao
 {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Hidden
-    private Integer id;
-
-    public Integer getId()
-    {
-	return id;
-    }
-
-    public void setId(Integer id)
-    {
-	this.id = id;
-    }
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
 
     private Date data;
 
@@ -261,9 +253,14 @@ public class Medicao implements Comparable<Medicao>
 
     }
 
-    public int compareTo(Medicao o)
+    public String getId()
     {
-	return getData().compareTo(o.getData());
+	return id;
+    }
+
+    public void setId(String id)
+    {
+	this.id = id;
     }
 
 }
