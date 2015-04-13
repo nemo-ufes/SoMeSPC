@@ -387,7 +387,7 @@ public class TaigaIntegrator
 	{
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
-	    
+
 	    if (ex.getCause() != null &&
 		    ex.getCause() instanceof ConstraintViolationException)
 	    {
@@ -436,7 +436,7 @@ public class TaigaIntegrator
 	{
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
-	    
+
 	    if (ex.getCause() != null &&
 		    ex.getCause() instanceof ConstraintViolationException)
 	    {
@@ -521,7 +521,7 @@ public class TaigaIntegrator
 	{
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
-	    
+
 	    if (ex.getCause() != null &&
 		    ex.getCause() instanceof ConstraintViolationException)
 	    {
@@ -581,7 +581,7 @@ public class TaigaIntegrator
 	{
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
-	    
+
 	    if (ex.getCause() != null &&
 		    ex.getCause() instanceof ConstraintViolationException)
 	    {
@@ -762,8 +762,8 @@ public class TaigaIntegrator
 	    catch (Exception ex)
 	    {
 		if (manager.getTransaction().isActive())
-			manager.getTransaction().rollback();
-		
+		    manager.getTransaction().rollback();
+
 		if (ex.getCause() != null &&
 			ex.getCause() instanceof ConstraintViolationException)
 		{
@@ -952,7 +952,6 @@ public class TaigaIntegrator
 
 	reuniaoPS.setRequerTipoDeArtefato(artefatosRequeridosReuniaoPS);
 	reuniaoPS.setProduzTipoDeArtefato(artefatosProduzidosReuniaoPS);
-	reuniaoPS.setAtividadesDependentesDeMim(new HashSet<AtividadePadrao>(Arrays.asList(reuniaoPS)));
 	reuniaoPS.setElementoMensuravel(Arrays.asList(duracao));
 
 	//Preenche a Sprint
@@ -981,8 +980,7 @@ public class TaigaIntegrator
 
 	sprint.setRequerTipoDeArtefato(artefatosRequeridosSprint);
 	sprint.setProduzTipoDeArtefato(artefatosProduzidosSprint);
-	sprint.setDependoDasAtividades(new HashSet<AtividadePadrao>(Arrays.asList(reuniaoPS)));
-	sprint.setAtividadesDependentesDeMim(new HashSet<AtividadePadrao>(Arrays.asList(sprint)));
+	sprint.setDependeDe(Arrays.asList(reuniaoPS));
 	sprint.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
 
 	//Preenche a Reunião de Revisão da Sprint
@@ -1012,7 +1010,7 @@ public class TaigaIntegrator
 
 	reuniaoRS.setRequerTipoDeArtefato(artefatosRequeridosReuniaoRS);
 	reuniaoRS.setProduzTipoDeArtefato(artefatosProduzidosReuniaoRS);
-	reuniaoRS.setDependoDasAtividades(new HashSet<AtividadePadrao>(Arrays.asList(sprint)));
+	reuniaoRS.setDependeDe(Arrays.asList(sprint));
 	reuniaoRS.setElementoMensuravel(Arrays.asList(duracao));
 
 	List<AtividadePadrao> atividadesParaPersistir = new ArrayList<AtividadePadrao>();
@@ -1021,47 +1019,41 @@ public class TaigaIntegrator
 	atividadesParaPersistir.add(sprint);
 	atividadesParaPersistir.add(reuniaoRS);
 
-	List<AtividadePadrao> atividades = new ArrayList<AtividadePadrao>();
-
 	//Persiste.
 	EntityManager manager = XPersistence.createManager();
 
-	for (AtividadePadrao atividade : atividadesParaPersistir)
+	try
 	{
-	    atividade.setTipoDeEntidadeMensuravel(atividadePadrao);
-
-	    try
+	    manager.getTransaction().begin();
+	    
+	    for (AtividadePadrao atividade : atividadesParaPersistir)
 	    {
-		manager.getTransaction().begin();
+		atividade.setTipoDeEntidadeMensuravel(atividadePadrao);
 		manager.persist(atividade);
-		manager.getTransaction().commit();
-		atividades.add(atividade);
 	    }
-	    catch (Exception ex)
+
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    if (ex.getCause() != null &&
+		    ex.getCause() instanceof ConstraintViolationException)
 	    {
-		if (manager.getTransaction().isActive())
-		    manager.getTransaction().rollback();
-
-		if (ex.getCause() != null &&
-			ex.getCause() instanceof ConstraintViolationException)
-		{
-		    System.out.println(String.format("A Atividade Padrão %s já existe.", atividade.getNome()));
-
-		    String query = String.format("SELECT a FROM AtividadePadrao a WHERE a.nome='%s'", atividade.getNome());
-		    TypedQuery<AtividadePadrao> typedQuery = XPersistence.getManager().createQuery(query, AtividadePadrao.class);
-
-		    AtividadePadrao atividadeExistente = typedQuery.getSingleResult();
-		    atividades.add(atividadeExistente);
-		}
-		else
-		{
-		    throw ex;
-		}
+		System.out.println("A Atividades Padrão do Scrum já existem.");		
+	    }
+	    else
+	    {
+		throw ex;
 	    }
 	}
+	finally
+	{
+	    manager.close();
+	}
 
-	manager.close();
-
-	return atividades;
+	return atividadesParaPersistir;
     }
 }

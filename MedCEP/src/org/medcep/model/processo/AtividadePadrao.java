@@ -34,7 +34,7 @@ import org.openxava.annotations.*;
  */
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; requerTipoDeArtefato; produzTipoDeArtefato; dependoDasAtividades; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; requerTipoDeArtefato; produzTipoDeArtefato; dependeDe; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome")
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
@@ -76,7 +76,6 @@ public class AtividadePadrao extends EntidadeMensuravel
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
 
-    /*
     @JoinTable(name = "AtividadePadrao_dependeDe_AtividadePadrao",
 	    joinColumns = {
 		    @JoinColumn(name = "atividade1", referencedColumnName = "id", nullable = false)
@@ -87,17 +86,19 @@ public class AtividadePadrao extends EntidadeMensuravel
     @ManyToMany(fetch = FetchType.LAZY)
     @ListProperties("nome")
     private Collection<AtividadePadrao> dependeDe;
-    */
 
-    @ManyToMany
-    @JoinTable(name="Atividade1_dependeDe_Atividade2",
-        joinColumns={@JoinColumn(name="atividade1_id")},
-        inverseJoinColumns={@JoinColumn(name="atividade2_id")})
-    private Set<AtividadePadrao> dependoDasAtividades;
- 
-    @ManyToMany(mappedBy="dependoDasAtividades")
-    private Set<AtividadePadrao> atividadesDependentesDeMim;
-    
+    /*
+     * @ManyToMany
+     * 
+     * @JoinTable(name="Atividade1_dependeDe_Atividade2",
+     * joinColumns={@JoinColumn(name="atividade1_id")},
+     * inverseJoinColumns={@JoinColumn(name="atividade2_id")})
+     * private Set<AtividadePadrao> dependoDasAtividades;
+     * 
+     * @ManyToMany(mappedBy="dependoDasAtividades")
+     * private Set<AtividadePadrao> atividadesDependentesDeMim;
+     */
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
 	    name = "AtividadePadrao_produz_TipoArtefato"
@@ -215,25 +216,14 @@ public class AtividadePadrao extends EntidadeMensuravel
 	}
     }//ajusta
 
-    public Set<AtividadePadrao> getDependoDasAtividades()
+    public Collection<AtividadePadrao> getDependeDe()
     {
-        return dependoDasAtividades;
+	return dependeDe;
     }
 
-    public void setDependoDasAtividades(Set<AtividadePadrao> dependoDasAtividades)
+    public void setDependeDe(Collection<AtividadePadrao> dependeDe)
     {
-        this.dependoDasAtividades = dependoDasAtividades;
+	this.dependeDe = dependeDe;
     }
 
-    public Set<AtividadePadrao> getAtividadesDependentesDeMim()
-    {
-        return atividadesDependentesDeMim;
-    }
-
-    public void setAtividadesDependentesDeMim(Set<AtividadePadrao> atividadesDependentesDeMim)
-    {
-        this.atividadesDependentesDeMim = atividadesDependentesDeMim;
-    }
-
-     
 }

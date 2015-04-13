@@ -261,7 +261,7 @@ public class TaigaIntegratorTest
 	assertNotEquals(atividades.size(), 0);
 	assertEquals(atividades.size(), 3);
 
-	//dump(atividades);
+	dump(atividades);
     }
 
     private void dump(Object object)
