@@ -22,9 +22,7 @@ package org.medcep.model.processo.comportamento;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.analise.*;
 import org.medcep.model.organizacao.*;
@@ -61,17 +59,16 @@ public class BaselineDeDesempenhoDeProcesso
 {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Hidden
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    private Integer id;
 
-    public String getId()
+    public Integer getId()
     {
 	return id;
     }
 
-    public void setId(String id)
+    public void setId(Integer id)
     {
 	this.id = id;
     }

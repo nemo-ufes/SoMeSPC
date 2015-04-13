@@ -72,9 +72,11 @@ public class MedCEPStarter extends HttpServlet
 	}
 	catch (Exception ex)
 	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
 	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
+		    ex.getCause() instanceof ConstraintViolationException)
 	    {
 		System.out.println("Tipos de Elementos Mensuráveis já cadastrados.");
 	    }
@@ -137,9 +139,11 @@ public class MedCEPStarter extends HttpServlet
 	    }
 	    catch (Exception ex)
 	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
 		if (ex.getCause() != null &&
-			ex.getCause().getCause() != null &&
-			ex.getCause().getCause() instanceof ConstraintViolationException)
+			ex.getCause() instanceof ConstraintViolationException)
 		{
 		    System.out.println(String.format("O Elemento Mensurável %s já existe.", elementoMensuravel.getNome()));
 		}
@@ -175,9 +179,11 @@ public class MedCEPStarter extends HttpServlet
 	}
 	catch (Exception ex)
 	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
 	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
+		    ex.getCause() instanceof ConstraintViolationException)
 	    {
 		System.out.println("Tipos de Medidas já cadastrados.");
 	    }
@@ -266,15 +272,15 @@ public class MedCEPStarter extends HttpServlet
 	elementosProjeto.add(desempenho);
 	elementosProjeto.add(tamanho);
 	tipoProjeto.setElementoMensuravel(elementosProjeto);
-	
+
 	List<ElementoMensuravel> elementosAPadrao = new ArrayList<ElementoMensuravel>();
 	elementosAPadrao.add(duracao);
 	tipoAPadrao.setElementoMensuravel(elementosAPadrao);
-	
+
 	List<ElementoMensuravel> elementosAProjeto = new ArrayList<ElementoMensuravel>();
 	elementosAProjeto.add(duracao);
 	tipoAProjeto.setElementoMensuravel(elementosAProjeto);
-	
+
 	List<ElementoMensuravel> elementosOcorrenciaAtividade = new ArrayList<ElementoMensuravel>();
 	elementosOcorrenciaAtividade.add(duracao);
 	tipoOcorrenciaAtividade.setElementoMensuravel(elementosOcorrenciaAtividade);
@@ -309,9 +315,11 @@ public class MedCEPStarter extends HttpServlet
 	    }
 	    catch (Exception ex)
 	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
 		if (ex.getCause() != null &&
-			ex.getCause().getCause() != null &&
-			ex.getCause().getCause() instanceof ConstraintViolationException)
+			ex.getCause() instanceof ConstraintViolationException)
 		{
 		    System.out.println(String.format("O Tipo de Entidades Mensurável %s já existe.", tipo.getNome()));
 		}
@@ -384,9 +392,11 @@ public class MedCEPStarter extends HttpServlet
 	    }
 	    catch (Exception ex)
 	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
 		if (ex.getCause() != null &&
-			ex.getCause().getCause() != null &&
-			ex.getCause().getCause() instanceof ConstraintViolationException)
+			ex.getCause() instanceof ConstraintViolationException)
 		{
 		    System.out.println(String.format("A Periodicidade %s já existe.", p.getNome()));
 		}
@@ -429,9 +439,11 @@ public class MedCEPStarter extends HttpServlet
 	    }
 	    catch (Exception ex)
 	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
 		if (ex.getCause() != null &&
-			ex.getCause().getCause() != null &&
-			ex.getCause().getCause() instanceof ConstraintViolationException)
+			ex.getCause() instanceof ConstraintViolationException)
 		{
 		    System.out.println(String.format("O Tipo de Escala %s já existe.", tipo.getNome()));
 		}
@@ -481,9 +493,11 @@ public class MedCEPStarter extends HttpServlet
 	}
 	catch (Exception ex)
 	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
 	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
+		    ex.getCause() instanceof ConstraintViolationException)
 	    {
 		System.out.println("As escalas já existem.");
 	    }
@@ -520,9 +534,11 @@ public class MedCEPStarter extends HttpServlet
 	    }
 	    catch (Exception ex)
 	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
 		if (ex.getCause() != null &&
-			ex.getCause().getCause() != null &&
-			ex.getCause().getCause() instanceof ConstraintViolationException)
+			ex.getCause() instanceof ConstraintViolationException)
 		{
 		    System.out.println(String.format("A Unidade de Medida %s já existe.", u.getNome()));
 		}

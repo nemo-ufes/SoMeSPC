@@ -385,9 +385,11 @@ public class TaigaIntegrator
 	}
 	catch (Exception ex)
 	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+	    
 	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
+		    ex.getCause() instanceof ConstraintViolationException)
 	    {
 		System.out.println(String.format("Recurso Humano %s já existe.", membro.getNome()));
 
@@ -432,9 +434,11 @@ public class TaigaIntegrator
 	}
 	catch (Exception ex)
 	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+	    
 	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
+		    ex.getCause() instanceof ConstraintViolationException)
 	    {
 		System.out.println(String.format("Papel de Recurso Humano %s já existe.", membro.getPapel()));
 
@@ -515,9 +519,11 @@ public class TaigaIntegrator
 	}
 	catch (Exception ex)
 	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+	    
 	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
+		    ex.getCause() instanceof ConstraintViolationException)
 	    {
 		System.out.println(String.format("Equipe %s já existe.", equipe.getNome()));
 
@@ -573,9 +579,11 @@ public class TaigaIntegrator
 	}
 	catch (Exception ex)
 	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+	    
 	    if (ex.getCause() != null &&
-		    ex.getCause().getCause() != null &&
-		    ex.getCause().getCause() instanceof ConstraintViolationException)
+		    ex.getCause() instanceof ConstraintViolationException)
 	    {
 		System.out.println(String.format("Projeto %s já existe.", projeto.getNome()));
 
@@ -753,9 +761,11 @@ public class TaigaIntegrator
 	    }
 	    catch (Exception ex)
 	    {
+		if (manager.getTransaction().isActive())
+			manager.getTransaction().rollback();
+		
 		if (ex.getCause() != null &&
-			ex.getCause().getCause() != null &&
-			ex.getCause().getCause() instanceof ConstraintViolationException)
+			ex.getCause() instanceof ConstraintViolationException)
 		{
 		    System.out.println(String.format("A Medida %s já existe.", medida.getNome()));
 
@@ -794,9 +804,9 @@ public class TaigaIntegrator
 	TipoDeArtefato releaseSoftware = new TipoDeArtefato();
 
 	//Obtem o tipo de Entidade Mensurável Tipo de Artefato.
-	String query = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Tipo de Artefato'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery = XPersistence.getManager().createQuery(query, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoDeArtefato = typedQuery.getSingleResult();
+	String queryTipoArtefato = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Tipo de Artefato'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQueryTipoArtefato = XPersistence.getManager().createQuery(queryTipoArtefato, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoDeArtefato = typedQueryTipoArtefato.getSingleResult();
 
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
@@ -836,6 +846,8 @@ public class TaigaIntegrator
 	tiposDeArtefatoParaPersistir.add(documentacao);
 	tiposDeArtefatoParaPersistir.add(releaseSoftware);
 
+	List<TipoDeArtefato> tiposDeArtefato = new ArrayList<TipoDeArtefato>();
+
 	//Persiste.
 	for (TipoDeArtefato tipo : tiposDeArtefatoParaPersistir)
 	{
@@ -847,14 +859,24 @@ public class TaigaIntegrator
 		manager.getTransaction().begin();
 		manager.persist(tipo);
 		manager.getTransaction().commit();
+		tiposDeArtefato.add(tipo);
 	    }
 	    catch (Exception ex)
 	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
 		if (ex.getCause() != null &&
-			ex.getCause().getCause() != null &&
-			ex.getCause().getCause() instanceof ConstraintViolationException)
+			ex.getCause() instanceof ConstraintViolationException)
 		{
+
 		    System.out.println(String.format("O Tipo de Artefato %s já existe.", tipo.getNome()));
+
+		    String query = String.format("SELECT t FROM TipoDeArtefato t WHERE t.nome='%s'", tipo.getNome());
+		    TypedQuery<TipoDeArtefato> typedQuery = XPersistence.getManager().createQuery(query, TipoDeArtefato.class);
+
+		    TipoDeArtefato tipoExistente = typedQuery.getSingleResult();
+		    tiposDeArtefato.add(tipoExistente);
 		}
 		else
 		{
@@ -865,9 +887,181 @@ public class TaigaIntegrator
 
 	manager.close();
 
-	return tiposDeArtefatoParaPersistir;
+	return tiposDeArtefato;
     }
 
-    
-    
+    /**
+     * Cria as atividades Reunião de Planejamento da Sprint, Sprint e Reunião de Revisão da Sprint.
+     * 
+     * @return - List<AtividadeParao> com as atividades criadas.
+     * @throws Exception
+     */
+    public List<AtividadePadrao> criarAtividadesPadraoScrumMedCEP() throws Exception
+    {
+	//Instancia os tipos de artefatos.
+	AtividadePadrao reuniaoPS = new AtividadePadrao();
+	AtividadePadrao sprint = new AtividadePadrao();
+	AtividadePadrao reuniaoRS = new AtividadePadrao();
+
+	//Cria os artefatos Scrum.
+	List<TipoDeArtefato> tiposArtefatos = this.criarTiposArtefatosScrumMedCEP();
+
+	//Obtem o tipo de Entidade Mensurável AtividadePadrao.
+	String queryAtividadePadrao = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Atividade Padrão'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQueryAP = XPersistence.getManager().createQuery(queryAtividadePadrao, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel atividadePadrao = typedQueryAP.getSingleResult();
+
+	//Obtem o ElementoMensuravel Tamanho.
+	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = XPersistence.getManager().createQuery(queryTamanho, ElementoMensuravel.class);
+	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Duração.
+	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = XPersistence.getManager().createQuery(queryDesempenho, ElementoMensuravel.class);
+	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Duração.
+	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = XPersistence.getManager().createQuery(queryDuracao, ElementoMensuravel.class);
+	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
+
+	//Preenche a Reunião de Planejamento da Sprint.
+	reuniaoPS.setNome("Reunião de Planejamento da Sprint");
+	reuniaoPS.setDescricao("Reunião de Planejamento da Sprint do Scrum.");
+
+	List<TipoDeArtefato> artefatosRequeridosReuniaoPS = new ArrayList<TipoDeArtefato>();
+	loop_requeridos: for (TipoDeArtefato tipo : tiposArtefatos)
+	{
+	    if (tipo.getNome().equalsIgnoreCase("Estória de Product Backlog"))
+	    {
+		artefatosRequeridosReuniaoPS.add(tipo);
+		break loop_requeridos;
+	    }
+	}
+
+	List<TipoDeArtefato> artefatosProduzidosReuniaoPS = new ArrayList<TipoDeArtefato>();
+	loop_produzidos: for (TipoDeArtefato tipo : tiposArtefatos)
+	{
+	    if (tipo.getNome().equalsIgnoreCase("Estória de Sprint Backlog"))
+	    {
+		artefatosProduzidosReuniaoPS.add(tipo);
+		break loop_produzidos;
+	    }
+	}
+
+	reuniaoPS.setRequerTipoDeArtefato(artefatosRequeridosReuniaoPS);
+	reuniaoPS.setProduzTipoDeArtefato(artefatosProduzidosReuniaoPS);
+	reuniaoPS.setAtividadesDependentesDeMim(new HashSet<AtividadePadrao>(Arrays.asList(reuniaoPS)));
+	reuniaoPS.setElementoMensuravel(Arrays.asList(duracao));
+
+	//Preenche a Sprint
+	sprint.setNome("Sprint");
+	sprint.setDescricao("Sprint do Scrum.");
+
+	List<TipoDeArtefato> artefatosRequeridosSprint = new ArrayList<TipoDeArtefato>();
+	loop_requeridos: for (TipoDeArtefato tipo : tiposArtefatos)
+	{
+	    if (tipo.getNome().equalsIgnoreCase("Estória de Sprint Backlog"))
+	    {
+		artefatosRequeridosSprint.add(tipo);
+		break loop_requeridos;
+	    }
+	}
+
+	List<TipoDeArtefato> artefatosProduzidosSprint = new ArrayList<TipoDeArtefato>();
+	for (TipoDeArtefato tipo : tiposArtefatos)
+	{
+	    if (tipo.getNome().equalsIgnoreCase("Código Fonte")
+		    || tipo.getNome().equalsIgnoreCase("Documentação"))
+	    {
+		artefatosProduzidosSprint.add(tipo);
+	    }
+	}
+
+	sprint.setRequerTipoDeArtefato(artefatosRequeridosSprint);
+	sprint.setProduzTipoDeArtefato(artefatosProduzidosSprint);
+	sprint.setDependoDasAtividades(new HashSet<AtividadePadrao>(Arrays.asList(reuniaoPS)));
+	sprint.setAtividadesDependentesDeMim(new HashSet<AtividadePadrao>(Arrays.asList(sprint)));
+	sprint.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
+
+	//Preenche a Reunião de Revisão da Sprint
+	reuniaoRS.setNome("Reunião de Revisão da Sprint");
+	reuniaoRS.setDescricao("Reunião de Revisão da Sprint do Scrum.");
+
+	List<TipoDeArtefato> artefatosRequeridosReuniaoRS = new ArrayList<TipoDeArtefato>();
+	for (TipoDeArtefato tipo : tiposArtefatos)
+	{
+	    if (tipo.getNome().equalsIgnoreCase("Estória de Sprint Backlog")
+		    || tipo.getNome().equalsIgnoreCase("Código Fonte")
+		    || tipo.getNome().equalsIgnoreCase("Documentação"))
+	    {
+		artefatosRequeridosReuniaoRS.add(tipo);
+	    }
+	}
+
+	List<TipoDeArtefato> artefatosProduzidosReuniaoRS = new ArrayList<TipoDeArtefato>();
+	loop_produzidos: for (TipoDeArtefato tipo : tiposArtefatos)
+	{
+	    if (tipo.getNome().equalsIgnoreCase("Release de Software"))
+	    {
+		artefatosProduzidosReuniaoRS.add(tipo);
+		break loop_produzidos;
+	    }
+	}
+
+	reuniaoRS.setRequerTipoDeArtefato(artefatosRequeridosReuniaoRS);
+	reuniaoRS.setProduzTipoDeArtefato(artefatosProduzidosReuniaoRS);
+	reuniaoRS.setDependoDasAtividades(new HashSet<AtividadePadrao>(Arrays.asList(sprint)));
+	reuniaoRS.setElementoMensuravel(Arrays.asList(duracao));
+
+	List<AtividadePadrao> atividadesParaPersistir = new ArrayList<AtividadePadrao>();
+
+	atividadesParaPersistir.add(reuniaoPS);
+	atividadesParaPersistir.add(sprint);
+	atividadesParaPersistir.add(reuniaoRS);
+
+	List<AtividadePadrao> atividades = new ArrayList<AtividadePadrao>();
+
+	//Persiste.
+	EntityManager manager = XPersistence.createManager();
+
+	for (AtividadePadrao atividade : atividadesParaPersistir)
+	{
+	    atividade.setTipoDeEntidadeMensuravel(atividadePadrao);
+
+	    try
+	    {
+		manager.getTransaction().begin();
+		manager.persist(atividade);
+		manager.getTransaction().commit();
+		atividades.add(atividade);
+	    }
+	    catch (Exception ex)
+	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
+		if (ex.getCause() != null &&
+			ex.getCause() instanceof ConstraintViolationException)
+		{
+		    System.out.println(String.format("A Atividade Padrão %s já existe.", atividade.getNome()));
+
+		    String query = String.format("SELECT a FROM AtividadePadrao a WHERE a.nome='%s'", atividade.getNome());
+		    TypedQuery<AtividadePadrao> typedQuery = XPersistence.getManager().createQuery(query, AtividadePadrao.class);
+
+		    AtividadePadrao atividadeExistente = typedQuery.getSingleResult();
+		    atividades.add(atividadeExistente);
+		}
+		else
+		{
+		    throw ex;
+		}
+	    }
+	}
+
+	manager.close();
+
+	return atividades;
+    }
 }

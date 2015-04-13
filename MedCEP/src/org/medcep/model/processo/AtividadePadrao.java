@@ -34,7 +34,7 @@ import org.openxava.annotations.*;
  */
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; requerTipoDeArtefato; produzTipoDeArtefato; dependeDe; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; requerTipoDeArtefato; produzTipoDeArtefato; dependoDasAtividades; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome")
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
@@ -53,7 +53,7 @@ public class AtividadePadrao extends EntidadeMensuravel
     private Collection<DefinicaoOperacionalDeMedida> momentoDeAnaliseDeMedicao;
 
     @OneToMany(mappedBy = "baseadoEm")
-    private Collection<OcorrenciaAtividade> atividadeDeProjeto;
+    private Collection<OcorrenciaAtividade> atividadeProjeto;
 
     @ManyToOne
     @Required
@@ -76,18 +76,28 @@ public class AtividadePadrao extends EntidadeMensuravel
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-	    name = "AtividadePadrao_dependeDe_AtividadePadrao"
-	    , joinColumns = {
-		    @JoinColumn(name = "atividadePadrao_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "atividadePadrao_id2")
+    /*
+    @JoinTable(name = "AtividadePadrao_dependeDe_AtividadePadrao",
+	    joinColumns = {
+		    @JoinColumn(name = "atividade1", referencedColumnName = "id", nullable = false)
+	    },
+	    inverseJoinColumns = {
+		    @JoinColumn(name = "atividade2", referencedColumnName = "id", nullable = false)
 	    })
+    @ManyToMany(fetch = FetchType.LAZY)
     @ListProperties("nome")
     private Collection<AtividadePadrao> dependeDe;
+    */
 
+    @ManyToMany
+    @JoinTable(name="Atividade1_dependeDe_Atividade2",
+        joinColumns={@JoinColumn(name="atividade1_id")},
+        inverseJoinColumns={@JoinColumn(name="atividade2_id")})
+    private Set<AtividadePadrao> dependoDasAtividades;
+ 
+    @ManyToMany(mappedBy="dependoDasAtividades")
+    private Set<AtividadePadrao> atividadesDependentesDeMim;
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
 	    name = "AtividadePadrao_produz_TipoArtefato"
@@ -112,15 +122,15 @@ public class AtividadePadrao extends EntidadeMensuravel
     @ListProperties("nome")
     private Collection<TipoDeArtefato> requerTipoDeArtefato;
 
-    public Collection<OcorrenciaAtividade> getAtividadeDeProjeto()
+    public Collection<OcorrenciaAtividade> getAtividadeProjeto()
     {
-	return atividadeDeProjeto;
+	return atividadeProjeto;
     }
 
-    public void setAtividadeDeProjeto(
-	    Collection<OcorrenciaAtividade> atividadeDeProjeto)
+    public void setAtividadeProjeto(
+	    Collection<OcorrenciaAtividade> atividadeProjeto)
     {
-	this.atividadeDeProjeto = atividadeDeProjeto;
+	this.atividadeProjeto = atividadeProjeto;
     }
 
     /*
@@ -133,16 +143,6 @@ public class AtividadePadrao extends EntidadeMensuravel
      * this.processoDeSoftwarePadrao = processoDeSoftwarePadrao;
      * }
      */
-
-    public Collection<AtividadePadrao> getDependeDe()
-    {
-	return dependeDe;
-    }
-
-    public void setDependeDe(Collection<AtividadePadrao> dependeDe)
-    {
-	this.dependeDe = dependeDe;
-    }
 
     public Collection<TipoDeArtefato> getProduzTipoDeArtefato()
     {
@@ -215,4 +215,25 @@ public class AtividadePadrao extends EntidadeMensuravel
 	}
     }//ajusta
 
+    public Set<AtividadePadrao> getDependoDasAtividades()
+    {
+        return dependoDasAtividades;
+    }
+
+    public void setDependoDasAtividades(Set<AtividadePadrao> dependoDasAtividades)
+    {
+        this.dependoDasAtividades = dependoDasAtividades;
+    }
+
+    public Set<AtividadePadrao> getAtividadesDependentesDeMim()
+    {
+        return atividadesDependentesDeMim;
+    }
+
+    public void setAtividadesDependentesDeMim(Set<AtividadePadrao> atividadesDependentesDeMim)
+    {
+        this.atividadesDependentesDeMim = atividadesDependentesDeMim;
+    }
+
+     
 }

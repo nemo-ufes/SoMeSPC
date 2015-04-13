@@ -20,9 +20,7 @@
 package org.medcep.model.projeto;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
 
@@ -34,10 +32,9 @@ public class Criterio
 {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Hidden
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    private Integer id;
 
     @Column(length = 500, unique = true)
     @Required
@@ -52,12 +49,12 @@ public class Criterio
     @DescriptionsList(descriptionProperties = "nome")
     private UnidadeDeMedida unidadeDeMedida;
 
-    public String getId()
+    public Integer getId()
     {
 	return id;
     }
 
-    public void setId(String id)
+    public void setId(Integer id)
     {
 	this.id = id;
     }

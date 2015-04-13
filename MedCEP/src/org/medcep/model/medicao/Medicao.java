@@ -22,10 +22,7 @@ package org.medcep.model.medicao;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.medcep.actions.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
@@ -61,9 +58,8 @@ public class Medicao implements Comparable<Medicao>
 {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Hidden
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     public String getId()

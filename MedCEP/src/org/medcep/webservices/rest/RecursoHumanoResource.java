@@ -139,7 +139,7 @@ public class RecursoHumanoResource
 	    Response response;
 	    EntityManager manager = XPersistence.createManager();
 
-	    if (recursoHumano == null || recursoHumano.getId() == null || recursoHumano.getId().isEmpty())
+	    if (recursoHumano == null || recursoHumano.getId() == null || recursoHumano.getId() == 0)
 		response = Response.status(Status.BAD_REQUEST).build();
 	    else
 	    {

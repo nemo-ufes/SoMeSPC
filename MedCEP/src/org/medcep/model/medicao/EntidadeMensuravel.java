@@ -22,9 +22,7 @@ package org.medcep.model.medicao;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.openxava.annotations.*;
 
 @Entity
@@ -41,14 +39,13 @@ public class EntidadeMensuravel
 {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Hidden
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    private Integer id;
 
     @Column(length = 500, unique = true)
     @Required
-    private String nome;
+    protected String nome;
 
     @Stereotype("TEXT_AREA")
     @Column(columnDefinition = "TEXT")
@@ -88,12 +85,12 @@ public class EntidadeMensuravel
     @ListProperties("nome")
     protected Collection<ElementoMensuravel> elementoMensuravel;
 
-    public String getId()
+    public Integer getId()
     {
 	return id;
     }
 
-    public void setId(String id)
+    public void setId(Integer id)
     {
 	this.id = id;
     }

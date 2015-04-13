@@ -250,6 +250,19 @@ public class TaigaIntegratorTest
 
 	dump(tiposDeArtefato);
     }
+    
+    @Test
+    public void testCriarAtividadesPadraoScrumMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	List<AtividadePadrao> atividades = integrator.criarAtividadesPadraoScrumMedCEP();
+	
+	assertNotNull(atividades);
+	assertNotEquals(atividades.size(), 0);
+	assertEquals(atividades.size(), 3);
+
+	//dump(atividades);
+    }
 
     private void dump(Object object)
     {

@@ -20,7 +20,6 @@
 package org.medcep.actions;
 
 import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
 import org.openxava.actions.*;
 import org.openxava.jpa.*;
 
@@ -39,9 +38,9 @@ public class SearchEntidadeMensuravelForMedidaAction extends ReferenceSearchActi
 		{
 			TipoDeEntidadeMensuravel tipoDeentidadeMensuravel = XPersistence.getManager().find(TipoDeEntidadeMensuravel.class, idTipoDeEntidadeMedida);
 			
-			String id = tipoDeentidadeMensuravel.getId();
+			Integer id = tipoDeentidadeMensuravel.getId();
 			
-			if(id != null && id.isEmpty() == false)
+			if(id != null && id != 0)
 			{
 				getTab().setBaseCondition( 
 					"'" + id + "' IN (SELECT id from ${tipoDeEntidadeMensuravel}) " 

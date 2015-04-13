@@ -31,7 +31,7 @@ public class GoAddAtividadeProjetoAction extends GoAddElementsToCollectionAction
 		String idProcessoPadrao = getPreviousView().getValueString("baseadoEm.id");
 
 		getTab().setBaseCondition( 
-			"'" + idProcessoPadrao + "'" + " IN (SELECT p.id from ProcessoPadrao p JOIN p.atividadePadrao a WHERE a.id = ${baseadoEm.id}) AND ${id} NOT IN (SELECT aa.id from ProcessoDeProjeto pp JOIN pp.atividadeDeProjeto aa WHERE pp.id = '"+ id +"')"
+			"'" + idProcessoPadrao + "'" + " IN (SELECT p.id from ProcessoPadrao p JOIN p.atividadePadrao a WHERE a.id = ${baseadoEm.id}) AND ${id} NOT IN (SELECT aa.id from ProcessoProjeto pp JOIN pp.atividadeProjeto aa WHERE pp.id = '"+ id +"')"
 		);
 	}
 	
