@@ -187,7 +187,7 @@ public class TaigaIntegratorTest
 
 	dump(sincap);
 
-	Equipe equipe = integrator.criarEquipeMedCEP(sincap.getNome() + " Team", sincap.getMembros());
+	Equipe equipe = integrator.criarEquipeMedCEP("Equipe " + sincap.getNome(), sincap.getMembros());
 
 	assertNotNull(equipe);
 

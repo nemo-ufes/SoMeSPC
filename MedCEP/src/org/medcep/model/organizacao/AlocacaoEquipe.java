@@ -29,7 +29,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members = "inicio, fim; recursoHumano; papelRecursoHumano; elementoMensuravel"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; inicio, fim; recursoHumano; papelRecursoHumano; elementoMensuravel"),
 	@View(name = "Simple", members = "nome")
 })
 @Tab(properties = "recursoHumano.nome, equipe.nome, papelRecursoHumano.nome, inicio, fim")
@@ -61,13 +61,25 @@ public class AlocacaoEquipe extends EntidadeMensuravel
 
     @ManyToOne
     @Required
-    @Transient
     @DefaultValueCalculator(
 	    value = TipoDeEntidadeMensuravelCalculator.class,
 	    properties = {
 		    @PropertyValue(name = "nomeEntidade", value = "Alocação de Recurso Humano")
 	    })
     private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
+
+    @ReadOnly
+    private String nome;
+
+    public String getNome()
+    {
+	return nome;
+    }
+
+    public void setNome(String nome)
+    {
+	this.nome = nome;
+    }
 
     public Date getInicio()
     {
@@ -134,8 +146,7 @@ public class AlocacaoEquipe extends EntidadeMensuravel
     @PreUpdate
     public void ajustar()
     {
-	if (super.getNome() == null || super.getNome().isEmpty())
-	    super.setNome(String.format("%s %s em %s", papelRecursoHumano.getNome(), recursoHumano.getNome(), equipe.getNome()));
+	this.setNome(String.format("%s %s em %s", papelRecursoHumano.getNome(), recursoHumano.getNome(), equipe.getNome()));
 
 	if (elementoMensuravel == null)
 	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
@@ -159,4 +170,5 @@ public class AlocacaoEquipe extends EntidadeMensuravel
 	    }//elemTipo
 	}
     }//ajusta
+
 }

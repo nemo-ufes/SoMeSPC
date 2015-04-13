@@ -45,7 +45,7 @@ public class EntidadeMensuravel
 
     @Column(length = 500, unique = true)
     @Required
-    protected String nome;
+    private String nome;
 
     @Stereotype("TEXT_AREA")
     @Column(columnDefinition = "TEXT")
