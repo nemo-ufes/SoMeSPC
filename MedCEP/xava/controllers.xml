@@ -81,11 +81,14 @@
 	
 	<controller name="MedidaPlanoDeMedicao"> 
 		<extends controller="Typical"/>
-		<action name="searchMedidaOfPlanoMedicao"
+		<action name="searchMedidaPlanoMedicao"
 			class="org.medcep.actions.SearchMedidaForMedidaPlanoMedicaoAction"
 			hidden="true" image="images/search.gif"/>
+			<action name="searchDefinicaoOperacionalMedidaForMedidaPlanoMedicao"
+			class="org.medcep.actions.SearchDefinicaoOperacionalMedidaForMedidaPlanoMedicaoAction"
+			hidden="true" image="images/search.gif"/>
 	</controller>
-		
+			
 	<controller name="ProcessoDeProjeto"> 
 		<extends controller="Typical"/>
 		<action name="add"
