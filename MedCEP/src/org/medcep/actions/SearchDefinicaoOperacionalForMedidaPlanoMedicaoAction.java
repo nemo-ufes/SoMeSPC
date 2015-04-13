@@ -38,9 +38,9 @@ public class SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction extends Refer
 		{
 			MedidaPlanoDeMedicao medidaPlanoDeMedicao = XPersistence.getManager().find(MedidaPlanoDeMedicao.class, idMedidaPlanoDeMedicao);
 			
-			String idMedida = medidaPlanoDeMedicao.getMedida().getId();
+			Integer idMedida = medidaPlanoDeMedicao.getMedida().getId();
 			
-			if(idMedida != null && idMedida.isEmpty() == false)
+			if(idMedida != null && idMedida == 0)
 			{
 				getTab().setBaseCondition( 
 					"'" + idMedida + "' IN (SELECT id FROM ${medida}) "
