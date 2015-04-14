@@ -35,7 +35,13 @@ public class MedidaPlanoMedicaoValidator implements IValidator
 
     public void validate(Messages errors) throws Exception
     {
-	if (definicaoOperacionalDeMedida.getMedida().getId().compareTo(medida.getId()) != 0)
+	if (medida == null || medida.getId() == 0)
+	    errors.add("medidaPlanoMedicao_medida_operacional_nao_selecionada");
+	if (definicaoOperacionalDeMedida == null
+		|| definicaoOperacionalDeMedida.getMedida() == null
+		|| definicaoOperacionalDeMedida.getMedida().getId() == 0)
+	    errors.add("medidaPlanoMedicao_definicao_operacional_nao_selecionada");
+	else if (definicaoOperacionalDeMedida.getMedida().getId().compareTo(medida.getId()) != 0)
 	    errors.add("medidaPlanoMedicao_Medida_DefMedida");
     }
 
