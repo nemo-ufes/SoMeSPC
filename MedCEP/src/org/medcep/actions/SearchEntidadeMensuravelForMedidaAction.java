@@ -32,9 +32,9 @@ public class SearchEntidadeMensuravelForMedidaAction extends ReferenceSearchActi
 		
 		super.execute(); 
 		
-		String idTipoDeEntidadeMedida = getPreviousView().getValueString("tipoDeEntidadeMedida.id");
+		Integer idTipoDeEntidadeMedida = getPreviousView().getValueInt("tipoDeEntidadeMedida.id");
 		
-		if(idTipoDeEntidadeMedida != null && idTipoDeEntidadeMedida.isEmpty() == false)
+		if(idTipoDeEntidadeMedida != null && idTipoDeEntidadeMedida != 0)
 		{
 			TipoDeEntidadeMensuravel tipoDeentidadeMensuravel = XPersistence.getManager().find(TipoDeEntidadeMensuravel.class, idTipoDeEntidadeMedida);
 			
@@ -42,9 +42,7 @@ public class SearchEntidadeMensuravelForMedidaAction extends ReferenceSearchActi
 			
 			if(id != null && id != 0)
 			{
-				getTab().setBaseCondition( 
-					"'" + id + "' IN (SELECT id from ${tipoDeEntidadeMensuravel}) " 
-				);
+				getTab().setBaseCondition("" + id + " IN (SELECT id from ${tipoDeEntidadeMensuravel}) ");
 			}
 			return;
 		}else{

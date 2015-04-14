@@ -21,25 +21,10 @@ package org.medcep.actions;
 
 import org.openxava.actions.*;
 
-//Exibe para busca a junção de todos os elementos mensuráveis do tipo de entidade mensuráveis e da entiade mensurável
 public class SearchElementoMensuravelForMedidaAction extends ReferenceSearchAction { 
 	
 	public void execute() throws Exception {		
-		super.execute(); 		
-		
-		/*
-		String idTipoDeEntidadeMensuravel = getPreviousView().getValueString("tipoDeEntidadeMedida.id");
-		
-		if(idTipoDeEntidadeMensuravel != null && idTipoDeEntidadeMensuravel.isEmpty() == false)
-		{
-			getTab().setBaseCondition("'" + idTipoDeEntidadeMensuravel + "' IN (SELECT id from ${tipoDeEntidadeMensuravel}) "); 
-		}
-		else
-		{
-			getPreviousView().getMessages().add("selecione_tipo_entidade_mensuravel");
-			return;		
-		}		
-		*/	
+		super.execute(); 					
 	}
 	
 }

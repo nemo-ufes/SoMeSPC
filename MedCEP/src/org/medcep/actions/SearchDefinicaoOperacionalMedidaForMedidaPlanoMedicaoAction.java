@@ -34,9 +34,9 @@ public class SearchDefinicaoOperacionalMedidaForMedidaPlanoMedicaoAction extends
 
 	super.execute();
 
-	String idMedidaPlanoDeMedicao = getPreviousView().getValueString("medida.id");
+	Integer idMedidaPlanoDeMedicao = getPreviousView().getValueInt("medida.id");
 
-	if (idMedidaPlanoDeMedicao != null && idMedidaPlanoDeMedicao.isEmpty() == false)
+	if (idMedidaPlanoDeMedicao != null && idMedidaPlanoDeMedicao != 0)
 	{
 	    MedidaPlanoDeMedicao medidaPlanoDeMedicao = XPersistence.getManager().find(MedidaPlanoDeMedicao.class, idMedidaPlanoDeMedicao);
 
@@ -44,10 +44,7 @@ public class SearchDefinicaoOperacionalMedidaForMedidaPlanoMedicaoAction extends
 
 	    if (idMedida != null && idMedida == 0)
 	    {
-		getTab().setBaseCondition(
-			"'" + idMedida + "' IN (SELECT id FROM ${medida}) "
-			//+ "'" + idMedida + "' NOT IN (SELECT medida.id FROM ${medidaPlanoDeMedicao})" 
-			);
+		getTab().setBaseCondition(idMedida + " IN (SELECT id FROM ${medida}) ");
 	    }
 	    return;
 	}

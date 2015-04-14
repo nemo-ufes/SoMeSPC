@@ -29,14 +29,9 @@ public class GoAddElementoMensuravelAction extends GoAddElementsToCollectionActi
     {
 	super.execute();
 
-	String id = getPreviousView().getValueString("id");
-	//String idTipoDeEntidadeMensuravel = getPreviousView().getValueString("tipoDeEntidadeMensuravel.id");
+	Integer id = getPreviousView().getValueInt("id");
 
-	getTab().setBaseCondition(
-		//permite apenas os do mesmo tipo
-		//"'" + idTipoDeEntidadeMensuravel + "' IN (SELECT id from ${tipoDeEntidadeMensuravel}) AND '" + id + "' NOT IN (SELECT id from ${entidadeMensuravel})" 
-		"${id} NOT IN (SELECT el.id from EntidadeMensuravel em JOIN em.elementoMensuravel el WHERE em.id = '" + id + "')"
-		);
+	getTab().setBaseCondition("${id} NOT IN (SELECT el.id from EntidadeMensuravel em JOIN em.elementoMensuravel el WHERE em.id = " + id + ")");
     }
 
 }

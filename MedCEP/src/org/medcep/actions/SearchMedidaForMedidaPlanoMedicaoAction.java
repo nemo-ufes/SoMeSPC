@@ -35,17 +35,17 @@ public class SearchMedidaForMedidaPlanoMedicaoAction extends ReferenceSearchActi
 	Stack<?> stack = getPreviousViews();
 	View v = (View) stack.get(0);
 
-	String id = v.getValueString("id");
+	Integer id = v.getValueInt("id");
 
 	getTab().setBaseCondition("${id} IN (SELECT tipmb.id FROM TreeItemPlanoMedicao tipm " +
 		"JOIN tipm.item tipmb " +
 		"JOIN tipm.planoDeMedicaoContainer pm " +
-		"WHERE pm.id = '" + id + "') " +
+		"WHERE pm.id = " + id + ") " +
 		//evita repetidas
 		"AND ${id} NOT IN (SELECT me.id FROM PlanoDeMedicao pm " +
 		"JOIN pm.medidaPlanoDeMedicao mpm " +
 		"JOIN mpm.medida me " +
-		"WHERE pm.id = '" + id + "')"
+		"WHERE pm.id = " + id + ")"
 		);
 
     }

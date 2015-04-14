@@ -25,28 +25,6 @@ public class OnChangePropertyChangeActionSearch extends OnChangePropertyBaseActi
 
 	public void execute() throws Exception {
 		
-/*		View v = getView();
-		
-		String s = v.getSearchAction();
-		
-
-		MetaView metaView = v.getSubview("obj").getMetaModel().getMetaView(v.getViewName());
-		Collection metaView2 = v.getSubview("obj").getMetaModel().getMetaViews();
-		//MetaView metaView3 = v.getSubview("obj").getMetaModel().getMetaView("obj");
-		
-		
-		
-		MetaSearchAction msa = new MetaSearchAction();
-		msa.setActionName("action");
-		msa.setClassName("class");
-		metaView.setMetaSearchAction(msa);
-		
-		v.getMetaModel().getMetaView(v.getViewName()).setMetaSearchAction(msa);
-		
-		v.getSubview("obj").getMetaModel().getMetaView(v.getViewName()).setMetaSearchAction(msa);
-		
-		s = v.getSearchAction();
-		*/
 		return;
 	}
 

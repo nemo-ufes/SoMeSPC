@@ -22,10 +22,7 @@ package org.medcep.model.medicao;
 import java.util.*;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 
-import org.hibernate.annotations.*;
 import org.medcep.actions.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
@@ -60,9 +57,8 @@ public class Medicao
 {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    private Integer id;
 
     private Date data;
 
@@ -253,12 +249,12 @@ public class Medicao
 
     }
 
-    public String getId()
+    public Integer getId()
     {
 	return id;
     }
 
-    public void setId(String id)
+    public void setId(Integer id)
     {
 	this.id = id;
     }
