@@ -628,7 +628,7 @@ public class TaigaIntegrator
      */
     public List<Medida> criarMedidasMedCEP(List<MedidasTaiga> medidasTaiga) throws Exception
     {
-	EntityManager manager = XPersistence.createManager();
+	EntityManager manager = XPersistence.createManager();	
 	List<Medida> medidasCadastradas = new ArrayList<Medida>();
 
 	//Obtem o tipo de medida base.
@@ -656,10 +656,10 @@ public class TaigaIntegrator
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = manager.createQuery(query6, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoAlocacaoEquipe = typedQuery6.getSingleResult();
 
-	//Obtem o tipo de Entidade Sprint.
-	//	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
-	//	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = manager.createQuery(query7, TipoDeEntidadeMensuravel.class);
-	//	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
+	//Obtem o tipo de Entidade Mensurável Atividade Padrão.
+	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Atividade Padrão'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = manager.createQuery(query7, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
 
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
@@ -676,6 +676,8 @@ public class TaigaIntegrator
 	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
+	manager.close();
+	
 	//Define a medida de acordo com a lista informada.
 	for (MedidasTaiga medidaTaiga : medidasTaiga)
 	{
@@ -737,12 +739,12 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-		//		case DOSES_IOCAINE_SPRINT:
-		//		    medida.setNome("Doses de Iocaine");
-		//		    medida.setMnemonico("TAIGA-IOC");
-		//		    medida.setElementoMensuravel(tamanho);
-		//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
-		//		    break;
+		case DOSES_IOCAINE_SPRINT:
+		    medida.setNome("Doses de Iocaine");
+		    medida.setMnemonico("TAIGA-IOC");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    break;
 		default:
 		    throw new Exception("Medida inexistente no Taiga.");
 	    }
@@ -750,10 +752,11 @@ public class TaigaIntegrator
 	    medida.setDescricao("Medida obtida pela API Taiga conforme a documentação: http://taigaio.github.io/taiga-doc/dist/api.html");
 	    medida.setTipoMedida(medidaBase);
 	    medida.setEscala(escala);
-	    medida.setUnidadeDeMedida(unidadeMedida);
-
+	    medida.setUnidadeDeMedida(unidadeMedida);    
+	    
 	    try
 	    {
+		manager = XPersistence.createManager();
 		manager.getTransaction().begin();
 		manager.persist(medida);
 		manager.getTransaction().commit();
@@ -762,6 +765,8 @@ public class TaigaIntegrator
 	    {
 		if (manager.getTransaction().isActive())
 		    manager.getTransaction().rollback();
+
+		manager = XPersistence.createManager();
 
 		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
@@ -777,6 +782,10 @@ public class TaigaIntegrator
 		{
 		    throw ex;
 		}
+	    }
+	    finally
+	    {
+		manager.close();
 	    }
 
 	    medidasCadastradas.add(medida);
