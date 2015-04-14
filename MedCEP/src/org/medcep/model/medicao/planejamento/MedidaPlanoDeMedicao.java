@@ -59,7 +59,7 @@ public class MedidaPlanoDeMedicao
     @NoCreate
     @NoModify
     @ReferenceView("Simple")
-    @SearchAction("MedidaPlanoDeMedicao.searchMedidaOfPlanoMedicao")
+    @SearchAction("MedidaPlanoDeMedicao.searchMedidaPlanoMedicao")
     private Medida medida;
 
     @ManyToOne
