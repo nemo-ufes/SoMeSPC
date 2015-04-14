@@ -255,13 +255,18 @@ public class TaigaIntegratorTest
     public void testCriarAtividadesPadraoScrumMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	List<AtividadePadrao> atividades = integrator.criarAtividadesPadraoScrumMedCEP();
+	integrator.criarAtividadesPadraoScrumMedCEP();
+    }
+    
+    @Test
+    public void testCriarProcessoPadraoScrumMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	ProcessoPadrao scrum = integrator.criarProcessoPadraoScrumMedCEP();
 	
-	assertNotNull(atividades);
-	assertNotEquals(atividades.size(), 0);
-	assertEquals(atividades.size(), 3);
+	assertNotNull(scrum);
 
-	dump(atividades);
+	dump(scrum);
     }
 
     private void dump(Object object)

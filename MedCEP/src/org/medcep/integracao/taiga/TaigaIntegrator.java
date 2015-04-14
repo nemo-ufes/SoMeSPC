@@ -895,7 +895,7 @@ public class TaigaIntegrator
      * @return - List<AtividadeParao> com as atividades criadas.
      * @throws Exception
      */
-    public List<AtividadePadrao> criarAtividadesPadraoScrumMedCEP() throws Exception
+    public void criarAtividadesPadraoScrumMedCEP() throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
 
@@ -905,7 +905,18 @@ public class TaigaIntegrator
 	AtividadePadrao reuniaoRS = new AtividadePadrao();
 
 	//Cria os artefatos Scrum.
-	List<TipoDeArtefato> tiposArtefatos = this.criarTiposArtefatosScrumMedCEP();
+	List<TipoDeArtefato> tiposCriados = this.criarTiposArtefatosScrumMedCEP();
+
+	List<String> nomes = new ArrayList<String>();
+
+	for (TipoDeArtefato tipo : tiposCriados)
+	{
+	    nomes.add(tipo.getNome());
+	}
+
+	String queryTiposArtefatoScrum = "SELECT e FROM TipoDeArtefato e WHERE e.nome IN :nomes ";
+	TypedQuery<TipoDeArtefato> typedQueryTAS = manager.createQuery(queryTiposArtefatoScrum, TipoDeArtefato.class).setParameter("nomes", nomes);
+	List<TipoDeArtefato> tiposArtefatos = typedQueryTAS.getResultList();
 
 	//Obtem o tipo de Entidade Mensurável AtividadePadrao.
 	String queryAtividadePadrao = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Atividade Padrão'";
@@ -917,7 +928,7 @@ public class TaigaIntegrator
 	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
 	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
 
-	//Obtem o ElementoMensuravel Duração.
+	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
 	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
 	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
@@ -1053,6 +1064,90 @@ public class TaigaIntegrator
 	    manager.close();
 	}
 
-	return atividadesParaPersistir;
     }
+
+    /**
+     * Cria o processo Scrum na MedCEP.
+     * 
+     * @return ProcessoPadrao Scrum criado.
+     * @throws Exception
+     */
+    public ProcessoPadrao criarProcessoPadraoScrumMedCEP() throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+
+	ProcessoPadrao scrum = new ProcessoPadrao();
+
+	scrum.setNome("Scrum");
+	scrum.setVersao("1.0");
+	scrum.setDescricao("A framework to support teams in complex product development. "
+		+ "Scrum consists of Scrum Teams and their associated roles, events, artifacts,"
+		+ " and rules, as defined in the Scrum GuideTM (https://www.scrum.org/Resources/Scrum-Glossary).");
+
+	//Obtem as atividades Scrum.
+	String queryAtividade1 = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Planejamento da Sprint'";
+	TypedQuery<AtividadePadrao> typedQueryAtividade1 = manager.createQuery(queryAtividade1, AtividadePadrao.class);
+	AtividadePadrao atividade1 = typedQueryAtividade1.getSingleResult();
+
+	String queryAtividade2 = "SELECT e FROM AtividadePadrao e WHERE e.nome='Sprint'";
+	TypedQuery<AtividadePadrao> typedQueryAtividade2 = manager.createQuery(queryAtividade2, AtividadePadrao.class);
+	AtividadePadrao atividade2 = typedQueryAtividade2.getSingleResult();
+
+	String queryAtividade3 = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Revisão da Sprint'";
+	TypedQuery<AtividadePadrao> typedQueryAtividade3 = manager.createQuery(queryAtividade3, AtividadePadrao.class);
+	AtividadePadrao atividade3 = typedQueryAtividade3.getSingleResult();
+
+	//Obtem o ElementoMensuravel Tamanho.
+	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
+	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Desempenho.
+	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
+	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Duração.
+	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
+	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
+
+	scrum.setAtividadePadrao(Arrays.asList(atividade1, atividade2, atividade3));
+	scrum.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
+
+	//Persiste.	
+	try
+	{
+	    manager.getTransaction().begin();
+	    manager.persist(scrum);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	    {
+		System.out.println("O Processo Padrão Scrum já existe.");
+
+		String query = String.format("SELECT p FROM ProcessoPadrao p WHERE p.nome='%s'", scrum.getNome());
+		TypedQuery<ProcessoPadrao> typedQuery = manager.createQuery(query, ProcessoPadrao.class);
+
+		scrum = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return scrum;
+    }
+
 }
