@@ -388,8 +388,8 @@ public class TaigaIntegrator
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
 
-	    if (ex.getCause() != null &&
-		    ex.getCause() instanceof ConstraintViolationException)
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 	    {
 		System.out.println(String.format("Recurso Humano %s já existe.", membro.getNome()));
 
@@ -437,8 +437,8 @@ public class TaigaIntegrator
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
 
-	    if (ex.getCause() != null &&
-		    ex.getCause() instanceof ConstraintViolationException)
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 	    {
 		System.out.println(String.format("Papel de Recurso Humano %s já existe.", membro.getPapel()));
 
@@ -522,8 +522,8 @@ public class TaigaIntegrator
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
 
-	    if (ex.getCause() != null &&
-		    ex.getCause() instanceof ConstraintViolationException)
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 	    {
 		System.out.println(String.format("Equipe %s já existe.", equipe.getNome()));
 
@@ -582,8 +582,8 @@ public class TaigaIntegrator
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
 
-	    if (ex.getCause() != null &&
-		    ex.getCause() instanceof ConstraintViolationException)
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 	    {
 		System.out.println(String.format("Projeto %s já existe.", projeto.getNome()));
 
@@ -657,9 +657,9 @@ public class TaigaIntegrator
 	TipoDeEntidadeMensuravel tipoAlocacaoEquipe = typedQuery6.getSingleResult();
 
 	//Obtem o tipo de Entidade Sprint.
-//	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
-//	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = manager.createQuery(query7, TipoDeEntidadeMensuravel.class);
-//	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
+	//	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
+	//	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = manager.createQuery(query7, TipoDeEntidadeMensuravel.class);
+	//	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
 
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
@@ -737,12 +737,12 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-//		case DOSES_IOCAINE_SPRINT:
-//		    medida.setNome("Doses de Iocaine");
-//		    medida.setMnemonico("TAIGA-IOC");
-//		    medida.setElementoMensuravel(tamanho);
-//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
-//		    break;
+		//		case DOSES_IOCAINE_SPRINT:
+		//		    medida.setNome("Doses de Iocaine");
+		//		    medida.setMnemonico("TAIGA-IOC");
+		//		    medida.setElementoMensuravel(tamanho);
+		//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		//		    break;
 		default:
 		    throw new Exception("Medida inexistente no Taiga.");
 	    }
@@ -763,8 +763,8 @@ public class TaigaIntegrator
 		if (manager.getTransaction().isActive())
 		    manager.getTransaction().rollback();
 
-		if (ex.getCause() != null &&
-			ex.getCause() instanceof ConstraintViolationException)
+		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 		{
 		    System.out.println(String.format("A Medida %s já existe.", medida.getNome()));
 
@@ -865,8 +865,8 @@ public class TaigaIntegrator
 		if (manager.getTransaction().isActive())
 		    manager.getTransaction().rollback();
 
-		if (ex.getCause() != null &&
-			ex.getCause() instanceof ConstraintViolationException)
+		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 		{
 
 		    System.out.println(String.format("O Tipo de Artefato %s já existe.", tipo.getNome()));
@@ -1038,8 +1038,8 @@ public class TaigaIntegrator
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
 
-	    if (ex.getCause() != null &&
-		    ex.getCause() instanceof ConstraintViolationException)
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 	    {
 		System.out.println("A Atividades Padrão do Scrum já existem.");
 	    }
