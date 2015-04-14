@@ -133,6 +133,9 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    try
 	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
 		manager.getTransaction().begin();
 		manager.persist(elementoMensuravel);
 		manager.getTransaction().commit();
@@ -152,9 +155,12 @@ public class MedCEPStarter extends HttpServlet
 		    throw ex;
 		}
 	    }
+	    finally
+	    {
+		manager.close();
+	    }
 	}
 
-	manager.close();
     }
 
     private static void inicializarTiposMedidas() throws Exception
@@ -309,6 +315,9 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    try
 	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
 		manager.getTransaction().begin();
 		manager.persist(tipo);
 		manager.getTransaction().commit();
@@ -317,6 +326,9 @@ public class MedCEPStarter extends HttpServlet
 	    {
 		if (manager.getTransaction().isActive())
 		    manager.getTransaction().rollback();
+
+		manager.close();
+		manager = XPersistence.createManager();
 
 		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
@@ -328,9 +340,13 @@ public class MedCEPStarter extends HttpServlet
 		    throw ex;
 		}
 	    }
+
+	    finally
+	    {
+		manager.close();
+	    }
 	}
 
-	manager.close();
     }
 
     private static void inicializarPeriodicidades() throws Exception
@@ -386,6 +402,9 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    try
 	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
 		manager.getTransaction().begin();
 		manager.persist(p);
 		manager.getTransaction().commit();
@@ -394,6 +413,9 @@ public class MedCEPStarter extends HttpServlet
 	    {
 		if (manager.getTransaction().isActive())
 		    manager.getTransaction().rollback();
+
+		manager.close();
+		manager = XPersistence.createManager();
 
 		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
@@ -405,9 +427,13 @@ public class MedCEPStarter extends HttpServlet
 		    throw ex;
 		}
 	    }
+	    finally
+	    {
+		manager.close();
+	    }
+
 	}
 
-	manager.close();
     }
 
     private static void inicializarEscalas() throws Exception
@@ -433,6 +459,9 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    try
 	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
 		manager.getTransaction().begin();
 		manager.persist(tipo);
 		manager.getTransaction().commit();
@@ -441,6 +470,9 @@ public class MedCEPStarter extends HttpServlet
 	    {
 		if (manager.getTransaction().isActive())
 		    manager.getTransaction().rollback();
+
+		manager.close();
+		manager = XPersistence.createManager();
 
 		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
@@ -451,6 +483,10 @@ public class MedCEPStarter extends HttpServlet
 		{
 		    throw ex;
 		}
+	    }
+	    finally
+	    {
+		manager.close();
 	    }
 	}
 
@@ -484,6 +520,9 @@ public class MedCEPStarter extends HttpServlet
 
 	try
 	{
+	    if (!manager.isOpen())
+		manager = XPersistence.createManager();
+
 	    manager.getTransaction().begin();
 	    manager.persist(escalaPercentual);
 	    manager.persist(escalaNumerosRacionais);
@@ -506,8 +545,11 @@ public class MedCEPStarter extends HttpServlet
 		throw ex;
 	    }
 	}
+	finally
+	{
+	    manager.close();
+	}
 
-	manager.close();
     }
 
     private static void inicializarUnidadesMedida() throws Exception
@@ -528,6 +570,9 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    try
 	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
 		manager.getTransaction().begin();
 		manager.persist(u);
 		manager.getTransaction().commit();
@@ -547,9 +592,11 @@ public class MedCEPStarter extends HttpServlet
 		    throw ex;
 		}
 	    }
+	    finally
+	    {
+		manager.close();
+	    }
 	}
-
-	manager.close();
     }
 
 }

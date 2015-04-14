@@ -628,7 +628,7 @@ public class TaigaIntegrator
      */
     public List<Medida> criarMedidasMedCEP(List<MedidasTaiga> medidasTaiga) throws Exception
     {
-	EntityManager manager = XPersistence.createManager();	
+	EntityManager manager = XPersistence.createManager();
 	List<Medida> medidasCadastradas = new ArrayList<Medida>();
 
 	//Obtem o tipo de medida base.
@@ -677,7 +677,7 @@ public class TaigaIntegrator
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	manager.close();
-	
+
 	//Define a medida de acordo com a lista informada.
 	for (MedidasTaiga medidaTaiga : medidasTaiga)
 	{
@@ -752,8 +752,8 @@ public class TaigaIntegrator
 	    medida.setDescricao("Medida obtida pela API Taiga conforme a documentação: http://taigaio.github.io/taiga-doc/dist/api.html");
 	    medida.setTipoMedida(medidaBase);
 	    medida.setEscala(escala);
-	    medida.setUnidadeDeMedida(unidadeMedida);    
-	    
+	    medida.setUnidadeDeMedida(unidadeMedida);
+
 	    try
 	    {
 		manager = XPersistence.createManager();
@@ -864,6 +864,9 @@ public class TaigaIntegrator
 
 	    try
 	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
 		manager.getTransaction().begin();
 		manager.persist(tipo);
 		manager.getTransaction().commit();
@@ -874,6 +877,9 @@ public class TaigaIntegrator
 		if (manager.getTransaction().isActive())
 		    manager.getTransaction().rollback();
 
+		manager.close();
+		 manager = XPersistence.createManager();
+		
 		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 		{
@@ -891,9 +897,11 @@ public class TaigaIntegrator
 		    throw ex;
 		}
 	    }
+	    finally
+	    {
+		manager.close();
+	    }
 	}
-
-	manager.close();
 
 	return tiposDeArtefato;
     }
