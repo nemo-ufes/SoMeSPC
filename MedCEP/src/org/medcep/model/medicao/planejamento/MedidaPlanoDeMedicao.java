@@ -70,6 +70,7 @@ public class MedidaPlanoDeMedicao
     @NoCreate
     @NoModify
     @ReferenceView("Simple")
+    @SearchAction("MedidaPlanoDeMedicao.searchDefinicaoOperacionalMedidaForMedidaPlanoMedicao")
     private DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida;
 
     public Medida getMedida()

@@ -23,12 +23,9 @@ import org.medcep.model.medicao.planejamento.*;
 import org.openxava.actions.*;
 import org.openxava.jpa.*;
 
-// import static org.openxava.jpa.XPersistence.*;
-
 public class SearchDefinicaoOperacionalMedidaForMedidaPlanoMedicaoAction extends ReferenceSearchAction
 {
 
-    // adding collection elements list
     public void execute() throws Exception
     {
 
@@ -40,17 +37,20 @@ public class SearchDefinicaoOperacionalMedidaForMedidaPlanoMedicaoAction extends
 	{
 	    MedidaPlanoDeMedicao medidaPlanoDeMedicao = XPersistence.getManager().find(MedidaPlanoDeMedicao.class, idMedidaPlanoDeMedicao);
 
-	    Integer idMedida = medidaPlanoDeMedicao.getMedida().getId();
-
-	    if (idMedida != null && idMedida == 0)
+	    if (medidaPlanoDeMedicao != null && medidaPlanoDeMedicao.getMedida() != null)
 	    {
-		getTab().setBaseCondition(idMedida + " IN (SELECT id FROM ${medida}) ");
+		Integer idMedida = medidaPlanoDeMedicao.getMedida().getId();
+
+		if (idMedida != null && idMedida == 0)
+		{
+		    getTab().setBaseCondition("SELECT d FROM definicaoOperacionalMedida d where d.medida.id = " + idMedida);
+		    return;
+		}
 	    }
-	    return;
+
 	}
-
-	throw new Exception("Para selecionar a Definição Operacional selecione primeiramente o Plano de Medição e a Medida do plano. Retorne a tela anterior de cadastro.");
-
+	
+	getTab().setBaseCondition("e_medida.id = 0");
+	return;
     }
-
 }
