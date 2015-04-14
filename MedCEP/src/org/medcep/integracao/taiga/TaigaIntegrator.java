@@ -391,6 +391,86 @@ public class TaigaIntegrator
     }
 
     /**
+     * Obtem as estorias do Project Backlog de uma Sprint Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto.
+     * @param apelidoSprint
+     *            - Apelido (slug) da Sprint
+     * @return JSON com as estórias da Sprint Backlog.
+     */
+    public String obterEstoriasDaSprintBacklogTaigaJson(String apelidoProjeto, String apelidoSprint)
+    {
+
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase()).queryParam("milestone", apelidoSprint.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+	int idSprint = json.getInt("milestone");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone", idSprint);
+
+	Response estoriasResponse = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	JSONArray estorias = new JSONArray(estoriasResponse.readEntity(String.class));
+
+	return estorias.toString();
+    }
+
+    /**
+     * Obtem as estorias do Project Backlog de um Projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto.
+     * @return List<Estoria> com as estórias do Project Backlog.
+     */
+    public List<Estoria> obterEstoriasDaSprintBacklogTaiga(String apelidoProjeto, String apelidoSprint)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase()).queryParam("milestone", apelidoSprint.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+	int idSprint = json.getInt("milestone");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone", idSprint);
+
+	List<Estoria> estorias = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Estoria>>() {
+		});
+
+	return estorias;
+    }
+
+    /**
      * Obtem todos os projetos.
      * 
      * @return List<Projeto>

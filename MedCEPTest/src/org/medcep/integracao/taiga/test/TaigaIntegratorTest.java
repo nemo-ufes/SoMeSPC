@@ -139,6 +139,28 @@ public class TaigaIntegratorTest
     }
 
     @Test
+    public void testObterEstoriasDaSprintBacklogTaigaJson()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	String estorias = integrator.obterEstoriasDaSprintBacklogTaigaJson("paflopes-sincap", "sprint-19");
+
+	assertNotNull(estorias);
+
+	System.out.println(estorias);
+    }
+    
+    @Test
+    public void testObterEstoriasDaSprintBacklogTaiga()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	List<Estoria> estorias = integrator.obterEstoriasDaSprintBacklogTaiga("paflopes-sincap", "sprint-19");
+
+	assertNotNull(estorias);
+
+	dump(estorias);
+    }
+    
+    @Test
     public void testObterProjetos()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
