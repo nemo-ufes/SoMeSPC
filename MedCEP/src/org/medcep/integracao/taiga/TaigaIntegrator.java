@@ -661,6 +661,11 @@ public class TaigaIntegrator
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = manager.createQuery(query7, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
 
+	//Obtem o tipo de Entidade Mensurável Tipo de Artefatoo.
+	String query8 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Tipo de Artefato'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery8 = manager.createQuery(query8, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoArtefato = typedQuery8.getSingleResult();
+
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
 	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
@@ -745,8 +750,62 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
 		    break;
+		case DURACAO_SPRINT:
+		    medida.setNome("Duração da Sprint");
+		    medida.setMnemonico("TAIGA-DSP");
+		    medida.setElementoMensuravel(duracao);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    break;
+		case ESTORIAS_COMPLETADAS_SPRINT:
+		    medida.setNome("Estórias Completadas na Sprint");
+		    medida.setMnemonico("TAIGA-ECS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    break;
+		case PONTOS_COMPLETADOS_SPRINT:
+		    medida.setNome("Pontos Completados na Sprint");
+		    medida.setMnemonico("TAIGA-PCS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    break;
+		case TAREFAS_COMPLETADAS_SPRINT:
+		    medida.setNome("Tarefas Completadas na Sprint");
+		    medida.setMnemonico("TAIGA-TCS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    break;
+		case TOTAL_ESTORIAS_SPRINT:
+		    medida.setNome("Total de Estórias da Sprint");
+		    medida.setMnemonico("TAIGA-TES");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    break;
+		case TOTAL_PONTOS_SPRINT:
+		    medida.setNome("Total de Pontos da Sprint");
+		    medida.setMnemonico("TAIGA-TPS");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    break;
+		case TOTAL_TAREFAS_SPRINT:
+		    medida.setNome("Total de Tarefas da Sprint");
+		    medida.setMnemonico("TAIGA-TTS");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    break;
+		case DURACAO_ESTORIA:
+		    medida.setNome("Duração da Estória");
+		    medida.setMnemonico("TAIGA-DES");
+		    medida.setElementoMensuravel(duracao);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoArtefato));
+		    break;
+		case PONTOS_ESTORIA:
+		    medida.setNome("Pontos da Estória");
+		    medida.setMnemonico("TAIGA-PES");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoArtefato));
+		    break;
 		default:
-		    throw new Exception("Medida inexistente no Taiga.");
+		    System.out.println(String.format("Medida %s inexistente no Taiga.", medidaTaiga.toString()));
 	    }
 
 	    medida.setDescricao("Medida obtida pela API Taiga conforme a documentação: http://taigaio.github.io/taiga-doc/dist/api.html");
@@ -756,7 +815,9 @@ public class TaigaIntegrator
 
 	    try
 	    {
-		manager = XPersistence.createManager();
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+		
 		manager.getTransaction().begin();
 		manager.persist(medida);
 		manager.getTransaction().commit();
@@ -878,8 +939,8 @@ public class TaigaIntegrator
 		    manager.getTransaction().rollback();
 
 		manager.close();
-		 manager = XPersistence.createManager();
-		
+		manager = XPersistence.createManager();
+
 		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 		{

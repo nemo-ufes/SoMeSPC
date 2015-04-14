@@ -219,25 +219,15 @@ public class TaigaIntegratorTest
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 
-	List<MedidasTaiga> medidasTaiga = new ArrayList<MedidasTaiga>();
-	medidasTaiga.add(MedidasTaiga.PONTOS_ALOCADOS_PROJETO);
-	medidasTaiga.add(MedidasTaiga.PONTOS_ALOCADOS_POR_PAPEL_PROJETO);
-	medidasTaiga.add(MedidasTaiga.PONTOS_DEFINIDOS_PROJETO);
-	medidasTaiga.add(MedidasTaiga.PONTOS_DEFINIDOS_POR_PAPEL_PROJETO);
-	medidasTaiga.add(MedidasTaiga.PONTOS_FECHADOS_PROJETO);
-	medidasTaiga.add(MedidasTaiga.PONTOS_FECHADOS_POR_PAPEL_PROJETO);
-	medidasTaiga.add(MedidasTaiga.TOTAL_SPRINTS_PROJETO);
-	medidasTaiga.add(MedidasTaiga.TOTAL_PONTOS_PROJETO);
-	medidasTaiga.add(MedidasTaiga.VELOCIDADE_PROJETO);
-	medidasTaiga.add(MedidasTaiga.DOSES_IOCAINE_SPRINT);
-
-	List<Medida> medidas = integrator.criarMedidasMedCEP(medidasTaiga);
+	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+	
+	List<Medida> medidas = integrator.criarMedidasMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
 
 	assertNotNull(medidas);
 	assertNotEquals(medidas.size(), 0);
 	assertTrue(medidas.size() > 0);
 
-	dump(medidas);
+	//dump(medidas);
     }
     
     @Test
