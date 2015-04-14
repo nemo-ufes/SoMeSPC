@@ -191,7 +191,7 @@ public class TaigaIntegrator
 	int idProjeto = json.getInt("project");
 
 	//Busca informações das sprints.
-	target = client.target(this.urlTaiga).path("milestones");
+	target = client.target(this.urlTaiga).path("milestones").queryParam("project", idProjeto);
 
 	List<Sprint> sprints = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
@@ -199,15 +199,7 @@ public class TaigaIntegrator
 		.get(new GenericType<List<Sprint>>() {
 		});
 
-	List<Sprint> sprintsProjeto = new ArrayList<Sprint>();
-
-	for (Sprint sprint : sprints)
-	{
-	    if (sprint.getIdProjeto() == idProjeto)
-		sprintsProjeto.add(sprint);
-	}
-
-	return sprintsProjeto;
+	return sprints;
     }
 
     /**
@@ -320,6 +312,82 @@ public class TaigaIntegrator
 		.get(EstadoProjeto.class);
 
 	return estado;
+    }
+
+    /**
+     * Obtem as estorias do Project Backlog de um Projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto.
+     * @return JSON com as estórias do Project Backlog.
+     */
+    public String obterEstoriasDoProjectBacklogTaigaJson(String apelidoProjeto)
+    {
+
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone__isnull", true);
+
+	Response estoriasResponse = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	JSONArray estorias = new JSONArray(estoriasResponse.readEntity(String.class));
+
+	return estorias.toString();
+    }
+
+    /**
+     * Obtem as estorias do Project Backlog de um Projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto.
+     * @return List<Estoria> com as estórias do Project Backlog.
+     */
+    public List<Estoria> obterEstoriasDoProjectBacklogTaiga(String apelidoProjeto)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone__isnull", true);
+
+	List<Estoria> estorias = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Estoria>>() {
+		});
+
+	return estorias;
     }
 
     /**
@@ -606,18 +674,6 @@ public class TaigaIntegrator
     }
 
     /**
-     * Cria as (Sprints) do Taiga na MedCEP como Atividade Padrão, Atividades de Projeto e Ocorrência de Atividade.
-     * 
-     * @param projeto
-     *            - Projeto Taiga para obter os marcos.
-     * @return
-     */
-    public boolean criarSprintsMedCEP(Projeto projeto)
-    {
-	return false;
-    }
-
-    /**
      * Cria as Medidas do Taiga no banco de dados da MedCEP.
      * Não atribui valores, somente cria as definições das medidas.
      * 
@@ -817,7 +873,7 @@ public class TaigaIntegrator
 	    {
 		if (!manager.isOpen())
 		    manager = XPersistence.createManager();
-		
+
 		manager.getTransaction().begin();
 		manager.persist(medida);
 		manager.getTransaction().commit();
@@ -1226,6 +1282,25 @@ public class TaigaIntegrator
 	}
 
 	return scrum;
+    }
+
+    /**
+     * Cria as atividades Reunião de Planejamento da Sprint, Sprints e Reunião de Revisão da Sprint para o projeto infomado.
+     * 
+     * @param projeto
+     *            - Projeto Taiga para criação das atividades.
+     * @throws Exception
+     */
+    public void criarAtividadesProjetoMedCEP(Projeto projeto) throws Exception
+    {
+	//Cria as atividades padrão.
+	this.criarAtividadesPadraoScrumMedCEP();
+
+    }
+
+    public void criarArtefatosMedCEP(List<Estoria> estorias)
+    {
+
     }
 
 }
