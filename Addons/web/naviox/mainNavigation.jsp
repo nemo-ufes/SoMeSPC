@@ -22,6 +22,11 @@
 <nobr>
 <span style="color: white; font-size: 14px; font-weight: bold;">MedCEP - A powerful tool for measure</span>
 &nbsp; 
+<%-- <form method="link" action="www.google.com.br">
+	<input type="submit" value="MedCEP Wizard">
+</form>--%>
+<a  href="<%=request.getContextPath()%>/naviox/wizard.jsp"><span style="color: white; font-size: 14px; font-weight: bold; margin-left: 50px; ">Wizard</span></a>
+
 <%--
 <% 
 for (Iterator it= modules.getTopModules().iterator(); it.hasNext();) {
