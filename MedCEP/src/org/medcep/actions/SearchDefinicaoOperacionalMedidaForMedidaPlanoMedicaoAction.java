@@ -19,7 +19,7 @@
  */
 package org.medcep.actions;
 
-import org.medcep.model.medicao.planejamento.*;
+import org.medcep.model.medicao.*;
 import org.openxava.actions.*;
 import org.openxava.jpa.*;
 
@@ -35,17 +35,12 @@ public class SearchDefinicaoOperacionalMedidaForMedidaPlanoMedicaoAction extends
 
 	if (idMedidaPlanoDeMedicao != null && idMedidaPlanoDeMedicao != 0)
 	{
-	    MedidaPlanoDeMedicao medidaPlanoDeMedicao = XPersistence.getManager().find(MedidaPlanoDeMedicao.class, idMedidaPlanoDeMedicao);
+	    Medida medida = XPersistence.getManager().find(Medida.class, idMedidaPlanoDeMedicao);
 
-	    if (medidaPlanoDeMedicao != null && medidaPlanoDeMedicao.getMedida() != null)
+	    if (medida != null && medida.getId() != 0)
 	    {
-		Integer idMedida = medidaPlanoDeMedicao.getMedida().getId();
-
-		if (idMedida != null && idMedida == 0)
-		{
-		    getTab().setBaseCondition("SELECT d FROM definicaoOperacionalMedida d where d.medida.id = " + idMedida);
-		    return;
-		}
+		    getTab().setBaseCondition("e_medida.id = " + medida.getId());
+		    return;		
 	    }
 
 	}
