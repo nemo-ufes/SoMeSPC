@@ -38,10 +38,10 @@ public class SearchMedidaAction extends ReferenceSearchAction
 	{
 
 	    getTab().setBaseCondition(
-		    "${id} IN (SELECT m.id FROM Medida m " +
-			    "JOIN m.elementoMensuravel el " +
-			    "JOIN el.entidadeMensuravel en " +
-			    "WHERE en.id = " + idProcessoPadrao + ") "
+		    "${id} IN (SELECT m.id FROM Medida m "
+		    + "JOIN m.tipoDeEntidadeMensuravel te "
+		    + "JOIN te.entidadeMensuravel em "
+		    + "WHERE em.id = " + idProcessoPadrao + ") "
 		    );
 
 	    return;
