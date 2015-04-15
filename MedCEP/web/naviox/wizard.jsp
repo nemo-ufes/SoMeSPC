@@ -10,11 +10,11 @@
 </head>
 <body>
 
-	<div>
-		<div id="medcep-wizard" style="height: 400px; width: 600px;">
+	<div style="margin: 50px auto; width: 800px;">
+		<div id="medcep-wizard">
 			<h2>Keyboard</h2>
 			<section>
-				<button id="botao">A button element</button>
+				<button>A button element</button>
 			</section>
 			<h2>Effects</h2>
 			<section>
@@ -30,7 +30,7 @@
 	<script type='text/javascript' src="js/jquery.js"></script>
 	<script type='text/javascript' src="js/jquery-ui.js"></script>
 	<script type='text/javascript' src='js/jquery.steps.js'></script>
-	
+
 	<script>
 		$("#medcep-wizard").steps({
 			headerTag : "h2",
@@ -38,6 +38,8 @@
 			transitionEffect : "slideLeft",
 			autoFocus : true
 		});
+
+		$('button').button();
 	</script>
 
 </body>
