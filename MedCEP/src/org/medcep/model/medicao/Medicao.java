@@ -53,7 +53,7 @@ import org.openxava.annotations.*;
 //		@PropertyValue(name = "medidaPlanoDeMedicao"),
 //		@PropertyValue(name = "entidadeMensuravel")
 //	})
-public class Medicao
+public class Medicao implements Comparable<Medicao>
 {
 
     @Id
@@ -259,4 +259,8 @@ public class Medicao
 	this.id = id;
     }
 
+    public int compareTo(Medicao o) {
+	return getData().compareTo(o.getData());
+}
+    
 }
