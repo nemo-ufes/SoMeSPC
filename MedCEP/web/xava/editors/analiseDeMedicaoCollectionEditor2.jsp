@@ -25,8 +25,8 @@
 <%@ page import="java.util.Collections" %>
 <%@ page import="java.util.ArrayList" %>
 <%@page import="java.text.DateFormat"%>
-<%@page import="org.openxava.mestrado.model.MedicaoDeSoftware.Medicao.Medicao"%>
-<%@page import="org.openxava.mestrado.model.MedicaoDeSoftware.AnaliseDeMedicao.AnaliseDeMedicao"%>
+<%@page import="org.medcep.model.medicao.Medicao"%>
+<%@page import="org.medcep.model.medicao.analise.AnaliseDeMedicao"%>
 
 <% 
 	String viewObject2 = request.getParameter("viewObject");
@@ -38,7 +38,9 @@
 		AnaliseDeMedicao analiseDeMedicao = null;
 		try {
 			analiseDeMedicao = (AnaliseDeMedicao) MapFacade.findEntity("AnaliseDeMedicao", key2);
-		}catch(Exception e){}
+		}catch(Exception e){		    
+		    throw e;
+		}
 		
 		//se a escala for numerica e tiver alguma medicao
 		if(analiseDeMedicao != null && analiseDeMedicao.getMedicao().size() > 0 
