@@ -32,7 +32,6 @@ public class DeleteSelectedAction extends TabBaseAction implements IModelAction 
 			}
 			getTab().deselectAll();
 			resetDescriptionsCache();
-			getView().refresh();
 		}
 	}
 
