@@ -31,7 +31,7 @@ public class GoAddAtividadeInstanciadaAction extends GoAddElementsToCollectionAc
 		Integer idProcessoPadrao = getPreviousView().getValueInt("baseadoEm.id");
 
 		getTab().setBaseCondition(idProcessoPadrao 
-			+ " IN (SELECT p.id from ProcessoPadrao p JOIN p.atividadePadrao a WHERE a.id = ${baseadoEm.id}) AND ${id} NOT IN (SELECT aa.id from ProcessoInstanciado pp JOIN pp.atividadeInstanciada aa WHERE pp.id = "+ id +")"
+			+ " IN (SELECT p.id from ProcessoPadrao p JOIN p.atividadePadrao a WHERE a.id = ${baseadoEm.id}) AND ${id} NOT IN (SELECT aa.id from OcorrenciaProcesso pp JOIN pp.ocorrenciaAtividade aa WHERE pp.id = "+ id +")"
 		);
 	}
 	
