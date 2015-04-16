@@ -33,7 +33,7 @@ import org.openxava.annotations.*;
 	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; ocorrenciaAtividade; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome"),
 })
-@Tab(properties = "nome, versao", defaultOrder = "${nome} asc, ${versao} desc", baseCondition = "TYPE(e) = ProcessoInstanciado")
+@Tab(properties = "nome", defaultOrder = "${nome} asc", baseCondition = "TYPE(e) = OcorrenciaProcesso")
 @EntityValidator(
 	value = ProcessoInstanciadoValidator.class,
 	properties = {
@@ -42,13 +42,11 @@ import org.openxava.annotations.*;
 public class OcorrenciaProcesso extends EntidadeMensuravel
 {
 
-    //@Required
-    private String versao;
-
+ 
     @ManyToOne
     @Required
     @ReferenceView("Simple")
-    private ProcessoPadrao baseadoEm;
+    private ProcessoProjeto baseadoEm;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -63,33 +61,12 @@ public class OcorrenciaProcesso extends EntidadeMensuravel
     @NewAction("ProcessoInstanciado.add")
     private Collection<OcorrenciaAtividade> ocorrenciaAtividade;
 
-    public String getVersao()
-    {
-	return versao;
-    }
-
-    public void setVersao(String versao)
-    {
-	this.versao = versao;
-    }
-
-    public ProcessoPadrao getProcessoDeSoftwarePadrao()
+    public ProcessoProjeto getBaseadoEm()
     {
 	return baseadoEm;
     }
 
-    public void setProcessoDeSoftwarePadrao(
-	    ProcessoPadrao baseadoEm)
-    {
-	this.baseadoEm = baseadoEm;
-    }
-
-    public ProcessoPadrao getBaseadoEm()
-    {
-	return baseadoEm;
-    }
-
-    public void setBaseadoEm(ProcessoPadrao baseadoEm)
+    public void setBaseadoEm(ProcessoProjeto baseadoEm)
     {
 	this.baseadoEm = baseadoEm;
     }

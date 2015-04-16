@@ -34,18 +34,26 @@ import org.openxava.annotations.*;
 	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeProjeto; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome"),
 })
-@Tab(properties = "nome, versao", defaultOrder = "${nome} asc, ${versao} desc")
+@Tab(properties = "nome", defaultOrder = "${nome} asc")
 @EntityValidator(
 	value = ProcessoDeProjetoValidator.class,
 	properties = {
 		@PropertyValue(name = "tipoDeEntidadeMensuravel")
 	})
-public class ProcessoProjeto extends OcorrenciaProcesso
+public class ProcessoProjeto extends EntidadeMensuravel
 {
 
+    @ManyToOne
+    @Required
+    @ReferenceView("Simple")
+    private ProcessoPadrao baseadoEm;
+    
     @OneToOne
     @ReferenceView("Simple")
     private Projeto projeto;
+
+    @OneToMany(mappedBy = "baseadoEm")
+    private Collection<OcorrenciaProcesso> ocorrenciaProcesso;
 
     public Projeto getProjeto()
     {
@@ -102,6 +110,16 @@ public class ProcessoProjeto extends OcorrenciaProcesso
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
 
+    public Collection<OcorrenciaProcesso> getOcorrenciaProcesso()
+    {
+	return ocorrenciaProcesso;
+    }
+
+    public void setOcorrenciaProcesso(Collection<OcorrenciaProcesso> ocorrenciaProcesso)
+    {
+	this.ocorrenciaProcesso = ocorrenciaProcesso;
+    }
+
     @PreCreate
     @PreUpdate
     public void ajustaElementosMensuraveis()
@@ -128,5 +146,15 @@ public class ProcessoProjeto extends OcorrenciaProcesso
 	    }//elemTipo
 	}
     }//ajusta
+
+    public ProcessoPadrao getBaseadoEm()
+    {
+	return baseadoEm;
+    }
+
+    public void setBaseadoEm(ProcessoPadrao baseadoEm)
+    {
+	this.baseadoEm = baseadoEm;
+    }
 
 }

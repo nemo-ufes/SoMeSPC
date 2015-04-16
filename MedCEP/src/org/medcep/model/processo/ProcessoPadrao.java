@@ -54,7 +54,7 @@ public class ProcessoPadrao extends EntidadeMensuravel
     private Collection<DesempenhoDeProcessoEspecificado> desempenhoDeProcessoEspecificado;
 
     @OneToMany(mappedBy = "baseadoEm")
-    private Collection<OcorrenciaProcesso> processoInstanciado;
+    private Collection<ProcessoProjeto> processoProjeto;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -100,15 +100,15 @@ public class ProcessoPadrao extends EntidadeMensuravel
 	this.desempenhoDeProcessoEspecificado = desempenhoDeProcessoEspecificado;
     }
 
-    public Collection<OcorrenciaProcesso> getProcessoDeSoftwareDeProjeto()
+    public Collection<ProcessoProjeto> getProcessoDeSoftwareDeProjeto()
     {
-	return processoInstanciado;
+	return processoProjeto;
     }
 
     public void setProcessoDeSoftwareDeProjeto(
-	    Collection<OcorrenciaProcesso> processoDeSoftwareDeProjeto)
+	    Collection<ProcessoProjeto> processoProjeto)
     {
-	this.processoInstanciado = processoDeSoftwareDeProjeto;
+	this.processoProjeto = processoProjeto;
     }
 
     public Collection<AtividadePadrao> getAtividadePadrao()

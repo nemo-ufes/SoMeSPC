@@ -47,10 +47,10 @@ public class AtividadeProjeto extends EntidadeMensuravel
 {
     @ManyToOne
     @ReferenceView("Simple")
+    @Required
     private AtividadePadrao baseadoEm;
 
     @OneToMany(mappedBy = "baseadoEm")
-    @Required
     private Collection<OcorrenciaAtividade> ocorrenciaAtividade;
 
     @ManyToMany(fetch = FetchType.LAZY)
