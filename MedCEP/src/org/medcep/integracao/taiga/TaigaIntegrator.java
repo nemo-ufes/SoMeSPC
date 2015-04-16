@@ -1394,14 +1394,15 @@ public class TaigaIntegrator
 
     }
 
-    
     /**
      * Cria as estórias do Product Backlog como artefatos.
-     * @param estorias - Estórias do Product Backlog.
+     * 
+     * @param estorias
+     *            - Estórias do Product Backlog.
      * @return List<Artefato> artefatos criados.
      * @throws Exception
      */
-    public List<Artefato> criarEstoriasProductBacklogComoArtefatosMedCEP(List<Estoria> estorias) throws Exception
+    public List<Artefato> criarEstoriasComoArtefatosMedCEP(List<Estoria> estorias, boolean saoEstoriasDeProductBacklog) throws Exception
     {
 
 	this.criarTiposArtefatosScrumMedCEP();
@@ -1412,9 +1413,20 @@ public class TaigaIntegrator
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery1 = manager.createQuery(query1, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoArtefato = typedQuery1.getSingleResult();
 
-	String query2 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Estória de Product Backlog'";
-	TypedQuery<TipoDeArtefato> typedQuery2 = manager.createQuery(query2, TipoDeArtefato.class);
-	TipoDeArtefato tipoArtefatoEPB = typedQuery2.getSingleResult();
+	TipoDeArtefato tipoEstoria;
+	
+	if (saoEstoriasDeProductBacklog)
+	{
+	    String query2 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Estória de Product Backlog'";
+	    TypedQuery<TipoDeArtefato> typedQuery2 = manager.createQuery(query2, TipoDeArtefato.class);
+	    tipoEstoria = typedQuery2.getSingleResult();
+	}
+	else
+	{
+	    String query2 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Estória de Sprint Backlog'";
+	    TypedQuery<TipoDeArtefato> typedQuery2 = manager.createQuery(query2, TipoDeArtefato.class);
+	    tipoEstoria = typedQuery2.getSingleResult();
+	}
 
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
@@ -1427,20 +1439,20 @@ public class TaigaIntegrator
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	List<Artefato> artefatosCriados = new ArrayList<Artefato>();
-	
+
 	for (Estoria estoria : estorias)
 	{
 	    Artefato artefato = new Artefato();
 	    artefato.setNome(estoria.getTitulo());
 	    artefato.setTipoDeEntidadeMensuravel(tipoArtefato);
-	    artefato.setTipoDeArtefato(tipoArtefatoEPB);
+	    artefato.setTipoDeArtefato(tipoEstoria);
 	    artefato.setElementoMensuravel(Arrays.asList(tamanho, duracao));
-	    
+
 	    if (estoria.getDescricao().isEmpty() || estoria.getDescricao().equals(""))
 		artefato.setDescricao(estoria.getTitulo());
 	    else
 		artefato.setDescricao(estoria.getDescricao());
-	    
+
 	    //Persiste.	
 	    try
 	    {
@@ -1478,12 +1490,12 @@ public class TaigaIntegrator
 	    {
 		manager.close();
 	    }
-	    
+
 	    artefatosCriados.add(artefato);
 	}
 
 	return artefatosCriados;
-	
+
     }
 
 }
