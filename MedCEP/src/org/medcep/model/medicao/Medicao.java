@@ -19,7 +19,7 @@
  */
 package org.medcep.model.medicao;
 
-import java.util.*;
+import java.sql.*;
 
 import javax.persistence.*;
 
@@ -60,7 +60,7 @@ public class Medicao implements Comparable<Medicao>
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    private Date data;
+    private Timestamp data;
 
     @ManyToOne
     @Required
@@ -128,12 +128,12 @@ public class Medicao implements Comparable<Medicao>
     @Required
     private ValorMedido valorMedido;
 
-    public Date getData()
+    public Timestamp getData()
     {
 	return data;
     }
 
-    public void setData(Date data)
+    public void setData(Timestamp data)
     {
 	this.data = data;
     }
