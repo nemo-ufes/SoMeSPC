@@ -20,7 +20,7 @@
 &nbsp; 
 <div id="main_navigation_left">
 <nobr>
-<span style="color: white; font-size: 14px; font-weight: bold;">MedCEP - A powerful tool for measure</span>
+<span style="color: white; font-size: 14px; font-weight: bold;">MedCEP - A powerful tool to measure</span>
 &nbsp; 
 <%-- <form method="link" action="www.google.com.br">
 	<input type="submit" value="MedCEP Wizard">

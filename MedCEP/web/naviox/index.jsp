@@ -26,6 +26,8 @@
 
 <head>
 <title><%=modules.getCurrentModuleDescription(request)%></title>
+<link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" /> 
 <link href="<%=request.getContextPath()%>/naviox/style/naviox.css"
 	rel="stylesheet" type="text/css">
 <script type='text/javascript'

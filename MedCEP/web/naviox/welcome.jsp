@@ -11,9 +11,11 @@ MetaApplication metaApplication = MetaApplications.getMetaApplication(applicatio
 %>
 
 <div>
+<img src="../naviox/images/logo.png" height="120px" width="140px" class="feature-image"/>
 <img src="../naviox/images/nemo.jpg" height="120px" width="140px" class="feature-image"/>
 <img src="../naviox/images/ufes.png" height="120px" width="140px" class="feature-image"/>
 </div>
+
 
 <h1><xava:message key="welcome_to" param="<%=metaApplication.getLabel()%>"/></h1>
 <%--<h2><%=metaApplication.getDescription()%></h2>--%>
