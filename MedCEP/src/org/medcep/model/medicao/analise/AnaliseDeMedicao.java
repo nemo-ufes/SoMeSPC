@@ -110,16 +110,6 @@ public class AnaliseDeMedicao
     //@Required
     private AtividadeProjeto momentoRealDaAnaliseDeMedicao;
 
-    /*
-     * @ManyToOne
-     * 
-     * @ReferenceView("Simple")
-     * //@Required
-     * 
-     * @SearchAction("Medicao.searchDefinicaoOperacional")
-     * private DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida;
-     */
-
     @ManyToOne
     @ReferenceView(value = "Simple", forViews = "CEP")
     @DescriptionsList(descriptionProperties = "nome", notForViews = "CEP")
@@ -145,7 +135,6 @@ public class AnaliseDeMedicao
 	    , order = "${medida.nome} asc", notForViews = "CEP")
     @NoCreate
     //@Required
-    //ChooseReferenceAction se tentar com a outra visao
     private MedidaPlanoDeMedicao medidaPlanoDeMedicao;
 
     public Date getData()
@@ -180,20 +169,9 @@ public class AnaliseDeMedicao
 	this.momentoRealDaAnaliseDeMedicao = momentoRealDaAnaliseDeMedicao;
     }
 
-    /*
-     * public DefinicaoOperacionalDeMedida getDefinicaoOperacionalDeMedida() {
-     * return definicaoOperacionalDeMedida;
-     * }
-     * 
-     * public void setDefinicaoOperacionalDeMedida(
-     * DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida) {
-     * this.definicaoOperacionalDeMedida = definicaoOperacionalDeMedida;
-     * }
-     */
-
     @ManyToOne
     @ReferenceView("Simple")
-    //@Required
+    @SearchAction("Medicao.searchEntidadeMensuravel")
     private EntidadeMensuravel entidadeMensuravel;
 
     public EntidadeMensuravel getEntidadeMensuravel()
@@ -235,15 +213,6 @@ public class AnaliseDeMedicao
 	return medicao;
     }
 
-    /*
-     * public Collection<Medicao> getSortMedicao() {
-     * ArrayList<Medicao> lstMedicao = new ArrayList<Medicao>(getMedicao());
-     * 
-     * Collections.sort(lstMedicao);
-     * 
-     * return lstMedicao;
-     * }
-     */
 
     public void setMedicao(Collection<Medicao> medicao)
     {
@@ -265,28 +234,6 @@ public class AnaliseDeMedicao
 
 	}
 	return "";
-    }
-
-    //private BaselineDeDesempenhoDeProcesso baselineDeDesempenhoDeProcesso;
-
-    //@ManyToOne
-    //@ReferenceView("Simple")
-    //private Conclusao conclusaoAtribuida;
-
-    /*
-     * public Conclusao getConclusaoAtribuida() {
-     * return conclusaoAtribuida;
-     * }
-     * 
-     * public void setConclusaoAtribuida(Conclusao conclusaoAtribuida) {
-     * this.conclusaoAtribuida = conclusaoAtribuida;
-     * }
-     */
-
-    //private ProcedimentoDeAnaliseDeMedicao procedimentoDeAnaliseDeMedicao;
-
-    //private Collection<MetodoAnalitico> metodoAnalitico;
-
-    //private Collection<CriterioDeDecisao> criterioDeDecisao;
+    } 
 
 }
