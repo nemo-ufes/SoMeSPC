@@ -53,7 +53,7 @@ public class AtividadePadrao extends EntidadeMensuravel
     private Collection<DefinicaoOperacionalDeMedida> momentoDeAnaliseDeMedicao;
 
     @OneToMany(mappedBy = "baseadoEm")
-    private Collection<OcorrenciaAtividade> atividadeProjeto;
+    private Collection<AtividadeProjeto> atividadeProjeto;
 
     @ManyToOne
     @Required
@@ -87,18 +87,6 @@ public class AtividadePadrao extends EntidadeMensuravel
     @ListProperties("nome")
     private Collection<AtividadePadrao> dependeDe;
 
-    /*
-     * @ManyToMany
-     * 
-     * @JoinTable(name="Atividade1_dependeDe_Atividade2",
-     * joinColumns={@JoinColumn(name="atividade1_id")},
-     * inverseJoinColumns={@JoinColumn(name="atividade2_id")})
-     * private Set<AtividadePadrao> dependoDasAtividades;
-     * 
-     * @ManyToMany(mappedBy="dependoDasAtividades")
-     * private Set<AtividadePadrao> atividadesDependentesDeMim;
-     */
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
 	    name = "AtividadePadrao_produz_TipoArtefato"
@@ -123,27 +111,16 @@ public class AtividadePadrao extends EntidadeMensuravel
     @ListProperties("nome")
     private Collection<TipoDeArtefato> requerTipoDeArtefato;
 
-    public Collection<OcorrenciaAtividade> getAtividadeProjeto()
+    public Collection<AtividadeProjeto> getAtividadeProjeto()
     {
 	return atividadeProjeto;
     }
 
     public void setAtividadeProjeto(
-	    Collection<OcorrenciaAtividade> atividadeProjeto)
+	    Collection<AtividadeProjeto> atividadeProjeto)
     {
 	this.atividadeProjeto = atividadeProjeto;
     }
-
-    /*
-     * public Collection<ProcessoDeSoftwarePadrao> getProcessoDeSoftwarePadrao() {
-     * return processoDeSoftwarePadrao;
-     * }
-     * 
-     * public void setProcessoDeSoftwarePadrao(
-     * Collection<ProcessoDeSoftwarePadrao> processoDeSoftwarePadrao) {
-     * this.processoDeSoftwarePadrao = processoDeSoftwarePadrao;
-     * }
-     */
 
     public Collection<TipoDeArtefato> getProduzTipoDeArtefato()
     {
@@ -189,32 +166,32 @@ public class AtividadePadrao extends EntidadeMensuravel
 	this.momentoDeAnaliseDeMedicao = momentoDeAnaliseDeMedicao;
     }
 
-//    @PreCreate
-//    @PreUpdate
-//    public void ajustaElementosMensuraveis()
-//    {
-//	if (elementoMensuravel == null)
-//	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
-//
-//	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
-//	{
-//	    boolean add;
-//	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
-//	    {
-//		add = true;
-//		for (ElementoMensuravel elem : elementoMensuravel)
-//		{
-//		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-//		    {
-//			add = false;
-//			break;
-//		    }
-//		}
-//		if (add)
-//		    elementoMensuravel.add(elemTipo);
-//	    }//elemTipo
-//	}
-//    }//ajusta
+    //    @PreCreate
+    //    @PreUpdate
+    //    public void ajustaElementosMensuraveis()
+    //    {
+    //	if (elementoMensuravel == null)
+    //	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+    //
+    //	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
+    //	{
+    //	    boolean add;
+    //	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
+    //	    {
+    //		add = true;
+    //		for (ElementoMensuravel elem : elementoMensuravel)
+    //		{
+    //		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
+    //		    {
+    //			add = false;
+    //			break;
+    //		    }
+    //		}
+    //		if (add)
+    //		    elementoMensuravel.add(elemTipo);
+    //	    }//elemTipo
+    //	}
+    //    }//ajusta
 
     public Collection<AtividadePadrao> getDependeDe()
     {

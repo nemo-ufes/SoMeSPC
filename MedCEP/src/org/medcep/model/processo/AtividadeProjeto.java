@@ -26,6 +26,7 @@ import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
+import org.medcep.model.organizacao.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
@@ -42,8 +43,15 @@ import org.openxava.annotations.*;
 	properties = {
 		@PropertyValue(name = "tipoDeEntidadeMensuravel")
 	})
-public class AtividadeProjeto extends OcorrenciaAtividade
+public class AtividadeProjeto extends EntidadeMensuravel
 {
+    @ManyToOne
+    @ReferenceView("Simple")
+    private AtividadePadrao baseadoEm;
+
+    @OneToMany(mappedBy = "baseadoEm")
+    @Required
+    private Collection<OcorrenciaAtividade> ocorrenciaAtividade;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -57,15 +65,17 @@ public class AtividadeProjeto extends OcorrenciaAtividade
     @ListProperties("nome")
     private Collection<ProcessoProjeto> processoDeProjeto;
 
-    public Collection<ProcessoProjeto> getProcessoDeProjeto()
-    {
-	return processoDeProjeto;
-    }
-
-    public void setProcessoDeProjeto(Collection<ProcessoProjeto> processoDeProjeto)
-    {
-	this.processoDeProjeto = processoDeProjeto;
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+	    name = "AtividadeProjeto_RealizadoPor_AlocacaoRH"
+	    , joinColumns = {
+		    @JoinColumn(name = "atividadeProjeto_id")
+	    }
+	    , inverseJoinColumns = {
+		    @JoinColumn(name = "alocacaoRH_id")
+	    })
+    @ListProperties("nome")
+    private Collection<AlocacaoEquipe> realizadoPor;
 
     @ManyToOne
     @Required
@@ -77,15 +87,100 @@ public class AtividadeProjeto extends OcorrenciaAtividade
 	    })
     private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+	    name = "AtividadeProjeto_produz_Artefato"
+	    , joinColumns = {
+		    @JoinColumn(name = "atividadeProjeto_id")
+	    }
+	    , inverseJoinColumns = {
+		    @JoinColumn(name = "artefato_id")
+	    })
+    @ListProperties("nome")
+    private Collection<Artefato> produz;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+	    name = "AtividadeProjeto_requer_Artefato"
+	    , joinColumns = {
+		    @JoinColumn(name = "ocorrenciaAtividade_id")
+	    }
+	    , inverseJoinColumns = {
+		    @JoinColumn(name = "artefato_id")
+	    })
+    @ListProperties("nome")
+    private Collection<Artefato> requer;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+	    name = "AtividadeProjeto_dependeDe_AtividadeProjeto"
+	    , joinColumns = {
+		    @JoinColumn(name = "atividadeProjeto_id")
+	    }
+	    , inverseJoinColumns = {
+		    @JoinColumn(name = "atividadeProjeto_id2")
+	    })
+    @ListProperties("nome")
+    private Collection<OcorrenciaAtividade> dependeDe;
+
+    public AtividadePadrao getBaseadoEm()
+    {
+	return baseadoEm;
+    }
+
+    public void setBaseadoEm(AtividadePadrao baseadoEm)
+    {
+	this.baseadoEm = baseadoEm;
+    }
+
+    public Collection<ProcessoProjeto> getProcessoDeProjeto()
+    {
+	return processoDeProjeto;
+    }
+
+    public void setProcessoDeProjeto(Collection<ProcessoProjeto> processoDeProjeto)
+    {
+	this.processoDeProjeto = processoDeProjeto;
+    }
+
+    public Collection<AlocacaoEquipe> getRealizadoPor()
+    {
+	return realizadoPor;
+    }
+
+    public void setRealizadoPor(Collection<AlocacaoEquipe> realizadoPor)
+    {
+	this.realizadoPor = realizadoPor;
+    }
+
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;
     }
 
-    public void setTipoDeEntidadeMensuravel(
-	    TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel)
+    public void setTipoDeEntidadeMensuravel(TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel)
     {
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
+    }
+
+    public Collection<Artefato> getProduz()
+    {
+	return produz;
+    }
+
+    public void setProduz(Collection<Artefato> produz)
+    {
+	this.produz = produz;
+    }
+
+    public Collection<Artefato> getRequer()
+    {
+	return requer;
+    }
+
+    public void setRequer(Collection<Artefato> requer)
+    {
+	this.requer = requer;
     }
 
     @PreCreate
@@ -114,5 +209,25 @@ public class AtividadeProjeto extends OcorrenciaAtividade
 	    }//elemTipo
 	}
     }//ajusta
+
+    public Collection<OcorrenciaAtividade> getDependeDe()
+    {
+	return dependeDe;
+    }
+
+    public void setDependeDe(Collection<OcorrenciaAtividade> dependeDe)
+    {
+	this.dependeDe = dependeDe;
+    }
+
+    public Collection<OcorrenciaAtividade> getOcorrenciaAtividade()
+    {
+	return ocorrenciaAtividade;
+    }
+
+    public void setOcorrenciaAtividade(Collection<OcorrenciaAtividade> ocorrenciaAtividade)
+    {
+	this.ocorrenciaAtividade = ocorrenciaAtividade;
+    }
 
 }

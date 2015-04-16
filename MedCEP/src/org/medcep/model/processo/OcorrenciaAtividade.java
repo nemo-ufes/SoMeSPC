@@ -31,7 +31,6 @@ import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Views({
 	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; requer; produz; realizadoPor; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome")
@@ -49,7 +48,8 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
 
     @ManyToOne
     @ReferenceView("Simple")
-    private AtividadePadrao baseadoEm;
+    @Required
+    private AtividadeProjeto baseadoEm;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -62,16 +62,15 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
 	    })
     private Collection<OcorrenciaProcesso> ocorrenciaProcesso;
 
-    public Collection<OcorrenciaProcesso> getOcorrenciaProcessi()
-    {
-	return ocorrenciaProcesso;
-    }
-
-    public void setOcorrenciaProcesso(
-	    Collection<OcorrenciaProcesso> processoInstanciado)
-    {
-	this.ocorrenciaProcesso = processoInstanciado;
-    }
+    @ManyToOne
+    @Required
+    @Transient
+    @DefaultValueCalculator(
+	    value = TipoDeEntidadeMensuravelCalculator.class,
+	    properties = {
+		    @PropertyValue(name = "nomeEntidade", value = "Ocorrência de Atividade")
+	    })
+    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -95,7 +94,7 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
 		    @JoinColumn(name = "recursoHumano_id")
 	    })
     @ListProperties("nome")
-    private Collection<RecursoHumano> realizadoPor;
+    private Collection<AlocacaoEquipe> realizadoPor;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -121,12 +120,23 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     @ListProperties("nome")
     private Collection<Artefato> requer;
 
-    public AtividadePadrao getBaseadoEm()
+    public Collection<OcorrenciaProcesso> getOcorrenciaProcessi()
+    {
+	return ocorrenciaProcesso;
+    }
+
+    public void setOcorrenciaProcesso(
+	    Collection<OcorrenciaProcesso> processoInstanciado)
+    {
+	this.ocorrenciaProcesso = processoInstanciado;
+    }
+
+    public AtividadeProjeto getBaseadoEm()
     {
 	return baseadoEm;
     }
 
-    public void setBaseadoEm(AtividadePadrao baseadoEm)
+    public void setBaseadoEm(AtividadeProjeto baseadoEm)
     {
 	this.baseadoEm = baseadoEm;
     }
@@ -141,12 +151,12 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
 	this.dependeDe = dependeDe;
     }
 
-    public Collection<RecursoHumano> getRealizadoPor()
+    public Collection<AlocacaoEquipe> getRealizadoPor()
     {
 	return realizadoPor;
     }
 
-    public void setRealizadoPor(Collection<RecursoHumano> realizadoPor)
+    public void setRealizadoPor(Collection<AlocacaoEquipe> realizadoPor)
     {
 	this.realizadoPor = realizadoPor;
     }
@@ -190,16 +200,6 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     {
 	this.requer = artefato;
     }
-
-    @ManyToOne
-    @Required
-    @Transient
-    @DefaultValueCalculator(
-	    value = TipoDeEntidadeMensuravelCalculator.class,
-	    properties = {
-		    @PropertyValue(name = "nomeEntidade", value = "Ocorrência de Atividade")
-	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
 
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
