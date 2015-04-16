@@ -60,7 +60,7 @@ public class TaigaIntegratorTest
 
 	System.out.println(projeto);
     }
-    
+
     @Test
     public void testObterSprintsTaigaJson()
     {
@@ -71,7 +71,7 @@ public class TaigaIntegratorTest
 
 	System.out.println(sprints);
     }
-    
+
     @Test
     public void testObterSprintsDoProjetoTaiga()
     {
@@ -82,12 +82,12 @@ public class TaigaIntegratorTest
 
 	dump(sprints);
     }
-    
+
     @Test
     public void testObterEstadoSprintTaiga()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("paflopes-sincap","sprint-19");
+	EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("paflopes-sincap", "sprint-19");
 
 	assertNotNull(estadoSprint);
 
@@ -115,7 +115,7 @@ public class TaigaIntegratorTest
 
 	dump(estado);
     }
-    
+
     @Test
     public void testObterEstoriasDoProjectBacklogTaigaJson()
     {
@@ -148,7 +148,7 @@ public class TaigaIntegratorTest
 
 	System.out.println(estorias);
     }
-    
+
     @Test
     public void testObterEstoriasDaSprintBacklogTaiga()
     {
@@ -159,7 +159,7 @@ public class TaigaIntegratorTest
 
 	dump(estorias);
     }
-    
+
     @Test
     public void testObterProjetos()
     {
@@ -264,7 +264,7 @@ public class TaigaIntegratorTest
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-	
+
 	List<Medida> medidas = integrator.criarMedidasMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
 
 	assertNotNull(medidas);
@@ -273,36 +273,48 @@ public class TaigaIntegratorTest
 
 	//dump(medidas);
     }
-    
+
     @Test
     public void testCriarTiposArtefatosScrumMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	List<TipoDeArtefato> tiposDeArtefato = integrator.criarTiposArtefatosScrumMedCEP();
-	
+
 	assertNotNull(tiposDeArtefato);
 	assertNotEquals(tiposDeArtefato.size(), 0);
 	assertEquals(tiposDeArtefato.size(), 5);
 
 	dump(tiposDeArtefato);
     }
-    
+
     @Test
     public void testCriarAtividadesPadraoScrumMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	integrator.criarAtividadesPadraoScrumMedCEP();
     }
-    
+
     @Test
     public void testCriarProcessoPadraoScrumMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	ProcessoPadrao scrum = integrator.criarProcessoPadraoScrumMedCEP();
-	
+
 	assertNotNull(scrum);
 
 	dump(scrum);
+    }
+
+    @Test
+    public void testCriarEstoriasProductBacklogComoArtefatosMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	List<Estoria> estorias = integrator.obterEstoriasDoProjectBacklogTaiga("paflopes-sincap");
+	List<Artefato> artefatos = integrator.criarEstoriasProductBacklogComoArtefatosMedCEP(estorias);
+
+	assertNotNull(artefatos);
+
+	dump(artefatos);
     }
 
     private void dump(Object object)

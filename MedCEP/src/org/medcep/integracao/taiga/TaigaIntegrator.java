@@ -1373,14 +1373,117 @@ public class TaigaIntegrator
      */
     public void criarAtividadesProjetoMedCEP(Projeto projeto) throws Exception
     {
+
+	EntityManager manager = XPersistence.createManager();
+
 	//Cria as atividades padrão.
 	this.criarAtividadesPadraoScrumMedCEP();
 
+	//Obtem a AtividadePadrão Reunião de Planejamento da Sprint.
+	String queryAtividadePadrao = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Planejamento da Sprint'";
+	TypedQuery<AtividadePadrao> typedQueryAP = manager.createQuery(queryAtividadePadrao, AtividadePadrao.class);
+	AtividadePadrao reuniaoPS = typedQueryAP.getSingleResult();
+
+	//Preenche a Reunião de Planejamento da Sprint do projeto.
+	AtividadeProjeto reuniaoPSProjeto = new AtividadeProjeto();
+	reuniaoPSProjeto.setNome("Reunião de Planejamento da Sprint do projeto " + projeto.getNome());
+	reuniaoPSProjeto.setDescricao("Reunião de Planejamento da Sprint do Scrum.");
+	reuniaoPSProjeto.setBaseadoEm(reuniaoPS);
+
+	List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
+
     }
 
-    public void criarArtefatosMedCEP(List<Estoria> estorias)
+    
+    /**
+     * Cria as estórias do Product Backlog como artefatos.
+     * @param estorias - Estórias do Product Backlog.
+     * @return List<Artefato> artefatos criados.
+     * @throws Exception
+     */
+    public List<Artefato> criarEstoriasProductBacklogComoArtefatosMedCEP(List<Estoria> estorias) throws Exception
     {
 
+	this.criarTiposArtefatosScrumMedCEP();
+
+	EntityManager manager = XPersistence.createManager();
+
+	String query1 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Artefato'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery1 = manager.createQuery(query1, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoArtefato = typedQuery1.getSingleResult();
+
+	String query2 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Estória de Product Backlog'";
+	TypedQuery<TipoDeArtefato> typedQuery2 = manager.createQuery(query2, TipoDeArtefato.class);
+	TipoDeArtefato tipoArtefatoEPB = typedQuery2.getSingleResult();
+
+	//Obtem o ElementoMensuravel Tamanho.
+	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
+	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Duração.
+	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
+	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
+
+	List<Artefato> artefatosCriados = new ArrayList<Artefato>();
+	
+	for (Estoria estoria : estorias)
+	{
+	    Artefato artefato = new Artefato();
+	    artefato.setNome(estoria.getTitulo());
+	    artefato.setTipoDeEntidadeMensuravel(tipoArtefato);
+	    artefato.setTipoDeArtefato(tipoArtefatoEPB);
+	    artefato.setElementoMensuravel(Arrays.asList(tamanho, duracao));
+	    
+	    if (estoria.getDescricao().isEmpty() || estoria.getDescricao().equals(""))
+		artefato.setDescricao(estoria.getTitulo());
+	    else
+		artefato.setDescricao(estoria.getDescricao());
+	    
+	    //Persiste.	
+	    try
+	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
+		manager.getTransaction().begin();
+		manager.persist(artefato);
+		manager.getTransaction().commit();
+	    }
+	    catch (Exception ex)
+	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
+		manager.close();
+		manager = XPersistence.createManager();
+
+		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+		{
+		    System.out.println(String.format("O Artefato %s já existe.", artefato.getNome()));
+
+		    String query = String.format("SELECT a FROM Artefato a WHERE a.nome='%s'", artefato.getNome());
+		    TypedQuery<Artefato> typedQuery = manager.createQuery(query, Artefato.class);
+
+		    artefato = typedQuery.getSingleResult();
+		}
+		else
+		{
+		    throw ex;
+		}
+	    }
+	    finally
+	    {
+		manager.close();
+	    }
+	    
+	    artefatosCriados.add(artefato);
+	}
+
+	return artefatosCriados;
+	
     }
 
 }
