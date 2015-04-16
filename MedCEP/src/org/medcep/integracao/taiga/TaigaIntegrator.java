@@ -1384,13 +1384,32 @@ public class TaigaIntegrator
 	TypedQuery<AtividadePadrao> typedQueryAP = manager.createQuery(queryAtividadePadrao, AtividadePadrao.class);
 	AtividadePadrao reuniaoPS = typedQueryAP.getSingleResult();
 
-	//Preenche a Reunião de Planejamento da Sprint do projeto.
-	AtividadeProjeto reuniaoPSProjeto = new AtividadeProjeto();
-	reuniaoPSProjeto.setNome("Reunião de Planejamento da Sprint do projeto " + projeto.getNome());
-	reuniaoPSProjeto.setDescricao("Reunião de Planejamento da Sprint do Scrum.");
-	reuniaoPSProjeto.setBaseadoEm(reuniaoPS);
-
 	List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
+
+	for (Sprint sprint : sprints)
+	{
+	    //Preenche a Reunião de Planejamento da Sprint do projeto.
+	    AtividadeProjeto reuniaoPSProjeto = new AtividadeProjeto();
+	    reuniaoPSProjeto.setNome(String.format("Reunião de Planejamento da Sprint - %s do projeto %s", sprint.getNome(), projeto.getNome()));
+	    reuniaoPSProjeto.setDescricao(String.format("Reunião de Planejamento da Sprint - %s do projeto %s.", sprint.getNome(), projeto.getNome()));
+	    reuniaoPSProjeto.setBaseadoEm(reuniaoPS);
+
+	    //Obtem as estórias do PB.
+	    List<Estoria> estoriasPB = this.obterEstoriasDoProjectBacklogTaiga(projeto.getApelido());
+	    boolean saoEstoriasDeProductBacklog = true;
+	    List<Artefato> artEstoriasPB = this.criarEstoriasComoArtefatosMedCEP(estoriasPB, saoEstoriasDeProductBacklog);
+
+	    reuniaoPSProjeto.setRequer(artEstoriasPB);
+	    
+	    //Obtem as estórias da SB.
+	    List<Estoria> estoriasSB = this.obterEstoriasDaSprintBacklogTaiga(projeto.getApelido(), sprint.getApelido());
+	    saoEstoriasDeProductBacklog = false;
+	    List<Artefato> artEstoriasSB = this.criarEstoriasComoArtefatosMedCEP(estoriasSB, saoEstoriasDeProductBacklog);
+	    
+	    reuniaoPSProjeto.setProduz(artEstoriasSB);
+	    
+	    //TODO: Continuar daqui...
+	}
 
     }
 
@@ -1414,7 +1433,7 @@ public class TaigaIntegrator
 	TipoDeEntidadeMensuravel tipoArtefato = typedQuery1.getSingleResult();
 
 	TipoDeArtefato tipoEstoria;
-	
+
 	if (saoEstoriasDeProductBacklog)
 	{
 	    String query2 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Estória de Product Backlog'";
