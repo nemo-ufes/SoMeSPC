@@ -92,6 +92,7 @@ public class AnaliseDeMedicao
 	this.resultado = resultado;
     }
 
+    @Required
     private Date data;
 
     @NoCreate
