@@ -274,12 +274,30 @@ public class MedCEPStarter extends HttpServlet
 	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 		
-	tipoProjeto.setElementoMensuravel(Arrays.asList(desempenho,tamanho));
-	tipoAPadrao.setElementoMensuravel(Arrays.asList(tamanho,duracao));
-	tipoAProjeto.setElementoMensuravel(Arrays.asList(tamanho,duracao));
-	tipoOcorrenciaAtividade.setElementoMensuravel(Arrays.asList(tamanho,duracao));
-	tipoAlocacao.setElementoMensuravel(Arrays.asList(desempenho,duracao));
+	List<ElementoMensuravel> elementosProjeto = new ArrayList<ElementoMensuravel>();
+	elementosProjeto.add(desempenho);
+	elementosProjeto.add(tamanho);
+	tipoProjeto.setElementoMensuravel(elementosProjeto);
 
+	List<ElementoMensuravel> elementosAPadrao = new ArrayList<ElementoMensuravel>();
+	elementosAPadrao.add(duracao);
+	elementosAPadrao.add(tamanho);
+	tipoAPadrao.setElementoMensuravel(elementosAPadrao);
+
+	List<ElementoMensuravel> elementosAProjeto = new ArrayList<ElementoMensuravel>();
+	elementosAProjeto.add(duracao);
+	elementosAProjeto.add(tamanho);
+	tipoAProjeto.setElementoMensuravel(elementosAProjeto);
+
+	List<ElementoMensuravel> elementosOcorrenciaAtividade = new ArrayList<ElementoMensuravel>();
+	elementosOcorrenciaAtividade.add(duracao);
+	elementosOcorrenciaAtividade.add(tamanho);
+	tipoOcorrenciaAtividade.setElementoMensuravel(elementosOcorrenciaAtividade);
+
+	List<ElementoMensuravel> elementosAlocacao = new ArrayList<ElementoMensuravel>();
+	elementosAlocacao.add(desempenho);
+	elementosAlocacao.add(duracao);
+	tipoAlocacao.setElementoMensuravel(elementosAlocacao);
 	//Persiste.
 	List<TipoDeEntidadeMensuravel> tiposParaPersistir = new ArrayList<TipoDeEntidadeMensuravel>();
 	tiposParaPersistir.add(tipoProjeto);
