@@ -1290,6 +1290,8 @@ public class TaigaIntegrator
     {
 	EntityManager manager = XPersistence.createManager();
 
+	this.criarAtividadesPadraoScrumMedCEP();
+	
 	ProcessoPadrao scrum = new ProcessoPadrao();
 
 	scrum.setNome("Scrum");
