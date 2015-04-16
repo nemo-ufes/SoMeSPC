@@ -146,7 +146,7 @@ public class Medida extends TreeItemPlanoMedicaoBase
 	    , inverseJoinColumns = {
 		    @JoinColumn(name = "objetivo_id")
 	    })
-    private Collection<Objetivo> listaObjetivos;
+    private Collection<ObjetivoDeMedicao> listaObjetivos;
 
     @ManyToMany
     @JoinTable(
@@ -277,12 +277,12 @@ public class Medida extends TreeItemPlanoMedicaoBase
 	this.definicaoOperacionalDeMedida = definicaoOperacionalDeMedida;
     }
 
-    public Collection<Objetivo> getListaObjetivos()
+    public Collection<ObjetivoDeMedicao> getListaObjetivosDeMedicao()
     {
 	return listaObjetivos;
     }
 
-    public void setListaObjetivos(Collection<Objetivo> listaObjetivos)
+    public void setListaObjetivos(Collection<ObjetivoDeMedicao> listaObjetivos)
     {
 	this.listaObjetivos = listaObjetivos;
     }

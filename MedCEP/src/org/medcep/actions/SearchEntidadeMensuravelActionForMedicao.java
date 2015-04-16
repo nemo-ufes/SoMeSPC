@@ -30,36 +30,28 @@ public class SearchEntidadeMensuravelActionForMedicao extends ReferenceSearchAct
     public void execute() throws Exception
     {
 	super.execute();
-
 	Integer idMedidaPlanoDeMedicao = getPreviousView().getValueInt("medidaPlanoDeMedicao.id");
 
 	if (idMedidaPlanoDeMedicao != null && idMedidaPlanoDeMedicao != 0)
 	{
 	    MedidaPlanoDeMedicao medidaPlanoDeMedicao = XPersistence.getManager().find(MedidaPlanoDeMedicao.class, idMedidaPlanoDeMedicao);
 
-//	    List<Integer> idsTiposEntidades = new ArrayList<Integer>();
-//	    	    
-//	    for (TipoDeEntidadeMensuravel tipo : medidaPlanoDeMedicao.getMedida().getTipoDeEntidadeMensuravel())
-//	    {
-//		idsTiposEntidades.add(tipo.getId());
-//	    }
-//	    
-	   
-	    if (medidaPlanoDeMedicao.getMedida().getTipoDeEntidadeMensuravel() != null 
+	    if (medidaPlanoDeMedicao.getMedida().getTipoDeEntidadeMensuravel() != null
 		    && medidaPlanoDeMedicao.getMedida().getTipoDeEntidadeMensuravel().isEmpty() == false)
 	    {
-		
+
 		getTab().setBaseCondition("e_tipoDeEntidadeMensuravel.id IN "
-					  + "(SELECT t.id "
-					  + "FROM org.medcep.model.medicao.planejamento.MedidaPlanoDeMedicao mpdm "
-					  + "JOIN mpdm.medida me "
-					  + "JOIN me.tipoDeEntidadeMensuravel t "
-					  + "WHERE mpdm.id = " + idMedidaPlanoDeMedicao +")");	
+			+ "(SELECT t.id "
+			+ "FROM org.medcep.model.medicao.planejamento.MedidaPlanoDeMedicao mpdm "
+			+ "JOIN mpdm.medida me "
+			+ "JOIN me.tipoDeEntidadeMensuravel t "
+			+ "WHERE mpdm.id = " + idMedidaPlanoDeMedicao + ")");
+		return;
 	    }
-	    return;
 	}
 
-	throw new Exception("A medição deve ser feita para Entidades que sejam do mesmo Tipo de Entidade Mensurável da Medida.");
+	getTab().setBaseCondition("e_tipoDeEntidadeMensuravel.id = 0");
+	return;
     }//execute
 
 }

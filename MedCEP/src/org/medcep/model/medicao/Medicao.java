@@ -57,7 +57,7 @@ public class Medicao implements Comparable<Medicao>
 {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     private Date data;
@@ -83,6 +83,7 @@ public class Medicao implements Comparable<Medicao>
 
     @ManyToOne
     @Required
+    @NoCreate
     @ReferenceView("Simple")
     @SearchAction("Medicao.searchEntidadeMensuravel")
     private EntidadeMensuravel entidadeMensuravel;
@@ -260,8 +261,9 @@ public class Medicao implements Comparable<Medicao>
 	this.id = id;
     }
 
-    public int compareTo(Medicao o) {
+    public int compareTo(Medicao o)
+    {
 	return getData().compareTo(o.getData());
-}
-    
+    }
+
 }
