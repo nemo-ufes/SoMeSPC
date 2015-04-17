@@ -1367,10 +1367,10 @@ public class TaigaIntegrator
     }
 
     /**
-     * Cria as atividades Reunião de Planejamento da Sprint, Sprints e Reunião de Revisão da Sprint para o projeto infomado.
+     * Cria as atividades de projeto Reunião de Planejamento da Sprint, Sprints e Reunião de Revisão da Sprint para o projeto infomado.
      * 
      * @param projeto
-     *            - Projeto Taiga para criação das atividades.
+     *            - Projeto Taiga para criação das atividades de projeto.
      * @throws Exception
      */
     public void criarAtividadesProjetoMedCEP(Projeto projeto) throws Exception
@@ -1389,6 +1389,10 @@ public class TaigaIntegrator
 	String queryAPSprint = "SELECT e FROM AtividadePadrao e WHERE e.nome='Sprint'";
 	TypedQuery<AtividadePadrao> typedQueryAPSprint = manager.createQuery(queryAPSprint, AtividadePadrao.class);
 	AtividadePadrao atividadeSprint = typedQueryAPSprint.getSingleResult();
+	
+	String queryReuniaoRS = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Revisão da Sprint'";
+	TypedQuery<AtividadePadrao> typedQueryReuniaoRS = manager.createQuery(queryReuniaoRS, AtividadePadrao.class);
+	AtividadePadrao reuniaoRS = typedQueryReuniaoRS.getSingleResult();
 
 	String tipoEntidadeAPQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Atividade de Projeto'");
 	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeAPTypedQuery = manager.createQuery(tipoEntidadeAPQuery, TipoDeEntidadeMensuravel.class);
@@ -1406,6 +1410,10 @@ public class TaigaIntegrator
 	TypedQuery<TipoDeArtefato> typedQuery3 = manager.createQuery(query3, TipoDeArtefato.class);
 	TipoDeArtefato tipoDocumentacao = typedQuery3.getSingleResult();
 
+	String query4 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Release de Software'";
+	TypedQuery<TipoDeArtefato> typedQuery4 = manager.createQuery(query4, TipoDeArtefato.class);
+	TipoDeArtefato tipoRelease = typedQuery4.getSingleResult();
+	
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
 	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
@@ -1427,8 +1435,8 @@ public class TaigaIntegrator
 	{
 	    //Preenche a Reunião de Planejamento da Sprint do projeto.
 	    AtividadeProjeto reuniaoPSProjeto = new AtividadeProjeto();
-	    reuniaoPSProjeto.setNome(String.format("Reunião de Planejamento da Sprint - %s do projeto %s", sprint.getNome(), projeto.getNome()));
-	    reuniaoPSProjeto.setDescricao(String.format("Reunião de Planejamento da Sprint - %s do projeto %s.", sprint.getNome(), projeto.getNome()));
+	    reuniaoPSProjeto.setNome(String.format("Reunião de Planejamento da Sprint - %s do Projeto %s", sprint.getNome(), projeto.getNome()));
+	    reuniaoPSProjeto.setDescricao(String.format("Reunião de Planejamento da Sprint - %s do Projeto %s.", sprint.getNome(), projeto.getNome()));
 	    reuniaoPSProjeto.setBaseadoEm(reuniaoPS);
 	    reuniaoPSProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
 	    reuniaoPSProjeto.setElementoMensuravel(Arrays.asList(duracao));
@@ -1450,8 +1458,8 @@ public class TaigaIntegrator
 	    //Preenche a Sprint
 	    AtividadeProjeto sprintProjeto = new AtividadeProjeto();
 
-	    sprintProjeto.setNome(sprint.getNome());
-	    sprintProjeto.setDescricao(sprint.getNome() + " do projeto " + projeto.getNome());
+	    sprintProjeto.setNome(sprint.getNome() + " do Projeto " + projeto.getNome());
+	    sprintProjeto.setDescricao(sprint.getNome() + " do Projeto " + projeto.getNome());
 	    sprintProjeto.setBaseadoEm(atividadeSprint);
 	    sprintProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
 	    sprintProjeto.setDependeDe(Arrays.asList(reuniaoPSProjeto));
@@ -1459,8 +1467,8 @@ public class TaigaIntegrator
 	    sprintProjeto.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
 
 	    Artefato codigoFonteProjeto = new Artefato();
-	    codigoFonteProjeto.setNome("Código fonte do projeto " + projeto.getNome());
-	    codigoFonteProjeto.setDescricao("Código fonte do projeto " + projeto.getNome() + " criado durante a Sprint - " + sprint.getNome());
+	    codigoFonteProjeto.setNome("Código fonte do Projeto " + projeto.getNome());
+	    codigoFonteProjeto.setDescricao("Código fonte do Projeto " + projeto.getNome() + " criado durante a Sprint - " + sprint.getNome());
 	    codigoFonteProjeto.setTipoDeEntidadeMensuravel(tipoArtefato);
 	    codigoFonteProjeto.setTipoDeArtefato(tipoCodigoFonte);
 	    codigoFonteProjeto.setElementoMensuravel(Arrays.asList(tamanho));
@@ -1502,8 +1510,8 @@ public class TaigaIntegrator
 		manager = XPersistence.createManager();
 
 	    Artefato documentacaoProjeto = new Artefato();
-	    documentacaoProjeto.setNome("Documentação do projeto " + projeto.getNome());
-	    documentacaoProjeto.setDescricao("Documentação do projeto " + projeto.getNome() + " criada durante a Sprint - " + sprint.getNome());
+	    documentacaoProjeto.setNome("Documentação do Projeto " + projeto.getNome());
+	    documentacaoProjeto.setDescricao("Documentação do Projeto " + projeto.getNome() + " criada durante a Sprint - " + sprint.getNome());
 	    documentacaoProjeto.setTipoDeEntidadeMensuravel(manager.find(TipoDeEntidadeMensuravel.class, tipoArtefato.getId()));
 	    documentacaoProjeto.setTipoDeArtefato(manager.find(TipoDeArtefato.class, tipoDocumentacao.getId()));
 	    documentacaoProjeto.setElementoMensuravel(Arrays.asList(tamanho));
@@ -1542,7 +1550,65 @@ public class TaigaIntegrator
 	    }
 
 	    sprintProjeto.setProduz(Arrays.asList(codigoFonteProjeto, documentacaoProjeto));
+	    
+	    //Preenche a Reunião de Revisão da Sprint do Projeto
+	    AtividadeProjeto reuniaoRSProjeto = new AtividadeProjeto();
+
+	    reuniaoRSProjeto.setNome("Reunião de Revisão da Sprint - " + sprint.getNome() + " do Projeto " + projeto.getNome());
+	    reuniaoRSProjeto.setDescricao("Reunião de Revisão da Sprint - " + sprint.getNome() + " do Projeto " + projeto.getNome());
+	    reuniaoRSProjeto.setBaseadoEm(reuniaoRS);
+	    reuniaoRSProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
+	    reuniaoRSProjeto.setDependeDe(Arrays.asList(sprintProjeto));
+	    
+	    List<Artefato> artefatosRequeridosReuniaoRS = new ArrayList<Artefato>();
+	    artefatosRequeridosReuniaoRS.addAll(artEstoriasSB);
+	    artefatosRequeridosReuniaoRS.addAll(Arrays.asList(codigoFonteProjeto, documentacaoProjeto));
+	    	    
+	    reuniaoRSProjeto.setRequer(artefatosRequeridosReuniaoRS);
+	    reuniaoRSProjeto.setElementoMensuravel(Arrays.asList(duracao));
 	 
+	    Artefato releaseSoftware = new Artefato();
+	    releaseSoftware.setNome("Release do Projeto " + projeto.getNome());
+	    releaseSoftware.setDescricao("Release do Projeto " + projeto.getNome() + " criado após a Sprint - " + sprint.getNome());
+	    releaseSoftware.setTipoDeEntidadeMensuravel(tipoArtefato);
+	    releaseSoftware.setTipoDeArtefato(tipoRelease);
+	    releaseSoftware.setElementoMensuravel(Arrays.asList(tamanho));
+
+	    //Persiste.	
+	    try
+	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
+		manager.getTransaction().begin();
+		manager.persist(releaseSoftware);
+		manager.getTransaction().commit();
+	    }
+	    catch (Exception ex)
+	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
+		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+		{
+		    String query = String.format("SELECT a FROM Artefato a WHERE a.nome='%s'", releaseSoftware.getNome());
+		    TypedQuery<Artefato> typedQuery = manager.createQuery(query, Artefato.class);
+
+		    releaseSoftware = typedQuery.getSingleResult();
+		}
+		else
+		{
+		    throw ex;
+		}
+	    }
+	    finally
+	    {
+		manager.close();
+	    }
+	    
+	    reuniaoRSProjeto.setProduz(Arrays.asList(releaseSoftware));
+	    
 	    //Persiste.	
 	    try
 	    {
@@ -1552,6 +1618,7 @@ public class TaigaIntegrator
 		manager.getTransaction().begin();
 		manager.persist(reuniaoPSProjeto);
 		manager.persist(sprintProjeto);
+		manager.persist(reuniaoRSProjeto);
 		manager.getTransaction().commit();
 	    }
 	    catch (Exception ex)
@@ -1574,7 +1641,6 @@ public class TaigaIntegrator
 		manager.close();
 	    }
 
-	    //TODO: Continuar daqui...
 	}
 
     }

@@ -20,8 +20,6 @@
 
 package org.medcep.model.processo;
 
-import java.util.*;
-
 import javax.persistence.*;
 
 import org.medcep.calculators.*;
@@ -82,31 +80,31 @@ public class Artefato extends EntidadeMensuravel
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
     
-    @PreCreate
-    @PreUpdate
-    public void ajustaElementosMensuraveis()
-    {
-	if (elementoMensuravel == null)
-	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
-
-	if (tipoDeArtefato != null && tipoDeArtefato.getElementoMensuravel() != null)
-	{
-	    boolean add;
-	    for (ElementoMensuravel elemTipo : tipoDeArtefato.getElementoMensuravel())
-	    {
-		add = true;
-		for (ElementoMensuravel elem : elementoMensuravel)
-		{
-		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-		    {
-			add = false;
-			break;
-		    }
-		}
-		if (add)
-		    elementoMensuravel.add(elemTipo);
-	    }//elemTipo
-	}
-    }//ajusta
+//    @PreCreate
+//    @PreUpdate
+//    public void ajustaElementosMensuraveis()
+//    {
+//	if (elementoMensuravel == null)
+//	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+//
+//	if (tipoDeArtefato != null && tipoDeArtefato.getElementoMensuravel() != null)
+//	{
+//	    boolean add;
+//	    for (ElementoMensuravel elemTipo : tipoDeArtefato.getElementoMensuravel())
+//	    {
+//		add = true;
+//		for (ElementoMensuravel elem : elementoMensuravel)
+//		{
+//		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
+//		    {
+//			add = false;
+//			break;
+//		    }
+//		}
+//		if (add)
+//		    elementoMensuravel.add(elemTipo);
+//	    }//elemTipo
+//	}
+//    }//ajusta
 
 }
