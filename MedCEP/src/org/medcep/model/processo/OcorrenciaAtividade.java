@@ -20,8 +20,6 @@
 
 package org.medcep.model.processo;
 
-import java.util.*;
-
 import javax.persistence.*;
 
 import org.medcep.calculators.*;
@@ -50,17 +48,6 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     @Required
     private AtividadeProjeto atividadeProjetoOcorrida;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-	    name = "OcorrenciaProcesso_OcorrenciaAtividade"
-	    , joinColumns = {
-		    @JoinColumn(name = "ocorrenciaAtividade_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "ocorrenciaProcesso_id")
-	    })
-    private Collection<OcorrenciaProcesso> ocorrenciaProcesso;
-
     @ManyToOne
     @Required
     @Transient
@@ -71,44 +58,6 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
 	    })
     private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
 
-   
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-	    name = "OcorrenciaAtividade_produz_Artefato"
-	    , joinColumns = {
-		    @JoinColumn(name = "ocorrenciaAtividade_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "artefato_id")
-	    })
-    @ListProperties("nome")
-    private Collection<Artefato> produz;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-	    name = "OcorrenciaAtividade_requer_Artefato"
-	    , joinColumns = {
-		    @JoinColumn(name = "ocorrenciaAtividade_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "artefato_id")
-	    })
-    @ListProperties("nome")
-    private Collection<Artefato> requer;
-
-    public Collection<OcorrenciaProcesso> getOcorrenciaProcesso()
-    {
-	return ocorrenciaProcesso;
-    }
-
-    public void setOcorrenciaProcesso(
-	    Collection<OcorrenciaProcesso> ocorrenciaProcesso)
-    {
-	this.ocorrenciaProcesso = ocorrenciaProcesso;
-    }
-
-   
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;
@@ -129,32 +78,5 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     {
 	this.atividadeProjetoOcorrida = atividadeProjetoOcorrida;
     }
-
-//    @PreCreate
-//    @PreUpdate
-//    public void ajustaElementosMensuraveis()
-//    {
-//	if (elementoMensuravel == null)
-//	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
-//
-//	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
-//	{
-//	    boolean add;
-//	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
-//	    {
-//		add = true;
-//		for (ElementoMensuravel elem : elementoMensuravel)
-//		{
-//		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-//		    {
-//			add = false;
-//			break;
-//		    }
-//		}
-//		if (add)
-//		    elementoMensuravel.add(elemTipo);
-//	    }//elemTipo
-//	}
-//    }//ajusta
 
 }

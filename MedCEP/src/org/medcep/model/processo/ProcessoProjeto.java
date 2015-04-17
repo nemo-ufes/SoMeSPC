@@ -47,23 +47,10 @@ public class ProcessoProjeto extends EntidadeMensuravel
     @Required
     @ReferenceView("Simple")
     private ProcessoPadrao baseadoEm;
-    
+
     @OneToOne
     @ReferenceView("Simple")
     private Projeto projeto;
-
-    @OneToMany(mappedBy = "baseadoEm")
-    private Collection<OcorrenciaProcesso> ocorrenciaProcesso;
-
-    public Projeto getProjeto()
-    {
-	return projeto;
-    }
-
-    public void setProjeto(Projeto projeto)
-    {
-	this.projeto = projeto;
-    }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -78,6 +65,16 @@ public class ProcessoProjeto extends EntidadeMensuravel
     @NewAction("ProcessoDeProjeto.add")
     private Collection<AtividadeProjeto> atividadeProjeto;
 
+    @ManyToOne
+    @Required
+    @Transient
+    @DefaultValueCalculator(
+	    value = TipoDeEntidadeMensuravelCalculator.class,
+	    properties = {
+		    @PropertyValue(name = "nomeEntidade", value = "Processo de Software em Projeto")
+	    })
+    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
+
     public Collection<AtividadeProjeto> getAtividadeProjeto()
     {
 	return atividadeProjeto;
@@ -89,15 +86,15 @@ public class ProcessoProjeto extends EntidadeMensuravel
 	this.atividadeProjeto = atividadeProjeto;
     }
 
-    @ManyToOne
-    @Required
-    @Transient
-    @DefaultValueCalculator(
-	    value = TipoDeEntidadeMensuravelCalculator.class,
-	    properties = {
-		    @PropertyValue(name = "nomeEntidade", value = "Processo de Software em Projeto")
-	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
+    public Projeto getProjeto()
+    {
+	return projeto;
+    }
+
+    public void setProjeto(Projeto projeto)
+    {
+	this.projeto = projeto;
+    }
 
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
@@ -110,14 +107,14 @@ public class ProcessoProjeto extends EntidadeMensuravel
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
 
-    public Collection<OcorrenciaProcesso> getOcorrenciaProcesso()
+    public ProcessoPadrao getBaseadoEm()
     {
-	return ocorrenciaProcesso;
+	return baseadoEm;
     }
 
-    public void setOcorrenciaProcesso(Collection<OcorrenciaProcesso> ocorrenciaProcesso)
+    public void setBaseadoEm(ProcessoPadrao baseadoEm)
     {
-	this.ocorrenciaProcesso = ocorrenciaProcesso;
+	this.baseadoEm = baseadoEm;
     }
 
     @PreCreate
@@ -146,15 +143,5 @@ public class ProcessoProjeto extends EntidadeMensuravel
 	    }//elemTipo
 	}
     }//ajusta
-
-    public ProcessoPadrao getBaseadoEm()
-    {
-	return baseadoEm;
-    }
-
-    public void setBaseadoEm(ProcessoPadrao baseadoEm)
-    {
-	this.baseadoEm = baseadoEm;
-    }
 
 }

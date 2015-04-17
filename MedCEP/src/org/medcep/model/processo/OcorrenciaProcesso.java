@@ -19,8 +19,6 @@
  */
 package org.medcep.model.processo;
 
-import java.util.*;
-
 import javax.persistence.*;
 
 import org.medcep.calculators.*;
@@ -30,7 +28,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; ocorrenciaAtividade; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; processoProjetoOcorrido"),
 	@View(name = "Simple", members = "nome"),
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc", baseCondition = "TYPE(e) = OcorrenciaProcesso")
@@ -42,45 +40,10 @@ import org.openxava.annotations.*;
 public class OcorrenciaProcesso extends EntidadeMensuravel
 {
 
- 
     @ManyToOne
     @Required
     @ReferenceView("Simple")
-    private ProcessoProjeto baseadoEm;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-	    name = "OcorrenciaProcesso_OcorrenciaAtividade"
-	    , joinColumns = {
-		    @JoinColumn(name = "ocorrenciaProcesso_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "ocorrenciaAtividade_id")
-	    })
-    @ListProperties("nome")
-    @NewAction("ProcessoInstanciado.add")
-    private Collection<OcorrenciaAtividade> ocorrenciaAtividade;
-
-    public ProcessoProjeto getBaseadoEm()
-    {
-	return baseadoEm;
-    }
-
-    public void setBaseadoEm(ProcessoProjeto baseadoEm)
-    {
-	this.baseadoEm = baseadoEm;
-    }
-
-    public Collection<OcorrenciaAtividade> getOcorrenciaAtividade()
-    {
-	return ocorrenciaAtividade;
-    }
-
-    public void setOcorrenciaAtividade(
-	    Collection<OcorrenciaAtividade> atividadeInstanciada)
-    {
-	this.ocorrenciaAtividade = atividadeInstanciada;
-    }
+    private ProcessoProjeto processoProjetoOcorrido;
 
     @ManyToOne
     @Required
@@ -103,31 +66,14 @@ public class OcorrenciaProcesso extends EntidadeMensuravel
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
 
-    @PreCreate
-    @PreUpdate
-    public void ajustaElementosMensuraveis()
+    public ProcessoProjeto getProcessoProjetoOcorrido()
     {
-	if (elementoMensuravel == null)
-	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+	return processoProjetoOcorrido;
+    }
 
-	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
-	{
-	    boolean add;
-	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
-	    {
-		add = true;
-		for (ElementoMensuravel elem : elementoMensuravel)
-		{
-		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-		    {
-			add = false;
-			break;
-		    }
-		}
-		if (add)
-		    elementoMensuravel.add(elemTipo);
-	    }//elemTipo
-	}
-    }//ajusta
+    public void setProcessoProjetoOcorrido(ProcessoProjeto processoProjetoOcorrido)
+    {
+	this.processoProjetoOcorrido = processoProjetoOcorrido;
+    }
 
 }
