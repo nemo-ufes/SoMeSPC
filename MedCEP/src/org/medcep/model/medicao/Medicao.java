@@ -26,7 +26,6 @@ import javax.persistence.*;
 import org.medcep.actions.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
-import org.medcep.model.processo.*;
 import org.openxava.annotations.*;
 
 @Entity
@@ -47,12 +46,6 @@ import org.openxava.annotations.*;
 		"data, " +
 		"valorMedido.valorMedido", defaultOrder = "${data} desc")
 })
-//@EntityValidator(
-//	value = MedicaoValidator.class,
-//	properties = {
-//		@PropertyValue(name = "medidaPlanoDeMedicao"),
-//		@PropertyValue(name = "entidadeMensuravel")
-//	})
 public class Medicao implements Comparable<Medicao>
 {
 
@@ -116,7 +109,8 @@ public class Medicao implements Comparable<Medicao>
 
     @ManyToOne
     @ReferenceView("Simple")
-    private OcorrenciaAtividade momentoRealDaMedicao;
+    @SearchAction("Medicao.searchMomentoReal")
+    private EntidadeMensuravel momentoRealDaMedicao;
 
     @ManyToOne
     @ReferenceView("Simple")
@@ -158,12 +152,12 @@ public class Medicao implements Comparable<Medicao>
 	this.contextoDeMedicao = contextoDeMedicao;
     }
 
-    public OcorrenciaAtividade getMomentoRealDaMedicao()
+    public EntidadeMensuravel getMomentoRealDaMedicao()
     {
 	return momentoRealDaMedicao;
     }
 
-    public void setMomentoRealDaMedicao(OcorrenciaAtividade momentoRealDaMedicao)
+    public void setMomentoRealDaMedicao(EntidadeMensuravel momentoRealDaMedicao)
     {
 	this.momentoRealDaMedicao = momentoRealDaMedicao;
     }

@@ -182,6 +182,9 @@
 		<action name="searchEntidadeMensuravel"
 			class="org.medcep.actions.SearchEntidadeMensuravelActionForMedicao"
 			hidden="true" image="images/search.gif" />
+			<action name="searchMomentoReal"
+			class="org.medcep.actions.SearchMomentoRealForMedicao"
+			hidden="true" image="images/search.gif" />
 	</controller>
 
 </controllers>
