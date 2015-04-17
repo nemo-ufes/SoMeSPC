@@ -26,13 +26,12 @@ import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
-import org.medcep.model.organizacao.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; requer; produz; realizadoPor; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; requer; produz; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome")
 })
 @Tabs({
@@ -84,17 +83,17 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     @ListProperties("nome")
     private Collection<OcorrenciaAtividade> dependeDe;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-	    name = "OcorrenciaAtividade_RealizadoPor_RecursoHumano"
-	    , joinColumns = {
-		    @JoinColumn(name = "ocorrenciaAtividade_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "recursoHumano_id")
-	    })
-    @ListProperties("nome")
-    private Collection<AlocacaoEquipe> realizadoPor;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//	    name = "OcorrenciaAtividade_RealizadoPor_RecursoHumano"
+//	    , joinColumns = {
+//		    @JoinColumn(name = "ocorrenciaAtividade_id")
+//	    }
+//	    , inverseJoinColumns = {
+//		    @JoinColumn(name = "recursoHumano_id")
+//	    })
+//    @ListProperties("nome")
+//    private Collection<AlocacaoEquipe> realizadoPor;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -151,15 +150,15 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
 	this.dependeDe = dependeDe;
     }
 
-    public Collection<AlocacaoEquipe> getRealizadoPor()
-    {
-	return realizadoPor;
-    }
-
-    public void setRealizadoPor(Collection<AlocacaoEquipe> realizadoPor)
-    {
-	this.realizadoPor = realizadoPor;
-    }
+//    public Collection<AlocacaoEquipe> getRealizadoPor()
+//    {
+//	return realizadoPor;
+//    }
+//
+//    public void setRealizadoPor(Collection<AlocacaoEquipe> realizadoPor)
+//    {
+//	this.realizadoPor = realizadoPor;
+//    }
 
     public Collection<Artefato> getProduz()
     {

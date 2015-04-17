@@ -26,13 +26,12 @@ import javax.persistence.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
-import org.medcep.model.organizacao.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; requer; produz; realizadoPor; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; requer; produz; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome")
 })
 @Tabs({
@@ -65,17 +64,18 @@ public class AtividadeProjeto extends EntidadeMensuravel
     @ListProperties("nome")
     private Collection<ProcessoProjeto> processoDeProjeto;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-	    name = "AtividadeProjeto_RealizadoPor_AlocacaoRH"
-	    , joinColumns = {
-		    @JoinColumn(name = "atividadeProjeto_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "alocacaoRH_id")
-	    })
-    @ListProperties("nome")
-    private Collection<AlocacaoEquipe> realizadoPor;
+    
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//	    name = "AtividadeProjeto_RealizadoPor_AlocacaoRH"
+//	    , joinColumns = {
+//		    @JoinColumn(name = "atividadeProjeto_id")
+//	    }
+//	    , inverseJoinColumns = {
+//		    @JoinColumn(name = "alocacaoRH_id")
+//	    })
+//    @ListProperties("nome")
+//    private Collection<AlocacaoEquipe> realizadoPor;
 
     @ManyToOne
     @Required
@@ -121,7 +121,7 @@ public class AtividadeProjeto extends EntidadeMensuravel
 		    @JoinColumn(name = "atividadeProjeto_id2")
 	    })
     @ListProperties("nome")
-    private Collection<OcorrenciaAtividade> dependeDe;
+    private Collection<AtividadeProjeto> dependeDe;
 
     public AtividadePadrao getBaseadoEm()
     {
@@ -143,15 +143,15 @@ public class AtividadeProjeto extends EntidadeMensuravel
 	this.processoDeProjeto = processoDeProjeto;
     }
 
-    public Collection<AlocacaoEquipe> getRealizadoPor()
-    {
-	return realizadoPor;
-    }
-
-    public void setRealizadoPor(Collection<AlocacaoEquipe> realizadoPor)
-    {
-	this.realizadoPor = realizadoPor;
-    }
+//    public Collection<AlocacaoEquipe> getRealizadoPor()
+//    {
+//	return realizadoPor;
+//    }
+//
+//    public void setRealizadoPor(Collection<AlocacaoEquipe> realizadoPor)
+//    {
+//	this.realizadoPor = realizadoPor;
+//    }
 
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
@@ -210,12 +210,12 @@ public class AtividadeProjeto extends EntidadeMensuravel
 	}
     }//ajusta
 
-    public Collection<OcorrenciaAtividade> getDependeDe()
+    public Collection<AtividadeProjeto> getDependeDe()
     {
 	return dependeDe;
     }
 
-    public void setDependeDe(Collection<OcorrenciaAtividade> dependeDe)
+    public void setDependeDe(Collection<AtividadeProjeto> dependeDe)
     {
 	this.dependeDe = dependeDe;
     }
