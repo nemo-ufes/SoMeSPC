@@ -31,7 +31,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; dependeDe; requer; produz; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; atividadeProjetoOcorrida"),
 	@View(name = "Simple", members = "nome")
 })
 @Tabs({
@@ -48,7 +48,7 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     @ManyToOne
     @ReferenceView("Simple")
     @Required
-    private AtividadeProjeto baseadoEm;
+    private AtividadeProjeto atividadeProjetoOcorrida;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -71,29 +71,7 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
 	    })
     private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-	    name = "OcorrenciaAtividade_dependeDe_OcorrenciaAtividade"
-	    , joinColumns = {
-		    @JoinColumn(name = "ocorrenciaAtividade_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "ocorrenciaAtividade_id2")
-	    })
-    @ListProperties("nome")
-    private Collection<OcorrenciaAtividade> dependeDe;
-
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//	    name = "OcorrenciaAtividade_RealizadoPor_RecursoHumano"
-//	    , joinColumns = {
-//		    @JoinColumn(name = "ocorrenciaAtividade_id")
-//	    }
-//	    , inverseJoinColumns = {
-//		    @JoinColumn(name = "recursoHumano_id")
-//	    })
-//    @ListProperties("nome")
-//    private Collection<AlocacaoEquipe> realizadoPor;
+   
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -119,87 +97,18 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     @ListProperties("nome")
     private Collection<Artefato> requer;
 
-    public Collection<OcorrenciaProcesso> getOcorrenciaProcessi()
+    public Collection<OcorrenciaProcesso> getOcorrenciaProcesso()
     {
 	return ocorrenciaProcesso;
     }
 
     public void setOcorrenciaProcesso(
-	    Collection<OcorrenciaProcesso> processoInstanciado)
+	    Collection<OcorrenciaProcesso> ocorrenciaProcesso)
     {
-	this.ocorrenciaProcesso = processoInstanciado;
+	this.ocorrenciaProcesso = ocorrenciaProcesso;
     }
 
-    public AtividadeProjeto getBaseadoEm()
-    {
-	return baseadoEm;
-    }
-
-    public void setBaseadoEm(AtividadeProjeto baseadoEm)
-    {
-	this.baseadoEm = baseadoEm;
-    }
-
-    public Collection<OcorrenciaAtividade> getDependeDe()
-    {
-	return dependeDe;
-    }
-
-    public void setDependeDe(Collection<OcorrenciaAtividade> dependeDe)
-    {
-	this.dependeDe = dependeDe;
-    }
-
-//    public Collection<AlocacaoEquipe> getRealizadoPor()
-//    {
-//	return realizadoPor;
-//    }
-//
-//    public void setRealizadoPor(Collection<AlocacaoEquipe> realizadoPor)
-//    {
-//	this.realizadoPor = realizadoPor;
-//    }
-
-    public Collection<Artefato> getProduz()
-    {
-	return produz;
-    }
-
-    public void setProduz(Collection<Artefato> produz)
-    {
-	this.produz = produz;
-    }
-
-    public Collection<Artefato> getRequer()
-    {
-	return requer;
-    }
-
-    public void setRequer(Collection<Artefato> requer)
-    {
-	this.requer = requer;
-    }
-
-    public Collection<Artefato> getProduto()
-    {
-	return produz;
-    }
-
-    public void setProduto(Collection<Artefato> produto)
-    {
-	this.produz = produto;
-    }
-
-    public Collection<Artefato> getArtefato()
-    {
-	return requer;
-    }
-
-    public void setArtefato(Collection<Artefato> artefato)
-    {
-	this.requer = artefato;
-    }
-
+   
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;
@@ -211,31 +120,41 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
 
-    @PreCreate
-    @PreUpdate
-    public void ajustaElementosMensuraveis()
+    public AtividadeProjeto getAtividadeProjetoOcorrida()
     {
-	if (elementoMensuravel == null)
-	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+	return atividadeProjetoOcorrida;
+    }
 
-	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
-	{
-	    boolean add;
-	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
-	    {
-		add = true;
-		for (ElementoMensuravel elem : elementoMensuravel)
-		{
-		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-		    {
-			add = false;
-			break;
-		    }
-		}
-		if (add)
-		    elementoMensuravel.add(elemTipo);
-	    }//elemTipo
-	}
-    }//ajusta
+    public void setAtividadeProjetoOcorrida(AtividadeProjeto atividadeProjetoOcorrida)
+    {
+	this.atividadeProjetoOcorrida = atividadeProjetoOcorrida;
+    }
+
+//    @PreCreate
+//    @PreUpdate
+//    public void ajustaElementosMensuraveis()
+//    {
+//	if (elementoMensuravel == null)
+//	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+//
+//	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
+//	{
+//	    boolean add;
+//	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
+//	    {
+//		add = true;
+//		for (ElementoMensuravel elem : elementoMensuravel)
+//		{
+//		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
+//		    {
+//			add = false;
+//			break;
+//		    }
+//		}
+//		if (add)
+//		    elementoMensuravel.add(elemTipo);
+//	    }//elemTipo
+//	}
+//    }//ajusta
 
 }
