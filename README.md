@@ -146,7 +146,7 @@ C. X. MARETTO and M. P. BARCELLOS, <b>[Uma Arquitetura de Referência para Medi�
 
 ##Licença
 ```
- MedCEP - A powerful tool for measure
+ MedCEP - A powerful tool to measure
  
  Copyright (C) 2013 Ciro Xavier Maretto
  Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
