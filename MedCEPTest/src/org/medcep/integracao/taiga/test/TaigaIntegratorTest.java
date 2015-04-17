@@ -317,27 +317,38 @@ public class TaigaIntegratorTest
 
 	dump(artefatos);
     }
-    
+
     @Test
     public void testCriarEstoriasSprintBacklogComoArtefatosMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	
-	List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga("paflopes-sincap");	
+
+	List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga("paflopes-sincap");
 	List<Estoria> estoriasDasSprints = new ArrayList<Estoria>();
-	
+
 	for (Sprint sprint : sprints)
 	{
 	    List<Estoria> estorias = integrator.obterEstoriasDaSprintBacklogTaiga("paflopes-sincap", sprint.getApelido());
-	    estoriasDasSprints.addAll(estorias);   
+	    estoriasDasSprints.addAll(estorias);
 	}
-		
+
 	boolean saoEstoriasDeProductBacklog = false;
 	List<Artefato> artefatos = integrator.criarEstoriasComoArtefatosMedCEP(estoriasDasSprints, saoEstoriasDeProductBacklog);
 
 	assertNotNull(artefatos);
 
 	dump(artefatos);
+    }
+
+   
+    @Test
+    public void testCriarAtividadesProjetoMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
+	
+	integrator.criarAtividadesProjetoMedCEP(projeto);
+	
     }
 
     private void dump(Object object)
