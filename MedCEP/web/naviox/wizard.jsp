@@ -1,5 +1,6 @@
 
-<jsp:useBean id="wizardHelper" class="org.medcep.wizard.WizardHelper" scope="session" />
+<jsp:useBean id="wizardHelper" class="org.medcep.wizard.WizardHelper"
+	scope="session" />
 
 
 <!doctype html>
@@ -10,66 +11,94 @@
 <link href="style/normalize.css" rel="stylesheet">
 <link href="style/main.css" rel="stylesheet">
 <link href="style/jquery.steps.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 
 <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
-<script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
+<script type='text/javascript'
+	src='js/angular/shared/angular-route.min.js'></script>
 
 <title>Wizard - MedCEP</title>
 </head>
 <body ng-app="MedCEPWizardApp">
 	<div style="margin: 40px auto; width: 800px;">
 		<div id="medcep-wizard" ng-controller="MainController">
-			
-			<h2>AngularJS</h2>
-				<fieldset name="helloWorld">
-					<div>Projetos: {{projetos}}</div>
-				</fieldset>
-			
+
+			<h2>Projetos</h2>
+			<fieldset name="helloWorld">
+				<h2 class="text-primary text-center">Selecione os Projetos do Taiga</h2>
+				<br/>
+				<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="projeto in projetos">
+					<div class="col-md-1">
+						<p class="text-center">
+							<input type="checkbox" id="check" />
+						</p>
+					</div>
+					<div class="col-md-11" >
+						<div>
+							<p><b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b></p>
+						</div>
+						<div>
+							<p>{{projeto.descricao}}</p>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+
 			<h2>Novo Projeto</h2>
-				<fieldset name="testes">
-					<legend style="font-size: 25px; font-weight: bold; color: blue;">Selecionar Projeto</legend>
-					<input id="projeto_medCEP" name="projeto_medCEP" type="radio">
-					<label for="projeto_medCEP">Projeto MedCEP</label>
-					<p>					
-					</p>
-					<input id="projeto_TAIGA" name="projeto_TAIGA" type="radio">
-					<label for="projeto_TAIGA">Projeto TAIGA</label>	
-				</fieldset>
-			
-			<h2>Login Account</h2>			
+			<fieldset name="testes">
+				<legend style="font-size: 25px; font-weight: bold; color: blue;">Selecionar
+					Projeto</legend>
+				<input id="projeto_medCEP" name="projeto_medCEP" type="radio">
+				<label for="projeto_medCEP">Projeto MedCEP</label>
+				<p></p>
+				<input id="projeto_TAIGA" name="projeto_TAIGA" type="radio">
+				<label for="projeto_TAIGA">Projeto TAIGA</label>
+			</fieldset>
+
+			<h2>Login Account</h2>
 			<fieldset>
-				<label for="URL">URL da API Taiga *</label>
-	            <input id="URL" name="URL" type="text" class="required"/>
-	            <label for="nome">Usuário *</label>
-	            <input id="nome" name="nome" type="text" class="required"/>
-	            <label for="password">Password *</label>
-	            <input id="password" name="password" type="text" class="required"/>
-	            <button id="button1">HTTP POST</button>
+				<label for="URL">URL da API Taiga *</label> <input id="URL"
+					name="URL" type="text" class="required" /> <label for="nome">Usuário
+					*</label> <input id="nome" name="nome" type="text" class="required" /> <label
+					for="password">Password *</label> <input id="password"
+					name="password" type="text" class="required" />
+				<button id="button1">HTTP POST</button>
 			</fieldset>
 
 			<h2>Selecione o Projeto</h2>
-				<fieldset>
-					<input id="acceptTerms-2" name="acceptTerms" type="checkbox" class="required"> <label for="acceptTerms-2">I agree with the Terms and Conditions.</label>
-		   		</fieldset>
+			<fieldset>
+				<input id="acceptTerms-2" name="acceptTerms" type="checkbox"
+					class="required"> <label for="acceptTerms-2">I
+					agree with the Terms and Conditions.</label>
+			</fieldset>
 		</div>
 	</div>
 
 	<!-- Modules -->
 	<script type="text/javascript" src="js/angular/app.js"></script>
-	
+
 	<!-- Controllers -->
-	<script type="text/javascript" src="js/angular/controllers/MainController.js"></script>
-	
+	<script type="text/javascript"
+		src="js/angular/controllers/MainController.js"></script>
+
 	<!-- Services -->
-	<script type="text/javascript" src="js/angular/services/TaigaIntegratorService.js"></script>
+	<script type="text/javascript"
+		src="js/angular/services/TaigaIntegratorService.js"></script>
 
 	<!-- JQuery -->
 	<script type='text/javascript' src="js/jquery.js"></script>
 	<script type='text/javascript' src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.checkbox.js"></script>
 	<script type='text/javascript' src='js/jquery.steps.js'></script>
-	
-	<script>		
 
+	<!-- Bootstrap -->
+	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
+
+	<script>
+		$('input [type=checkbox]').button();
+
+		//Wizard Steps
 		$("#medcep-wizard").steps({
 			headerTag : "h2",
 			bodyTag : "fieldset",
@@ -78,7 +107,7 @@
 
 		});
 	</script>
-			
+
 
 </body>
 </html>
