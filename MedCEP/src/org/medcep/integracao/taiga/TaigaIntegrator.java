@@ -1373,7 +1373,7 @@ public class TaigaIntegrator
      *            - Projeto Taiga para criação das atividades de projeto.
      * @throws Exception
      */
-    public void criarAtividadesProjetoMedCEP(Projeto projeto) throws Exception
+    public List<AtividadeProjeto> criarAtividadesProjetoScrumMedCEP(Projeto projeto) throws Exception
     {
 
 	EntityManager manager = XPersistence.createManager();
@@ -1389,7 +1389,7 @@ public class TaigaIntegrator
 	String queryAPSprint = "SELECT e FROM AtividadePadrao e WHERE e.nome='Sprint'";
 	TypedQuery<AtividadePadrao> typedQueryAPSprint = manager.createQuery(queryAPSprint, AtividadePadrao.class);
 	AtividadePadrao atividadeSprint = typedQueryAPSprint.getSingleResult();
-	
+
 	String queryReuniaoRS = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Revisão da Sprint'";
 	TypedQuery<AtividadePadrao> typedQueryReuniaoRS = manager.createQuery(queryReuniaoRS, AtividadePadrao.class);
 	AtividadePadrao reuniaoRS = typedQueryReuniaoRS.getSingleResult();
@@ -1413,7 +1413,7 @@ public class TaigaIntegrator
 	String query4 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Release de Software'";
 	TypedQuery<TipoDeArtefato> typedQuery4 = manager.createQuery(query4, TipoDeArtefato.class);
 	TipoDeArtefato tipoRelease = typedQuery4.getSingleResult();
-	
+
 	//Obtem o ElementoMensuravel Tamanho.
 	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
 	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
@@ -1430,6 +1430,7 @@ public class TaigaIntegrator
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
+	List<AtividadeProjeto> atividadesProjeto = new ArrayList<AtividadeProjeto>();
 
 	for (Sprint sprint : sprints)
 	{
@@ -1550,7 +1551,7 @@ public class TaigaIntegrator
 	    }
 
 	    sprintProjeto.setProduz(Arrays.asList(codigoFonteProjeto, documentacaoProjeto));
-	    
+
 	    //Preenche a Reunião de Revisão da Sprint do Projeto
 	    AtividadeProjeto reuniaoRSProjeto = new AtividadeProjeto();
 
@@ -1559,14 +1560,14 @@ public class TaigaIntegrator
 	    reuniaoRSProjeto.setBaseadoEm(reuniaoRS);
 	    reuniaoRSProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
 	    reuniaoRSProjeto.setDependeDe(Arrays.asList(sprintProjeto));
-	    
+
 	    List<Artefato> artefatosRequeridosReuniaoRS = new ArrayList<Artefato>();
 	    artefatosRequeridosReuniaoRS.addAll(artEstoriasSB);
 	    artefatosRequeridosReuniaoRS.addAll(Arrays.asList(codigoFonteProjeto, documentacaoProjeto));
-	    	    
+
 	    reuniaoRSProjeto.setRequer(artefatosRequeridosReuniaoRS);
 	    reuniaoRSProjeto.setElementoMensuravel(Arrays.asList(duracao));
-	 
+
 	    Artefato releaseSoftware = new Artefato();
 	    releaseSoftware.setNome("Release do Projeto " + projeto.getNome());
 	    releaseSoftware.setDescricao("Release do Projeto " + projeto.getNome() + " criado após a Sprint - " + sprint.getNome());
@@ -1606,43 +1607,142 @@ public class TaigaIntegrator
 	    {
 		manager.close();
 	    }
-	    
+
 	    reuniaoRSProjeto.setProduz(Arrays.asList(releaseSoftware));
-	    
-	    //Persiste.	
-	    try
-	    {
-		if (!manager.isOpen())
-		    manager = XPersistence.createManager();
 
-		manager.getTransaction().begin();
-		manager.persist(reuniaoPSProjeto);
-		manager.persist(sprintProjeto);
-		manager.persist(reuniaoRSProjeto);
-		manager.getTransaction().commit();
-	    }
-	    catch (Exception ex)
-	    {
-		if (manager.getTransaction().isActive())
-		    manager.getTransaction().rollback();
+	    List<AtividadeProjeto> atividadesParaPersistir = new ArrayList<AtividadeProjeto>();
+	    atividadesParaPersistir.add(reuniaoPSProjeto);
+	    atividadesParaPersistir.add(sprintProjeto);
+	    atividadesParaPersistir.add(reuniaoRSProjeto);
 
-		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		{
-		    System.out.println(String.format("As atividades da Sprint \" %s \" já existem.", sprint.getNome()));
-		}
-		else
-		{
-		    throw ex;
-		}
-	    }
-	    finally
+	    for (AtividadeProjeto atividadeProjeto : atividadesParaPersistir)
 	    {
-		manager.close();
+		//Persiste.	
+		try
+		{
+		    if (!manager.isOpen())
+			manager = XPersistence.createManager();
+
+		    manager.getTransaction().begin();
+		    manager.persist(atividadeProjeto);
+		    manager.getTransaction().commit();
+
+		    atividadesProjeto.add(atividadeProjeto);
+		}
+		catch (Exception ex)
+		{
+		    if (manager.getTransaction().isActive())
+			manager.getTransaction().rollback();
+
+		    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+		    {
+			System.out.println(String.format("A Atividade de Projeto %s já existe.", atividadeProjeto.getNome()));
+
+			String query = String.format("SELECT a FROM AtividadeProjeto a WHERE a.nome='%s'", atividadeProjeto.getNome());
+			TypedQuery<AtividadeProjeto> typedQuery = manager.createQuery(query, AtividadeProjeto.class);
+
+			 atividadesProjeto.add(typedQuery.getSingleResult());
+		    }
+		    else
+		    {
+			throw ex;
+		    }
+		}
+		finally
+		{
+		    manager.close();
+		}
 	    }
 
 	}
 
+	return atividadesProjeto;
+
+    }
+
+    /**
+     * Cria um Processo de Projeto baseado em Scrum para o projeto informado.
+     * 
+     * @param projeto
+     *            - Projeto para criar o processo de projeto baseado em Scrum.
+     * @throws Exception
+     */
+    public ProcessoProjeto criarProcessoProjetoScrumMedCEP(Projeto projeto) throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+	ProcessoProjeto scrum = new ProcessoProjeto();
+
+	ProcessoPadrao processoScrum = this.criarProcessoPadraoScrumMedCEP();
+
+	scrum.setNome("Projeto Scrum " + projeto.getNome());
+	scrum.setDescricao("Projeto Scrum " + projeto.getNome());
+
+	//Obtem as atividades de projeto 
+	List<AtividadeProjeto> atividades = this.criarAtividadesProjetoScrumMedCEP(projeto);
+
+	//Obtem o ElementoMensuravel Tamanho.
+	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
+	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Desempenho.
+	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
+	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Duração.
+	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
+	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
+	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
+
+	String query1 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Processo de Software em Projeto'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery1 = manager.createQuery(query1, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoPP = typedQuery1.getSingleResult();
+
+	String query2 = "SELECT e FROM Projeto e WHERE e.nome='" + projeto.getNome() + "'";
+	TypedQuery<org.medcep.model.organizacao.Projeto> typedQuery2 = manager.createQuery(query2, org.medcep.model.organizacao.Projeto.class);
+	org.medcep.model.organizacao.Projeto proj = typedQuery2.getSingleResult();
+
+	scrum.setBaseadoEm(processoScrum);
+	scrum.setTipoDeEntidadeMensuravel(tipoPP);
+	scrum.setAtividadeProjeto(atividades);
+	scrum.setProjeto(proj);
+	scrum.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
+
+	//Persiste.	
+	try
+	{
+	    manager.getTransaction().begin();
+	    manager.persist(scrum);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	    {
+		System.out.println(String.format("O Processo de Projeto %s já existe.", scrum.getNome()));
+
+		String query = String.format("SELECT p FROM ProcessoProjeto p WHERE p.nome='%s'", scrum.getNome());
+		TypedQuery<ProcessoProjeto> typedQuery = manager.createQuery(query, ProcessoProjeto.class);
+
+		scrum = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return scrum;
     }
 
     /**

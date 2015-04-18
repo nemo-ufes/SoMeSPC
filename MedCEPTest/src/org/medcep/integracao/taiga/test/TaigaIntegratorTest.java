@@ -336,10 +336,7 @@ public class TaigaIntegratorTest
 	List<Artefato> artefatos = integrator.criarEstoriasComoArtefatosMedCEP(estoriasDasSprints, saoEstoriasDeProductBacklog);
 
 	assertNotNull(artefatos);
-
-	dump(artefatos);
     }
-
    
     @Test
     public void testCriarAtividadesProjetoMedCEP() throws Exception
@@ -347,9 +344,22 @@ public class TaigaIntegratorTest
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 	
-	integrator.criarAtividadesProjetoMedCEP(projeto);
+	List<AtividadeProjeto> atividades = integrator.criarAtividadesProjetoScrumMedCEP(projeto);
 	
+	assertNotNull(atividades);
     }
+    
+    @Test
+    public void testCriarProcessoProjetoScrumMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
+	
+	ProcessoProjeto processo = integrator.criarProcessoProjetoScrumMedCEP(projeto);
+	
+	assertNotNull(processo);
+    }
+
 
     private void dump(Object object)
     {
