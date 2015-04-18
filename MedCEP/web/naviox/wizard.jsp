@@ -17,7 +17,9 @@
 <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
 <script type='text/javascript'
 	src='js/angular/shared/angular-route.min.js'></script>
-
+<script type='text/javascript'
+	src='js/angular/shared/angular-resource.min.js'></script>
+	
 <title>Wizard - MedCEP</title>
 </head>
 <body ng-app="MedCEPWizardApp">
@@ -25,7 +27,7 @@
 		<div id="medcep-wizard" ng-controller="MainController">
 
 			<h2>Projetos</h2>
-			<fieldset name="helloWorld">
+			<fieldset>
 				<h2 class="text-primary text-center">Selecione os Projetos do Taiga</h2>
 				<br/>
 				<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="projeto in projetos">
@@ -45,33 +47,16 @@
 				</div>
 			</fieldset>
 
-			<h2>Novo Projeto</h2>
-			<fieldset name="testes">
-				<legend style="font-size: 25px; font-weight: bold; color: blue;">Selecionar
-					Projeto</legend>
-				<input id="projeto_medCEP" name="projeto_medCEP" type="radio">
-				<label for="projeto_medCEP">Projeto MedCEP</label>
-				<p></p>
-				<input id="projeto_TAIGA" name="projeto_TAIGA" type="radio">
-				<label for="projeto_TAIGA">Projeto TAIGA</label>
+			<h2>Medidas</h2>
+			<fieldset>
+				
 			</fieldset>
 
-			<h2>Login Account</h2>
+			<h2>Agendamento</h2>
 			<fieldset>
-				<label for="URL">URL da API Taiga *</label> <input id="URL"
-					name="URL" type="text" class="required" /> <label for="nome">Usuário
-					*</label> <input id="nome" name="nome" type="text" class="required" /> <label
-					for="password">Password *</label> <input id="password"
-					name="password" type="text" class="required" />
-				<button id="button1">HTTP POST</button>
+			
 			</fieldset>
-
-			<h2>Selecione o Projeto</h2>
-			<fieldset>
-				<input id="acceptTerms-2" name="acceptTerms" type="checkbox"
-					class="required"> <label for="acceptTerms-2">I
-					agree with the Terms and Conditions.</label>
-			</fieldset>
+			
 		</div>
 	</div>
 

@@ -1,1 +1,1 @@
-var app = angular.module('MedCEPWizardApp',[]);
+var app = angular.module('MedCEPWizardApp',['ngResource']);
