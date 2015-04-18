@@ -1,5 +1,6 @@
 package org.medcep.integracao.taiga;
 
+import java.sql.*;
 import java.util.*;
 
 import javax.persistence.*;
@@ -1642,7 +1643,7 @@ public class TaigaIntegrator
 			String query = String.format("SELECT a FROM AtividadeProjeto a WHERE a.nome='%s'", atividadeProjeto.getNome());
 			TypedQuery<AtividadeProjeto> typedQuery = manager.createQuery(query, AtividadeProjeto.class);
 
-			 atividadesProjeto.add(typedQuery.getSingleResult());
+			atividadesProjeto.add(typedQuery.getSingleResult());
 		    }
 		    else
 		    {
@@ -1847,6 +1848,75 @@ public class TaigaIntegrator
 
 	return artefatosCriados;
 
+    }
+
+    /**
+     * Cria uma Ocorrência de Atividade.
+     * 
+     * @param nome
+     *            - Nome da Ocorrência. Será concatenada com TimeStamp.
+     * @param nomeAtividadeProjetoOcorrida
+     *            - Nome da atividade de projeto ocorrida.
+     * @return OcorrenciaAtividade criada.
+     * @throws Exception 
+     */
+    public OcorrenciaAtividade criarOcorrenciaAtividade(String nome, String nomeAtividadeProjetoOcorrida) throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+
+	String query1 = "SELECT e FROM AtividadeProjeto e WHERE e.nome='" + nomeAtividadeProjetoOcorrida + "'";
+	TypedQuery<AtividadeProjeto> typedQuery1 = manager.createQuery(query1, AtividadeProjeto.class);
+	AtividadeProjeto atividadeOcorrida = typedQuery1.getSingleResult();
+
+	String query2 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Ocorrência de Atividade'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery2 = manager.createQuery(query2, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoOcorrenciaAtividade = typedQuery2.getSingleResult();
+
+	OcorrenciaAtividade ocorrencia = new OcorrenciaAtividade();
+	String timestamp = new Timestamp(System.currentTimeMillis()).toString();
+	ocorrencia.setNome(nome + " - " + timestamp);
+	ocorrencia.setAtividadeProjetoOcorrida(atividadeOcorrida);
+	ocorrencia.setTipoDeEntidadeMensuravel(tipoOcorrenciaAtividade);
+
+	//Persiste.	
+	try
+	{
+	    if (!manager.isOpen())
+		manager = XPersistence.createManager();
+
+	    manager.getTransaction().begin();
+	    manager.persist(ocorrencia);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    manager.close();
+	    manager = XPersistence.createManager();
+
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	    {
+		System.out.println(String.format("A Ocorrência de Atividade %s já existe.", ocorrencia.getNome()));
+
+		String query = String.format("SELECT a FROM OcorrenciaAtividade a WHERE a.nome='%s'", ocorrencia.getNome());
+		TypedQuery<OcorrenciaAtividade> typedQuery = manager.createQuery(query, OcorrenciaAtividade.class);
+
+		ocorrencia = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return ocorrencia;
     }
 
 }
