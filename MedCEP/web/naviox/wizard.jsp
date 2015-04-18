@@ -35,7 +35,7 @@
 	            <input id="nome" name="nome" type="text" class="required"/>
 	            <label for="password">Password *</label>
 	            <input id="password" name="password" type="text" class="required"/>
-	            <button>Send an HTTP POST request to a page and get the result back</button>
+	            <button id="button1">HTTP POST</button>
 			</fieldset>
 
 			<h2>Selecione o Projeto</h2>
@@ -50,18 +50,32 @@
 	<script type='text/javascript' src='js/jquery.steps.js'></script>
 
 	<script>
-	
-		
+
+
 		$(document).ready(function() {
-			$("button").click(function() {
-				$.post("wizard.do", {
-					name : "Donald Duck",
-					city : "Duckburg"
-				}, function(data, status) {
-					alert("Data: " + data + "\nStatus: " + status);
+			
+			$('#button1').click(function(event) {
+				
+				var username = $('#nome').val();
+				var password = $('#password').val();
+				 
+				$.ajax({
+					url : '/MedCEP/api/WizardResource',
+					type : 'POST',
+					dataType : 'json',
+					contentType : 'application/json',
+					data : {
+						parametroNome : username,
+						parametroSenha : password
+					},
+					success : function(teste) {
+						alert(teste);
+					}
+					
 				});
 			});
-		});
+		});	
+
 		$("#medcep-wizard").steps({
 			headerTag : "h2",
 			bodyTag : "fieldset",
