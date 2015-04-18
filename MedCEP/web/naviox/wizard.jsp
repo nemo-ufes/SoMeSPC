@@ -11,23 +11,33 @@
 <link href="style/main.css" rel="stylesheet">
 <link href="style/jquery.steps.css" rel="stylesheet">
 
+<script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
 
 <title>Wizard - MedCEP</title>
 </head>
-<body>
+<body ng-app="MedCEPWizardApp">
 	<div style="margin: 40px auto; width: 800px;">
-		<div id="medcep-wizard">
+		<div id="medcep-wizard" ng-controller="MainController">
+			
+			<h2>AngularJS</h2>
+				<fieldset name="helloWorld">
+					<div>Nome: {{nome}}</div>
+					<div>Senha: {{senha}}</div>
+				</fieldset>
+			
 			<h2>Novo Projeto</h2>
 				<fieldset name="testes">
 					<legend style="font-size: 25px; font-weight: bold; color: blue;">Selecionar Projeto</legend>
-					<input id="projeto_medCEP" name="projeto_medCEP" type="radio"><label for="projeto_medCEP">Projeto MedCEP</label>
-					<p>
-					
+					<input id="projeto_medCEP" name="projeto_medCEP" type="radio">
+					<label for="projeto_medCEP">Projeto MedCEP</label>
+					<p>					
 					</p>
-					<input id="projeto_TAIGA" name="projeto_TAIGA" type="radio"><label for="projeto_TAIGA">Projeto TAIGA</label>	
+					<input id="projeto_TAIGA" name="projeto_TAIGA" type="radio">
+					<label for="projeto_TAIGA">Projeto TAIGA</label>	
 				</fieldset>
-			<h2>Login Account</h2>
 			
+			<h2>Login Account</h2>			
 			<fieldset>
 				<label for="URL">URL da API Taiga *</label>
 	            <input id="URL" name="URL" type="text" class="required"/>
@@ -45,36 +55,18 @@
 		</div>
 	</div>
 
+	<!-- Modules -->
+	<script type="text/javascript" src="js/angular/app.js"></script>
+	
+	<!-- Controllers -->
+	<script type="text/javascript" src="js/angular/controllers/MainController.js"></script>
+
+	<!-- JQuery -->
 	<script type='text/javascript' src="js/jquery.js"></script>
 	<script type='text/javascript' src="js/jquery-ui.js"></script>
 	<script type='text/javascript' src='js/jquery.steps.js'></script>
-
-	<script>
-
-
-		$(document).ready(function() {
-			
-			$('#button1').click(function(event) {
-				
-				var username = $('#nome').val();
-				var password = $('#password').val();
-				 
-				$.ajax({
-					url : '/MedCEP/api/WizardResource',
-					type : 'POST',
-					dataType : 'json',
-					contentType : 'application/json',
-					data : {
-						parametroNome : username,
-						parametroSenha : password
-					},
-					success : function(teste) {
-						alert(teste);
-					}
-					
-				});
-			});
-		});	
+	
+	<script>		
 
 		$("#medcep-wizard").steps({
 			headerTag : "h2",

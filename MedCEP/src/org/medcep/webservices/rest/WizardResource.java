@@ -1,35 +1,27 @@
 package org.medcep.webservices.rest;
 
+import java.util.*;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-@Path("WizardResource")
+import org.medcep.integracao.taiga.*;
+import org.medcep.integracao.taiga.model.*;
+
+@Path("Wizard")
 public class WizardResource
 {
-    @Path("/Step1")
-    @POST
+    @Path("/TaigaIntegrator/Projetos")
+    @GET
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response step1(String json) throws Exception
-    {	
-	String valor = json;	
-	return Response.ok().entity(new String("Executou step 1")).build();
+    public Response obterProjetos() throws Exception
+    {		
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	List<Projeto> projetos = integrator.obterProjetosTaiga();
+        
+	return Response.ok().entity(projetos).build();
     }
     
-    @Path("/Step2")
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response step2(String json) throws Exception
-    {
-	
-	String valor = json;	
-	return Response.ok().entity(new String("Executou step 2")).build();
-    }
-    
-    
-    private class DadosLogin{
-	
-	
-    }
+  
 }
