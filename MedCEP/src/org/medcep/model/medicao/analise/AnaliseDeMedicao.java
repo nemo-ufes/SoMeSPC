@@ -196,7 +196,6 @@ public class AnaliseDeMedicao
 	    })
     @ListProperties("medidaPlanoDeMedicao.medida.nome, projeto.nome, data, valorMedido.valorMedido")
     @NewAction("AnaliseDeMedicao.addMedicao")
-    //@ListAction("AnaliseDeMedicao.generateExcel")//TODO: 
     private Collection<Medicao> medicao;
 
     public MedidaPlanoDeMedicao getMedidaPlanoDeMedicao()

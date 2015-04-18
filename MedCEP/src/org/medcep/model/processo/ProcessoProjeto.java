@@ -31,7 +31,7 @@ import org.openxava.annotations.*;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; baseadoEm; projeto; descricao; atividadeProjeto; elementoMensuravel;"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; baseadoEm; projeto; atividadeProjeto; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome"),
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
