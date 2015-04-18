@@ -22,8 +22,7 @@
 			
 			<h2>AngularJS</h2>
 				<fieldset name="helloWorld">
-					<div>Nome: {{nome}}</div>
-					<div>Senha: {{senha}}</div>
+					<div>Projetos: {{projetos}}</div>
 				</fieldset>
 			
 			<h2>Novo Projeto</h2>
@@ -60,6 +59,9 @@
 	
 	<!-- Controllers -->
 	<script type="text/javascript" src="js/angular/controllers/MainController.js"></script>
+	
+	<!-- Services -->
+	<script type="text/javascript" src="js/angular/services/TaigaIntegratorService.js"></script>
 
 	<!-- JQuery -->
 	<script type='text/javascript' src="js/jquery.js"></script>

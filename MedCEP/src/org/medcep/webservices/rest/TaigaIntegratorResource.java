@@ -8,10 +8,10 @@ import javax.ws.rs.core.*;
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
 
-@Path("Wizard")
-public class WizardResource
+@Path("TaigaIntegrator")
+public class TaigaIntegratorResource
 {
-    @Path("/TaigaIntegrator/Projetos")
+    @Path("/Projetos")
     @GET
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
