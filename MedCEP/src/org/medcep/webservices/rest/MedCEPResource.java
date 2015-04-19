@@ -50,6 +50,11 @@ public class MedCEPResource
     @Context
     private UriInfo uriInfo;
 
+    /**
+     * Obtem as periodicidades.
+     * @return
+     * @throws Exception
+     */
     @Path("Periodicidade")
     @GET
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")

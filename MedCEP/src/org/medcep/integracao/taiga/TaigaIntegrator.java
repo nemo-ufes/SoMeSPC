@@ -31,6 +31,7 @@ import org.hibernate.exception.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.medicao.*;
+import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.model.processo.*;
 import org.medcep.util.json.*;
@@ -787,9 +788,14 @@ public class TaigaIntegrator
 	List<Medida> medidasCadastradas = new ArrayList<Medida>();
 
 	//Obtem o tipo de medida base.
-	String query = "SELECT mb FROM TipoMedida mb WHERE mb.nome='Medida Base'";
-	TypedQuery<TipoMedida> typedQuery = manager.createQuery(query, TipoMedida.class);
-	TipoMedida medidaBase = typedQuery.getSingleResult();
+	String query = "SELECT mb FROM AtividadePadrao mb WHERE mb.nome='Sprint'";
+	TypedQuery<AtividadePadrao> typedQuery = manager.createQuery(query, AtividadePadrao.class);
+	AtividadePadrao sprint = typedQuery.getSingleResult();
+
+	//Obtem o tipo de medida base.
+	String query1 = "SELECT mb FROM TipoMedida mb WHERE mb.nome='Medida Base'";
+	TypedQuery<TipoMedida> typedQuery1 = manager.createQuery(query1, TipoMedida.class);
+	TipoMedida medidaBase = typedQuery1.getSingleResult();
 
 	//Obtem a escala racional.
 	String query2 = "SELECT e FROM Escala e WHERE e.nome='Números Racionais'";
@@ -837,6 +843,8 @@ public class TaigaIntegrator
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	manager.close();
+
+	boolean primeiroLoop = true;
 
 	//Define a medida de acordo com a lista informada.
 	for (MedidasTaiga medidaTaiga : medidasTaiga)
@@ -968,6 +976,144 @@ public class TaigaIntegrator
 	    medida.setEscala(escala);
 	    medida.setUnidadeDeMedida(unidadeMedida);
 
+	    DefinicaoOperacionalDeMedida definicao = new DefinicaoOperacionalDeMedida();
+
+	    definicao.setNome("Definição operacional padrão Taiga-MedCEP para " + medida.getNome());
+	    Calendar cal = Calendar.getInstance();
+	    definicao.setData(cal.getTime());
+	    definicao.setDescricao("Definição operacional criada automaticamente.");
+	    definicao.setMedida(medida);
+	    definicao.setMomentoDeMedicao(sprint);
+	    definicao.setMomentoDeAnaliseDeMedicao(sprint);
+
+	    PapelRecursoHumano papel = new PapelRecursoHumano();
+
+	    if (primeiroLoop)
+	    {
+		papel.setNome("Taiga Integrator");
+
+		try
+		{
+		    if (!manager.isOpen())
+			manager = XPersistence.createManager();
+
+		    manager.getTransaction().begin();
+		    manager.persist(papel);
+		    manager.getTransaction().commit();
+		}
+		catch (Exception ex)
+		{
+		    if (manager.getTransaction().isActive())
+			manager.getTransaction().rollback();
+
+		    manager = XPersistence.createManager();
+
+		    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+		    {
+
+			String queryPapel = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='Taiga Integrator'");
+			TypedQuery<PapelRecursoHumano> typedQueryPapel = manager.createQuery(queryPapel, PapelRecursoHumano.class);
+
+			papel = typedQueryPapel.getSingleResult();
+		    }
+		    else
+		    {
+			throw ex;
+		    }
+		}
+		finally
+		{
+		    manager.close();
+		}
+	    }
+	    else
+	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+		
+		String queryPapel = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='Taiga Integrator'");
+		TypedQuery<PapelRecursoHumano> typedQueryPapel = manager.createQuery(queryPapel, PapelRecursoHumano.class);
+
+		papel = typedQueryPapel.getSingleResult();
+		
+		manager.close();
+	    }
+
+	    definicao.setResponsavelPelaAnaliseDeMedicao(papel);
+	    definicao.setResponsavelPelaMedicao(papel);
+
+	    ProcedimentoDeMedicao procedimentoMedicao = new ProcedimentoDeMedicao();
+	    ProcedimentoDeAnaliseDeMedicao procedimentoAnalise = new ProcedimentoDeAnaliseDeMedicao();
+
+	    if (primeiroLoop)
+	    {
+		procedimentoMedicao.setNome("Medição automática feita via Taiga Integrator");
+		procedimentoMedicao.setDescricao("Medição automática feita via Taiga Integrator.");
+
+		procedimentoAnalise.setNome("Análise de Medição automática feita via Taiga Integrator");
+		procedimentoAnalise.setDescricao("Análise de Medição automática feita via Taiga Integrator.");
+
+		try
+		{
+		    if (!manager.isOpen())
+			manager = XPersistence.createManager();
+
+		    manager.getTransaction().begin();
+		    manager.persist(procedimentoMedicao);
+		    manager.persist(procedimentoAnalise);
+		    manager.getTransaction().commit();
+		}
+		catch (Exception ex)
+		{
+		    if (manager.getTransaction().isActive())
+			manager.getTransaction().rollback();
+
+		    manager = XPersistence.createManager();
+
+		    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+		    {
+
+			String queryProcedimentoMedicao = String.format("SELECT p FROM ProcedimentoDeMedicao p WHERE p.nome='Medição automática feita via Taiga Integrator'");
+			TypedQuery<ProcedimentoDeMedicao> typedQueryProcedimentoMedicao = manager.createQuery(queryProcedimentoMedicao, ProcedimentoDeMedicao.class);
+
+			String queryProcedimentoAnalise = String.format("SELECT p FROM ProcedimentoDeAnaliseDeMedicao p WHERE p.nome='Análise de Medição automática feita via Taiga Integrator'");
+			TypedQuery<ProcedimentoDeAnaliseDeMedicao> typedQueryProcedimentoAnalise = manager.createQuery(queryProcedimentoAnalise, ProcedimentoDeAnaliseDeMedicao.class);
+
+			procedimentoMedicao = typedQueryProcedimentoMedicao.getSingleResult();
+			procedimentoAnalise = typedQueryProcedimentoAnalise.getSingleResult();
+		    }
+		    else
+		    {
+			throw ex;
+		    }
+		}
+		finally
+		{
+		    manager.close();
+		}
+	    }
+	    else
+	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
+		String queryProcedimentoMedicao = String.format("SELECT p FROM ProcedimentoDeMedicao p WHERE p.nome='Medição automática feita via Taiga Integrator'");
+		TypedQuery<ProcedimentoDeMedicao> typedQueryProcedimentoMedicao = manager.createQuery(queryProcedimentoMedicao, ProcedimentoDeMedicao.class);
+
+		String queryProcedimentoAnalise = String.format("SELECT p FROM ProcedimentoDeAnaliseDeMedicao p WHERE p.nome='Análise de Medição automática feita via Taiga Integrator'");
+		TypedQuery<ProcedimentoDeAnaliseDeMedicao> typedQueryProcedimentoAnalise = manager.createQuery(queryProcedimentoAnalise, ProcedimentoDeAnaliseDeMedicao.class);
+
+		procedimentoMedicao = typedQueryProcedimentoMedicao.getSingleResult();
+		procedimentoAnalise = typedQueryProcedimentoAnalise.getSingleResult();
+
+		manager.close();
+	    }
+
+	    definicao.setProcedimentoDeAnaliseDeMedicao(procedimentoAnalise);
+	    definicao.setProcedimentoDeMedicao(procedimentoMedicao);
+
 	    try
 	    {
 		if (!manager.isOpen())
@@ -975,6 +1121,7 @@ public class TaigaIntegrator
 
 		manager.getTransaction().begin();
 		manager.persist(medida);
+		manager.persist(definicao);
 		manager.getTransaction().commit();
 	    }
 	    catch (Exception ex)
@@ -1005,6 +1152,7 @@ public class TaigaIntegrator
 	    }
 
 	    medidasCadastradas.add(medida);
+	    primeiroLoop = false;
 	}
 
 	return medidasCadastradas;
@@ -1866,5 +2014,4 @@ public class TaigaIntegrator
 
 	return artefatosCriados;
     }
-
 }
