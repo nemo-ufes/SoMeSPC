@@ -22,6 +22,7 @@ package org.medcep.webservices.rest;
 import java.net.*;
 import java.sql.*;
 import java.text.*;
+import java.util.*;
 
 import javax.persistence.*;
 import javax.ws.rs.*;
@@ -49,6 +50,36 @@ public class MedCEPResource
     @Context
     private UriInfo uriInfo;
 
+    @Path("Periodicidade")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterPeriodicidades() throws Exception
+    {
+	Response response;
+
+	TypedQuery<Periodicidade> query = XPersistence.getManager().createQuery("FROM Periodicidade", Periodicidade.class);
+	List<Periodicidade> result = query.getResultList();
+
+	if (result == null)
+	    response = Response.status(Status.NOT_FOUND).build();
+	else
+	{
+	    List<PeriodicidadeDTO> listaDto = new ArrayList<PeriodicidadeDTO>();
+	    
+	    for (Periodicidade periodicidade : result)
+	    {
+		PeriodicidadeDTO p = new PeriodicidadeDTO();
+		p.setNome(periodicidade.getNome());		
+		listaDto.add(p);
+	    }
+	    
+	    response = Response.status(Status.OK).entity(listaDto).build();	    
+	}
+
+	return response;
+    }
+    
     /**
      * Cria uma ocorrência de processo.
      * 
@@ -302,6 +333,12 @@ public class MedCEPResource
 	return response;
     }
 
+    /**
+     * Cria uma definição operacional de medida.
+     * @param dto
+     * @return
+     * @throws Exception
+     */
     @Path("DefinicaoOperacionalMedida")
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -497,4 +534,6 @@ public class MedCEPResource
 	return response;
     }
 
+    
+    
 }
