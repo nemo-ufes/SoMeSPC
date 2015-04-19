@@ -20,6 +20,7 @@
 package org.medcep.model.processo;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
@@ -37,6 +38,7 @@ import org.openxava.annotations.*;
 	properties = {
 		@PropertyValue(name = "tipoDeEntidadeMensuravel")
 	})
+@XmlRootElement
 public class OcorrenciaProcesso extends EntidadeMensuravel
 {
 
@@ -53,7 +55,6 @@ public class OcorrenciaProcesso extends EntidadeMensuravel
 	    properties = {
 		    @PropertyValue(name = "nomeEntidade", value = "Ocorrência de Processo de Software")
 	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
 
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
