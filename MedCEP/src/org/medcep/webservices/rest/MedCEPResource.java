@@ -30,6 +30,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
 import org.medcep.model.medicao.*;
+import org.medcep.model.medicao.planejamento.*;
+import org.medcep.model.organizacao.*;
 import org.medcep.model.processo.*;
 import org.medcep.webservices.rest.dto.*;
 import org.medcep.webservices.rest.exceptions.*;
@@ -309,69 +311,188 @@ public class MedCEPResource
 	Response response = null;
 	EntityManager manager = XPersistence.createManager();
 
-	/*
-	 * if (dto == null || ocorrenciaDto.getNomeOcorrencia().isEmpty() || ocorrenciaDto.getNomeProcessoOcorrido().isEmpty())
-	 * {
-	 * response = Response.status(Status.BAD_REQUEST).build();
-	 * }
-	 * 
-	 * String query1 = "SELECT e FROM ProcessoProjeto e WHERE e.nome='" + ocorrenciaDto.getNomeProcessoOcorrido() + "'";
-	 * TypedQuery<ProcessoProjeto> typedQuery1 = manager.createQuery(query1, ProcessoProjeto.class);
-	 * ProcessoProjeto processoOcorrido = typedQuery1.getSingleResult();
-	 * 
-	 * String query2 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Ocorrência de Processo de Software'";
-	 * TypedQuery<TipoDeEntidadeMensuravel> typedQuery2 = manager.createQuery(query2, TipoDeEntidadeMensuravel.class);
-	 * TipoDeEntidadeMensuravel tipoOcorrenciaProcesso = typedQuery2.getSingleResult();
-	 * 
-	 * OcorrenciaProcesso ocorrencia = new OcorrenciaProcesso();
-	 * Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	 * String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
-	 * 
-	 * ocorrencia.setNome(ocorrenciaDto.getNomeOcorrencia() + " - " + dataHora);
-	 * ocorrencia.setProcessoProjetoOcorrido(processoOcorrido);
-	 * ocorrencia.setTipoDeEntidadeMensuravel(tipoOcorrenciaProcesso);
-	 * 
-	 * //Persiste.
-	 * try
-	 * {
-	 * if (!manager.isOpen())
-	 * manager = XPersistence.createManager();
-	 * 
-	 * manager.getTransaction().begin();
-	 * manager.persist(ocorrencia);
-	 * manager.getTransaction().commit();
-	 * 
-	 * OcorrenciaDTO dto = new OcorrenciaDTO();
-	 * dto.setId(ocorrencia.getId());
-	 * dto.setNomeOcorrencia(ocorrencia.getNome());
-	 * dto.setNomeProcessoOcorrido(ocorrencia.getProcessoProjetoOcorrido().getNome());
-	 * 
-	 * URI location = new URI(String.format("%s/%s", uriInfo.getAbsolutePath().toString(), ocorrencia.getId()));
-	 * response = Response.created(location).entity(dto).build();
-	 * }
-	 * catch (Exception ex)
-	 * {
-	 * if (manager.getTransaction().isActive())
-	 * manager.getTransaction().rollback();
-	 * 
-	 * manager.close();
-	 * manager = XPersistence.createManager();
-	 * 
-	 * if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-	 * (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-	 * {
-	 * response = Response.status(Status.CONFLICT).build();
-	 * }
-	 * else
-	 * {
-	 * throw ex;
-	 * }
-	 * }
-	 * finally
-	 * {
-	 * manager.close();
-	 * }
-	 */
+	if (dto == null || dto.getNome().isEmpty())
+	{
+	    response = Response.status(Status.BAD_REQUEST).build();
+	}
+
+	Medida medida;
+
+	try
+	{
+	    String query1 = "SELECT e FROM Medida e WHERE e.nome='" + dto.getNomeMedida() + "'";
+	    TypedQuery<Medida> typedQuery1 = manager.createQuery(query1, Medida.class);
+	    medida = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Medida %s não encontrada.", dto.getNomeMedida()));
+	}
+	
+	//Medição.
+	AtividadePadrao momentoMedicao;
+
+	try
+	{
+	    String query1 = "SELECT e FROM AtividadePadrao e WHERE e.nome='" + dto.getMomentoMedicao() + "'";
+	    TypedQuery<AtividadePadrao> typedQuery1 = manager.createQuery(query1, AtividadePadrao.class);
+	    momentoMedicao = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Momento de Medição %s não encontrado.", dto.getMomentoMedicao()));
+	}
+	
+	Periodicidade periodicidadeMedicao;
+
+	try
+	{
+	    String query1 = "SELECT e FROM Periodicidade e WHERE e.nome='" + dto.getPeriodicidadeMedicao() + "'";
+	    TypedQuery<Periodicidade> typedQuery1 = manager.createQuery(query1, Periodicidade.class);
+	    periodicidadeMedicao = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Periodicidade de Medição %s não encontrada.", dto.getPeriodicidadeMedicao()));
+	}
+	
+	PapelRecursoHumano papelResponsavelMedicao;
+
+	try
+	{
+	    String query1 = "SELECT e FROM PapelRecursoHumano e WHERE e.nome='" + dto.getPapelResponsavelMedicao() + "'";
+	    TypedQuery<PapelRecursoHumano> typedQuery1 = manager.createQuery(query1, PapelRecursoHumano.class);
+	    papelResponsavelMedicao = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Papel Responsável pela Medição %s não encontrado.", dto.getPapelResponsavelMedicao()));
+	}
+
+	ProcedimentoDeMedicao procedimentoMedicao;
+
+	try
+	{
+	    String query1 = "SELECT e FROM ProcedimentoDeMedicao e WHERE e.nome='" + dto.getNomeProcedimentoMedicao() + "'";
+	    TypedQuery<ProcedimentoDeMedicao> typedQuery1 = manager.createQuery(query1, ProcedimentoDeMedicao.class);
+	    procedimentoMedicao = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Procedimento de Medição %s não encontrado.", dto.getNomeProcedimentoMedicao()));
+	}
+
+	//Análise de Medição.
+	AtividadePadrao momentoAnalise;
+
+	try
+	{
+	    String query1 = "SELECT e FROM AtividadePadrao e WHERE e.nome='" + dto.getMomentoAnalise() + "'";
+	    TypedQuery<AtividadePadrao> typedQuery1 = manager.createQuery(query1, AtividadePadrao.class);
+	    momentoAnalise = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Momento da Análise da Medição %s não encontrado.", dto.getMomentoAnalise()));
+	}
+	
+	Periodicidade periodicidadeAnalise;
+
+	try
+	{
+	    String query1 = "SELECT e FROM Periodicidade e WHERE e.nome='" + dto.getPeriodicidadeAnalise() + "'";
+	    TypedQuery<Periodicidade> typedQuery1 = manager.createQuery(query1, Periodicidade.class);
+	    periodicidadeAnalise = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Periodicidade da Análise da Medição %s não encontrada.", dto.getPeriodicidadeAnalise()));
+	}
+	
+	PapelRecursoHumano papelResponsavelAnalise;
+
+	try
+	{
+	    String query1 = "SELECT e FROM PapelRecursoHumano e WHERE e.nome='" + dto.getPapelResponsavelAnalise() + "'";
+	    TypedQuery<PapelRecursoHumano> typedQuery1 = manager.createQuery(query1, PapelRecursoHumano.class);
+	    papelResponsavelAnalise = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Papel Responsável pela Análise da Medição %s não encontrado.", dto.getPapelResponsavelAnalise()));
+	}
+
+	ProcedimentoDeAnaliseDeMedicao procedimentoAnalise;
+
+	try
+	{
+	    String query1 = "SELECT e FROM ProcedimentoDeAnaliseDeMedicao e WHERE e.nome='" + dto.getNomeProcedimentoAnalise() + "'";
+	    TypedQuery<ProcedimentoDeAnaliseDeMedicao> typedQuery1 = manager.createQuery(query1, ProcedimentoDeAnaliseDeMedicao.class);
+	    procedimentoAnalise = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException(String.format("Procedimento de Análise de Medição %s não encontrado.", dto.getNomeProcedimentoAnalise()));
+	}
+	
+	DefinicaoOperacionalDeMedida definicao = new DefinicaoOperacionalDeMedida();
+	
+	definicao.setNome(dto.getNome());
+	definicao.setData(dto.getData());
+	definicao.setDescricao(dto.getDescricao());
+	definicao.setMedida(medida);
+	definicao.setMomentoDeMedicao(momentoMedicao);
+	definicao.setPeriodicidadeDeMedicao(periodicidadeMedicao);
+	definicao.setResponsavelPelaMedicao(papelResponsavelMedicao);
+	definicao.setProcedimentoDeMedicao(procedimentoMedicao);
+	definicao.setMomentoDeAnaliseDeMedicao(momentoAnalise);
+	definicao.setPeriodicidadeDeAnaliseDeMedicao(periodicidadeAnalise);
+	definicao.setResponsavelPelaAnaliseDeMedicao(papelResponsavelAnalise);
+	definicao.setProcedimentoDeAnaliseDeMedicao(procedimentoAnalise);
+		
+	
+	//Persiste.	
+	try
+	{
+	    manager.getTransaction().begin();
+	    manager.persist(definicao);
+	    manager.getTransaction().commit();
+
+	    DefinicaoOperacionalMedidaDTO definicaoDto = new DefinicaoOperacionalMedidaDTO();
+	    
+	    definicaoDto.setId(definicao.getId());
+	    definicaoDto.setData(definicao.getData());
+	    definicaoDto.setDescricao(definicao.getDescricao());
+	    definicaoDto.setNomeMedida(definicao.getMedida().getNome());
+	    definicaoDto.setMomentoMedicao(definicao.getMomentoDeMedicao().getNome());
+	    definicaoDto.setPeriodicidadeMedicao(definicao.getPeriodicidadeDeMedicao().getNome());
+	    definicaoDto.setPapelResponsavelMedicao(definicao.getResponsavelPelaMedicao().getNome());
+	    definicaoDto.setNomeProcedimentoMedicao(definicao.getProcedimentoDeMedicao().getNome());
+	    definicaoDto.setMomentoAnalise(definicao.getMomentoDeAnaliseDeMedicao().getNome());
+	    definicaoDto.setPeriodicidadeAnalise(definicao.getPeriodicidadeDeAnaliseDeMedicao().getNome());
+	    definicaoDto.setPapelResponsavelAnalise(definicao.getResponsavelPelaAnaliseDeMedicao().getNome());
+	    definicaoDto.setNomeProcedimentoAnalise(definicao.getProcedimentoDeAnaliseDeMedicao().getNome());
+	    
+	    URI location = new URI(String.format("%s/%s", uriInfo.getAbsolutePath().toString(), definicao.getId()));
+	    response = Response.created(location).entity(definicaoDto).build();
+	}
+	catch (Exception ex)
+	{
+
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	    {
+		response = Response.status(Status.CONFLICT).build();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
 
 	return response;
     }
