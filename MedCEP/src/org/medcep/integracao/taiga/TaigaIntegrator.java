@@ -1,6 +1,7 @@
 package org.medcep.integracao.taiga;
 
 import java.sql.*;
+import java.text.*;
 import java.util.*;
 
 import javax.persistence.*;
@@ -1676,8 +1677,8 @@ public class TaigaIntegrator
 
 	ProcessoPadrao processoScrum = this.criarProcessoPadraoScrumMedCEP();
 
-	scrum.setNome("Projeto Scrum " + projeto.getNome());
-	scrum.setDescricao("Projeto Scrum " + projeto.getNome());
+	scrum.setNome("Processo de Software Scrum do Projeto " + projeto.getNome());
+	scrum.setDescricao("Processo de Software Scrum do Projeto" + projeto.getNome());
 
 	//Obtem as atividades de projeto 
 	List<AtividadeProjeto> atividades = this.criarAtividadesProjetoScrumMedCEP(projeto);
@@ -1873,8 +1874,10 @@ public class TaigaIntegrator
 	TipoDeEntidadeMensuravel tipoOcorrenciaAtividade = typedQuery2.getSingleResult();
 
 	OcorrenciaAtividade ocorrencia = new OcorrenciaAtividade();
-	String timestamp = new Timestamp(System.currentTimeMillis()).toString();
-	ocorrencia.setNome(nome + " - " + timestamp);
+	Timestamp timestamp = new Timestamp(System.currentTimeMillis());  
+	String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());  
+	
+	ocorrencia.setNome(nome + " - " + dataHora);
 	ocorrencia.setAtividadeProjetoOcorrida(atividadeOcorrida);
 	ocorrencia.setTipoDeEntidadeMensuravel(tipoOcorrenciaAtividade);
 
@@ -1903,6 +1906,74 @@ public class TaigaIntegrator
 
 		String query = String.format("SELECT a FROM OcorrenciaAtividade a WHERE a.nome='%s'", ocorrencia.getNome());
 		TypedQuery<OcorrenciaAtividade> typedQuery = manager.createQuery(query, OcorrenciaAtividade.class);
+
+		ocorrencia = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return ocorrencia;
+    }
+    
+    /**
+     * Cria uma Ocorrência de Processo de Software.
+     * @param nome - Nome da Ocorrência. Será concatenado com Timestamp.
+     * @param nomeProcessoProjetoOcorrido - Nome do Processo de Projeto ocorrido.
+     * @return Ocorrência do Processo de Software criada.
+     * @throws Exception
+     */
+    public OcorrenciaProcesso criarOcorrenciaProcesso(String nome, String nomeProcessoProjetoOcorrido) throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+
+	String query1 = "SELECT e FROM ProcessoProjeto e WHERE e.nome='" + nomeProcessoProjetoOcorrido + "'";
+	TypedQuery<ProcessoProjeto> typedQuery1 = manager.createQuery(query1, ProcessoProjeto.class);
+	ProcessoProjeto processoOcorrido = typedQuery1.getSingleResult();
+
+	String query2 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Ocorrência de Processo de Software'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery2 = manager.createQuery(query2, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoOcorrenciaProcesso = typedQuery2.getSingleResult();
+
+	OcorrenciaProcesso ocorrencia = new OcorrenciaProcesso();
+	Timestamp timestamp = new Timestamp(System.currentTimeMillis());  
+	String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());  
+	
+	ocorrencia.setNome(nome + " - " + dataHora);
+	ocorrencia.setProcessoProjetoOcorrido(processoOcorrido);
+	ocorrencia.setTipoDeEntidadeMensuravel(tipoOcorrenciaProcesso);
+
+	//Persiste.	
+	try
+	{
+	    if (!manager.isOpen())
+		manager = XPersistence.createManager();
+
+	    manager.getTransaction().begin();
+	    manager.persist(ocorrencia);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    manager.close();
+	    manager = XPersistence.createManager();
+
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	    {
+		System.out.println(String.format("A Ocorrência de Processo de Software %s já existe.", ocorrencia.getNome()));
+
+		String query = String.format("SELECT a FROM OcorrenciaProcesso a WHERE a.nome='%s'", ocorrencia.getNome());
+		TypedQuery<OcorrenciaProcesso> typedQuery = manager.createQuery(query, OcorrenciaProcesso.class);
 
 		ocorrencia = typedQuery.getSingleResult();
 	    }

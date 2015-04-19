@@ -377,6 +377,23 @@ public class TaigaIntegratorTest
 	
 	assertNotNull(ocorrencia);	
     }
+    
+    @Test
+    public void testCriarOcorrenciaProcesso() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
+	
+	ProcessoProjeto processo = integrator.criarProcessoProjetoScrumMedCEP(projeto);
+		
+	assertNotNull(processo);
+	
+	String nome = processo.getNome();
+	
+	OcorrenciaProcesso ocorrencia = integrator.criarOcorrenciaProcesso("Ocorrência do Processo " + nome, nome);
+	
+	assertNotNull(ocorrencia);	
+    }
 
     private void dump(Object object)
     {
