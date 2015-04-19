@@ -33,7 +33,6 @@ import org.openxava.annotations.*;
 	@View(members = "nome, data;"
 		+ "descricao;"
 		+ "medida;"
-		+ "objetivoDeMedicao;"
 		+ "Medição {"
 		+ "momentoDeMedicao;"
 		+ "periodicidadeDeMedicao;"
