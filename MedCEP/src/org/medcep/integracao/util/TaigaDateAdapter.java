@@ -5,7 +5,7 @@ import java.util.*;
 
 import javax.xml.bind.annotation.adapters.*;
 
-public class DateAdapter extends XmlAdapter<String, Date> {
+public class TaigaDateAdapter extends XmlAdapter<String, Date> {
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'SSSS");
 

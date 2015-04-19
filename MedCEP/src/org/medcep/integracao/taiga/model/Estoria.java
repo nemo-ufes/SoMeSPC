@@ -17,11 +17,11 @@ public class Estoria
     private String descricao;
 
     @XmlElement(name = "created_date")
-    @XmlJavaTypeAdapter(DateAdapter.class)
+    @XmlJavaTypeAdapter(TaigaDateAdapter.class)
     private Date dataCriacao;
 
     @XmlElement(name = "finish_date")
-    @XmlJavaTypeAdapter(DateAdapter.class)
+    @XmlJavaTypeAdapter(TaigaDateAdapter.class)
     private Date dataFim;
 
     @XmlElement(name = "is_archived")

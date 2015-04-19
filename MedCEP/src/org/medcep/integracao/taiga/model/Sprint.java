@@ -26,11 +26,11 @@ public class Sprint
     private int idProjeto;
 
     @XmlElement(name = "estimated_start")
-    @XmlJavaTypeAdapter(SimpleDateAdapter.class)
+    @XmlJavaTypeAdapter(TaigaSimpleDateAdapter.class)
     private Date dataInicio;
 
     @XmlElement(name = "estimated_finish")
-    @XmlJavaTypeAdapter(SimpleDateAdapter.class)
+    @XmlJavaTypeAdapter(TaigaSimpleDateAdapter.class)
     private Date dataFim;
 
     @XmlElement(name = "closed_points")

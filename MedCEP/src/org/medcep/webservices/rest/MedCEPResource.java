@@ -32,6 +32,7 @@ import org.hibernate.exception.*;
 import org.medcep.model.medicao.*;
 import org.medcep.model.processo.*;
 import org.medcep.webservices.rest.dto.*;
+import org.medcep.webservices.rest.exceptions.*;
 import org.openxava.jpa.*;
 
 /**
@@ -68,10 +69,18 @@ public class MedCEPResource
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
 
-	String query1 = "SELECT e FROM ProcessoProjeto e WHERE e.nome='" + ocorrenciaDto.getNomeProcessoOcorrido() + "'";
-	TypedQuery<ProcessoProjeto> typedQuery1 = manager.createQuery(query1, ProcessoProjeto.class);
-	ProcessoProjeto processoOcorrido = typedQuery1.getSingleResult();
-
+	ProcessoProjeto processoOcorrido;
+	try
+	{
+	    String query1 = "SELECT e FROM ProcessoProjeto e WHERE e.nome='" + ocorrenciaDto.getNomeProcessoOcorrido() + "'";
+	    TypedQuery<ProcessoProjeto> typedQuery1 = manager.createQuery(query1, ProcessoProjeto.class);
+	    processoOcorrido = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException("Processo Ocorrido não encontrada.");
+	}
+	
 	String query2 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Ocorrência de Processo de Software'";
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery2 = manager.createQuery(query2, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoOcorrenciaProcesso = typedQuery2.getSingleResult();
@@ -93,12 +102,12 @@ public class MedCEPResource
 	    manager.getTransaction().begin();
 	    manager.persist(ocorrencia);
 	    manager.getTransaction().commit();
-	    
+
 	    OcorrenciaDTO dto = new OcorrenciaDTO();
 	    dto.setId(ocorrencia.getId());
 	    dto.setNomeOcorrencia(ocorrencia.getNome());
-	    dto.setNomeProcessoOcorrido(ocorrencia.getProcessoProjetoOcorrido().getNome());	   
-	    
+	    dto.setNomeProcessoOcorrido(ocorrencia.getProcessoProjetoOcorrido().getNome());
+
 	    URI location = new URI(String.format("%s/%s", uriInfo.getAbsolutePath().toString(), ocorrencia.getId()));
 	    response = Response.created(location).entity(dto).build();
 	}
@@ -130,6 +139,7 @@ public class MedCEPResource
 
     /**
      * Obtem a Ocorrência de Processo.
+     * 
      * @param id
      * @return OcorrenciaProcesso
      * @throws Exception
@@ -146,22 +156,26 @@ public class MedCEPResource
 	if (id == null || id == 0)
 	    response = Response.status(Status.BAD_REQUEST).build();
 
-	OcorrenciaProcesso ocorrencia = manager.find(OcorrenciaProcesso.class, id);
+	OcorrenciaProcesso ocorrencia;
 
-	if (ocorrencia == null)
-	    response = Response.status(Status.NOT_FOUND).build();
-	else
+	try
 	{
-	    OcorrenciaDTO dto = new OcorrenciaDTO();
-	    dto.setId(id);
-	    dto.setNomeOcorrencia(ocorrencia.getNome());
-	    dto.setNomeProcessoOcorrido(ocorrencia.getProcessoProjetoOcorrido().getNome());
-	    response = Response.status(Status.OK).entity(dto).build();
+	    ocorrencia = manager.find(OcorrenciaProcesso.class, id);
 	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException("Ocorrência de Processo com ID " + id + " não encontrada.");
+	}
+
+	OcorrenciaDTO dto = new OcorrenciaDTO();
+	dto.setId(id);
+	dto.setNomeOcorrencia(ocorrencia.getNome());
+	dto.setNomeProcessoOcorrido(ocorrencia.getProcessoProjetoOcorrido().getNome());
+	response = Response.status(Status.OK).entity(dto).build();
 
 	return response;
     }
-    
+
     /**
      * Cria uma ocorrência de atividade.
      * 
@@ -185,9 +199,18 @@ public class MedCEPResource
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
 
-	String query1 = "SELECT e FROM AtividadeProjeto e WHERE e.nome='" + ocorrenciaDto.getNomeAtividadeOcorrida() + "'";
-	TypedQuery<AtividadeProjeto> typedQuery1 = manager.createQuery(query1, AtividadeProjeto.class);
-	AtividadeProjeto atividadeOcorrida = typedQuery1.getSingleResult();
+	AtividadeProjeto atividadeOcorrida;
+
+	try
+	{
+	    String query1 = "SELECT e FROM AtividadeProjeto e WHERE e.nome='" + ocorrenciaDto.getNomeAtividadeOcorrida() + "'";
+	    TypedQuery<AtividadeProjeto> typedQuery1 = manager.createQuery(query1, AtividadeProjeto.class);
+	    atividadeOcorrida = typedQuery1.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException("Atividade Ocorrida não encontrada.");
+	}
 
 	String query2 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Ocorrência de Atividade'";
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery2 = manager.createQuery(query2, TipoDeEntidadeMensuravel.class);
@@ -207,7 +230,7 @@ public class MedCEPResource
 	    manager.getTransaction().begin();
 	    manager.persist(ocorrencia);
 	    manager.getTransaction().commit();
-	    
+
 	    OcorrenciaDTO dto = new OcorrenciaDTO();
 	    dto.setId(ocorrencia.getId());
 	    dto.setNomeOcorrencia(ocorrencia.getNome());
@@ -239,7 +262,9 @@ public class MedCEPResource
 
     /**
      * Obtem a Ocorrência de Atividade
-     * @param id - Id da Ocorrência de Atividade.
+     * 
+     * @param id
+     *            - Id da Ocorrência de Atividade.
      * @return OcorrenciaAtividade
      * @throws Exception
      */
@@ -255,18 +280,98 @@ public class MedCEPResource
 	if (id == null || id == 0)
 	    response = Response.status(Status.BAD_REQUEST).build();
 
-	OcorrenciaAtividade ocorrencia = manager.find(OcorrenciaAtividade.class, id);
+	OcorrenciaAtividade ocorrencia;
 
-	if (ocorrencia == null)
-	    response = Response.status(Status.NOT_FOUND).build();
-	else
+	try
 	{
-	    OcorrenciaDTO dto = new OcorrenciaDTO();
-	    dto.setId(id);
-	    dto.setNomeOcorrencia(ocorrencia.getNome());
-	    dto.setNomeAtividadeOcorrida(ocorrencia.getAtividadeProjetoOcorrida().getNome());
-	    response = Response.status(Status.OK).entity(dto).build();
+	    ocorrencia = manager.find(OcorrenciaAtividade.class, id);
 	}
+	catch (Exception ex)
+	{
+	    throw new EntidadeNaoEncontradaException("Ocorrência de Atividade com ID " + id + " não encontrada.");
+	}
+
+	OcorrenciaDTO dto = new OcorrenciaDTO();
+	dto.setId(id);
+	dto.setNomeOcorrencia(ocorrencia.getNome());
+	dto.setNomeAtividadeOcorrida(ocorrencia.getAtividadeProjetoOcorrida().getNome());
+	response = Response.status(Status.OK).entity(dto).build();
+
+	return response;
+    }
+
+    @Path("DefinicaoOperacionalMedida")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response criarDefinicaoOperacionalMedida(DefinicaoOperacionalMedidaDTO dto) throws Exception
+    {
+	Response response = null;
+	EntityManager manager = XPersistence.createManager();
+
+	/*
+	 * if (dto == null || ocorrenciaDto.getNomeOcorrencia().isEmpty() || ocorrenciaDto.getNomeProcessoOcorrido().isEmpty())
+	 * {
+	 * response = Response.status(Status.BAD_REQUEST).build();
+	 * }
+	 * 
+	 * String query1 = "SELECT e FROM ProcessoProjeto e WHERE e.nome='" + ocorrenciaDto.getNomeProcessoOcorrido() + "'";
+	 * TypedQuery<ProcessoProjeto> typedQuery1 = manager.createQuery(query1, ProcessoProjeto.class);
+	 * ProcessoProjeto processoOcorrido = typedQuery1.getSingleResult();
+	 * 
+	 * String query2 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Ocorrência de Processo de Software'";
+	 * TypedQuery<TipoDeEntidadeMensuravel> typedQuery2 = manager.createQuery(query2, TipoDeEntidadeMensuravel.class);
+	 * TipoDeEntidadeMensuravel tipoOcorrenciaProcesso = typedQuery2.getSingleResult();
+	 * 
+	 * OcorrenciaProcesso ocorrencia = new OcorrenciaProcesso();
+	 * Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	 * String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
+	 * 
+	 * ocorrencia.setNome(ocorrenciaDto.getNomeOcorrencia() + " - " + dataHora);
+	 * ocorrencia.setProcessoProjetoOcorrido(processoOcorrido);
+	 * ocorrencia.setTipoDeEntidadeMensuravel(tipoOcorrenciaProcesso);
+	 * 
+	 * //Persiste.
+	 * try
+	 * {
+	 * if (!manager.isOpen())
+	 * manager = XPersistence.createManager();
+	 * 
+	 * manager.getTransaction().begin();
+	 * manager.persist(ocorrencia);
+	 * manager.getTransaction().commit();
+	 * 
+	 * OcorrenciaDTO dto = new OcorrenciaDTO();
+	 * dto.setId(ocorrencia.getId());
+	 * dto.setNomeOcorrencia(ocorrencia.getNome());
+	 * dto.setNomeProcessoOcorrido(ocorrencia.getProcessoProjetoOcorrido().getNome());
+	 * 
+	 * URI location = new URI(String.format("%s/%s", uriInfo.getAbsolutePath().toString(), ocorrencia.getId()));
+	 * response = Response.created(location).entity(dto).build();
+	 * }
+	 * catch (Exception ex)
+	 * {
+	 * if (manager.getTransaction().isActive())
+	 * manager.getTransaction().rollback();
+	 * 
+	 * manager.close();
+	 * manager = XPersistence.createManager();
+	 * 
+	 * if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+	 * (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	 * {
+	 * response = Response.status(Status.CONFLICT).build();
+	 * }
+	 * else
+	 * {
+	 * throw ex;
+	 * }
+	 * }
+	 * finally
+	 * {
+	 * manager.close();
+	 * }
+	 */
 
 	return response;
     }

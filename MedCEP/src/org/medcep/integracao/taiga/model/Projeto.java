@@ -31,7 +31,7 @@ public class Projeto
     private List<Membro> membros;
 
     @XmlElement(name = "created_date")
-    @XmlJavaTypeAdapter(DateAdapter.class)
+    @XmlJavaTypeAdapter(TaigaDateAdapter.class)
     private Date dataCriacao;
 
     public int getId()
