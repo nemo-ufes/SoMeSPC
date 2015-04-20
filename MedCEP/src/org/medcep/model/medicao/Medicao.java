@@ -78,7 +78,7 @@ public class Medicao implements Comparable<Medicao>
     @Required
     @NoCreate
     @ReferenceView("Simple")
-    @SearchAction("Medicao.searchEntidadeMensuravel")
+    //@SearchAction("Medicao.searchEntidadeMensuravel")
     private EntidadeMensuravel entidadeMensuravel;
 
     @ManyToOne

@@ -378,7 +378,16 @@ public class TaigaIntegratorTest
 	
 	assertNotNull(processo);
     }  
-
+    
+    @Test
+    public void testCriarPlanoMedicaoMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	
+	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+	integrator.criarPlanoMedicaoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), null);	
+    }  
+    
     private void dump(Object object)
     {
 	XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
