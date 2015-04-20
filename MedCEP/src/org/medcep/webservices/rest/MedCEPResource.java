@@ -125,7 +125,7 @@ public class MedCEPResource
 	manager.close();
 	return response;
     }
-
+  
     /**
      * Obtem os objetivos de software.
      * 
@@ -153,14 +153,12 @@ public class MedCEPResource
 	    for (ObjetivoDeSoftware obj : result)
 	    {
 		ObjetivoSoftwareDTO dto = new ObjetivoSoftwareDTO();
-		dto.setObjetivosEstrategicos(new ArrayList<ObjetivoEstrategicoDTO>());
+		dto.setObjetivosEstrategicos(new ArrayList<String>());
 		dto.setNome(obj.getNome());
 
 		for (ObjetivoEstrategico objEstrategico : obj.getObjetivoEstrategico())
 		{
-		    ObjetivoEstrategicoDTO objetivoEstrategicoDto = new ObjetivoEstrategicoDTO();
-		    objetivoEstrategicoDto.setNome(objEstrategico.getNome());
-		    dto.getObjetivosEstrategicos().add(objetivoEstrategicoDto);
+		    dto.getObjetivosEstrategicos().add(objEstrategico.getNome());
 		}
 
 		listaDto.add(dto);
@@ -200,34 +198,18 @@ public class MedCEPResource
 	    for (ObjetivoDeMedicao obj : result)
 	    {
 		ObjetivoMedicaoDTO dto = new ObjetivoMedicaoDTO();
-		dto.setObjetivosEstrategicos(new ArrayList<ObjetivoEstrategicoDTO>());
-		dto.setObjetivosSoftware(new ArrayList<ObjetivoSoftwareDTO>());
+		dto.setObjetivosEstrategicos(new ArrayList<String>());
+		dto.setObjetivosSoftware(new ArrayList<String>());
 		dto.setNome(obj.getNome());
 
 		for (ObjetivoEstrategico objEstrategico : obj.getObjetivoEstrategico())
 		{
-		    ObjetivoEstrategicoDTO objetivoEstrategicoDto = new ObjetivoEstrategicoDTO();
-		    objetivoEstrategicoDto.setNome(objEstrategico.getNome());
-		    dto.getObjetivosEstrategicos().add(objetivoEstrategicoDto);
+		    dto.getObjetivosEstrategicos().add(objEstrategico.getNome());
 		}
 
 		for (ObjetivoDeSoftware objSoftware : obj.getObjetivoDeSoftware())
-		{
-		    TypedQuery<ObjetivoEstrategico> queryOE = manager.createQuery("SELECT oe FROM ObjetivoEstrategico oe JOIN oe.objetivoDeSoftware os WHERE os.id=" + objSoftware.getId(), ObjetivoEstrategico.class);
-		    List<ObjetivoEstrategico> resultOE = queryOE.getResultList();
-
-		    ObjetivoSoftwareDTO objetivoSoftwareDto = new ObjetivoSoftwareDTO();
-		    objetivoSoftwareDto.setObjetivosEstrategicos(new ArrayList<ObjetivoEstrategicoDTO>());
-		    objetivoSoftwareDto.setNome(objSoftware.getNome());
-
-		    for (ObjetivoEstrategico objEstrategico : resultOE)
-		    {
-			ObjetivoEstrategicoDTO objetivoEstrategicoDto = new ObjetivoEstrategicoDTO();
-			objetivoEstrategicoDto.setNome(objEstrategico.getNome());
-			objetivoSoftwareDto.getObjetivosEstrategicos().add(objetivoEstrategicoDto);
-		    }
-		    
-		    dto.getObjetivosSoftware().add(objetivoSoftwareDto);
+		{   
+		    dto.getObjetivosSoftware().add(objSoftware.getNome());
 		}
 
 		listaDto.add(dto);

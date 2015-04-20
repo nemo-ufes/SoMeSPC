@@ -12,10 +12,10 @@ public class ObjetivoMedicaoDTO
     private String nome;
 
     @XmlElement(name = "objetivos_estrategicos")
-    private List<ObjetivoEstrategicoDTO> objetivosEstrategicos;
+    private List<String> objetivosEstrategicos;
 
     @XmlElement(name = "objetivos_software")
-    private List<ObjetivoSoftwareDTO> objetivosSoftware;
+    private List<String> objetivosSoftware;
 
     public String getNome()
     {
@@ -27,22 +27,22 @@ public class ObjetivoMedicaoDTO
 	this.nome = nome;
     }
 
-    public List<ObjetivoEstrategicoDTO> getObjetivosEstrategicos()
+    public List<String> getObjetivosEstrategicos()
     {
 	return objetivosEstrategicos;
     }
 
-    public void setObjetivosEstrategicos(List<ObjetivoEstrategicoDTO> objetivosEstrategicos)
+    public void setObjetivosEstrategicos(List<String> objetivosEstrategicos)
     {
 	this.objetivosEstrategicos = objetivosEstrategicos;
     }
 
-    public List<ObjetivoSoftwareDTO> getObjetivosSoftware()
+    public List<String> getObjetivosSoftware()
     {
 	return objetivosSoftware;
     }
 
-    public void setObjetivosSoftware(List<ObjetivoSoftwareDTO> objetivosSoftware)
+    public void setObjetivosSoftware(List<String> objetivosSoftware)
     {
 	this.objetivosSoftware = objetivosSoftware;
     }
