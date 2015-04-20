@@ -52,6 +52,7 @@ public class MedCEPResource
 
     /**
      * Obtem as periodicidades.
+     * 
      * @return
      * @throws Exception
      */
@@ -62,8 +63,9 @@ public class MedCEPResource
     public Response obterPeriodicidades() throws Exception
     {
 	Response response;
+	EntityManager manager = XPersistence.createManager();
 
-	TypedQuery<Periodicidade> query = XPersistence.getManager().createQuery("FROM Periodicidade", Periodicidade.class);
+	TypedQuery<Periodicidade> query = manager.createQuery("FROM Periodicidade", Periodicidade.class);
 	List<Periodicidade> result = query.getResultList();
 
 	if (result == null)
@@ -71,20 +73,174 @@ public class MedCEPResource
 	else
 	{
 	    List<PeriodicidadeDTO> listaDto = new ArrayList<PeriodicidadeDTO>();
-	    
+
 	    for (Periodicidade periodicidade : result)
 	    {
 		PeriodicidadeDTO p = new PeriodicidadeDTO();
-		p.setNome(periodicidade.getNome());		
+		p.setNome(periodicidade.getNome());
 		listaDto.add(p);
 	    }
-	    
-	    response = Response.status(Status.OK).entity(listaDto).build();	    
+
+	    response = Response.status(Status.OK).entity(listaDto).build();
 	}
+
+	manager.close();
+	return response;
+    }
+
+    /**
+     * Obtem os objetivos estrategicos.
+     * 
+     * @return
+     * @throws Exception
+     */
+    @Path("ObjetivoEstrategico")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterObjetivosEstrategicos() throws Exception
+    {
+	Response response;
+	EntityManager manager = XPersistence.createManager();
+
+	TypedQuery<ObjetivoEstrategico> query = manager.createQuery("FROM ObjetivoEstrategico", ObjetivoEstrategico.class);
+	List<ObjetivoEstrategico> result = query.getResultList();
+
+	if (result == null)
+	    response = Response.status(Status.NOT_FOUND).build();
+	else
+	{
+	    List<ObjetivoEstrategicoDTO> listaDto = new ArrayList<ObjetivoEstrategicoDTO>();
+
+	    for (ObjetivoEstrategico obj : result)
+	    {
+		ObjetivoEstrategicoDTO o = new ObjetivoEstrategicoDTO();
+		o.setNome(obj.getNome());
+		listaDto.add(o);
+	    }
+
+	    response = Response.status(Status.OK).entity(listaDto).build();
+	}
+
+	manager.close();
+	return response;
+    }
+
+    /**
+     * Obtem os objetivos de software.
+     * 
+     * @return
+     * @throws Exception
+     */
+    @Path("ObjetivoSoftware")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterObjetivosSoftware() throws Exception
+    {
+	Response response;
+	EntityManager manager = XPersistence.createManager();
+
+	TypedQuery<ObjetivoDeSoftware> query = manager.createQuery("FROM ObjetivoDeSoftware", ObjetivoDeSoftware.class);
+	List<ObjetivoDeSoftware> result = query.getResultList();
+
+	if (result == null)
+	    response = Response.status(Status.NOT_FOUND).build();
+	else
+	{
+	    List<ObjetivoSoftwareDTO> listaDto = new ArrayList<ObjetivoSoftwareDTO>();
+
+	    for (ObjetivoDeSoftware obj : result)
+	    {
+		ObjetivoSoftwareDTO dto = new ObjetivoSoftwareDTO();
+		dto.setObjetivosEstrategicos(new ArrayList<ObjetivoEstrategicoDTO>());
+		dto.setNome(obj.getNome());
+
+		for (ObjetivoEstrategico objEstrategico : obj.getObjetivoEstrategico())
+		{
+		    ObjetivoEstrategicoDTO objetivoEstrategicoDto = new ObjetivoEstrategicoDTO();
+		    objetivoEstrategicoDto.setNome(objEstrategico.getNome());
+		    dto.getObjetivosEstrategicos().add(objetivoEstrategicoDto);
+		}
+
+		listaDto.add(dto);
+	    }
+
+	    response = Response.status(Status.OK).entity(listaDto).build();
+	}
+
+	manager.close();
+	return response;
+    }
+
+    /**
+     * Obtem os objetivos de medição.
+     * 
+     * @return
+     * @throws Exception
+     */
+    @Path("ObjetivoMedicao")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterObjetivosMedicao() throws Exception
+    {
+	Response response;
+	EntityManager manager = XPersistence.createManager();
+
+	TypedQuery<ObjetivoDeMedicao> query = manager.createQuery("FROM ObjetivoDeMedicao", ObjetivoDeMedicao.class);
+	List<ObjetivoDeMedicao> result = query.getResultList();
+
+	if (result == null)
+	    response = Response.status(Status.NOT_FOUND).build();
+	else
+	{
+	    List<ObjetivoMedicaoDTO> listaDto = new ArrayList<ObjetivoMedicaoDTO>();
+
+	    for (ObjetivoDeMedicao obj : result)
+	    {
+		ObjetivoMedicaoDTO dto = new ObjetivoMedicaoDTO();
+		dto.setObjetivosEstrategicos(new ArrayList<ObjetivoEstrategicoDTO>());
+		dto.setObjetivosSoftware(new ArrayList<ObjetivoSoftwareDTO>());
+		dto.setNome(obj.getNome());
+
+		for (ObjetivoEstrategico objEstrategico : obj.getObjetivoEstrategico())
+		{
+		    ObjetivoEstrategicoDTO objetivoEstrategicoDto = new ObjetivoEstrategicoDTO();
+		    objetivoEstrategicoDto.setNome(objEstrategico.getNome());
+		    dto.getObjetivosEstrategicos().add(objetivoEstrategicoDto);
+		}
+
+		for (ObjetivoDeSoftware objSoftware : obj.getObjetivoDeSoftware())
+		{
+		    TypedQuery<ObjetivoEstrategico> queryOE = manager.createQuery("SELECT oe FROM ObjetivoEstrategico oe JOIN oe.objetivoDeSoftware os WHERE os.id=" + objSoftware.getId(), ObjetivoEstrategico.class);
+		    List<ObjetivoEstrategico> resultOE = queryOE.getResultList();
+
+		    ObjetivoSoftwareDTO objetivoSoftwareDto = new ObjetivoSoftwareDTO();
+		    objetivoSoftwareDto.setObjetivosEstrategicos(new ArrayList<ObjetivoEstrategicoDTO>());
+		    objetivoSoftwareDto.setNome(objSoftware.getNome());
+
+		    for (ObjetivoEstrategico objEstrategico : resultOE)
+		    {
+			ObjetivoEstrategicoDTO objetivoEstrategicoDto = new ObjetivoEstrategicoDTO();
+			objetivoEstrategicoDto.setNome(objEstrategico.getNome());
+			objetivoSoftwareDto.getObjetivosEstrategicos().add(objetivoEstrategicoDto);
+		    }
+		    
+		    dto.getObjetivosSoftware().add(objetivoSoftwareDto);
+		}
+
+		listaDto.add(dto);
+	    }
+
+	    response = Response.status(Status.OK).entity(listaDto).build();
+	}
+
+	manager.close();
 
 	return response;
     }
-    
+
     /**
      * Cria uma ocorrência de processo.
      * 
@@ -118,7 +274,7 @@ public class MedCEPResource
 	{
 	    throw new EntidadeNaoEncontradaException("Processo Ocorrido não encontrada.");
 	}
-	
+
 	String query2 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Ocorrência de Processo de Software'";
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery2 = manager.createQuery(query2, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoOcorrenciaProcesso = typedQuery2.getSingleResult();
@@ -340,6 +496,7 @@ public class MedCEPResource
 
     /**
      * Cria uma definição operacional de medida.
+     * 
      * @param dto
      * @return
      * @throws Exception
@@ -370,7 +527,7 @@ public class MedCEPResource
 	{
 	    throw new EntidadeNaoEncontradaException(String.format("Medida %s não encontrada.", dto.getNomeMedida()));
 	}
-	
+
 	//Medição.
 	AtividadePadrao momentoMedicao;
 
@@ -384,7 +541,7 @@ public class MedCEPResource
 	{
 	    throw new EntidadeNaoEncontradaException(String.format("Momento de Medição %s não encontrado.", dto.getMomentoMedicao()));
 	}
-	
+
 	Periodicidade periodicidadeMedicao;
 
 	try
@@ -397,7 +554,7 @@ public class MedCEPResource
 	{
 	    throw new EntidadeNaoEncontradaException(String.format("Periodicidade de Medição %s não encontrada.", dto.getPeriodicidadeMedicao()));
 	}
-	
+
 	PapelRecursoHumano papelResponsavelMedicao;
 
 	try
@@ -437,7 +594,7 @@ public class MedCEPResource
 	{
 	    throw new EntidadeNaoEncontradaException(String.format("Momento da Análise da Medição %s não encontrado.", dto.getMomentoAnalise()));
 	}
-	
+
 	Periodicidade periodicidadeAnalise;
 
 	try
@@ -450,7 +607,7 @@ public class MedCEPResource
 	{
 	    throw new EntidadeNaoEncontradaException(String.format("Periodicidade da Análise da Medição %s não encontrada.", dto.getPeriodicidadeAnalise()));
 	}
-	
+
 	PapelRecursoHumano papelResponsavelAnalise;
 
 	try
@@ -476,9 +633,9 @@ public class MedCEPResource
 	{
 	    throw new EntidadeNaoEncontradaException(String.format("Procedimento de Análise de Medição %s não encontrado.", dto.getNomeProcedimentoAnalise()));
 	}
-	
+
 	DefinicaoOperacionalDeMedida definicao = new DefinicaoOperacionalDeMedida();
-	
+
 	definicao.setNome(dto.getNome());
 	definicao.setData(dto.getData());
 	definicao.setDescricao(dto.getDescricao());
@@ -491,8 +648,7 @@ public class MedCEPResource
 	definicao.setPeriodicidadeDeAnaliseDeMedicao(periodicidadeAnalise);
 	definicao.setResponsavelPelaAnaliseDeMedicao(papelResponsavelAnalise);
 	definicao.setProcedimentoDeAnaliseDeMedicao(procedimentoAnalise);
-		
-	
+
 	//Persiste.	
 	try
 	{
@@ -501,7 +657,7 @@ public class MedCEPResource
 	    manager.getTransaction().commit();
 
 	    DefinicaoOperacionalMedidaDTO definicaoDto = new DefinicaoOperacionalMedidaDTO();
-	    
+
 	    definicaoDto.setId(definicao.getId());
 	    definicaoDto.setData(definicao.getData());
 	    definicaoDto.setDescricao(definicao.getDescricao());
@@ -514,7 +670,7 @@ public class MedCEPResource
 	    definicaoDto.setPeriodicidadeAnalise(definicao.getPeriodicidadeDeAnaliseDeMedicao().getNome());
 	    definicaoDto.setPapelResponsavelAnalise(definicao.getResponsavelPelaAnaliseDeMedicao().getNome());
 	    definicaoDto.setNomeProcedimentoAnalise(definicao.getProcedimentoDeAnaliseDeMedicao().getNome());
-	    
+
 	    URI location = new URI(String.format("%s/%s", uriInfo.getAbsolutePath().toString(), definicao.getId()));
 	    response = Response.created(location).entity(definicaoDto).build();
 	}
@@ -539,6 +695,4 @@ public class MedCEPResource
 	return response;
     }
 
-    
-    
 }
