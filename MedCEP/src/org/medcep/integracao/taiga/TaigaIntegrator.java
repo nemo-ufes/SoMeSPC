@@ -786,6 +786,9 @@ public class TaigaIntegrator
      */
     public List<Medida> criarMedidasMedCEP(List<MedidasTaiga> medidasTaiga) throws Exception
     {
+
+	this.criarAtividadesPadraoScrumMedCEP();
+
 	EntityManager manager = XPersistence.createManager();
 	List<Medida> medidasCadastradas = new ArrayList<Medida>();
 
@@ -2062,20 +2065,13 @@ public class TaigaIntegrator
 	objMedicao.setNome("Monitorar os projetos de software ágeis");
 	objMedicao.setObjetivoEstrategico(Arrays.asList(objEstrategico));
 
-	TreeItemPlanoMedicaoBase objEstrategicoTreeBase = new TreeItemPlanoMedicaoBase();
-	objEstrategicoTreeBase.setNome(objEstrategico.getNome());
-
-	TreeItemPlanoMedicaoBase objMedicaoTreeBase = new TreeItemPlanoMedicaoBase();
-	objMedicaoTreeBase.setNome(objMedicao.getNome());
-
 	TreeItemPlanoMedicao objEstrategicoTree = new TreeItemPlanoMedicao();
-	objEstrategicoTree.setNome("OE - " + objEstrategicoTreeBase.getNome());
-	objEstrategicoTree.setItem(objEstrategicoTreeBase);
-	objEstrategicoTree.setPath("''");
+	objEstrategicoTree.setNome("OE - " + objEstrategico.getNome());
+	objEstrategicoTree.setItem(objEstrategico);
 
 	TreeItemPlanoMedicao objMedicaoTree = new TreeItemPlanoMedicao();
-	objMedicaoTree.setNome("OM - " + objMedicaoTreeBase.getNome());
-	objMedicaoTree.setItem(objMedicaoTreeBase);
+	objMedicaoTree.setNome("OM - " + objMedicao.getNome());
+	objMedicaoTree.setItem(objMedicao);
 
 	//Persiste o Objetivo Estratégico e Objetivo de Medição (tree e tree base também).	
 	try
@@ -2084,18 +2080,13 @@ public class TaigaIntegrator
 		manager = XPersistence.createManager();
 
 	    manager.getTransaction().begin();
+	    
 	    manager.persist(objEstrategico);
-	    manager.persist(objMedicao);
-
-	    objEstrategicoTreeBase.setId(objEstrategico.getId());
-	    objMedicaoTreeBase.setId(objMedicao.getId());
-
-	    manager.persist(objEstrategicoTreeBase);
-	    manager.persist(objMedicaoTreeBase);
+	    manager.persist(objMedicao);	   
 	    manager.persist(objEstrategicoTree);
 	    objMedicaoTree.setPath("/" + objEstrategicoTree.getId());
-
 	    manager.persist(objMedicaoTree);
+	    
 	    manager.getTransaction().commit();
 
 	}
@@ -2110,11 +2101,11 @@ public class TaigaIntegrator
 	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 	    {
-		String query = String.format("SELECT p FROM TreeItemPlanoMedicaoBase p WHERE p.nome='%s'", objEstrategicoTreeBase.getNome());
-		TypedQuery<TreeItemPlanoMedicaoBase> typedQuery = manager.createQuery(query, TreeItemPlanoMedicaoBase.class);
+		String query = String.format("SELECT p FROM ObjetivoEstrategico p WHERE p.nome='%s'", objEstrategico.getNome());
+		TypedQuery<ObjetivoEstrategico> typedQuery = manager.createQuery(query, ObjetivoEstrategico.class);
 
-		String query2 = String.format("SELECT p FROM TreeItemPlanoMedicaoBase p WHERE p.nome='%s'", objMedicaoTreeBase.getNome());
-		TypedQuery<TreeItemPlanoMedicaoBase> typedQuery2 = manager.createQuery(query2, TreeItemPlanoMedicaoBase.class);
+		String query2 = String.format("SELECT p FROM ObjetivoDeMedicao p WHERE p.nome='%s'", objMedicao.getNome());
+		TypedQuery<ObjetivoDeMedicao> typedQuery2 = manager.createQuery(query2, ObjetivoDeMedicao.class);
 
 		String query3 = String.format("SELECT p FROM TreeItemPlanoMedicao p WHERE p.nome='%s'", objEstrategicoTree.getNome());
 		TypedQuery<TreeItemPlanoMedicao> typedQuery3 = manager.createQuery(query3, TreeItemPlanoMedicao.class);
@@ -2122,8 +2113,8 @@ public class TaigaIntegrator
 		String query4 = String.format("SELECT p FROM TreeItemPlanoMedicao p WHERE p.nome='%s'", objMedicaoTree.getNome());
 		TypedQuery<TreeItemPlanoMedicao> typedQuery4 = manager.createQuery(query4, TreeItemPlanoMedicao.class);
 
-		objEstrategicoTreeBase = typedQuery.getSingleResult();
-		objMedicaoTreeBase = typedQuery2.getSingleResult();
+		objEstrategico = typedQuery.getSingleResult();
+		objMedicao = typedQuery2.getSingleResult();
 		objEstrategicoTree = typedQuery3.getSingleResult();
 		objMedicaoTree = typedQuery4.getSingleResult();
 	    }
@@ -2158,14 +2149,12 @@ public class TaigaIntegrator
 	    objetivos.add(objMedicao);
 
 	    necessidade.setIndicadoPelosObjetivos(objetivos);
-
-	    TreeItemPlanoMedicaoBase necessidadeTreeBase = new TreeItemPlanoMedicaoBase();
-	    necessidadeTreeBase.setNome("Qual o valor de " + medida.toString() + "?");
-
+	  
 	    TreeItemPlanoMedicao necessidadeTree = new TreeItemPlanoMedicao();
-	    necessidadeTree.setNome("NI - " + necessidadeTreeBase.getNome());
-	    necessidadeTree.setPath("/" + objEstrategicoTree.getId() + "/" + objMedicaoTreeBase.getId());
-
+	    necessidadeTree.setNome("NI - " + necessidade.getNome());
+	    necessidadeTree.setPath("/" + objEstrategicoTree.getId() + "/" + objMedicaoTree.getId());
+	    necessidadeTree.setItem(necessidade);
+	    
 	    //Persiste.	
 	    try
 	    {
@@ -2173,18 +2162,7 @@ public class TaigaIntegrator
 		    manager = XPersistence.createManager();
 
 		manager.getTransaction().begin();
-		manager.persist(necessidade);
-		manager.getTransaction().commit();
-
-		necessidadeTreeBase.setId(necessidade.getId());
-
-		manager.getTransaction().begin();
-		manager.persist(necessidadeTreeBase);
-		manager.getTransaction().commit();
-
-		necessidadeTree.setItem(necessidadeTreeBase);
-
-		manager.getTransaction().begin();
+		manager.persist(necessidade);	
 		manager.persist(necessidadeTree);
 		manager.getTransaction().commit();
 
@@ -2232,13 +2210,10 @@ public class TaigaIntegrator
 	    medidaPlano.setMedida(med);
 	    medidaPlano.setDefinicaoOperacionalDeMedida(defMed);
 
-	    TreeItemPlanoMedicaoBase medidaTreeBase = new TreeItemPlanoMedicaoBase();
-	    medidaTreeBase.setNome(med.getNome());
-	    medidaTreeBase.setId(med.getId());
-
 	    TreeItemPlanoMedicao medidaTree = new TreeItemPlanoMedicao();
-	    medidaTree.setNome("ME - " + medidaTreeBase.getNome());
-	    medidaTree.setPath("/" + objEstrategicoTree.getId() + "/" + objMedicaoTreeBase.getId() + "/" + necessidadeTree.getId());
+	    medidaTree.setNome("ME - " + med.getNome());
+	    medidaTree.setPath("/" + objEstrategicoTree.getId() + "/" + objMedicaoTree.getId() + "/" + necessidadeTree.getId());
+	    medidaTree.setItem(med);
 
 	    //Persiste a Medida tree e tree base.	
 	    try
@@ -2247,16 +2222,7 @@ public class TaigaIntegrator
 		    manager = XPersistence.createManager();
 
 		manager.getTransaction().begin();
-		manager.persist(medidaTreeBase);
-		manager.getTransaction().commit();
-
-		medidaTree.setItem(medidaTreeBase);
-
-		manager.getTransaction().begin();
 		manager.persist(medidaTree);
-		manager.getTransaction().commit();
-
-		manager.getTransaction().begin();
 		manager.persist(medidaPlano);
 		manager.getTransaction().commit();
 
@@ -2327,8 +2293,35 @@ public class TaigaIntegrator
 	{
 	    manager.close();
 	}
-	
+
 	//TODO: Criar plano do projeto.
-	
+	//TODO: Setar o plano de medição container nos TreeItemPlanoMedicao.
+
     }
+
+    public void teste() throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+	TreeItemPlanoMedicaoBase objEstrategicoTreeBase = new TreeItemPlanoMedicaoBase();
+	objEstrategicoTreeBase.setNome("Aumentar a qualidade dos projetos de software da organização");
+	Integer idOE = 1234;
+	objEstrategicoTreeBase.setId(idOE);
+
+	//Persiste o Objetivo Estratégico e Objetivo de Medição (tree e tree base também).	
+	try
+	{
+	    if (!manager.isOpen())
+		manager = XPersistence.createManager();
+
+	    manager.getTransaction().begin();
+	    manager.persist(objEstrategicoTreeBase);
+	    manager.getTransaction().commit();
+
+	}
+	catch (Exception ex)
+	{
+	    throw ex;
+	}
+    }
+
 }

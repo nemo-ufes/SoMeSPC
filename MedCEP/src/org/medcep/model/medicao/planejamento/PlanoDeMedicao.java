@@ -303,6 +303,16 @@ public class PlanoDeMedicao
     @PrePersist
     public void ajustes()
     {
+	
+	if (objetivoEstrategico == null)
+	    objetivoEstrategico = new ArrayList<ObjetivoEstrategico>();
+	if (objetivoDeSoftware == null)
+	    objetivoDeSoftware = new ArrayList<ObjetivoDeSoftware>();
+	if (objetivoDeMedicao == null)
+	    objetivoDeMedicao = new ArrayList<ObjetivoDeMedicao>();
+	if (necessidadeDeInformacao == null)
+	    necessidadeDeInformacao = new ArrayList<NecessidadeDeInformacao>();
+	
 	//Transpoe os objets da tree view para listas separadas
 	if (objetivoEstrategico != null)
 	    objetivoEstrategico.clear();

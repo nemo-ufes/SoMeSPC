@@ -386,7 +386,8 @@ public class TaigaIntegratorTest
 	
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
 	integrator.criarPlanoMedicaoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), null);	
-    }  
+    }     
+   
     
     private void dump(Object object)
     {
