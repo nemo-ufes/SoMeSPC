@@ -52,7 +52,19 @@
 	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
 
 	<script>
-		
+		var data = {
+			labels : [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" ],
+			datasets : [ {
+				fillColor : "#fff",
+				strokeColor : "rgba(220,220,220,1)",
+				pointColor : "rgba(220,220,220,1)",
+				pointStrokeColor : "#fff",
+				data : [ 65, 54, 30, 81, 56, 55, 40 ]
+			} ]
+		}
+		var canvas = document.getElementById("line");
+		var ctx = canvas.getContext("2d");
+		new Chart(ctx).Line(data);
 	</script>
 
 </body>
