@@ -69,7 +69,7 @@ public class Escala
     @OneToMany(mappedBy = "escala")
     private Collection<Medida> medida;
 
-    @ManyToMany
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(name = "escala_valorDeEscala", joinColumns = { @JoinColumn(name = "escala_id") }, inverseJoinColumns = { @JoinColumn(name = "valorDeEscala_id") })
     private Collection<ValorDeEscala> valorDeEscala;
 

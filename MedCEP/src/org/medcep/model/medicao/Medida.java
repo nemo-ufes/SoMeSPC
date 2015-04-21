@@ -104,7 +104,7 @@ public class Medida extends TreeItemPlanoMedicaoBase
     @SearchAction("Medida.searchElementoMensuravelForMedida")
     private ElementoMensuravel elementoMensuravel;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @DescriptionsList(descriptionProperties = "nome")
     @Required
     private Escala escala;

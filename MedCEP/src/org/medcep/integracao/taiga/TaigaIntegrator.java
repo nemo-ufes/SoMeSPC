@@ -2015,7 +2015,7 @@ public class TaigaIntegrator
     {
 	PlanoDeMedicaoDaOrganizacao plano = new PlanoDeMedicaoDaOrganizacao();
 	EntityManager manager = XPersistence.createManager();
-	
+
 	//Verifica se o plano está criado.
 	try
 	{
@@ -2028,7 +2028,7 @@ public class TaigaIntegrator
 	{
 	    this.criarMedidasMedCEP(medidasTaiga);
 	}
-	
+
 	Calendar cal = Calendar.getInstance();
 	plano.setData(cal.getTime());
 	plano.setNome("Plano de Medição da Organização (Wizard)");
@@ -2329,7 +2329,7 @@ public class TaigaIntegrator
      *            - Projeto a ser incluído no Plano de Medição do Projeto.
      * @throws Exception
      */
-    public void criarPlanoMedicaoProjetoMedCEP(List<MedidasTaiga> medidasTaiga, Projeto projeto) throws Exception
+    public PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoMedCEP(List<MedidasTaiga> medidasTaiga, Projeto projeto) throws Exception
     {
 	PlanoDeMedicaoDoProjeto plano = new PlanoDeMedicaoDoProjeto();
 	EntityManager manager = XPersistence.createManager();
@@ -2351,7 +2351,7 @@ public class TaigaIntegrator
 	    manager = XPersistence.createManager();
 
 	    //Se não existir, cria o plano da organização com todas as medidas.
-	    MedidasTaiga[] todasMedidas = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();		
+	    MedidasTaiga[] todasMedidas = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
 	    planoOrganizacao = this.criarPlanoMedicaoOrganizacaoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(todasMedidas)));
 	}
 
@@ -2384,7 +2384,7 @@ public class TaigaIntegrator
 	plano.setVersao("1");
 	plano.setDescricao("Plano de Medição da Organização criado via Wizard em " + dataHora);
 	plano.setPlanoDeMedicaoDaOrganizacao(planoOrganizacao);
-	plano.setProjeto(proj);	
+	plano.setProjeto(proj);
 
 	RecursoHumano wizard = new RecursoHumano();
 	wizard.setNome("Wizard MedCEP");
@@ -2666,6 +2666,133 @@ public class TaigaIntegrator
 	{
 	    manager.close();
 	}
+
+	return plano;
     }
 
+    /**
+     * Cria uma medição.
+     * 
+     * @param plano
+     *            - Plano da Medição.
+     * @param nomeMedida
+     *            - Nome da Medida.
+     * @param entidadeMedida
+     *            - Nome da Entidade Mensurável medida.
+     * @param valorMedido
+     *            - Valor Medido.
+     * @param momento
+     *            - Momento da medição.
+     * @throws Exception
+     */
+    public void criarMedicaoMedCEP(PlanoDeMedicaoDoProjeto plano, String nomeMedida, String entidadeMedida,
+	    String valorMedido, String momento) throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+	Medicao medicao = new Medicao();
+
+	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	medicao.setData(timestamp);
+	medicao.setPlanoDeMedicao(plano);
+
+	for (MedidaPlanoDeMedicao med : plano.getMedidaPlanoDeMedicao())
+	{
+	    if (med.getMedida().getNome().equalsIgnoreCase(nomeMedida))
+	    {
+		medicao.setMedidaPlanoDeMedicao(med);
+	    }
+	}
+
+	//Necessiario para evitar lazy load exception.
+	//medicao.getMedidaPlanoDeMedicao().getMedida().getEscala().getValorDeEscala();
+
+	String queryEntidade = String.format("SELECT p FROM EntidadeMensuravel p WHERE p.nome='%s'", entidadeMedida);
+	TypedQuery<EntidadeMensuravel> typedQueryEntidade = manager.createQuery(queryEntidade, EntidadeMensuravel.class);
+	medicao.setEntidadeMensuravel(typedQueryEntidade.getSingleResult());
+
+	String queryMomento = String.format("SELECT p FROM EntidadeMensuravel p WHERE p.nome='%s'", momento);
+	TypedQuery<EntidadeMensuravel> typedQueryMomento = manager.createQuery(queryMomento, EntidadeMensuravel.class);
+	medicao.setMomentoRealDaMedicao(typedQueryMomento.getSingleResult());
+
+	ValorNumerico valor = new ValorNumerico();
+	valor.setValorNumerico(Float.parseFloat(valorMedido));
+	valor.setValorMedido(valorMedido);
+
+	medicao.setValorMedido(valor);
+
+	RecursoHumano wizard = new RecursoHumano();
+	wizard.setNome("Wizard MedCEP");
+
+	//Persiste o Wizard como RH.	
+	try
+	{
+	    if (!manager.isOpen())
+		manager = XPersistence.createManager();
+	    String query = String.format("SELECT p FROM RecursoHumano p WHERE p.nome='%s'", wizard.getNome());
+	    TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
+
+	    wizard = typedQuery.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    manager.close();
+	    manager = XPersistence.createManager();
+
+	    manager.getTransaction().begin();
+	    manager.persist(wizard);
+	    manager.getTransaction().commit();
+
+	    throw ex;
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	medicao.setExecutorDaMedicao(wizard);
+
+	ContextoDeMedicao contexto = new ContextoDeMedicao();
+
+	//Persiste o contexto.	
+	try
+	{
+	    if (!manager.isOpen())
+		manager = XPersistence.createManager();
+
+	    String query = String.format("SELECT p FROM ContextoDeMedicao p WHERE p.descricao='%s'", contexto.getDescricao());
+	    TypedQuery<ContextoDeMedicao> typedQuery = manager.createQuery(query, ContextoDeMedicao.class);
+
+	    contexto = typedQuery.getSingleResult();
+	}
+	catch (Exception ex)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    manager.close();
+	    manager = XPersistence.createManager();
+
+	    manager.getTransaction().begin();
+	    contexto.setDescricao("Medição automática feita pelo Taiga Integrator.");
+	    manager.persist(contexto);
+	    manager.getTransaction().commit();
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	medicao.setContextoDeMedicao(contexto);
+
+	if (!manager.isOpen())
+	    manager = XPersistence.createManager();
+
+	manager.getTransaction().begin();
+	manager.persist(medicao);
+	manager.getTransaction().commit();
+
+    }
 }
