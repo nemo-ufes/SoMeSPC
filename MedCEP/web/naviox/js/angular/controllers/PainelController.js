@@ -1,20 +1,12 @@
 app.controller('PainelController', function($scope, medicaoService) {
 
-	// Dados do ChartJS
-	// $scope.labels;
-	// $scope.series;
-	// $scope.dados;
-	// $scope.colours = [ {
-	// fillColor : "#bcdb99",
-	// strokeColor : "#3d5b19",
-	// pointColor : "#3d5b19",
-	// pointStrokeColor : "#fff",
-	// } ]
-
-	// Dados do Morris
-	$scope.xLabels = function(x) {
-		return moment(x).format('L');
-	}
+	// Dados do ChartJS	 
+	 $scope.colours = [ {
+	 fillColor : "#bcdb99",
+	 strokeColor : "#3d5b19",
+	 pointColor : "#3d5b19",
+	 pointStrokeColor : "#fff",
+	 } ]
 
 	// Dados dos comboboxes
 	$scope.projetoSelecionado;
@@ -43,9 +35,17 @@ app.controller('PainelController', function($scope, medicaoService) {
 	}
 
 	$scope.obterMedicoes = function obterMedicoes() {
-		medicaoService.obterMedicoes($scope.projetoSelecionado.id,
-				$scope.medidaSelecionada.id).then(function(valores) {
-			$scope.dados = valores;
+		medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function(valores) {					
+					var dados = new Array();
+					var labels = new Array();
+					
+					for (var medicao of valores){
+							dados.push(medicao.valor_medido);
+							labels.push(medicao.data)
+						};
+			$scope.series = ['Valores Medidos'];
+			$scope.dados = [dados];
+			$scope.labels = labels;
 		});
 	}
 

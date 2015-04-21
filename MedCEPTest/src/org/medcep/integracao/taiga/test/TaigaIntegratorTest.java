@@ -415,7 +415,7 @@ public class TaigaIntegratorTest
 	PlanoDeMedicaoDoProjeto plano = integrator.criarPlanoMedicaoProjetoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), projeto);
 
 	//Cria medições.
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 30; i++)
 	{
 	    //Adiciona de hora em hora
 	    Timestamp data = new Timestamp(System.currentTimeMillis() + i * 60 * 60 * 1000);
