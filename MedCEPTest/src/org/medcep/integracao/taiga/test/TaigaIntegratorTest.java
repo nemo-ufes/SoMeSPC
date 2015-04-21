@@ -419,17 +419,20 @@ public class TaigaIntegratorTest
     public void testCriarVariasMedicoesMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	//Projeto projeto = integrator.obterProjetoTaiga("paulossjunior-lifebox");
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
+	
+	//integrator.criarProjetoMedCEP(projeto);
 
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
 	PlanoDeMedicaoDoProjeto plano = integrator.criarPlanoMedicaoProjetoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), projeto);
 
-	//Cria 30 medições.
-	for (int i = 0; i < 30; i++)
+	//Cria medições.
+	for (int i = 0; i < 10; i++)
 	{
 	    //Espera 2 segundos...
 	    Thread.sleep(2000);
-	    integrator.criarMedicaoMedCEP(plano, MedidasTaiga.TOTAL_ESTORIAS_SPRINT.toString(), "Sprint 17 do Projeto Sincap",
+	    integrator.criarMedicaoMedCEP(plano, MedidasTaiga.PONTOS_FECHADOS_PROJETO.toString(), "Sprint 17 do Projeto Sincap",
 		    String.valueOf(Math.round(Math.random() * 100)), "Sprint 17 do Projeto Sincap");
 	}
 

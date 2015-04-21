@@ -492,7 +492,7 @@ public class MedCEPResource
     {
 	Response response;
 
-	if (idEntidade == 0 ||  idMedidaPlano == 0 || idProjeto == 0 )
+	if (idEntidade == 0 || idMedidaPlano == 0 || idProjeto == 0)
 	{
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
@@ -502,9 +502,9 @@ public class MedCEPResource
 	    EntityManager manager = XPersistence.createManager();
 
 	    TypedQuery<Medicao> query = manager.createQuery(String.format("Select m FROM Medicao m "
-	    	+ "WHERE m.entidadeMensuravel.id = %d "
-	    	+ "AND m.medidaPlanoDeMedicao.id = %d "
-	    	+ "AND m.projeto.id = %d", idEntidade, idMedidaPlano, idProjeto), Medicao.class);
+		    + "WHERE m.entidadeMensuravel.id = %d "
+		    + "AND m.medidaPlanoDeMedicao.id = %d "
+		    + "AND m.projeto.id = %d", idEntidade, idMedidaPlano, idProjeto), Medicao.class);
 	    List<Medicao> result = query.getResultList();
 
 	    if (result == null)
@@ -530,6 +530,105 @@ public class MedCEPResource
 	    manager.close();
 	}
 
+	return response;
+    }
+
+    /**
+     * Obtem os projetos que das medições.
+     * @return Projetos das medições.
+     * @throws Exception
+     */
+    @Path("Medicao/Projeto")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterProjetosComMedicoes() throws Exception
+    {
+	Response response;
+
+	EntityManager manager = XPersistence.createManager();
+
+	TypedQuery<Projeto> query = manager.createQuery(
+		"Select distinct(m.projeto) FROM Medicao m "
+		, Projeto.class);
+	List<Projeto> result = query.getResultList();
+
+	if (result == null)
+	    response = Response.status(Status.NOT_FOUND).build();
+	else
+	{
+	    List<ProjetoDTO> listaDto = new ArrayList<ProjetoDTO>();
+
+	    for (Projeto proj : result)
+	    {
+		ProjetoDTO dto = new ProjetoDTO();
+
+		dto.setId(proj.getId());
+		dto.setNome(proj.getNome());
+
+		listaDto.add(dto);
+	    }
+
+	    response = Response.status(Status.OK).entity(listaDto).build();
+	}
+
+	manager.close();
+
+	return response;
+    }
+
+    /**
+     * Obtém as medidas das medições por projeto (QueryParam).
+     * @param idProjeto - Id do projeto para buscar as medidas.
+     * @return Medidas das medições do projeto informado.
+     * @throws Exception
+     */
+    @Path("Medicao/Medida")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterMedidasDasMedicoesPorProjeto(@QueryParam("projeto") int idProjeto) throws Exception
+    {
+	Response response;
+
+	if (idProjeto == 0)
+	{
+	    response = Response.status(Status.BAD_REQUEST).build();
+	}
+
+	else
+	{
+
+	    EntityManager manager = XPersistence.createManager();
+
+	    TypedQuery<Medida> query = manager.createQuery(
+		    "Select distinct(m.medidaPlanoDeMedicao.medida) "
+		    + "FROM Medicao m "
+		    + "WHERE m.projeto.id = " + idProjeto
+		    , Medida.class);
+	    List<Medida> result = query.getResultList();
+
+	    if (result == null)
+		response = Response.status(Status.NOT_FOUND).build();
+	    else
+	    {
+		List<MedidaDTO> listaDto = new ArrayList<MedidaDTO>();
+
+		for (Medida med : result)
+		{
+		    MedidaDTO dto = new MedidaDTO();
+
+		    dto.setId(med.getId());
+		    dto.setNome(med.getNome());
+
+		    listaDto.add(dto);
+		}
+
+		response = Response.status(Status.OK).entity(listaDto).build();
+	    }
+
+	    manager.close();
+	}
 	return response;
     }
 
