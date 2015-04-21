@@ -32,6 +32,7 @@ import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.medicao.*;
+import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.model.processo.*;
 
@@ -356,39 +357,50 @@ public class TaigaIntegratorTest
 
 	assertNotNull(artefatos);
     }
-   
+
     @Test
     public void testCriarAtividadesProjetoMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
-	
+
 	List<AtividadeProjeto> atividades = integrator.criarAtividadesProjetoScrumMedCEP(projeto);
-	
+
 	assertNotNull(atividades);
     }
-    
+
     @Test
     public void testCriarProcessoProjetoScrumMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
-	
+
 	ProcessoProjeto processo = integrator.criarProcessoProjetoScrumMedCEP(projeto);
-	
+
 	assertNotNull(processo);
-    }  
-    
+    }
+
     @Test
-    public void testCriarPlanoMedicaoMedCEP() throws Exception
+    public void testCriarPlanoMedicaoOrganizacaoMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+
+	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+	PlanoDeMedicaoDaOrganizacao plano = integrator.criarPlanoMedicaoOrganizacaoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
+
+	assertNotNull(plano);
+    }
+
+    @Test
+    public void testCriarPlanoMedicaoProjetoMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 	
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-	integrator.criarPlanoMedicaoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), null);	
-    }     
-   
-    
+	integrator.criarPlanoMedicaoProjetoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), projeto);
+    }
+
     private void dump(Object object)
     {
 	XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
