@@ -1,11 +1,44 @@
 //URL da API da MedCEP
 var url = 'http://localhost:8080/MedCEP/api/';
 
-app.factory('MedCEP', function($http) {
-		return $http.get(url + 'Medicao?entidade=2433&medida=6284&projeto=1671')
-		 .success(function(data) {
-			 return data;
-		 }).error(function(err) {
-			 return err;
-		 });  
-  });
+app.service("medicaoService", function($http, $q) {
+
+	return ({
+		obterProjetos : obterProjetos,
+		obterMedidas : obterMedidas
+	});
+
+	function obterProjetos() {
+
+		var request = $http({
+			method : "get",
+			url : url + "Medicao/Projeto",
+			params : {}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
+
+	function obterMedidas(idProjeto) {
+
+		var request = $http({
+			method : "get",
+			url : url + "Medicao/Medida",
+			params : {
+				projeto : idProjeto
+			}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
+
+	function handleError(response) {
+		if (!angular.isObject(response.data) || !response.data.message) {
+			return ($q.reject("Ocorreu um erro."));
+		}
+		return ($q.reject(response.data.message));
+	}
+
+	function handleSuccess(response) {
+		return (response.data);
+	}
+
+});
