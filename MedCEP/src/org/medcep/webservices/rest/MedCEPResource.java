@@ -125,7 +125,7 @@ public class MedCEPResource
 	manager.close();
 	return response;
     }
-  
+
     /**
      * Obtem os objetivos de software.
      * 
@@ -208,7 +208,7 @@ public class MedCEPResource
 		}
 
 		for (ObjetivoDeSoftware objSoftware : obj.getObjetivoDeSoftware())
-		{   
+		{
 		    dto.getObjetivosSoftware().add(objSoftware.getNome());
 		}
 
@@ -472,6 +472,63 @@ public class MedCEPResource
 	dto.setNomeOcorrencia(ocorrencia.getNome());
 	dto.setNomeAtividadeOcorrida(ocorrencia.getAtividadeProjetoOcorrida().getNome());
 	response = Response.status(Status.OK).entity(dto).build();
+
+	return response;
+    }
+
+    /**
+     * Obtem as medicoes.
+     * 
+     * @return
+     * @throws Exception
+     */
+    @Path("Medicao")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterMedicoes(@QueryParam("entidade") int idEntidade,
+	    @QueryParam("medida") int idMedidaPlano,
+	    @QueryParam("projeto") int idProjeto) throws Exception
+    {
+	Response response;
+
+	if (idEntidade == 0 ||  idMedidaPlano == 0 || idProjeto == 0 )
+	{
+	    response = Response.status(Status.BAD_REQUEST).build();
+	}
+	else
+	{
+
+	    EntityManager manager = XPersistence.createManager();
+
+	    TypedQuery<Medicao> query = manager.createQuery(String.format("Select m FROM Medicao m "
+	    	+ "WHERE m.entidadeMensuravel.id = %d "
+	    	+ "AND m.medidaPlanoDeMedicao.id = %d "
+	    	+ "AND m.projeto.id = %d", idEntidade, idMedidaPlano, idProjeto), Medicao.class);
+	    List<Medicao> result = query.getResultList();
+
+	    if (result == null)
+		response = Response.status(Status.NOT_FOUND).build();
+	    else
+	    {
+		List<MedicaoDTO> listaDto = new ArrayList<MedicaoDTO>();
+
+		for (Medicao medicao : result)
+		{
+		    MedicaoDTO dto = new MedicaoDTO();
+
+		    dto.setId(medicao.getId());
+		    dto.setData(medicao.getData());
+		    dto.setValorMedido(medicao.getValorMedido().getValorMedido());
+
+		    listaDto.add(dto);
+		}
+
+		response = Response.status(Status.OK).entity(listaDto).build();
+	    }
+
+	    manager.close();
+	}
 
 	return response;
     }

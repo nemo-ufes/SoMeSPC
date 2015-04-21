@@ -2755,6 +2755,7 @@ public class TaigaIntegrator
 	medicao.setExecutorDaMedicao(wizard);
 
 	ContextoDeMedicao contexto = new ContextoDeMedicao();
+	contexto.setDescricao("Medição automática feita pelo Taiga Integrator.");
 
 	//Persiste o contexto.	
 	try
@@ -2776,7 +2777,6 @@ public class TaigaIntegrator
 	    manager = XPersistence.createManager();
 
 	    manager.getTransaction().begin();
-	    contexto.setDescricao("Medição automática feita pelo Taiga Integrator.");
 	    manager.persist(contexto);
 	    manager.getTransaction().commit();
 	}

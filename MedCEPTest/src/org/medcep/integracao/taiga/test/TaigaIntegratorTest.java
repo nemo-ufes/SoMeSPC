@@ -427,6 +427,8 @@ public class TaigaIntegratorTest
 	//Cria 30 medições.
 	for (int i = 0; i < 30; i++)
 	{
+	    //Espera 2 segundos...
+	    Thread.sleep(2000);
 	    integrator.criarMedicaoMedCEP(plano, MedidasTaiga.TOTAL_ESTORIAS_SPRINT.toString(), "Sprint 17 do Projeto Sincap",
 		    String.valueOf(Math.round(Math.random() * 100)), "Sprint 17 do Projeto Sincap");
 	}
