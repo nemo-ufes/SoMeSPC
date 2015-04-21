@@ -27,24 +27,16 @@
 
 			<div class="col-md-3">
 
-				<label for="selectProjeto">Projeto:</label> <select class="form-control" id="selectProjeto">
-					<option ng-repeat="projeto in projetos">{{projeto.nome}}</option>
-					
-				</select> <label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida">
-					<option ng-repeat="medida in medidas">{{medida.nome}}</option>
+				<label for="selectProjeto">Projeto:</label> <select class="form-control" id="selectProjeto" ng-model="projetoSelecionado" ng-options="projetos[projetos.indexOf(projeto)].nome  for projeto in projetos">
 				</select>
 
-				<%--
-				<div class="dropdown">
-					<button class="btn btn-default dropdown-toggle" type="button" id="menuProjetos" data-toggle="dropdown">
-						Projeto... <span class="caret"></span>
-					</button>
-
-					<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-						<li role="presentation" ng-repeat="projeto in projetos"><a role="menuitem" ng-click="$parent.current = projeto" tabindex="-1" href="#">{{projeto.nome}}</a></li>
-					</ul>
+				<div>
+					<p>ID do Projeto: {{projetoSelecionado.id}}</p>
 				</div>
-				 --%>
+
+				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida">
+					<option ng-repeat="medida in medidas">{{medida.nome}}</option>
+				</select>
 			</div>
 
 

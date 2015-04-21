@@ -1,5 +1,7 @@
 app.controller('PainelController', function($scope, medicaoService) {
-
+	
+	$scope.projetoSelecionado;
+	
 	carregarProjetos();
 	carregarMedidas();
 	
