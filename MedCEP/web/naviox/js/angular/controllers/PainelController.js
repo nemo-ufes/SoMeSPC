@@ -3,7 +3,6 @@ app.controller('PainelController', function($scope, medicaoService) {
 	$scope.projetoSelecionado;
 	
 	carregarProjetos();
-	carregarMedidas();
 	
 	function carregarProjetos() {
 		medicaoService.obterProjetos().then(function(projetos) {
@@ -11,8 +10,8 @@ app.controller('PainelController', function($scope, medicaoService) {
 		});
 	}
 	
-	function carregarMedidas() {
-		medicaoService.obterMedidas(1671).then(function(medidas) {
+	$scope.obterMedidas = function obterMedidas() {
+		medicaoService.obterMedidas($scope.projetoSelecionado.id).then(function(medidas) {
 			$scope.medidas = medidas;
 		});
 	}
