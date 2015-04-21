@@ -535,6 +535,7 @@ public class MedCEPResource
 
     /**
      * Obtem os projetos que das medições.
+     * 
      * @return Projetos das medições.
      * @throws Exception
      */
@@ -579,7 +580,9 @@ public class MedCEPResource
 
     /**
      * Obtém as medidas das medições por projeto (QueryParam).
-     * @param idProjeto - Id do projeto para buscar as medidas.
+     * 
+     * @param idProjeto
+     *            - Id do projeto para buscar as medidas.
      * @return Medidas das medições do projeto informado.
      * @throws Exception
      */
@@ -603,8 +606,8 @@ public class MedCEPResource
 
 	    TypedQuery<Medida> query = manager.createQuery(
 		    "Select distinct(m.medidaPlanoDeMedicao.medida) "
-		    + "FROM Medicao m "
-		    + "WHERE m.projeto.id = " + idProjeto
+			    + "FROM Medicao m "
+			    + "WHERE m.projeto.id = " + idProjeto
 		    , Medida.class);
 	    List<Medida> result = query.getResultList();
 
@@ -622,6 +625,59 @@ public class MedCEPResource
 		    dto.setNome(med.getNome());
 
 		    listaDto.add(dto);
+		}
+
+		response = Response.status(Status.OK).entity(listaDto).build();
+	    }
+
+	    manager.close();
+	}
+	return response;
+    }
+
+    /**
+     * Obtém as medidas das medições por projeto (QueryParam).
+     * 
+     * @param idProjeto
+     *            - Id do projeto para buscar as medidas.
+     * @return Medidas das medições do projeto informado.
+     * @throws Exception
+     */
+    @Path("Medicao/Valor")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterValorMedicoesPorMedidaEProjeto(@QueryParam("projeto") int idProjeto, @QueryParam("medida") int idMedida) throws Exception
+    {
+	Response response;
+
+	if (idProjeto == 0)
+	{
+	    response = Response.status(Status.BAD_REQUEST).build();
+	}
+
+	else
+	{
+
+	    EntityManager manager = XPersistence.createManager();
+
+	    TypedQuery<String> query = manager.createQuery(
+		    "Select m.valorMedido.valorMedido "
+			    + "FROM Medicao m "
+			    + "WHERE m.projeto.id = " + idProjeto + " "
+			    + "AND m.medidaPlanoDeMedicao.medida.id = " + idMedida
+		    , String.class);
+	    List<String> result = query.getResultList();
+
+	    if (result == null)
+		response = Response.status(Status.NOT_FOUND).build();
+	    else
+	    {
+		List<Integer> listaDto = new ArrayList<Integer>();
+
+		for (String valor : result)
+		{
+		    listaDto.add(Integer.valueOf(valor));
 		}
 
 		response = Response.status(Status.OK).entity(listaDto).build();
