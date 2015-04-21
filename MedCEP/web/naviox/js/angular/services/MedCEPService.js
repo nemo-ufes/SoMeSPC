@@ -33,13 +33,15 @@ app.service("medicaoService", function($http, $q) {
 		return (request.then(handleSuccess, handleError));
 	}
 
-	function obterMedicoes(idProjeto, idMedida) {
+	function obterMedicoes(idProjeto, idMedida, inicio, quantidade) {
 		var request = $http({
 			method : "get",
 			url : url + "Medicao",
 			params : {
 				projeto : idProjeto,
-				medida : idMedida
+				medida : idMedida,
+				inicio : inicio,
+				quantidade: quantidade		
 			}
 		});
 		return (request.then(handleSuccess, handleError));

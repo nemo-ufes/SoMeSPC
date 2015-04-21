@@ -33,7 +33,7 @@
 					<p>ID do Projeto: {{projetoSelecionado.id}}</p>
 				</div>
 
-				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes()">
+				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoesIniciais()">
 				</select>
 
 				<div>
@@ -45,6 +45,14 @@
 			<div class="col-md-9">
 				<canvas id="line" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
 				</canvas>
+
+				<nav>
+					<ul class="pager">
+						<li class="previous"><button class="btn btn-primary" ng-click="obterMedicoesAnteriores()">Anteriores</button></li>
+						<li class="next"><button class="btn btn-primary" ng-click="obterProximasMedicoes()">Proximas</button></li>
+					</ul>
+				</nav>
+
 			</div>
 
 		</div>

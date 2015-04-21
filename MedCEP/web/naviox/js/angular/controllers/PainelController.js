@@ -1,6 +1,6 @@
 app.controller('PainelController', function($scope, medicaoService) {
 
-	// Dados do ChartJS	 
+	// Dados do ChartJS
 	 $scope.colours = [ {
 	 fillColor : "#bcdb99",
 	 strokeColor : "#3d5b19",
@@ -8,6 +8,10 @@ app.controller('PainelController', function($scope, medicaoService) {
 	 pointStrokeColor : "#fff",
 	 } ]
 
+	// Paginação
+	$scope.inicio = 0;
+	$scope.quantidade = 10; 
+	 
 	// Dados dos comboboxes
 	$scope.projetoSelecionado;
 	$scope.medidaSelecionada;
@@ -33,9 +37,26 @@ app.controller('PainelController', function($scope, medicaoService) {
 					$scope.medidas = medidas;
 				});
 	}
+	
+	$scope.obterMedicoesIniciais = function () {
+		$scope.inicio = 0;
+		
+		medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, $scope.inicio, $scope.quantidade).then(function(valores) {					
+					var dados = new Array();
+					var labels = new Array();
+					
+					for (var medicao of valores){
+							dados.push(medicao.valor_medido);
+							labels.push(medicao.data)
+						};
+			$scope.series = ['Valores Medidos'];
+			$scope.dados = [dados];
+			$scope.labels = labels;						
+		});
+	}
 
-	$scope.obterMedicoes = function obterMedicoes() {
-		medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function(valores) {					
+	$scope.obterProximasMedicoes = function () {
+		medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, $scope.inicio, $scope.quantidade).then(function(valores) {					
 					var dados = new Array();
 					var labels = new Array();
 					
@@ -46,7 +67,27 @@ app.controller('PainelController', function($scope, medicaoService) {
 			$scope.series = ['Valores Medidos'];
 			$scope.dados = [dados];
 			$scope.labels = labels;
+			$scope.inicio = $scope.inicio + $scope.quantidade;
 		});
+	}
+	
+
+	$scope.obterMedicoesAnteriores = function () {
+		if ($scope.inicio > 0) {
+				medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, $scope.inicio, $scope.quantidade).then(function(valores) {					
+				var dados = new Array();
+				var labels = new Array();
+					
+				for (var medicao of valores){
+						dados.push(medicao.valor_medido);
+						labels.push(medicao.data)
+						};
+			$scope.series = ['Valores Medidos'];
+			$scope.dados = [dados];
+			$scope.labels = labels;
+			$scope.inicio = $scope.inicio - $scope.quantidade;
+		});
+	}
 	}
 
 });
