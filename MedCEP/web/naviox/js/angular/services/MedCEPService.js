@@ -6,7 +6,9 @@ app.service("medicaoService", function($http, $q) {
 	return ({
 		obterProjetos : obterProjetos,
 		obterMedidas : obterMedidas,
-		obterValoresMedicao: obterValoresMedicao
+		obterMedicoes : obterMedicoes,
+		obterValoresMedicao : obterValoresMedicao,
+		obterDataHoraMedicao : obterDataHoraMedicao
 	});
 
 	function obterProjetos() {
@@ -30,7 +32,19 @@ app.service("medicaoService", function($http, $q) {
 		});
 		return (request.then(handleSuccess, handleError));
 	}
-	
+
+	function obterMedicoes(idProjeto, idMedida) {
+		var request = $http({
+			method : "get",
+			url : url + "Medicao",
+			params : {
+				projeto : idProjeto,
+				medida : idMedida
+			}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
+
 	function obterValoresMedicao(idProjeto, idMedida) {
 
 		var request = $http({
@@ -44,6 +58,18 @@ app.service("medicaoService", function($http, $q) {
 		return (request.then(handleSuccess, handleError));
 	}
 
+	function obterDataHoraMedicao(idProjeto, idMedida) {
+
+		var request = $http({
+			method : "get",
+			url : url + "Medicao/DataHora",
+			params : {
+				projeto : idProjeto,
+				medida : idMedida
+			}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
 
 	function handleError(response) {
 		if (!angular.isObject(response.data) || !response.data.message) {

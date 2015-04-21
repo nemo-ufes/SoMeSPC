@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.adapters.*;
 
 public class DataHoraAdapter extends XmlAdapter<String, Date> {
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public String marshal(Date v) throws Exception {

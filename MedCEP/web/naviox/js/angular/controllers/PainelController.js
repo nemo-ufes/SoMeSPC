@@ -1,16 +1,20 @@
 app.controller('PainelController', function($scope, medicaoService) {
 
 	// Dados do ChartJS
-	$scope.labels = [ "January", "February", "March", "April", "May", "June",
-			"July" ];
-	$scope.series = [ 'Series A' ];
-	$scope.data = [ [ 65, 59, 80, 81, 56, 55, 40 ] ];
-	$scope.colours = [ {
-		fillColor : "#bcdb99",
-		strokeColor : "#3d5b19",
-		pointColor : "#3d5b19",
-		pointStrokeColor : "#fff",
-	} ]
+	// $scope.labels;
+	// $scope.series;
+	// $scope.dados;
+	// $scope.colours = [ {
+	// fillColor : "#bcdb99",
+	// strokeColor : "#3d5b19",
+	// pointColor : "#3d5b19",
+	// pointStrokeColor : "#fff",
+	// } ]
+
+	// Dados do Morris
+	$scope.xLabels = function(x) {
+		return moment(x).format('L');
+	}
 
 	// Dados dos comboboxes
 	$scope.projetoSelecionado;
@@ -26,6 +30,9 @@ app.controller('PainelController', function($scope, medicaoService) {
 	}
 
 	$scope.obterMedidas = function obterMedidas() {
+
+		$scope.series = $scope.projetoSelecionado.nome;
+
 		// Reset na medida selecionada.
 		$scope.medidaSelecionada = null;
 
@@ -35,10 +42,10 @@ app.controller('PainelController', function($scope, medicaoService) {
 				});
 	}
 
-	$scope.obterValoresMedicao = function obterValoresMedicao() {
-		medicaoService.obterValoresMedicao($scope.projetoSelecionado.id,
+	$scope.obterMedicoes = function obterMedicoes() {
+		medicaoService.obterMedicoes($scope.projetoSelecionado.id,
 				$scope.medidaSelecionada.id).then(function(valores) {
-			$scope.data = valores;
+			$scope.dados = valores;
 		});
 	}
 

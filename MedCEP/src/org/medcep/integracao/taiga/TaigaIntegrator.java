@@ -2673,26 +2673,15 @@ public class TaigaIntegrator
     /**
      * Cria uma medição.
      * 
-     * @param plano
-     *            - Plano da Medição.
-     * @param nomeMedida
-     *            - Nome da Medida.
-     * @param entidadeMedida
-     *            - Nome da Entidade Mensurável medida.
-     * @param valorMedido
-     *            - Valor Medido.
-     * @param momento
-     *            - Momento da medição.
      * @throws Exception
      */
-    public void criarMedicaoMedCEP(PlanoDeMedicaoDoProjeto plano, String nomeMedida, String entidadeMedida,
+    public void criarMedicaoMedCEP(PlanoDeMedicaoDoProjeto plano, Timestamp data, String nomeMedida, String entidadeMedida,
 	    String valorMedido, String momento) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
 	Medicao medicao = new Medicao();
-
-	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	medicao.setData(timestamp);
+	
+	medicao.setData(data);
 	medicao.setPlanoDeMedicao(plano);
 
 	for (MedidaPlanoDeMedicao med : plano.getMedidaPlanoDeMedicao())
@@ -2702,9 +2691,6 @@ public class TaigaIntegrator
 		medicao.setMedidaPlanoDeMedicao(med);
 	    }
 	}
-
-	//Necessiario para evitar lazy load exception.
-	//medicao.getMedidaPlanoDeMedicao().getMedida().getEscala().getValorDeEscala();
 
 	String queryEntidade = String.format("SELECT p FROM EntidadeMensuravel p WHERE p.nome='%s'", entidadeMedida);
 	TypedQuery<EntidadeMensuravel> typedQueryEntidade = manager.createQuery(queryEntidade, EntidadeMensuravel.class);

@@ -1,1 +1,1 @@
-var app = angular.module('PainelApp',['ngResource', 'chart.js']);
+var app = angular.module('PainelApp',['chart.js', 'stpa.morris']);

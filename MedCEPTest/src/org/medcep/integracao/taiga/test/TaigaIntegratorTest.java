@@ -24,6 +24,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.*;
 import java.util.*;
 
 import org.junit.*;
@@ -402,26 +403,12 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarMedicaoMedCEP() throws Exception
-    {
-	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
-
-	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-	PlanoDeMedicaoDoProjeto plano = integrator.criarPlanoMedicaoProjetoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), projeto);
-
-	integrator.criarMedicaoMedCEP(plano, MedidasTaiga.TOTAL_ESTORIAS_SPRINT.toString(), "Sprint 17 do Projeto Sincap",
-		"23", "Sprint 17 do Projeto Sincap");
-
-    }
-
-    @Test
     public void testCriarVariasMedicoesMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
 	//Projeto projeto = integrator.obterProjetoTaiga("paulossjunior-lifebox");
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
-	
+
 	//integrator.criarProjetoMedCEP(projeto);
 
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
@@ -430,10 +417,11 @@ public class TaigaIntegratorTest
 	//Cria medições.
 	for (int i = 0; i < 10; i++)
 	{
-	    //Espera 2 segundos...
-	    Thread.sleep(2000);
-	    integrator.criarMedicaoMedCEP(plano, MedidasTaiga.PONTOS_FECHADOS_PROJETO.toString(), "Sprint 17 do Projeto Sincap",
-		    String.valueOf(Math.round(Math.random() * 100)), "Sprint 17 do Projeto Sincap");
+	    //Adiciona de hora em hora
+	    Timestamp data = new Timestamp(System.currentTimeMillis() + i * 60 * 60 * 1000);
+	    
+	    integrator.criarMedicaoMedCEP(plano, data, MedidasTaiga.VELOCIDADE_PROJETO.toString(), "Sprint 18 do Projeto Sincap",
+		    String.valueOf(Math.round(Math.random() * 100)), "Sprint 18 do Projeto Sincap");
 	}
 
     }

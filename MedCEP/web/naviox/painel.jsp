@@ -11,6 +11,7 @@
 <script type='text/javascript' src='js/angular/shared/angular-resource.min.js'></script>
 <script type='text/javascript' src='js/Chart.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-chart.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-morris-chart.min.js'></script>
 
 
 <title>Painel de Controle - MedCEP</title>
@@ -34,7 +35,7 @@
 					<p>ID do Projeto: {{projetoSelecionado.id}}</p>
 				</div>
 
-				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterValoresMedicao()">
+				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes()">
 				</select>
 
 				<div>
@@ -44,10 +45,16 @@
 			</div>
 
 			<div class="col-md-9">
+
+				<div line-chart line-data='dados' line-xkey='data' line-ykeys='["valor_medido"]' line-labels='["Valor Medido"]' line-colors='["#31C0BE"]' line-xLabels='xLabels'></div>
+
+
+				<%-- 
 				<canvas id="line" class="chart chart-line" data="data" labels="labels" legend="true" series="series" colours="colours" click="onClick">
 				</canvas>
+				--%>
 			</div>
-			
+
 		</div>
 	</div>
 
@@ -63,8 +70,15 @@
 	<!-- JQuery -->
 	<script type='text/javascript' src="js/jquery.js"></script>
 
+	<!-- Morris -->
+	<script type='text/javascript' src="js/raphael.min.js"></script>
+	<script type='text/javascript' src="js/morris.min.js"></script>
+
 	<!-- Bootstrap -->
 	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
+
+	<!-- Moment -->
+	<script type='text/javascript' src="js/moment.min.js"></script>
 
 </body>
 </html>

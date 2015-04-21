@@ -23,6 +23,7 @@ import java.net.*;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
+import java.util.Date;
 
 import javax.persistence.*;
 import javax.ws.rs.*;
@@ -486,13 +487,12 @@ public class MedCEPResource
     @GET
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response obterMedicoes(@QueryParam("entidade") int idEntidade,
-	    @QueryParam("medida") int idMedidaPlano,
+    public Response obterMedicoes(@QueryParam("medida") int idMedidaPlano,
 	    @QueryParam("projeto") int idProjeto) throws Exception
     {
 	Response response;
 
-	if (idEntidade == 0 || idMedidaPlano == 0 || idProjeto == 0)
+	if (idMedidaPlano == 0 || idProjeto == 0)
 	{
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
@@ -502,9 +502,8 @@ public class MedCEPResource
 	    EntityManager manager = XPersistence.createManager();
 
 	    TypedQuery<Medicao> query = manager.createQuery(String.format("Select m FROM Medicao m "
-		    + "WHERE m.entidadeMensuravel.id = %d "
-		    + "AND m.medidaPlanoDeMedicao.id = %d "
-		    + "AND m.projeto.id = %d", idEntidade, idMedidaPlano, idProjeto), Medicao.class);
+		    + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
+		    + "AND m.projeto.id = %d", idMedidaPlano, idProjeto), Medicao.class);
 	    List<Medicao> result = query.getResultList();
 
 	    if (result == null)
@@ -666,6 +665,7 @@ public class MedCEPResource
 			    + "FROM Medicao m "
 			    + "WHERE m.projeto.id = " + idProjeto + " "
 			    + "AND m.medidaPlanoDeMedicao.medida.id = " + idMedida
+			    + " ORDER BY m.id"
 		    , String.class);
 	    List<String> result = query.getResultList();
 
@@ -678,6 +678,60 @@ public class MedCEPResource
 		for (String valor : result)
 		{
 		    listaDto.add(Integer.valueOf(valor));
+		}
+
+		response = Response.status(Status.OK).entity(listaDto).build();
+	    }
+
+	    manager.close();
+	}
+	return response;
+    }
+
+    /**
+     * Obtêmc as Datas/Horas das medições pelo projeto e pela medida.
+     * 
+     * @param idProjeto
+     * @param idMedida
+     * @return
+     * @throws Exception
+     */
+    @Path("Medicao/DataHora")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterDataHoraMedicoesPorMedidaEProjeto(@QueryParam("projeto") int idProjeto, @QueryParam("medida") int idMedida) throws Exception
+    {
+	Response response;
+
+	if (idProjeto == 0)
+	{
+	    response = Response.status(Status.BAD_REQUEST).build();
+	}
+
+	else
+	{
+
+	    EntityManager manager = XPersistence.createManager();
+
+	    TypedQuery<Medicao> query = manager.createQuery(
+		    "Select m "
+			    + "FROM Medicao m "
+			    + "WHERE m.projeto.id = " + idProjeto + " "
+			    + "AND m.medidaPlanoDeMedicao.medida.id = " + idMedida
+			    + " ORDER BY m.id"
+		    , Medicao.class);
+	    List<Medicao> result = query.getResultList();
+
+	    if (result == null)
+		response = Response.status(Status.NOT_FOUND).build();
+	    else
+	    {
+		List<Date> listaDto = new ArrayList<Date>();
+
+		for (Medicao med : result)
+		{
+		    listaDto.add(med.getData());
 		}
 
 		response = Response.status(Status.OK).entity(listaDto).build();
