@@ -17,7 +17,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body ng-app="PainelApp">
+<body id="PainelApp" ng-app="PainelApp">
 
 	<div id="painel" class="container" ng-controller=PainelController>
 
@@ -34,16 +34,20 @@
 					<p>ID do Projeto: {{projetoSelecionado.id}}</p>
 				</div>
 
-				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida">
-					<option ng-repeat="medida in medidas">{{medida.nome}}</option>
+				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterValoresMedicao()">
 				</select>
-			</div>
 
+				<div>
+					<p>ID da Medida: {{medidaSelecionada.id}}</p>
+				</div>
+
+			</div>
 
 			<div class="col-md-9">
-				<canvas id="line" class="chart chart-line" data="data" labels="labels" legend="true" series="series" click="onClick"></canvas>
+				<canvas id="line" class="chart chart-line" data="data" labels="labels" legend="true" series="series" colours="colours" click="onClick">
+				</canvas>
 			</div>
-
+			
 		</div>
 	</div>
 
@@ -52,7 +56,6 @@
 
 	<!-- Controllers -->
 	<script type="text/javascript" src="js/angular/controllers/PainelController.js"></script>
-	<script type="text/javascript" src="js/angular/controllers/LineChartController.js"></script>
 
 	<!-- Services -->
 	<script type="text/javascript" src="js/angular/services/MedCEPService.js"></script>
@@ -62,22 +65,6 @@
 
 	<!-- Bootstrap -->
 	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
-
-	<script>
-		var data = {
-			labels : [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" ],
-			datasets : [ {
-				fillColor : "#fff",
-				strokeColor : "rgba(220,220,220,1)",
-				pointColor : "rgba(220,220,220,1)",
-				pointStrokeColor : "#fff",
-				data : [ 65, 54, 30, 81, 56, 55, 40 ]
-			} ]
-		}
-		var canvas = document.getElementById("line");
-		var ctx = canvas.getContext("2d");
-		new Chart(ctx).Line(data);
-	</script>
 
 </body>
 </html>

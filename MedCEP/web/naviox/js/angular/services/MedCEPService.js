@@ -5,7 +5,8 @@ app.service("medicaoService", function($http, $q) {
 
 	return ({
 		obterProjetos : obterProjetos,
-		obterMedidas : obterMedidas
+		obterMedidas : obterMedidas,
+		obterValoresMedicao: obterValoresMedicao
 	});
 
 	function obterProjetos() {
@@ -29,6 +30,20 @@ app.service("medicaoService", function($http, $q) {
 		});
 		return (request.then(handleSuccess, handleError));
 	}
+	
+	function obterValoresMedicao(idProjeto, idMedida) {
+
+		var request = $http({
+			method : "get",
+			url : url + "Medicao/Valor",
+			params : {
+				projeto : idProjeto,
+				medida : idMedida
+			}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
+
 
 	function handleError(response) {
 		if (!angular.isObject(response.data) || !response.data.message) {
