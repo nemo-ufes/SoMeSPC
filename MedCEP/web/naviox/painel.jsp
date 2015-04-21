@@ -4,23 +4,30 @@
 <meta charset="utf-8">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-<link href="style/morris.css" rel="stylesheet">
+<link href="style/angular-chart.css" rel="stylesheet">
 
 <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
 <script type='text/javascript'
 	src='js/angular/shared/angular-route.min.js'></script>
 <script type='text/javascript'
 	src='js/angular/shared/angular-resource.min.js'></script>
+<script type='text/javascript' src='js/Chart.min.js'></script>
+<script type='text/javascript'
+	src='js/angular/shared/angular-chart.min.js'></script>
 
-<title>Wizard - MedCEP</title>
+
+<title>Painel de Controle - MedCEP</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body ng-app="PainelApp">
-	<div id="painel" ng-controller="PainelController">
+	<div id="painel" class="container" ng-controller="LineChartController">
 
-		<h1>Últimas medições</h1>
+		<h1 class="text-primary text-center">Painel de Controle</h1>
 
-
-
+		<canvas id="line" class="chart chart-line" data="data" labels="labels"
+			legend="true" series="series" click="onClick">
+		</canvas>
 
 	</div>
 
@@ -31,6 +38,8 @@
 	<!-- Controllers -->
 	<script type="text/javascript"
 		src="js/angular/controllers/PainelController.js"></script>
+	<script type="text/javascript"
+		src="js/angular/controllers/LineChartController.js"></script>
 
 	<!-- Services -->
 	<script type="text/javascript"
@@ -39,12 +48,12 @@
 	<!-- JQuery -->
 	<script type='text/javascript' src="js/jquery.js"></script>
 
-	<!-- Morris (gráficos) -->
-	<script type='text/javascript' src="js/raphael-min.js"></script>
-	<script type='text/javascript' src="js/morris.min.js"></script>
-
 	<!-- Bootstrap -->
 	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
+
+	<script>
+		
+	</script>
 
 </body>
 </html>
