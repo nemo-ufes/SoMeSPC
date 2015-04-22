@@ -1,5 +1,5 @@
 app.controller('PainelController', function($scope, medicaoService) {
-	 
+
 	// Inicializacao.
 	carregarProjetos();
 	inicializar();
@@ -12,7 +12,7 @@ app.controller('PainelController', function($scope, medicaoService) {
 	
 	function inicializar(){
 		$scope.paginaAtual = 1;
-		//$scope.tamanhoPagina = 5; 
+		$scope.numPerPage = 10;
 		$scope.dados = [[0,0,0,0,0]];
 		$scope.labels = ["0","0","0","0","0"];	
 		$scope.series = ['Valores Medidos'];
@@ -22,6 +22,12 @@ app.controller('PainelController', function($scope, medicaoService) {
 			 pointColor : "#3d5b19",
 			 pointStrokeColor : "#fff",
 			 } ]
+	}
+	
+	function configurarPaginator()	{
+		medicaoService.obterTotalMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function (total) {
+			 $scope.totalItems = total;
+		});
 	}
 
 	$scope.obterMedidas = function obterMedidas() {
@@ -33,21 +39,21 @@ app.controller('PainelController', function($scope, medicaoService) {
 				});
 	}
 	
-	$scope.obterPaginas = function () {
-		if ($scope.projetoSelecionado != undefined && $scope.medidaSelecionada != undefined) {			
-			medicaoService.obterPaginas($scope.tamanhoPagina, $scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function(valores) {
-					$scope.paginas = valores;
-					
-					if ($scope.paginaAtual != 1)
-						$scope.paginaAtual = 1;					
-			});			
-			
-			$scope.obterMedicoes($scope.paginaAtual);
-		}
-	}	
+//	$scope.obterPaginas = function () {
+//		if ($scope.projetoSelecionado != undefined && $scope.medidaSelecionada != undefined) {			
+//			medicaoService.obterPaginas($scope.tamanhoPagina, $scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function(valores) {
+//					$scope.paginas = valores;
+//					
+//					if ($scope.paginaAtual != 1)
+//						$scope.paginaAtual = 1;					
+//			});			
+//			
+//			$scope.obterMedicoes($scope.paginaAtual);
+//		}
+//	}	
 	
 	$scope.obterMedicoes = function (paginaAtual) {				
-		medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, paginaAtual, $scope.tamanhoPagina).then(function(valores) {			
+		medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
 			var dados = new Array();
 			var labels = new Array();
 			
@@ -58,7 +64,9 @@ app.controller('PainelController', function($scope, medicaoService) {
 				
 			$scope.paginaAtual = paginaAtual;
 			$scope.dados = [dados];
-			$scope.labels = labels;						
+			$scope.labels = labels;			
+			
+			configurarPaginator();
 		});
 	}
 

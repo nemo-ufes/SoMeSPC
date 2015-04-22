@@ -508,6 +508,29 @@ public class MedCEPResource
 	return response;
     }
 
+    @Path("Medicao/Total")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterTotalMedicoes(
+	    @QueryParam("medida") int idMedidaPlano,
+	    @QueryParam("projeto") int idProjeto)
+    {
+	Response response;
+	EntityManager manager = XPersistence.createManager();
+
+	Query queryTotal = manager.createQuery(String.format("SELECT COUNT(*) FROM Medicao m "
+		+ "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
+		+ "AND m.projeto.id = %d", idMedidaPlano, idProjeto));
+
+	Long total = (Long) queryTotal.getSingleResult();
+
+	manager.close();
+	
+	response = Response.status(Status.OK).entity(total).build();
+	return response;
+    }
+
     /**
      * Obtem as medicoes.
      * 

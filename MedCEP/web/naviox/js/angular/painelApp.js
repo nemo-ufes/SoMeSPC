@@ -1,1 +1,1 @@
-var app = angular.module('PainelApp',['chart.js']);
+var app = angular.module('PainelApp',['chart.js', 'ui.bootstrap']);

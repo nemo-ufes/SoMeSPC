@@ -40,22 +40,27 @@
 					<p>ID da Medida: {{medidaSelecionada.id}}</p>
 				</div>
 
+				<%--
 				<label for="selectQtdeMedicoes">Quantidade de Medições:</label> <select class="form-control" id="selectQtdeMedicoes" ng-model="tamanhoPagina" ng-options="tamanhoPagina for tamanhoPagina in [5,10,25]" ng-change="obterPaginas()">
 				</select>
 				<div>
 					<p>Tamanho da Página: {{tamanhoPagina}}</p>
 				</div>
-
+ --%>
 			</div>
 
 			<div class="col-md-9">
 				<canvas id="line" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
 				</canvas>
 
+				<pagination boundary-links="true" total-items="totalItems" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
+
+
+				<%--
 				<ul class="pagination">
 					<li ng-repeat="pagina in paginas" ng-class="{'active' : pagina == paginaAtual}"><a href="#" ng-click="obterMedicoes(pagina)">{{pagina}}</a></li>
 				</ul>
-
+ --%>
 			</div>
 
 		</div>
@@ -75,6 +80,9 @@
 
 	<!-- Bootstrap -->
 	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
+
+	<!-- Paginator -->
+	<script type='text/javascript' src='js/ui-bootstrap-tpls-0.12.1.js'></script>
 
 </body>
 </html>
