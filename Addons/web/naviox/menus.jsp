@@ -12,7 +12,7 @@ border-radius: 7px;
 --%>
 
 	<ul>
-		<li id="PainelControle"><a href="<%=request.getContextPath()%>/naviox/painel.jsp"> Painel de Controle</a></li>
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/dashboard-high-16.png"}' id="PainelControle"><a href="<%=request.getContextPath()%>/naviox/painel.jsp"> Painel de Controle</a></li>
 		<li class="jstree-close">Cadastros
 			<ul>
 				<li class="jstree-close">Organização
