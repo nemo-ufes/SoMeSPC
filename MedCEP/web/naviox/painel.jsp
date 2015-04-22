@@ -1,7 +1,11 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
+
 <meta charset="utf-8">
+<link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" /> 
+
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="style/angular-chart.css" rel="stylesheet">
@@ -15,55 +19,42 @@
 <title>Painel de Controle - MedCEP</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 <body id="PainelApp" ng-app="PainelApp">
 
 	<div id="painel" class="container" ng-controller=PainelController>
 
-		<h1 class="text-primary text-center">Painel de Controle</h1>
+		<div class="panel panel-primary" style="margin-top: 20px;">
 
-		<div class="row">
-
-			<div class="col-md-3">
-
-				<label for="selectProjeto">Projeto:</label> <select class="form-control" id="selectProjeto" ng-model="projetoSelecionado" ng-options="projetos[projetos.indexOf(projeto)].nome  for projeto in projetos" ng-change="obterMedidas()">
-				</select>
-
-				<div>
-					<p>ID do Projeto: {{projetoSelecionado.id}}</p>
-				</div>
-
-				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes(1)">
-				</select>
-
-				<div>
-					<p>ID da Medida: {{medidaSelecionada.id}}</p>
-				</div>
-
-				<%--
-				<label for="selectQtdeMedicoes">Quantidade de Medições:</label> <select class="form-control" id="selectQtdeMedicoes" ng-model="tamanhoPagina" ng-options="tamanhoPagina for tamanhoPagina in [5,10,25]" ng-change="obterPaginas()">
-				</select>
-				<div>
-					<p>Tamanho da Página: {{tamanhoPagina}}</p>
-				</div>
- --%>
+			<div class="panel-heading">
+				<h1 class="panel-title text-center"><b>Painel de Controle</b></h1>
 			</div>
 
-			<div class="col-md-9">
-				<canvas id="line" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
-				</canvas>
+			<div class="row" style="margin: 20px;">
+				<div class="col-md-6">
+					<label for="selectProjeto">Projeto: {{projetoSelecionado.id}}</label> <select class="form-control" id="selectProjeto" ng-model="projetoSelecionado" ng-options="projetos[projetos.indexOf(projeto)].nome  for projeto in projetos" ng-change="obterMedidas()">
+					</select>									
+				</div>
+				<div class="col-md-6">
+					<label for="selectMedida">Medida: {{medidaSelecionada.id}}</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes(1)">
+					</select>
+				</div>
+			</div>
+			
+			<div class="row" style="margin: 20px;">
+				<div class="col-md-12">
+					<canvas id="line" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
+					</canvas>
 
-				<pagination boundary-links="true" total-items="totalItems" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
-
-
-				<%--
-				<ul class="pagination">
-					<li ng-repeat="pagina in paginas" ng-class="{'active' : pagina == paginaAtual}"><a href="#" ng-click="obterMedicoes(pagina)">{{pagina}}</a></li>
-				</ul>
- --%>
+					<div class="text-center">
+						<pagination boundary-links="true" total-items="totalItems" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
+					</div>
+				</div>
 			</div>
 
 		</div>
+
 	</div>
 
 	<!-- Modules -->

@@ -15,13 +15,19 @@ app.controller('PainelController', function($scope, medicaoService) {
 		$scope.numPerPage = 10;
 		$scope.dados = [[0,0,0,0,0]];
 		$scope.labels = ["0","0","0","0","0"];	
-		$scope.series = ['Valores Medidos'];
+		$scope.series = [''];
 		$scope.colours = [ {
-			 fillColor : "#bcdb99",
-			 strokeColor : "#3d5b19",
-			 pointColor : "#3d5b19",
-			 pointStrokeColor : "#fff",
-			 } ]
+			 	fillColor : "#d5e3ee",
+			 	strokeColor : "#3073AD",
+			 	pointColor : "#3073AD",
+			 	pointStrokeColor : "#fff",
+			 },
+			 {
+				fillColor : "#9ead8c",
+				strokeColor : "#1e2d0c",
+				pointColor : "#1e2d0c",
+				pointStrokeColor : "#fff",
+			 }]
 	}
 	
 	function configurarPaginator()	{
@@ -39,19 +45,6 @@ app.controller('PainelController', function($scope, medicaoService) {
 				});
 	}
 	
-//	$scope.obterPaginas = function () {
-//		if ($scope.projetoSelecionado != undefined && $scope.medidaSelecionada != undefined) {			
-//			medicaoService.obterPaginas($scope.tamanhoPagina, $scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function(valores) {
-//					$scope.paginas = valores;
-//					
-//					if ($scope.paginaAtual != 1)
-//						$scope.paginaAtual = 1;					
-//			});			
-//			
-//			$scope.obterMedicoes($scope.paginaAtual);
-//		}
-//	}	
-	
 	$scope.obterMedicoes = function (paginaAtual) {				
 		medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
 			var dados = new Array();
@@ -65,48 +58,10 @@ app.controller('PainelController', function($scope, medicaoService) {
 			$scope.paginaAtual = paginaAtual;
 			$scope.dados = [dados];
 			$scope.labels = labels;			
+			$scope.series = [$scope.projetoSelecionado.nome + ' / ' + $scope.medidaSelecionada.nome];
 			
 			configurarPaginator();
 		});
 	}
-
-// $scope.obterProximasMedicoes = function () {
-// medicaoService.obterMedicoes($scope.projetoSelecionado.id,
-// $scope.medidaSelecionada.id, $scope.paginaAtual,
-// $scope.tamanhoPagina).then(function(valores) {
-// var dados = new Array();
-// var labels = new Array();
-//					
-// for (var medicao of valores){
-// dados.push(medicao.valor_medido);
-// labels.push(medicao.data)
-// };
-//						
-// $scope.dados = [dados];
-// $scope.labels = labels;
-// $scope.paginaAtual = $scope.paginaAtual + 1;
-// });
-// }
-//	
-//
-// $scope.obterMedicoesAnteriores = function () {
-// if ($scope.inicio > 0) {
-// medicaoService.obterMedicoes($scope.projetoSelecionado.id,
-// $scope.medidaSelecionada.id, $scope.paginaAtual,
-// $scope.tamanhoPagina).then(function(valores) {
-// var dados = new Array();
-// var labels = new Array();
-//						
-// for (var medicao of valores){
-// dados.push(medicao.valor_medido);
-// labels.push(medicao.data)
-// };
-//							
-// $scope.dados = [dados];
-// $scope.labels = labels;
-// $scope.paginaAtual = $scope.paginaAtual - 1;
-// });
-// }
-// }
 
 });
