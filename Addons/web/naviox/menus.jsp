@@ -7,8 +7,8 @@
 --%>
 
 	<ul>
-		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/dashboard-high-16.png"}' id="PainelControle"><a href="<%=request.getContextPath()%>/naviox/painel.jsp"> Painel de Controle</a></li>
-		<li class="jstree-close">Cadastros
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/painel.png"}' id="PainelControle"><a href="<%=request.getContextPath()%>/naviox/painel.jsp"> Painel de Controle</a></li>
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/cadastros.png"}' class="jstree-close">Cadastros
 			<ul>
 				<li class="jstree-close">Organização
 					<ul>
@@ -52,10 +52,10 @@
 				</li>
 			</ul>
 		</li>
-		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/accessories-text-editor.png"}' class="jstree-close">Planejar a Medição
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' class="jstree-close">Planejar a Medição
 			<ul>
-				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/accessories-text-editor.png"}' id="PlanoDeMedicaoDaOrganizacao"><a href="<%=request.getContextPath()%>/m/PlanoDeMedicaoDaOrganizacao"> Elaborar Plano de Medição da Organização</a></li>
-				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/accessories-text-editor.png"}' id="PlanoDeMedicaoDoProjeto"><a href="<%=request.getContextPath()%>/m/PlanoDeMedicaoDoProjeto"> Elaborar Plano de Medição do Projeto</a></li>
+				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoDaOrganizacao"><a href="<%=request.getContextPath()%>/m/PlanoDeMedicaoDaOrganizacao"> Elaborar Plano de Medição da Organização</a></li>
+				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoDoProjeto"><a href="<%=request.getContextPath()%>/m/PlanoDeMedicaoDoProjeto"> Elaborar Plano de Medição do Projeto</a></li>
 			</ul>
 		</li>
 		<li class="jstree-close">Executar Medições
