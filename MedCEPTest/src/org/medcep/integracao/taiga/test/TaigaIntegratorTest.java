@@ -425,6 +425,29 @@ public class TaigaIntegratorTest
 	}
 
     }
+    
+    @Test
+    public void testCriarMedicoesSemanaisMedCEP() throws Exception
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	//Projeto projeto = integrator.obterProjetoTaiga("paulossjunior-lifebox");
+	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
+
+	//integrator.criarProjetoMedCEP(projeto);
+
+	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+	PlanoDeMedicaoDoProjeto plano = integrator.criarPlanoMedicaoProjetoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), projeto);
+
+	//Cria medições.
+	for (int i = 0; i < 30; i++)
+	{
+	    //Adiciona de hora em hora
+	    Timestamp data = new Timestamp(System.currentTimeMillis() + i * 60 * 60 * 1000);
+	    
+	    integrator.criarMedicaoMedCEP(plano, data, MedidasTaiga.VELOCIDADE_PROJETO.toString(), "Sprint 18 do Projeto Sincap",
+		    String.valueOf(Math.round(Math.random() * 100)), "Sprint 18 do Projeto Sincap");
+	}
+    }
 
     private void dump(Object object)
     {

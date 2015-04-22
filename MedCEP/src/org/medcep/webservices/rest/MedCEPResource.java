@@ -477,6 +477,37 @@ public class MedCEPResource
 	return response;
     }
 
+    @Path("Medicao/Pagina")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterPaginasMedicoes(
+	    @QueryParam("tamanhoPagina") int tamanhoPagina,
+	    @QueryParam("medida") int idMedidaPlano,
+	    @QueryParam("projeto") int idProjeto)
+    {
+	Response response;
+	EntityManager manager = XPersistence.createManager();
+
+	Query queryTotal = manager.createQuery(String.format("SELECT COUNT(*) FROM Medicao m "
+		+ "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
+		+ "AND m.projeto.id = %d", idMedidaPlano, idProjeto));
+
+	Long total = (Long) queryTotal.getSingleResult();
+
+	manager.close();
+	int ultimaPagina = (int) ((total / tamanhoPagina) + 1);
+
+	List<Integer> paginas = new ArrayList<Integer>();
+	for (int i = 1; i <= ultimaPagina; i++)
+	{
+	    paginas.add(new Integer(i));
+	}
+
+	response = Response.status(Status.OK).entity(paginas).build();
+	return response;
+    }
+
     /**
      * Obtem as medicoes.
      * 
@@ -489,8 +520,8 @@ public class MedCEPResource
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response obterMedicoes(@QueryParam("medida") int idMedidaPlano,
 	    @QueryParam("projeto") int idProjeto,
-	    @QueryParam("inicio") int inicio,
-	    @QueryParam("quantidade") int quantidade) throws Exception
+	    @QueryParam("indiceAtual") int indiceAtual,
+	    @QueryParam("tamanhoPagina") int tamanhoPagina) throws Exception
     {
 	Response response;
 
@@ -499,16 +530,16 @@ public class MedCEPResource
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
 	else
-	{	    
-	    if (quantidade == 0)
-		quantidade = 10;
-	    
+	{
 	    EntityManager manager = XPersistence.createManager();
 
 	    TypedQuery<Medicao> query = manager.createQuery(String.format("Select m FROM Medicao m "
 		    + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-		    + "AND m.projeto.id = %d ORDER BY m.data ASC", idMedidaPlano, idProjeto), Medicao.class).setFirstResult(inicio).setMaxResults(quantidade);
-	    List<Medicao> result = query.getResultList() ;
+		    + "AND m.projeto.id = %d ORDER BY m.data ASC", idMedidaPlano, idProjeto), Medicao.class)
+		    .setFirstResult(indiceAtual - 1)
+		    .setMaxResults(tamanhoPagina);
+
+	    List<Medicao> result = query.getResultList();
 
 	    if (result == null)
 		response = Response.status(Status.NOT_FOUND).build();

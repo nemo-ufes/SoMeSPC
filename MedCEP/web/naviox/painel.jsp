@@ -40,18 +40,21 @@
 					<p>ID da Medida: {{medidaSelecionada.id}}</p>
 				</div>
 
+				<label for="selectQtdeMedicoes">Quantidade de Medições:</label> <select class="form-control" id="selectQtdeMedicoes" ng-model="tamanhoPagina" ng-options="tamanhoPagina for tamanhoPagina in [5,10,25]" ng-change="obterPaginas()">
+				</select>
+				<div>
+					<p>Tamanho da Página: {{tamanhoPagina}}</p>
+				</div>
+
 			</div>
 
 			<div class="col-md-9">
 				<canvas id="line" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
 				</canvas>
 
-				<nav>
-					<ul class="pager">
-						<li class="previous"><button class="btn btn-primary" ng-click="obterMedicoesAnteriores()">Anteriores</button></li>
-						<li class="next"><button class="btn btn-primary" ng-click="obterProximasMedicoes()">Proximas</button></li>
-					</ul>
-				</nav>
+				<ul class="pagination">
+					<li ng-repeat="pagina in paginas"><a href="#">{{pagina}}</a></li>
+				</ul>
 
 			</div>
 
