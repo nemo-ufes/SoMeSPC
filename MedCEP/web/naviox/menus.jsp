@@ -58,21 +58,21 @@
 				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoDoProjeto"><a href="<%=request.getContextPath()%>/m/PlanoDeMedicaoDoProjeto"> Elaborar Plano de Medição do Projeto</a></li>
 			</ul>
 		</li>
-		<li class="jstree-close">Executar Medições
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/executar-medicoes.png"}' class="jstree-close">Executar Medições
 			<ul>
-				<li id="Medicao"><a href="<%=request.getContextPath()%>/m/Medicao"> Registrar Medição</a></li>
+				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/executar-medicoes.png"}' id="Medicao"><a href="<%=request.getContextPath()%>/m/Medicao"> Registrar Medição</a></li>
 			</ul>
 		</li>
-		<li class="jstree-close">Analisar Medições
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' class="jstree-close">Analisar Medições
 			<ul>
-				<li id="AnaliseDeMedicao"><a href="<%=request.getContextPath()%>/m/AnaliseDeMedicao">Realizar Análise Tradicional de Medições</a></li>
+				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' id="AnaliseDeMedicao"><a href="<%=request.getContextPath()%>/m/AnaliseDeMedicao">Realizar Análise Tradicional de Medições</a></li>
 			</ul>
 			<ul>
-				<li class="jstree-close">Analisar Processos
+				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' class="jstree-close">Analisar Processos
 					<ul>
-						<li id="DesempenhoDeProcessoEspecificado"><a href="<%=request.getContextPath()%>/m/DesempenhoDeProcessoEspecificado"> Registrar Desempenho Especificado para Processo</a></li>
-						<li id="AnaliseDeComportamentoDeProcesso"><a href="<%=request.getContextPath()%>/m/AnaliseDeComportamentoDeProcesso"> Analisar Comportamento de Processo</a></li>
-						<li id="BaselineDeDesempenhoDeProcesso"><a href="<%=request.getContextPath()%>/m/BaselineDeDesempenhoDeProcesso"> Modelo de Desempenho de Processo</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' id="DesempenhoDeProcessoEspecificado"><a href="<%=request.getContextPath()%>/m/DesempenhoDeProcessoEspecificado"> Registrar Desempenho Especificado para Processo</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' id="AnaliseDeComportamentoDeProcesso"><a href="<%=request.getContextPath()%>/m/AnaliseDeComportamentoDeProcesso"> Analisar Comportamento de Processo</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' id="BaselineDeDesempenhoDeProcesso"><a href="<%=request.getContextPath()%>/m/BaselineDeDesempenhoDeProcesso"> Modelo de Desempenho de Processo</a></li>
 					</ul>
 				</li>
 			</ul>
