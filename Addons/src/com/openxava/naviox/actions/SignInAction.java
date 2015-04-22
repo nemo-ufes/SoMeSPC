@@ -1,14 +1,9 @@
 package com.openxava.naviox.actions;
 
-import javax.servlet.http.*;
-
 import org.openxava.actions.*;
-import org.openxava.jpa.*;
 import org.openxava.util.*;
 
-import com.openxava.naviox.*;
 import com.openxava.naviox.impl.*;
-import com.openxava.naviox.model.*;
 
 /**
  * 
@@ -34,7 +29,7 @@ public class SignInAction extends ViewBaseAction implements IForwardAction {
 		getView().reset();
 		String originalURI = getRequest().getParameter("originalURI");
 		if (originalURI == null) {
-			forwardURI = "/";
+			forwardURI = "/naviox/painel.jsp";
 		}
 		else {
 			int idx = originalURI.indexOf("/", 1);			
@@ -42,7 +37,7 @@ public class SignInAction extends ViewBaseAction implements IForwardAction {
 				forwardURI = originalURI.substring(idx);
 			}
 			else {
-				forwardURI = "/";
+				forwardURI = "/naviox/painel.jsp";
 			}
 		}
 		forwardURI = SignInHelper.refineForwardURI(getRequest(), forwardURI); 
