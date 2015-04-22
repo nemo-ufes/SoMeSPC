@@ -499,7 +499,7 @@ public class MedCEPResource
 	int ultimaPagina = (int) ((total / tamanhoPagina) + 1);
 
 	List<Integer> paginas = new ArrayList<Integer>();
-	for (int i = 1; i <= ultimaPagina; i++)
+	for (int i = 1; i < ultimaPagina; i++)
 	{
 	    paginas.add(new Integer(i));
 	}
@@ -536,7 +536,7 @@ public class MedCEPResource
 	    TypedQuery<Medicao> query = manager.createQuery(String.format("Select m FROM Medicao m "
 		    + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
 		    + "AND m.projeto.id = %d ORDER BY m.data ASC", idMedidaPlano, idProjeto), Medicao.class)
-		    .setFirstResult(indiceAtual - 1)
+		    .setFirstResult((indiceAtual * tamanhoPagina) - tamanhoPagina)
 		    .setMaxResults(tamanhoPagina);
 
 	    List<Medicao> result = query.getResultList();

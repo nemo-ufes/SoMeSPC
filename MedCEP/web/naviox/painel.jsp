@@ -33,7 +33,7 @@
 					<p>ID do Projeto: {{projetoSelecionado.id}}</p>
 				</div>
 
-				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoesIniciais()">
+				<label for="selectMedida">Medida:</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes(1)">
 				</select>
 
 				<div>
@@ -53,7 +53,7 @@
 				</canvas>
 
 				<ul class="pagination">
-					<li ng-repeat="pagina in paginas"><a href="#">{{pagina}}</a></li>
+					<li ng-repeat="pagina in paginas" ng-class="{'active' : pagina == paginaAtual}"><a href="#" ng-click="obterMedicoes(pagina)">{{pagina}}</a></li>
 				</ul>
 
 			</div>
