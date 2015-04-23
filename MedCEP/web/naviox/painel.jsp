@@ -83,12 +83,16 @@
 							</div>
 
 							<div class="row" style="margin: 20px;">
-								<div class="col-md-6">
-									<label for="selectProjeto">Projeto: {{projetoSelecionado.id}}</label> <select class="form-control" id="selectProjeto" ng-model="projetoSelecionado" ng-options="projetos[projetos.indexOf(projeto)].nome  for projeto in projetos" ng-change="obterMedidas()">
+								<div class="col-md-5">
+									<label for="selectProjeto">Projeto</label> <select class="form-control" id="selectProjeto" ng-model="projetoSelecionado" ng-options="projetos[projetos.indexOf(projeto)].nome  for projeto in projetos" ng-change="obterMedidas()">
 									</select>
 								</div>
-								<div class="col-md-6">
-									<label for="selectMedida">Medida: {{medidaSelecionada.id}}</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes(1)">
+								<div class="col-md-5">
+									<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes(1)">
+									</select>
+								</div>
+								<div class="col-md-2">
+									<label for="selectTamanhoPagina">Qtde Medições</label> <select class="form-control" id="selectTamanhoPagina" ng-model="numPerPage" ng-options="numPerPage for numPerPage in [5,10,15,20,25,30]" ng-change="obterMedicoes(paginaAtual)">
 									</select>
 								</div>
 							</div>
@@ -97,9 +101,8 @@
 								<div class="col-md-12">
 									<canvas id="line" style="height: 500px;" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
 									</canvas>
-
 									<div class="text-center">
-										<pagination boundary-links="true" total-items="totalItems" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
+										<pagination boundary-links="true" total-items="totalItems" items-per-page="numPerPage" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
 									</div>
 								</div>
 							</div>
@@ -153,14 +156,14 @@
 			var partesUrl = window.location.href.split("/");
 			var moduloAtual = partesUrl[partesUrl.length - 1];
 
-			if (moduloAtual =='painel.jsp')
+			if (moduloAtual == 'painel.jsp')
 				$('#menu_tree').jstree('select_node', 'PainelControle');
 			else
 				$('#menu_tree').jstree('select_node', '#' + moduloAtual);
 
-			$('#menu_tree').on("changed.jstree", function(e, data) {				
-					var href = data.node.a_attr.href;
-					window.location = href;
+			$('#menu_tree').on("changed.jstree", function(e, data) {
+				var href = data.node.a_attr.href;
+				window.location = href;
 			});
 		});
 	</script>

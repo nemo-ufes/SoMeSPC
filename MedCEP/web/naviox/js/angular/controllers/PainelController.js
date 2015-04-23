@@ -12,7 +12,7 @@ app.controller('PainelController', function($scope, medicaoService) {
 	
 	function inicializar(){
 		$scope.paginaAtual = 1;
-		$scope.numPerPage = 10;
+		$scope.numPerPage = 5;
 		$scope.dados = [[0,0,0,0,0]];
 		$scope.labels = ["0","0","0","0","0"];	
 		$scope.series = [''];
@@ -30,9 +30,10 @@ app.controller('PainelController', function($scope, medicaoService) {
 			 }]
 	}
 	
-	function configurarPaginator()	{
+	$scope.configurarPaginator = function configurarPaginator(numPerPage)	{
 		medicaoService.obterTotalMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function (total) {
 			 $scope.totalItems = total;
+			 $scope.numPerPage = numPerPage;
 		});
 	}
 
@@ -60,7 +61,7 @@ app.controller('PainelController', function($scope, medicaoService) {
 			$scope.labels = labels;			
 			$scope.series = [$scope.projetoSelecionado.nome + ' / ' + $scope.medidaSelecionada.nome];
 			
-			configurarPaginator();
+			$scope.configurarPaginator($scope.numPerPage);
 		});
 	}
 
