@@ -1,4 +1,3 @@
-
 <jsp:useBean id="wizardHelper" class="org.medcep.wizard.WizardHelper"
 	scope="session" />
 
@@ -32,8 +31,8 @@
 				<br/>
 				<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="projeto in projetos">
 					<div class="col-md-1">
-						<p class="text-center">
-							<input type="checkbox" id="check" />
+						<p class="radio">
+							<input type="radio" id="check"/>
 						</p>
 					</div>
 					<div class="col-md-11" >
@@ -49,7 +48,20 @@
 
 			<h2>Medidas</h2>
 			<fieldset>
-				
+				<h2 class="text-primary text-center">Selecione as Medidas</h2>
+				<br/>
+				<div id="medidas" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="medida in medidas">
+					<div class="col-md-1">
+						<p class="radio">
+							<input type="radio" id="check"/>
+						</p>
+					</div>
+					<div class="col-md-11" >
+						<div>
+							<p><b>{{medida}}</b></p>
+						</div>
+					</div>
+				</div>
 			</fieldset>
 
 			<h2>Agendamento</h2>
