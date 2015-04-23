@@ -1,5 +1,5 @@
 # MedCEP - A powerful tool to measure
-<img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/logo.png" alt="Logo MedCEP" width="140px" height="120px"/> 
+<img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/logo_new.png" alt="Logo MedCEP" width="140px" height="120px"/> 
 <img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
 
 Ferramenta para Medição de Software e Controle Estatístico de Processos. 
