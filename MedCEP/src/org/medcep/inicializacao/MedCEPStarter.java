@@ -72,28 +72,21 @@ public class MedCEPStarter extends HttpServlet
 	    manager.close();
 	    manager = XPersistence.createManager();
 
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-	    {
-		TipoElementoMensuravel dm = new TipoElementoMensuravel();
-		TipoElementoMensuravel im = new TipoElementoMensuravel();
+	    TipoElementoMensuravel dm = new TipoElementoMensuravel();
+	    TipoElementoMensuravel im = new TipoElementoMensuravel();
 
-		dm.setNome("Elemento Diretamente Mensurável");
-		im.setNome("Elemento Indiretamente Mensurável");
-		manager.getTransaction().begin();
+	    dm.setNome("Elemento Diretamente Mensurável");
+	    im.setNome("Elemento Indiretamente Mensurável");
+	    manager.getTransaction().begin();
 
-		manager.persist(dm);
-		manager.persist(im);
-		manager.getTransaction().commit();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
+	    manager.persist(dm);
+	    manager.persist(im);
+	    manager.getTransaction().commit();
 	}
 	finally
 	{
-	    manager.close();
+	    if (manager.isOpen())
+		manager.close();
 	}
     }
 
@@ -117,58 +110,51 @@ public class MedCEPStarter extends HttpServlet
 	    manager.close();
 	    manager = XPersistence.createManager();
 
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	    ElementoMensuravel desempenho = new ElementoMensuravel();
+	    ElementoMensuravel tamanho = new ElementoMensuravel();
+	    ElementoMensuravel duracao = new ElementoMensuravel();
+
+	    //Obtem o tipo Elemento Diretamente Mensurável.
+	    String query = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Diretamente Mensurável'";
+	    TypedQuery<TipoElementoMensuravel> typedQuery = manager.createQuery(query, TipoElementoMensuravel.class);
+	    TipoElementoMensuravel elementoDiretamenteMensuravel = typedQuery.getSingleResult();
+
+	    //Obtem o tipo Elemento Indiretamente Mensurável.
+	    String query2 = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Indiretamente Mensurável'";
+	    TypedQuery<TipoElementoMensuravel> typedQuery2 = manager.createQuery(query2, TipoElementoMensuravel.class);
+	    TipoElementoMensuravel elementoIndiretamenteMensuravel = typedQuery2.getSingleResult();
+
+	    //Configura os elementos mensuráveis.
+	    desempenho.setNome("Desempenho");
+	    desempenho.setDescricao("Desempenho");
+	    desempenho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
+
+	    tamanho.setNome("Tamanho");
+	    tamanho.setDescricao("Tamanho");
+	    tamanho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
+
+	    duracao.setNome("Duração");
+	    duracao.setDescricao("Substração da data de fim pela data de início.");
+	    duracao.setTipoElementoMensuravel(elementoIndiretamenteMensuravel);
+
+	    List<ElementoMensuravel> elementosParaPersistir = new ArrayList<ElementoMensuravel>();
+	    elementosParaPersistir.add(desempenho);
+	    elementosParaPersistir.add(tamanho);
+	    elementosParaPersistir.add(duracao);
+
+	    for (ElementoMensuravel elementoMensuravel : elementosParaPersistir)
 	    {
 
-		ElementoMensuravel desempenho = new ElementoMensuravel();
-		ElementoMensuravel tamanho = new ElementoMensuravel();
-		ElementoMensuravel duracao = new ElementoMensuravel();
-
-		//Obtem o tipo Elemento Diretamente Mensurável.
-		String query = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Diretamente Mensurável'";
-		TypedQuery<TipoElementoMensuravel> typedQuery = manager.createQuery(query, TipoElementoMensuravel.class);
-		TipoElementoMensuravel elementoDiretamenteMensuravel = typedQuery.getSingleResult();
-
-		//Obtem o tipo Elemento Indiretamente Mensurável.
-		String query2 = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Indiretamente Mensurável'";
-		TypedQuery<TipoElementoMensuravel> typedQuery2 = manager.createQuery(query2, TipoElementoMensuravel.class);
-		TipoElementoMensuravel elementoIndiretamenteMensuravel = typedQuery2.getSingleResult();
-
-		//Configura os elementos mensuráveis.
-		desempenho.setNome("Desempenho");
-		desempenho.setDescricao("Desempenho");
-		desempenho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
-
-		tamanho.setNome("Tamanho");
-		tamanho.setDescricao("Tamanho");
-		tamanho.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
-
-		duracao.setNome("Duração");
-		duracao.setDescricao("Substração da data de fim pela data de início.");
-		duracao.setTipoElementoMensuravel(elementoIndiretamenteMensuravel);
-
-		List<ElementoMensuravel> elementosParaPersistir = new ArrayList<ElementoMensuravel>();
-		elementosParaPersistir.add(desempenho);
-		elementosParaPersistir.add(tamanho);
-		elementosParaPersistir.add(duracao);
-
-		for (ElementoMensuravel elementoMensuravel : elementosParaPersistir)
-		{
-
-		    manager.getTransaction().begin();
-		    manager.persist(elementoMensuravel);
-		    manager.getTransaction().commit();
-		}
+		manager.getTransaction().begin();
+		manager.persist(elementoMensuravel);
+		manager.getTransaction().commit();
 	    }
-	    else
-	    {
-		throw ex;
-	    }
+
 	}
 	finally
 	{
-	    manager.close();
+	    if (manager.isOpen())
+		manager.close();
 	}
 
     }
@@ -193,29 +179,22 @@ public class MedCEPStarter extends HttpServlet
 	    manager.close();
 	    manager = XPersistence.createManager();
 
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-	    {
+	    TipoMedida mb = new TipoMedida();
+	    TipoMedida md = new TipoMedida();
 
-		TipoMedida mb = new TipoMedida();
-		TipoMedida md = new TipoMedida();
+	    mb.setNome("Medida Base");
+	    md.setNome("Medida Derivada");
 
-		mb.setNome("Medida Base");
-		md.setNome("Medida Derivada");
+	    manager.getTransaction().begin();
+	    manager.persist(mb);
+	    manager.persist(md);
+	    manager.getTransaction().commit();
 
-		manager.getTransaction().begin();
-		manager.persist(mb);
-		manager.persist(md);
-		manager.getTransaction().commit();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
 	}
 	finally
 	{
-	    manager.close();
+	    if (manager.isOpen())
+		manager.close();
 	}
     }
 
@@ -374,14 +353,16 @@ public class MedCEPStarter extends HttpServlet
 
 		finally
 		{
-		    manager.close();
+		    if (manager.isOpen())
+			manager.close();
 		}
 	    }
 
 	}
 	finally
 	{
-	    manager.close();
+	    if (manager.isOpen())
+		manager.close();
 	}
 
     }
@@ -480,14 +461,16 @@ public class MedCEPStarter extends HttpServlet
 		}
 		finally
 		{
-		    manager.close();
+		    if (manager.isOpen())
+			manager.close();
 		}
 
 	    }
 	}
 	finally
 	{
-	    manager.close();
+	    if (manager.isOpen())
+		manager.close();
 	}
 
     }
@@ -556,7 +539,8 @@ public class MedCEPStarter extends HttpServlet
 		}
 		finally
 		{
-		    manager.close();
+		    if (manager.isOpen())
+			manager.close();
 		}
 	    }
 
@@ -617,12 +601,14 @@ public class MedCEPStarter extends HttpServlet
 	    }
 	    finally
 	    {
-		manager.close();
+		if (manager.isOpen())
+		    manager.close();
 	    }
 	}
 	finally
 	{
-	    manager.close();
+	    if (manager.isOpen())
+		manager.close();
 	}
 
     }
@@ -683,13 +669,15 @@ public class MedCEPStarter extends HttpServlet
 		}
 		finally
 		{
-		    manager.close();
+		    if (manager.isOpen())
+			manager.close();
 		}
 	    }
 	}
 	finally
 	{
-	    manager.close();
+	    if (manager.isOpen())
+		manager.close();
 	}
 
     }
