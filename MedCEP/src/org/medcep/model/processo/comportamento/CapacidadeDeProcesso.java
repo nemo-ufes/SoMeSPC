@@ -45,7 +45,8 @@ public class CapacidadeDeProcesso
 {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @SequenceGenerator(name="pk_sequence",sequenceName="seq_capacidade_processo", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
     @Hidden
     private Integer id;
 

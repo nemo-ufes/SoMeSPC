@@ -43,7 +43,8 @@ public class ContextoDeMedicao
 {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @SequenceGenerator(name="pk_sequence",sequenceName="seq_contexto_de_medicao", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
     @Hidden
     private Integer id;
 

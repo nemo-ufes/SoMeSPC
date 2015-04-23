@@ -50,7 +50,8 @@ public class Medicao implements Comparable<Medicao>
 {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name="pk_sequence",sequenceName="seq_medicao", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
     private Integer id;
 
     private Timestamp data;

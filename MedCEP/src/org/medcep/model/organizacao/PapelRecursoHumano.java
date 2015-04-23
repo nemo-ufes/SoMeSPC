@@ -36,7 +36,8 @@ public class PapelRecursoHumano
 {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @SequenceGenerator(name="pk_sequence",sequenceName="seq_papel_recurso_humano", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
     @Hidden
     private Integer id;
 

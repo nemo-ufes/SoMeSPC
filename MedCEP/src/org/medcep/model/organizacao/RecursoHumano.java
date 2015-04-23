@@ -49,7 +49,8 @@ public class RecursoHumano
 {//extends EntidadeMensuravel {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @SequenceGenerator(name="pk_sequence",sequenceName="seq_recurso_humano", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
     @Hidden
     private Integer id;
 

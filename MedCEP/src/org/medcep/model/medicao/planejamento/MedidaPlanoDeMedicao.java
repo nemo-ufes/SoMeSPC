@@ -42,7 +42,8 @@ public class MedidaPlanoDeMedicao
 {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+    @SequenceGenerator(name="pk_sequence",sequenceName="seq_medida_plano_medicao", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
     private Integer id;
 
     public Integer getId()
