@@ -46,6 +46,7 @@ public class TaigaIntegratorTest
     public void init() throws Exception
     {
 	MedCEPStarter.inicializarMedCEP();
+	
     }
 
     @Test
