@@ -21,5 +21,7 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/hk2-utils-2.4.0-b10.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jersey-client.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/genson-1.2.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/quartz-2.2.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/quartz-jobs-2.2.1.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>
