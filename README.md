@@ -37,6 +37,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
  3. Execute a Ant Build <b>MedCEP.Implantar</b>.
  4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
 
+<!---
 ##Configuração do Sonar
 ###Requisitos
 
@@ -111,7 +112,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
  ``` 
 13. Clicar em **Salvar**.
 
-<!---
+
 ##Configuração do Mantis Bug Tracking
 ###Requisitos
 - Wamp Server 2.5 (Windows + Apache + MySQL + PHP server) (x64) - [Download](http://sourceforge.net/projects/wampserver/files/WampServer%202/Wampserver%202.5/wampserver2.5-Apache-2.4.9-Mysql-5.6.17-php5.5.12-64b.exe/download)
