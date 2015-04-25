@@ -14,7 +14,7 @@ public class HelloWorldJob implements Job
 	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
 
-	System.out.println("Job executado em "  + dataHora);
+	System.out.println("Job " + context.getJobDetail().getKey().getName() + " executado em " + dataHora);
 
     }
 

@@ -7,7 +7,6 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.hibernate.exception.*;
-import org.medcep.integracao.agendador.*;
 import org.medcep.model.medicao.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
@@ -51,46 +50,15 @@ public class MedCEPStarter extends HttpServlet
 	inicializarEscalas();
 	inicializarUnidadesMedida();
 	inicializarAgendador();
-    }
-
+    }   
+    
     private static void inicializarAgendador() throws SchedulerException
     {
 	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 	Scheduler sched = schedFact.getScheduler();
+	
+	if (!sched.isStarted())
 	sched.start();
-
-	JobDetail job = null;
-	Trigger trigger = null;
-
-	boolean existeJob = sched.checkExists(new JobKey("Job de Teste", "Grupo de Teste"));
-	boolean existeTrigger = sched.checkExists(new TriggerKey("Trigger de Teste", "Grupo de Teste"));
-
-	if (!existeJob)
-	{
-	    // define the job and tie it to our HelloWorldJob class      
-	    job = JobBuilder.newJob(HelloWorldJob.class)
-		    .withIdentity("Job de Teste", "Grupo de Teste") // name "myJob", group "group1"      
-		    .build();
-	}
-
-	if (!existeTrigger)
-	{
-	    // Trigger the job to run now, and then every x seconds      
-	    trigger = TriggerBuilder.newTrigger()
-		    .withIdentity("Trigger de Teste", "Grupo de Teste")
-		    .startNow()
-		    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-			    .withIntervalInSeconds(10)
-			    .repeatForever())
-		    .build();
-	}
-
-	if (!existeJob && !existeTrigger)
-	{
-	    // Tell quartz to schedule the job using our trigger      
-	    sched.scheduleJob(job, trigger);
-	}
-
     }
 
     private static void inicializarTiposElementosMensuraveis() throws Exception
