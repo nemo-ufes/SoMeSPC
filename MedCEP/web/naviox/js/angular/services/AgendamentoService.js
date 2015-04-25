@@ -63,7 +63,7 @@ app.service("AgendadorService", function($http, $q) {
 	}
 
 	function handleSuccess(response) {
-		return (response.data);
+			return (response.data);
 	}
 
 });

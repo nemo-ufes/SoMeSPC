@@ -150,12 +150,12 @@ public class MedCEPSchedulerResource
 	    if (comando.getComando().equalsIgnoreCase("Iniciar"))
 	    {
 		sched.resumeTrigger(id);
-		response = Response.status(Status.OK).build();
+		response = Response.status(Status.OK).entity("").build();
 	    }
 	    else if (comando.getComando().equalsIgnoreCase("Pausar"))
 	    {
 		sched.pauseTrigger(id);
-		response = Response.status(Status.OK).build();
+		response = Response.status(Status.OK).entity("").build();
 	    }
 	    else
 	    {
