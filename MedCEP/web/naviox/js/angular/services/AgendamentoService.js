@@ -1,7 +1,7 @@
 //URL da API da MedCEP
 var url = 'http://localhost:8080/MedCEP/api/';
 
-app.service("medicaoService", function($http, $q) {
+app.service("AgendamentoService", function($http, $q) {
 
 	return ({
 		obterProjetos : obterProjetos,

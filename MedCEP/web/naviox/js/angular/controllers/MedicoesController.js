@@ -1,13 +1,13 @@
 /**
  * Controlador da aba de Medições.
  */
-app.controller('MedicoesController', function($scope, medicaoService) {
+app.controller('MedicoesController', function($scope, MedicaoService) {
 	
 	carregarProjetos();
 	inicializar();
 
 	function carregarProjetos() {
-		medicaoService.obterProjetos().then(function(projetos) {
+		MedicaoService.obterProjetos().then(function(projetos) {
 			$scope.projetos = projetos;
 		});
 	}
@@ -33,7 +33,7 @@ app.controller('MedicoesController', function($scope, medicaoService) {
 	}
 	
 	$scope.configurarPaginator = function configurarPaginator(numPerPage)	{
-		medicaoService.obterTotalMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function (total) {
+		MedicaoService.obterTotalMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function (total) {
 			 $scope.totalItems = total;
 			 $scope.numPerPage = numPerPage;
 		});
@@ -42,14 +42,14 @@ app.controller('MedicoesController', function($scope, medicaoService) {
 	$scope.obterMedidas = function obterMedidas() {
 		inicializar();
 		
-		medicaoService.obterMedidas($scope.projetoSelecionado.id).then(
+		MedicaoService.obterMedidas($scope.projetoSelecionado.id).then(
 				function(medidas) {
 					$scope.medidas = medidas;
 				});
 	}
 	
 	$scope.obterMedicoes = function (paginaAtual) {				
-		medicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
+		MedicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
 			var dados = new Array();
 			var labels = new Array();
 			

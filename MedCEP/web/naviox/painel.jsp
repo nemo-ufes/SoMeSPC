@@ -95,7 +95,8 @@
 					<script type="text/javascript" src="js/angular/controllers/AgendamentosController.js"></script>
 
 					<%-- Services --%>
-					<script type="text/javascript" src="js/angular/services/MedCEPService.js"></script>
+					<script type="text/javascript" src="js/angular/services/MedicaoService.js"></script>
+					<script type="text/javascript" src="js/angular/services/AgendamentoService.js"></script>
 
 					<%-- JQuery --%>
 					<script type='text/javascript' src="js/jquery.js"></script>

@@ -5,6 +5,7 @@
 			<tr>
 				<th>Name</th>
 				<th>Age</th>
+				<th>Controles</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -12,8 +13,11 @@
 				<td>{{user.name}}</td>
 				<td>{{user.age}}</td>
 				<td>
-					<button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">
-						<i class="glyphicon glyphicon-remove-circle"> asdfasdf</i>
+					<button type="button" ng-click="" class="btn btn-sm btn-success">
+						<i class="glyphicon glyphicon-play"></i>
+					</button>
+					<button type="button" ng-click="" class="btn btn-sm btn-danger">
+						<i class="glyphicon glyphicon-stop"></i>
 					</button>
 				</td>
 			</tr>
