@@ -1,6 +1,9 @@
 # MedCEP - A powerful tool to measure
 <img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/logo_new.png" alt="Logo MedCEP" width="140px" height="120px"/> 
-<img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
+<img style="float: right" src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img style="float: right" src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
+
+**Copyright &copy; 2013 Ciro Xavier Maretto** <br/>
+**Copyright &copy; 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca** 
 
 Ferramenta para Medição de Software e Controle Estatístico de Processos. 
 <br/>Baseada na arquitetura de referência de medição de software de MARETTO (2014).
@@ -152,8 +155,8 @@ C. X. MARETTO and M. P. BARCELLOS, <b>[Uma Arquitetura de Referência para Medi�
 ```
  MedCEP - A powerful tool to measure
  
- Copyright (C) 2013 Ciro Xavier Maretto
- Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
+ Copyright 2013 Ciro Xavier Maretto
+ Copyright 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License as published by
