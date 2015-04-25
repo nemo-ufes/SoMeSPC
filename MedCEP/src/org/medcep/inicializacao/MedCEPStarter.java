@@ -1,9 +1,5 @@
 package org.medcep.inicializacao;
 
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
-import static org.quartz.TriggerBuilder.newTrigger;
-
 import java.util.*;
 
 import javax.persistence.*;
@@ -59,26 +55,30 @@ public class MedCEPStarter extends HttpServlet
 
     private static void inicializarAgendador() throws SchedulerException
     {
-	  SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory(); 
-	  Scheduler sched = schedFact.getScheduler(); 
-	  sched.start(); 
-  
-	// define the job and tie it to our HelloWorldJob class      
-	JobDetail job = newJob(HelloWorldJob.class)
-		.withIdentity("myJob", "group1") // name "myJob", group "group1"      
-		.build();
+	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+	Scheduler sched = schedFact.getScheduler();
+	sched.start();
 
-	// Trigger the job to run now, and then every 40 seconds      
-	Trigger trigger = newTrigger()
-		.withIdentity("myTrigger", "group1")
-		.startNow()
-		.withSchedule(simpleSchedule()
-			.withIntervalInSeconds(10)
-			.repeatForever())
-		.build();
+	boolean existe = sched.checkExists(new JobKey("myJob", "group1"));
+	if (!existe)
+	{
+	    // define the job and tie it to our HelloWorldJob class      
+	    JobDetail job = JobBuilder.newJob(HelloWorldJob.class)
+		    .withIdentity("myJob", "group1") // name "myJob", group "group1"      
+		    .build();
 
-	// Tell quartz to schedule the job using our trigger      
-	sched.scheduleJob(job, trigger);
+	    // Trigger the job to run now, and then every 40 seconds      
+	    Trigger trigger = TriggerBuilder.newTrigger()
+		    .withIdentity("myTrigger", "group1")
+		    .startNow()
+		    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+			    .withIntervalInSeconds(10)
+			    .repeatForever())
+		    .build();
+
+	    // Tell quartz to schedule the job using our trigger      
+	    sched.scheduleJob(job, trigger);
+	}
     }
 
     private static void inicializarTiposElementosMensuraveis() throws Exception
