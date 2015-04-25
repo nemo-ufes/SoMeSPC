@@ -19,10 +19,10 @@
 				<td>{{agendamento.nome_job}}</td>
 				<td>{{agendamento.estado_agendamento}}</td>
 				<td>
-					<button type="button" ng-click="iniciarAgendamento(agendamento)" class="btn btn-sm btn-success">
+					<button type="button" ng-disabled="agendamento.estado_agendamento == 'INICIADO' || agendamento.estado_agendamento == 'EM ESPERA'" ng-click="iniciarAgendamento(agendamento)" class="btn btn-sm btn-success">
 						<i class="glyphicon glyphicon-play"></i>
 					</button>
-					<button type="button" ng-click="pausarAgendamento(agendamento)" class="btn btn-sm btn-primary">
+					<button type="button" ng-disabled="agendamento.estado_agendamento == 'PAUSADO' || agendamento.estado_agendamento == 'EM ESPERA'" ng-click="pausarAgendamento(agendamento)" class="btn btn-sm btn-primary">
 						<i class="glyphicon glyphicon-pause"></i>
 					</button>
 				</td>

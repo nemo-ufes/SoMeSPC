@@ -97,12 +97,25 @@ public class MedCEPSchedulerResource
 		dto.setProximaExecucao(obj[6] == null ? new BigInteger("0") : (BigInteger) obj[6]);
 		dto.setExecucaoAnterior(obj[7] == null ? new BigInteger("0") : (BigInteger) obj[7]);
 		dto.setPrioridade(obj[8] == null ? 0 : (Integer) obj[8]);
-		dto.setEstadoAgendamento(obj[9] == null ? "" : obj[9].toString());
 		dto.setTipoAgendamento(obj[10] == null ? "" : obj[10].toString());
 		dto.setInicioAgendamento(obj[11] == null ? new BigInteger("0") : (BigInteger) obj[11]);
 		dto.setFimAgendamento(obj[12] == null ? new BigInteger("0") : (BigInteger) obj[12]);
 		dto.setCalendario(obj[13] == null ? "" : obj[13].toString());
 		dto.setInstrucaoErro(obj[14] == null ? 0 : (Short) obj[14]);
+
+		String estadoAgendamento = obj[9] == null ? "" : obj[9].toString();
+
+		if (!estadoAgendamento.isEmpty())
+		{
+		    if (estadoAgendamento.equalsIgnoreCase("ACQUIRED"))
+			estadoAgendamento = "INICIADO";
+		    else if (estadoAgendamento.equalsIgnoreCase("WAITING"))
+			estadoAgendamento = "EM ESPERA";
+		    else if (estadoAgendamento.equalsIgnoreCase("PAUSED"))
+			estadoAgendamento = "PAUSADO";
+		}
+
+		dto.setEstadoAgendamento(estadoAgendamento);
 
 		listaDTO.add(dto);
 	    }
