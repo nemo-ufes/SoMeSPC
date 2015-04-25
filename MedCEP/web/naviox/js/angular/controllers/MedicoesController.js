@@ -1,6 +1,8 @@
-app.controller('PainelController', function($scope, medicaoService) {
-
-	// Inicializacao.
+/**
+ * Controlador da aba de Medições.
+ */
+app.controller('MedicoesController', function($scope, medicaoService) {
+	
 	carregarProjetos();
 	inicializar();
 
@@ -64,5 +66,5 @@ app.controller('PainelController', function($scope, medicaoService) {
 			$scope.configurarPaginator($scope.numPerPage);
 		});
 	}
-
+	
 });

@@ -91,7 +91,8 @@
 					<script type="text/javascript" src="js/angular/painelApp.js"></script>
 
 					<%-- Controllers --%>
-					<script type="text/javascript" src="js/angular/controllers/PainelController.js"></script>
+					<script type="text/javascript" src="js/angular/controllers/MedicoesController.js"></script>
+					<script type="text/javascript" src="js/angular/controllers/AgendamentosController.js"></script>
 
 					<%-- Services --%>
 					<script type="text/javascript" src="js/angular/services/MedCEPService.js"></script>

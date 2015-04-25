@@ -1,8 +1,12 @@
 
-<div id="painel2" class="container" ng-controller=PainelController>
+<div id="painel2" class="container" ng-controller=AgendamentosController>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>teste</th>
+			</tr>
+		</thead>
 
-<h1>Agendamentos</h1>
 
+	</table>
 </div>
-
-

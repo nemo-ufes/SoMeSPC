@@ -1,5 +1,5 @@
 
-<div id="painel" class="container" ng-controller=PainelController>
+<div id="painel" class="container" ng-controller=MedicoesController>
 
 	<div class="panel panel-primary" style="margin-top: 20px;">
 
