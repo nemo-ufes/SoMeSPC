@@ -15,7 +15,10 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 
 ###Instruções para configuração da MedCEP
 1. Instalar o Java 7 JDK.
-2. Instalar o PostgreSQL com usuário e senha <b>"postgres"</b>.
+2. Instalar o PostgreSQL com usuário e senha <b>"postgres"</b>. Na utilização de outra senha, atualizar a senha nos arquivos:
+ 1. MedCEP/Persistence/hibernate.cfg.xml
+ 2. MedCEP/Persistence/META-INF/persistence.xml
+ 3. MedCEP/Properties/quartz.properties
 3. Criar um banco de dados no PostgreSQL chamado <b>"medcep"</b> e informar como dono o usuário <b>"postgres"</b>.
 4. Executar o script SQL [tables_postgres.sql](https://github.com/nemo-ufes/MedCEP/blob/master/MedCEP/properties/quartz_tables_scripts/tables_postgres.sql)
 4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira executar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
