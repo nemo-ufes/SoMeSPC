@@ -12,47 +12,55 @@ public class AgendadorTest
     {
 	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 	Scheduler sched = schedFact.getScheduler();
-	
+
 	if (!sched.isStarted())
-	sched.start();
+	    sched.start();
 
 	JobDetail job = null;
 	Trigger trigger = null;
 
-	for (int i = 0; i < 30; i++)
+	//Cria 30 agendamentos para o mesmo job.
+	for (int i = 1; i <= 30; i++)
 	{
 
-	    String nomeJob = "Job de Teste";
+	    String nomeJob = "Job de Teste ";
 	    String nomeGrupo = "Grupo de Teste";
-	    String nomeTrigger = "Agendamento de Teste " + i;
+	    String nomeTrigger = "Agendamento de Teste " + Math.round(Math.random() * 10000);
 	    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
-	    boolean existeTrigger = sched.checkExists(new TriggerKey(nomeTrigger, nomeGrupo));
 
 	    if (!existeJob)
 	    {
 		job = JobBuilder.newJob(HelloWorldJob.class)
 			.withIdentity(nomeJob, nomeGrupo)
 			.build();
-	    }
 
-	    if (!existeTrigger)
-	    {
-		trigger = TriggerBuilder.newTrigger()
+		trigger = TriggerBuilder.newTrigger().forJob(job)
 			.withIdentity(nomeTrigger, nomeGrupo)
 			.startNow()
 			.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds(10)
+				.withIntervalInSeconds((int) Math.round(Math.random() * 60))
 				.repeatForever())
 			.build();
-	    }
 
-	    if (!existeJob && !existeTrigger)
-	    {
-		Thread.sleep(1000);
 		sched.scheduleJob(job, trigger);
 	    }
+	    else
+	    {
+		job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
+
+		trigger = TriggerBuilder.newTrigger().forJob(job)
+			.withIdentity(nomeTrigger, nomeGrupo)
+			.startNow()
+			.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+				.withIntervalInSeconds((int) Math.round(Math.random() * 60))
+				.repeatForever())
+			.build();
+
+		sched.scheduleJob(trigger);
+	    }
+
 	}
-	
+
     }
 
     @Test
@@ -60,9 +68,9 @@ public class AgendadorTest
     {
 	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 	Scheduler sched = schedFact.getScheduler();
-	
+
 	if (!sched.isStarted())
-	sched.start();
+	    sched.start();
 
 	for (int i = 0; i < 30; i++)
 	{
@@ -76,7 +84,7 @@ public class AgendadorTest
 		sched.deleteJob(new JobKey(nomeJob, nomeGrupo));
 	    }
 	}
-	
+
     }
 
 }
