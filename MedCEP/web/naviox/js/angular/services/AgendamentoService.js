@@ -5,8 +5,9 @@ app.service("AgendadorService", function($http, $q) {
 	return ({
 		obterJobs : obterJobs,
 		obterAgendamentos : obterAgendamentos,
+		iniciarAgendamento : iniciarAgendamento,
 		pausarAgendamento : pausarAgendamento,
-		iniciarAgendamento : iniciarAgendamento
+		excluirAgendamento : excluirAgendamento
 	});
 
 	function obterJobs() {
@@ -29,19 +30,6 @@ app.service("AgendadorService", function($http, $q) {
 		return (request.then(handleSuccess, handleError));
 	}
 
-	function pausarAgendamento(nomeAgendamento, grupoAgendamento) {
-		var request = $http({
-			method : "post",
-			url : url + "/Agendamento/Comando",
-			data : {
-				nome_agendamento : nomeAgendamento,
-				grupo_agendamento : grupoAgendamento,
-				comando : "Pausar"
-			}
-		});
-		return (request.then(handleSuccess, handleError));
-	}
-	
 	function iniciarAgendamento(nomeAgendamento, grupoAgendamento) {
 		var request = $http({
 			method : "post",
@@ -55,6 +43,32 @@ app.service("AgendadorService", function($http, $q) {
 		return (request.then(handleSuccess, handleError));
 	}
 
+	function pausarAgendamento(nomeAgendamento, grupoAgendamento) {
+		var request = $http({
+			method : "post",
+			url : url + "/Agendamento/Comando",
+			data : {
+				nome_agendamento : nomeAgendamento,
+				grupo_agendamento : grupoAgendamento,
+				comando : "Pausar"
+			}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
+	
+	function excluirAgendamento(nomeAgendamento, grupoAgendamento) {
+		var request = $http({
+			method : "post",
+			url : url + "/Agendamento/Comando",
+			data : {
+				nome_agendamento : nomeAgendamento,
+				grupo_agendamento : grupoAgendamento,
+				comando : "Excluir"
+			}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
+
 	function handleError(response) {
 		if (!angular.isObject(response.data) || !response.data.message) {
 			return ($q.reject("Ocorreu um erro."));
@@ -63,7 +77,7 @@ app.service("AgendadorService", function($http, $q) {
 	}
 
 	function handleSuccess(response) {
-			return (response.data);
+		return (response.data);
 	}
 
 });

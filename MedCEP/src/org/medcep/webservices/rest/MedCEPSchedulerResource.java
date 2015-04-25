@@ -126,7 +126,7 @@ public class MedCEPSchedulerResource
 	manager.close();
 	return response;
     }
-
+    
     @Path("/Agendamento/Comando")
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -155,6 +155,11 @@ public class MedCEPSchedulerResource
 	    else if (comando.getComando().equalsIgnoreCase("Pausar"))
 	    {
 		sched.pauseTrigger(id);
+		response = Response.status(Status.OK).entity("").build();
+	    }
+	    else if (comando.getComando().equalsIgnoreCase("Excluir"))
+	    {
+		sched.unscheduleJob(id);
 		response = Response.status(Status.OK).entity("").build();
 	    }
 	    else
