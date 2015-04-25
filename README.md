@@ -8,13 +8,13 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 ##Configuração da MedCEP
 ###Requisitos
 - Microsoft Windows 7 SP1 64 bits (ou outro sistema operacional com suporte à plataforma Java)
-- Java SDK 7 Update 75 (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
+- Java JDK 7 Update 75 (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 - IDE Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
 - PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
 - Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
 
 ###Instruções para configuração da MedCEP
-1. Instalar o Java SDK.
+1. Instalar o Java JDK.
 2. Instalar o PostgreSQL com usuário e senha <b>"postgres"</b>.
 3. Criar um banco de dados no PostgreSQL chamado <b>"medcep"</b> e informar como dono o usuário <b>"postgres"</b>.
 4. Executar o script SQL [tables_postgres.sql](https://github.com/nemo-ufes/MedCEP/blob/master/MedCEP/properties/quartz_tables_scripts/tables_postgres.sql)
