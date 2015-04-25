@@ -73,7 +73,7 @@ public class MedCEPStarter extends HttpServlet
 		.withIdentity("myTrigger", "group1")
 		.startNow()
 		.withSchedule(simpleSchedule()
-			.withIntervalInSeconds(30)
+			.withIntervalInSeconds(10)
 			.repeatForever())
 		.build();
 
