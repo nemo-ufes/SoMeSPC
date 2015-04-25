@@ -1,6 +1,6 @@
 
 <div id="painel2" class="container" ng-controller=AgendamentosController>
-	<table st-table="tabela-agendamentos" st-safe-src="agendamentos" class="table table-striped">
+	<table st-table="tabela-agendamentos" class="table table-striped">
 		<thead>
 			<tr>
 				<th>Nome do Agendamento</th>
@@ -13,7 +13,7 @@
 		<tbody>
 			<tr ng-class="{ 'success' : agendamento.estado_agendamento == 'INICIADO', 
 							'warning' : agendamento.estado_agendamento == 'EM ESPERA',
-							'active'  : agendamento.estado_agendamento == 'PAUSADO', }" ng-repeat="agendamento in agendamentos">
+							'active'  : agendamento.estado_agendamento == 'PAUSADO'}" ng-repeat="agendamento in agendamentos">
 				<td>{{agendamento.nome_agendamento}}</td>
 				<td>{{agendamento.grupo_agendamento}}</td>
 				<td>{{agendamento.nome_job}}</td>
