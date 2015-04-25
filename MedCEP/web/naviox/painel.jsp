@@ -38,7 +38,7 @@
 <script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
 <script type='text/javascript' src='js/Chart.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-chart.min.js'></script>
-
+<script type='text/javascript' src='js/angular/shared/smart-table.min.js'></script>
 
 <title>Painel de Controle - MedCEP</title>
 <meta charset="utf-8">

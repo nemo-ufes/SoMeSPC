@@ -1,5 +1,5 @@
 .tab-pane {
-	border-top: 1px solid #2F70A8;
+	border: 1px solid #2F70A8;	
 	border-radius: 0px 0px 5px 5px;
 	padding: 10px;
 }
@@ -9,7 +9,7 @@
 }
 
 .tab-content>.active {
-	background-color: #f4f4f4;
+	background-color: #fff;
 }
 
 a, a:focus, a:hover {
