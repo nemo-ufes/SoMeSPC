@@ -1,10 +1,11 @@
 app.service("AgendadorService", function($http, $q) {
-	//URL da API da MedCEP
+	// URL da API da MedCEP
 	var url = 'http://localhost:8080/MedCEP/api/Agendador';
-	
+
 	return ({
 		obterJobs : obterJobs,
-		obterAgendamentos  :obterAgendamentos
+		obterAgendamentos : obterAgendamentos,
+		pausarAgendamento : pausarAgendamento
 	});
 
 	function obterJobs() {
@@ -16,7 +17,7 @@ app.service("AgendadorService", function($http, $q) {
 		});
 		return (request.then(handleSuccess, handleError));
 	}
-	
+
 	function obterAgendamentos() {
 
 		var request = $http({
@@ -27,6 +28,13 @@ app.service("AgendadorService", function($http, $q) {
 		return (request.then(handleSuccess, handleError));
 	}
 
+	function pausarAgendamento(nomeAgendamento, grupoAgendamento) {
+		var request = $http({
+			method : "delete",
+			url : url + "/Agendamento/" + nomeAgendamento + "-" + grupoAgendamento			
+		});
+		return (request.then(handleSuccess, handleError));
+	}
 
 	function handleError(response) {
 		if (!angular.isObject(response.data) || !response.data.message) {

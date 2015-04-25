@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.medcep.webservices.rest.dto.*;
 import org.openxava.jpa.*;
+import org.quartz.*;
 
 @Path("Agendador")
 public class MedCEPSchedulerResource
@@ -93,15 +94,15 @@ public class MedCEPSchedulerResource
 		dto.setGrupoJob(obj[4] == null ? "" : obj[4].toString());
 		dto.setDescricao(obj[5] == null ? "" : obj[5].toString());
 		dto.setProximaExecucao(obj[6] == null ? new BigInteger("0") : (BigInteger) obj[6]);
-		dto.setExecucaoAnterior(obj[7] == null ? new BigInteger("0"): (BigInteger) obj[7]);
+		dto.setExecucaoAnterior(obj[7] == null ? new BigInteger("0") : (BigInteger) obj[7]);
 		dto.setPrioridade(obj[8] == null ? 0 : (Integer) obj[8]);
-		dto.setEstadoAgendamento(obj[9] == null ? "" :  obj[9].toString());
-		dto.setTipoAgendamento(obj[10] == null ? "" :  obj[10].toString());
-		dto.setInicioAgendamento(obj[11] == null ? new BigInteger("0") :  (BigInteger) obj[11]);
-		dto.setFimAgendamento(obj[12] == null ? new BigInteger("0") :  (BigInteger) obj[12]);
-		dto.setCalendario(obj[13] == null ? "" :  obj[13].toString());
-		dto.setInstrucaoErro(obj[14] == null ? 0 :  (Short) obj[14]);
-		
+		dto.setEstadoAgendamento(obj[9] == null ? "" : obj[9].toString());
+		dto.setTipoAgendamento(obj[10] == null ? "" : obj[10].toString());
+		dto.setInicioAgendamento(obj[11] == null ? new BigInteger("0") : (BigInteger) obj[11]);
+		dto.setFimAgendamento(obj[12] == null ? new BigInteger("0") : (BigInteger) obj[12]);
+		dto.setCalendario(obj[13] == null ? "" : obj[13].toString());
+		dto.setInstrucaoErro(obj[14] == null ? 0 : (Short) obj[14]);
+
 		listaDTO.add(dto);
 	    }
 
@@ -112,32 +113,66 @@ public class MedCEPSchedulerResource
 	return response;
     }
 
-    //    public Response obterAgendamentos() throws SchedulerException
-    //    {
-    //	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
-    //	Scheduler sched = schedFact.getScheduler();
-    //	sched.start();
-    //
-    //	boolean existe = sched.checkExists(new JobKey("myJob", "group1"));
-    //	if (!existe)
-    //	{
-    //	    // define the job and tie it to our HelloWorldJob class      
-    //	    JobDetail job = JobBuilder.newJob(HelloWorldJob.class)
-    //		    .withIdentity("myJob", "group1") // name "myJob", group "group1"      
-    //		    .build();
-    //
-    //	    // Trigger the job to run now, and then every 40 seconds      
-    //	    Trigger trigger = TriggerBuilder.newTrigger()
-    //		    .withIdentity("myTrigger", "group1")
-    //		    .startNow()
-    //		    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-    //			    .withIntervalInSeconds(10)
-    //			    .repeatForever())
-    //		    .build();
-    //
-    //	    // Tell quartz to schedule the job using our trigger      
-    //	    sched.scheduleJob(job, trigger);
-    //	}
-    //    }
+    @Path("/Agendamento/{nome-grupo}")
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response pausarAgendamento(@PathParam("nome-grupo") String nomeGrupo) throws SchedulerException
+    {
+
+	String nome = nomeGrupo.split("-")[0];
+	String grupo = nomeGrupo.split("-")[1];
+
+	Response response;
+	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+	Scheduler sched = schedFact.getScheduler();
+
+	if (!sched.isStarted())
+	    sched.start();
+
+	TriggerKey id = new TriggerKey(nome, grupo);
+
+	boolean existe = sched.checkExists(id);
+	if (existe)
+	{
+	    sched.pauseTrigger(id);
+	    response = Response.status(Status.OK).build();
+	}
+	else
+	{
+	    response = Response.status(Status.BAD_REQUEST).build();
+	}
+
+	return response;
+    }
+
+    @Path("/Agendamento")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response criarAgendamento(AgendamentoDTO agendamento) throws SchedulerException
+    {
+	Response response;
+	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+	Scheduler sched = schedFact.getScheduler();
+
+	if (!sched.isStarted())
+	    sched.start();
+
+	TriggerKey id = new TriggerKey(agendamento.getNomeAgendamento(), agendamento.getGrupoAgendamento());
+
+	boolean existe = sched.checkExists(id);
+	if (existe)
+	{
+	    sched.unscheduleJob(id);
+	    response = Response.status(Status.OK).build();
+	}
+	else
+	{
+	    response = Response.status(Status.BAD_REQUEST).build();
+	}
+
+	return response;
+    }
 
 }

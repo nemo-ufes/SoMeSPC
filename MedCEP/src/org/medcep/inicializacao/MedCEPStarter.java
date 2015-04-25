@@ -59,26 +59,38 @@ public class MedCEPStarter extends HttpServlet
 	Scheduler sched = schedFact.getScheduler();
 	sched.start();
 
-	boolean existe = sched.checkExists(new JobKey("myJob", "group1"));
-	if (!existe)
+	JobDetail job = null;
+	Trigger trigger = null;
+
+	boolean existeJob = sched.checkExists(new JobKey("Job de Teste", "Grupo de Teste"));
+	boolean existeTrigger = sched.checkExists(new TriggerKey("Trigger de Teste", "Grupo de Teste"));
+
+	if (!existeJob)
 	{
 	    // define the job and tie it to our HelloWorldJob class      
-	    JobDetail job = JobBuilder.newJob(HelloWorldJob.class)
-		    .withIdentity("myJob", "group1") // name "myJob", group "group1"      
+	    job = JobBuilder.newJob(HelloWorldJob.class)
+		    .withIdentity("Job de Teste", "Grupo de Teste") // name "myJob", group "group1"      
 		    .build();
+	}
 
-	    // Trigger the job to run now, and then every 40 seconds      
-	    Trigger trigger = TriggerBuilder.newTrigger()
-		    .withIdentity("myTrigger", "group1")
+	if (!existeTrigger)
+	{
+	    // Trigger the job to run now, and then every x seconds      
+	    trigger = TriggerBuilder.newTrigger()
+		    .withIdentity("Trigger de Teste", "Grupo de Teste")
 		    .startNow()
 		    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
 			    .withIntervalInSeconds(10)
 			    .repeatForever())
 		    .build();
+	}
 
+	if (!existeJob && !existeTrigger)
+	{
 	    // Tell quartz to schedule the job using our trigger      
 	    sched.scheduleJob(job, trigger);
 	}
+
     }
 
     private static void inicializarTiposElementosMensuraveis() throws Exception
