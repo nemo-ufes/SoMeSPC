@@ -62,6 +62,6 @@ app.controller('AgendamentosController', function($scope, $interval,
 	 */
 	$interval(function() {
 		$scope.obterAgendamentos();
-	}.bind(this), 1000);
+	}.bind(this), 5000);
 
 });

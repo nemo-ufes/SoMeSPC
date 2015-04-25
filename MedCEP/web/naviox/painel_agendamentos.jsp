@@ -3,9 +3,7 @@
 	<table st-table="tabela-agendamentos" class="table table-striped">
 		<thead>
 			<tr>
-				<th>Nome</th>
-				<th>Grupo</th>
-				<th>Job</th>
+				<th>Agendamento</th>
 				<th>Última Execução</th>
 				<th>Próxima Execução</th>
 				<th>Situação</th>
@@ -13,15 +11,21 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-class="{ 'success' : agendamento.estado_agendamento == 'INICIADO', 
-							'warning' : agendamento.estado_agendamento == 'EM ESPERA',
+			<tr ng-class="{ 'success' : agendamento.estado_agendamento == 'INICIADO',
 							'active'  : agendamento.estado_agendamento == 'PAUSADO'}" ng-repeat="agendamento in agendamentos">
-				<td>{{agendamento.nome_agendamento}}</td>
-				<td>{{agendamento.grupo_agendamento}}</td>
-				<td>{{agendamento.nome_job}}</td>
+				<td>
+					<div class="row">
+						<p>
+							<b>{{agendamento.nome_agendamento}} </b> ({{agendamento.grupo_agendamento}})
+						</p>
+						<p>
+							<b>Job:</b> {{agendamento.nome_job}}
+						</p>
+					</div>
+				</td>
 				<td>{{agendamento.execucao_anterior | date:'dd/MM/yyyy HH:mm:ss'}}</td>
 				<td>{{agendamento.proxima_execucao | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-				<td>{{agendamento.estado_agendamento}}</td>
+				<td><b>{{agendamento.estado_agendamento}}</b></td>
 				<td>
 					<button type="button" ng-disabled="agendamento.estado_agendamento == 'INICIADO' 
 													|| agendamento.estado_agendamento == 'EM ESPERA'" ng-click="iniciarAgendamento(agendamento)" class="btn btn-sm btn-success">
