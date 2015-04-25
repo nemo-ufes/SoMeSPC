@@ -18,7 +18,7 @@
 	src='js/angular/shared/angular-route.min.js'></script>
 <script type='text/javascript'
 	src='js/angular/shared/angular-resource.min.js'></script>
-	
+
 <title>Wizard - MedCEP</title>
 </head>
 <body ng-app="MedCEPWizardApp">
@@ -28,47 +28,53 @@
 			<h2>Projetos</h2>
 			<fieldset>
 				<h2 class="text-primary text-center">Selecione os Projetos do Taiga</h2>
-				<br/>
+				<br />
 				<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="projeto in projetos">
-					<div class="col-md-1">
-						<p class="radio">
-							<input type="radio" id="check"/>
-						</p>
+					<div class="col-md-2">
+						<div class="radio">
+							<label><input type="radio" ng-click="get_projeto($index)"></label>
+						</div>
 					</div>
-					<div class="col-md-11" >
+					<div class="col-md-10">
 						<div>
-							<p><b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b></p>
+							<p>
+								<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+							</p>
 						</div>
 						<div>
 							<p>{{projeto.descricao}}</p>
 						</div>
 					</div>
+
+
 				</div>
+
 			</fieldset>
 
 			<h2>Medidas</h2>
-			<fieldset>
+			<fieldset style="overflow:scroll; border:1px solid #0000FF;">
 				<h2 class="text-primary text-center">Selecione as Medidas</h2>
-				<br/>
+				<br />
 				<div id="medidas" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="medida in medidas">
 					<div class="col-md-1">
 						<p class="radio">
-							<input type="radio" id="check"/>
+							<input type="checkbox" ng-click="add_index($index)"/>
 						</p>
 					</div>
-					<div class="col-md-11" >
+					<div class="col-md-11">
 						<div>
-							<p><b>{{medida}}</b></p>
+							<p>
+								<b>{{medida}}</b>
+							</p>
 						</div>
 					</div>
 				</div>
+				<button type="button" class="btn btn-primary btn-md" ng-click="get_medidas()">Selecionar</button>
 			</fieldset>
 
 			<h2>Agendamento</h2>
-			<fieldset>
-			
-			</fieldset>
-			
+			<fieldset></fieldset>
+
 		</div>
 	</div>
 
@@ -92,8 +98,26 @@
 	<!-- Bootstrap -->
 	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
 
-	<script>
-		$('input [type=checkbox]').button();
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+
+							$("#checkNow")
+									.click(
+											function(event) {
+
+												var $mySelection = $("input[name='check'][type='radio']:checked");
+												if ($mySelection.length > 0) {
+													alert("You have selected: "
+															+ $mySelection
+																	.get().nome);
+												} else {
+													alert("Please select the car you Drive");
+												}
+
+											});
+						});
 
 		//Wizard Steps
 		$("#medcep-wizard").steps({

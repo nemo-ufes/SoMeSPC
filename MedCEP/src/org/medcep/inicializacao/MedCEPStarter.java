@@ -7,10 +7,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.hibernate.exception.*;
-import org.medcep.integracao.agendador.*;
 import org.medcep.model.medicao.*;
 import org.openxava.jpa.*;
-import org.quartz.*;
 
 /**
  * Classe para inicializar a MedCEP.
@@ -50,35 +48,6 @@ public class MedCEPStarter extends HttpServlet
 	inicializarPeriodicidades();
 	inicializarEscalas();
 	inicializarUnidadesMedida();
-	inicializarAgendador();
-    }
-
-    private static void inicializarAgendador() throws SchedulerException
-    {
-	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
-	Scheduler sched = schedFact.getScheduler();
-	sched.start();
-
-	boolean existe = sched.checkExists(new JobKey("myJob", "group1"));
-	if (!existe)
-	{
-	    // define the job and tie it to our HelloWorldJob class      
-	    JobDetail job = JobBuilder.newJob(HelloWorldJob.class)
-		    .withIdentity("myJob", "group1") // name "myJob", group "group1"      
-		    .build();
-
-	    // Trigger the job to run now, and then every 40 seconds      
-	    Trigger trigger = TriggerBuilder.newTrigger()
-		    .withIdentity("myTrigger", "group1")
-		    .startNow()
-		    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-			    .withIntervalInSeconds(10)
-			    .repeatForever())
-		    .build();
-
-	    // Tell quartz to schedule the job using our trigger      
-	    sched.scheduleJob(job, trigger);
-	}
     }
 
     private static void inicializarTiposElementosMensuraveis() throws Exception
