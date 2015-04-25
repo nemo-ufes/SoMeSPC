@@ -71,44 +71,20 @@
 			<td valign="top">
 				<div class="module-wrapper">
 
-					<%-- O Painel de Controle começa aqui --%>
-					<div id="painel" class="container" ng-controller=PainelController>
+					<br />
 
-						<div class="panel panel-primary" style="margin-top: 20px;">
+					<ul class="nav nav-tabs" role="tablist" id="painel_tab">
+						<li role="presentation" class="active"><a href="#medicoes" aria-controls="medicoes" role="tab" data-toggle="tab">Medições</a></li>
+						<li role="presentation"><a href="#agendamentos" aria-controls="agendamentos" role="tab" data-toggle="tab">Agendamentos</a></li>
+					</ul>
 
-							<div class="panel-heading">
-								<h1 class="panel-title text-center">
-									<b>Painel de Controle</b>
-								</h1>
-							</div>
-
-							<div class="row" style="margin: 20px;">
-								<div class="col-md-5">
-									<label for="selectProjeto">Projeto</label> <select class="form-control" id="selectProjeto" ng-model="projetoSelecionado" ng-options="projetos[projetos.indexOf(projeto)].nome  for projeto in projetos" ng-change="obterMedidas()">
-									</select>
-								</div>
-								<div class="col-md-5">
-									<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes(1)">
-									</select>
-								</div>
-								<div class="col-md-2">
-									<label for="selectTamanhoPagina">Qtde Medições</label> <select class="form-control" id="selectTamanhoPagina" ng-model="numPerPage" ng-options="numPerPage for numPerPage in [5,10,15,20,25,30]" ng-change="obterMedicoes(paginaAtual)">
-									</select>
-								</div>
-							</div>
-
-							<div class="row" style="margin: 20px;">
-								<div class="col-md-12">
-									<canvas id="line" style="height: 500px;" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
-									</canvas>
-									<div class="text-center">
-										<pagination boundary-links="true" total-items="totalItems" items-per-page="numPerPage" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
-									</div>
-								</div>
-							</div>
-
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="medicoes">
+							<div ng-include="'painel_medicoes.jsp'"></div>
 						</div>
-
+						<div role="tabpanel" class="tab-pane" id="agendamentos">
+							<div ng-include="'painel_agendamentos.jsp'"></div>
+						</div>
 					</div>
 
 					<%-- Modules --%>
@@ -129,12 +105,12 @@
 					<%-- Paginator --%>
 					<script type='text/javascript' src='js/ui-bootstrap-tpls-0.12.1.js'></script>
 
-					<%-- O Painel de Controle termina aqui --%>
 				</div>
 			</td>
 		</tr>
 	</table>
 
+	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/nav-tabs.css' />	
 	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/js/themes/default/style.min.css' />
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/typewatch.js'></script>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/naviox.js'></script>
