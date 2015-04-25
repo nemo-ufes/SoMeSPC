@@ -1,12 +1,11 @@
-
-<img align="right" src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img align="right" src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
-
 # MedCEP - A powerful tool to measure
 
 <img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/logo_new.png" alt="Logo MedCEP" width="140px" height="120px"/> 
+<img align="right" src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img align="right" src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
 
 **Copyright &copy; 2013 Ciro Xavier Maretto** <br/>
 **Copyright &copy; 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca** 
+
 Ferramenta para Medição de Software e Controle Estatístico de Processos. 
 <br/>Baseada na arquitetura de referência de medição de software de MARETTO (2014).
 
