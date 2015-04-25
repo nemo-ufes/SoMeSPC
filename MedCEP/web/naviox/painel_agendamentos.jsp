@@ -10,10 +10,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="job in jobs">
-				<td>{{job.sched_name}}</td>
-				<td>{{job.job_name}}</td>
-				<td>{{job.job_group}}</td>
+			<tr ng-repeat="agendamento in agendamentos">
+				<td>{{agendamento.nome_agendador}}</td>
+				<td>{{agendamento.nome_agendamento}}</td>
+				<td>{{agendamento.nome_job}}</td>
 				<td>
 					<button type="button" ng-click="" class="btn btn-sm btn-success">
 						<i class="glyphicon glyphicon-play"></i>

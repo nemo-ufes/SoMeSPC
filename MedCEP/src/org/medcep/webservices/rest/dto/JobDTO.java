@@ -6,121 +6,121 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JobDTO
 {
-    @XmlElement(name = "sched_name")
-    private String schedulerName;
+    @XmlElement(name = "nome_agendador")
+    private String nomeAgendador;
 
-    @XmlElement(name = "job_name")
-    private String jobName;
+    @XmlElement(name = "nome_job")
+    private String nomeJob;
 
-    @XmlElement(name = "job_group")
-    private String jobGroup;
+    @XmlElement(name = "grupo_job")
+    private String grupoJob;
 
-    @XmlElement(name = "description")
-    private String description;
+    @XmlElement(name = "descricao")
+    private String descricao;
 
-    @XmlElement(name = "job_class_name")
-    private String jobClassName;
+    @XmlElement(name = "classe_job")
+    private String classeJob;
 
-    @XmlElement(name = "is_durable")
-    private Boolean isDurable;
+    @XmlElement(name = "is_duravel")
+    private Boolean isDuravel;
 
-    @XmlElement(name = "is_nonconcurrent")
-    private Boolean isNonConcurrent;
+    @XmlElement(name = "is_nao_concorrente")
+    private Boolean isNaoConcorrente;
 
-    @XmlElement(name = "is_update_data")
-    private Boolean isUpdateData;
+    @XmlElement(name = "is_atualizacao_dados")
+    private Boolean isAtualizacaoDados;
 
-    @XmlElement(name = "requests_recovery")
-    private Boolean requestsRecovery;
+    @XmlElement(name = "requer_recuperacao")
+    private Boolean requerRecuperacao;
 
-    public String getSchedulerName()
+    public String getNomeAgendador()
     {
-	return schedulerName;
+	return nomeAgendador;
     }
 
-    public void setSchedulerName(String schedulerName)
+    public void setNomeAgendador(String nomeAgendador)
     {
-	this.schedulerName = schedulerName;
+	this.nomeAgendador = nomeAgendador;
     }
 
-    public String getJobName()
+    public String getNomeJob()
     {
-	return jobName;
+	return nomeJob;
     }
 
-    public void setJobName(String jobName)
+    public void setNomeJob(String nomeJob)
     {
-	this.jobName = jobName;
+	this.nomeJob = nomeJob;
     }
 
-    public String getJobGroup()
+    public String getGrupoJob()
     {
-	return jobGroup;
+	return grupoJob;
     }
 
-    public void setJobGroup(String jobGroup)
+    public void setGrupoJob(String grupoJob)
     {
-	this.jobGroup = jobGroup;
+	this.grupoJob = grupoJob;
     }
 
-    public String getDescription()
+    public String getDescricao()
     {
-	return description;
+	return descricao;
     }
 
-    public void setDescription(String description)
+    public void setDescricao(String descricao)
     {
-	this.description = description;
+	this.descricao = descricao;
     }
 
-    public String getJobClassName()
+    public String getClasseJob()
     {
-	return jobClassName;
+	return classeJob;
     }
 
-    public void setJobClassName(String jobClassName)
+    public void setClasseJob(String classeJob)
     {
-	this.jobClassName = jobClassName;
+	this.classeJob = classeJob;
     }
 
-    public Boolean getIsDurable()
+    public Boolean getIsDuravel()
     {
-	return isDurable;
+	return isDuravel;
     }
 
-    public void setIsDurable(Boolean isDurable)
+    public void setIsDuravel(Boolean isDuravel)
     {
-	this.isDurable = isDurable;
+	this.isDuravel = isDuravel;
     }
 
-    public Boolean getIsNonConcurrent()
+    public Boolean getIsNaoConcorrente()
     {
-	return isNonConcurrent;
+	return isNaoConcorrente;
     }
 
-    public void setIsNonConcurrent(Boolean isNonConcurrent)
+    public void setIsNaoConcorrente(Boolean isNaoConcorrente)
     {
-	this.isNonConcurrent = isNonConcurrent;
+	this.isNaoConcorrente = isNaoConcorrente;
     }
 
-    public Boolean getIsUpdateData()
+    public Boolean getIsAtualizacaoDados()
     {
-	return isUpdateData;
+	return isAtualizacaoDados;
     }
 
-    public void setIsUpdateData(Boolean isUpdateData)
+    public void setIsAtualizacaoDados(Boolean isAtualizacaoDados)
     {
-	this.isUpdateData = isUpdateData;
+	this.isAtualizacaoDados = isAtualizacaoDados;
     }
 
-    public Boolean getRequestsRecovery()
+    public Boolean getRequerRecuperacao()
     {
-	return requestsRecovery;
+	return requerRecuperacao;
     }
 
-    public void setRequestsRecovery(Boolean requestsRecovery)
+    public void setRequerRecuperacao(Boolean requerRecuperacao)
     {
-	this.requestsRecovery = requestsRecovery;
+	this.requerRecuperacao = requerRecuperacao;
     }
 
 }

@@ -3,14 +3,25 @@ app.service("AgendadorService", function($http, $q) {
 	var url = 'http://localhost:8080/MedCEP/api/Agendador';
 	
 	return ({
-		obterJobs : obterJobs
+		obterJobs : obterJobs,
+		obterAgendamentos  :obterAgendamentos
 	});
 
 	function obterJobs() {
 
 		var request = $http({
 			method : "get",
-			url : url + "/Jobs",
+			url : url + "/Job",
+			params : {}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
+	
+	function obterAgendamentos() {
+
+		var request = $http({
+			method : "get",
+			url : url + "/Agendamento",
 			params : {}
 		});
 		return (request.then(handleSuccess, handleError));

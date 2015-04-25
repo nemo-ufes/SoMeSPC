@@ -3,11 +3,11 @@
  */
 app.controller('AgendamentosController', function($scope, AgendadorService) {
 
-	obterJobs();
+	obterAgendamentos();
 
-	function obterJobs() {
-		AgendadorService.obterJobs().then(function(jobs) {
-			$scope.jobs = jobs;
+	function obterAgendamentos() {
+		AgendadorService.obterAgendamentos().then(function(agendamentos) {
+			$scope.agendamentos = agendamentos;
 		});
 	}
 
