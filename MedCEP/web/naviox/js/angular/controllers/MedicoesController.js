@@ -1,5 +1,5 @@
 /**
- * Controlador da aba de Medições.
+ * Controlador da aba de Medições do Painel de Controle.
  */
 app.controller('MedicoesController', function($scope, MedicaoService) {
 	

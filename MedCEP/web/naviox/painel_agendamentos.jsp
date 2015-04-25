@@ -3,15 +3,17 @@
 	<table st-table="users" class="table table-striped">
 		<thead>
 			<tr>
-				<th>Name</th>
-				<th>Age</th>
+				<th>Agendador</th>
+				<th>Nome do Job</th>
+				<th>Grupo do Job</th>
 				<th>Controles</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in users">
-				<td>{{user.name}}</td>
-				<td>{{user.age}}</td>
+			<tr ng-repeat="job in jobs">
+				<td>{{job.sched_name}}</td>
+				<td>{{job.job_name}}</td>
+				<td>{{job.job_group}}</td>
 				<td>
 					<button type="button" ng-click="" class="btn btn-sm btn-success">
 						<i class="glyphicon glyphicon-play"></i>
