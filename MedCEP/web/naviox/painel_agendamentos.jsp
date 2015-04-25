@@ -19,7 +19,7 @@
 				<td>{{agendamento.nome_job}}</td>
 				<td>{{agendamento.estado_agendamento}}</td>
 				<td>
-					<button type="button" ng-click="" class="btn btn-sm btn-success">
+					<button type="button" ng-click="iniciarAgendamento(agendamento)" class="btn btn-sm btn-success">
 						<i class="glyphicon glyphicon-play"></i>
 					</button>
 					<button type="button" ng-click="pausarAgendamento(agendamento)" class="btn btn-sm btn-primary">

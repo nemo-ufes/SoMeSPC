@@ -236,7 +236,7 @@ public class MedCEPResource
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response criarOcorrenciaProcesso(OcorrenciaDTO ocorrenciaDto) throws Exception
+    public synchronized Response criarOcorrenciaProcesso(OcorrenciaDTO ocorrenciaDto) throws Exception
     {
 	Response response;
 	EntityManager manager = XPersistence.createManager();
@@ -365,7 +365,7 @@ public class MedCEPResource
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response criarOcorrenciaAtividade(OcorrenciaDTO ocorrenciaDto) throws Exception
+    public synchronized Response criarOcorrenciaAtividade(OcorrenciaDTO ocorrenciaDto) throws Exception
     {
 
 	Response response;
@@ -811,7 +811,7 @@ public class MedCEPResource
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response criarDefinicaoOperacionalMedida(DefinicaoOperacionalMedidaDTO dto) throws Exception
+    public synchronized Response criarDefinicaoOperacionalMedida(DefinicaoOperacionalMedidaDTO dto) throws Exception
     {
 	Response response = null;
 	EntityManager manager = XPersistence.createManager();

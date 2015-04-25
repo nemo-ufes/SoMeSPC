@@ -9,6 +9,7 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.medcep.webservices.rest.dto.*;
+import org.medcep.webservices.rest.exceptions.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
 
@@ -113,63 +114,45 @@ public class MedCEPSchedulerResource
 	return response;
     }
 
-    @Path("/Agendamento/{nome-grupo}")
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response pausarAgendamento(@PathParam("nome-grupo") String nomeGrupo) throws SchedulerException
-    {
-
-	String nome = nomeGrupo.split("-")[0];
-	String grupo = nomeGrupo.split("-")[1];
-
-	Response response;
-	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
-	Scheduler sched = schedFact.getScheduler();
-
-	if (!sched.isStarted())
-	    sched.start();
-
-	TriggerKey id = new TriggerKey(nome, grupo);
-
-	boolean existe = sched.checkExists(id);
-	if (existe)
-	{
-	    sched.pauseTrigger(id);
-	    response = Response.status(Status.OK).build();
-	}
-	else
-	{
-	    response = Response.status(Status.BAD_REQUEST).build();
-	}
-
-	return response;
-    }
-
-    @Path("/Agendamento")
+    @Path("/Agendamento/Comando")
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response criarAgendamento(AgendamentoDTO agendamento) throws SchedulerException
+    public synchronized Response executarComandoAgendamento(ComandoDTO comando) throws SchedulerException
     {
-	Response response;
+
+	Response response = null;
 	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 	Scheduler sched = schedFact.getScheduler();
 
 	if (!sched.isStarted())
 	    sched.start();
 
-	TriggerKey id = new TriggerKey(agendamento.getNomeAgendamento(), agendamento.getGrupoAgendamento());
+	TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
 
 	boolean existe = sched.checkExists(id);
 	if (existe)
 	{
-	    sched.unscheduleJob(id);
-	    response = Response.status(Status.OK).build();
+
+	    if (comando.getComando().equalsIgnoreCase("Iniciar"))
+	    {
+		sched.resumeTrigger(id);
+		response = Response.status(Status.OK).build();
+	    }
+	    else if (comando.getComando().equalsIgnoreCase("Pausar"))
+	    {
+		sched.pauseTrigger(id);
+		response = Response.status(Status.OK).build();
+	    }
+	    else
+	    {
+		throw new ComandoInexistenteException(String.format("Comando %s desconhecido.", comando.getComando()));
+	    }
+
 	}
 	else
 	{
-	    response = Response.status(Status.BAD_REQUEST).build();
+	    throw new ComandoInexistenteException(String.format("Agendamento %s não encontrado.", comando.getNomeAgendamento()));
 	}
 
 	return response;

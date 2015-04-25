@@ -5,7 +5,8 @@ app.service("AgendadorService", function($http, $q) {
 	return ({
 		obterJobs : obterJobs,
 		obterAgendamentos : obterAgendamentos,
-		pausarAgendamento : pausarAgendamento
+		pausarAgendamento : pausarAgendamento,
+		iniciarAgendamento : iniciarAgendamento
 	});
 
 	function obterJobs() {
@@ -30,8 +31,26 @@ app.service("AgendadorService", function($http, $q) {
 
 	function pausarAgendamento(nomeAgendamento, grupoAgendamento) {
 		var request = $http({
-			method : "delete",
-			url : url + "/Agendamento/" + nomeAgendamento + "-" + grupoAgendamento			
+			method : "post",
+			url : url + "/Agendamento/Comando",
+			data : {
+				nome_agendamento : nomeAgendamento,
+				grupo_agendamento : grupoAgendamento,
+				comando : "Pausar"
+			}
+		});
+		return (request.then(handleSuccess, handleError));
+	}
+	
+	function iniciarAgendamento(nomeAgendamento, grupoAgendamento) {
+		var request = $http({
+			method : "post",
+			url : url + "/Agendamento/Comando",
+			data : {
+				nome_agendamento : nomeAgendamento,
+				grupo_agendamento : grupoAgendamento,
+				comando : "Iniciar"
+			}
 		});
 		return (request.then(handleSuccess, handleError));
 	}

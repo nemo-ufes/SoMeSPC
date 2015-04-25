@@ -18,6 +18,16 @@ app.controller('AgendamentosController', function($scope, AgendadorService) {
 			$scope.obterAgendamentos();
 		});
 	}
+	
+	$scope.iniciarAgendamento = function iniciarAgendamento(linha) {
+		var index = $scope.agendamentos.indexOf(linha);
+		var agendamento = $scope.agendamentos[index];
+
+		AgendadorService.iniciarAgendamento(agendamento.nome_agendamento,
+				agendamento.grupo_agendamento).then(function() {
+			$scope.obterAgendamentos();
+		});
+	}
 
 	$scope.obterAgendamentos();
 
