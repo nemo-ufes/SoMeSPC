@@ -1,4 +1,4 @@
-package org.medcep.interacao.agendador;
+package org.medcep.integracao.agendador;
 
 import java.sql.*;
 import java.text.*;

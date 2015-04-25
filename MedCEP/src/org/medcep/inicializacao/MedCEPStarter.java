@@ -11,7 +11,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.hibernate.exception.*;
-import org.medcep.interacao.agendador.*;
+import org.medcep.integracao.agendador.*;
 import org.medcep.model.medicao.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
