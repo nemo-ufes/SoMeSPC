@@ -60,8 +60,8 @@ app.controller('AgendamentosController', function($scope, $interval,
 	/**
 	 * Atualiza a lista de agendamentos a cada X segundos;
 	 */
-	$interval(function() {
-		$scope.obterAgendamentos();
-	}.bind(this), 5000);
+//	$interval(function() {
+//		$scope.obterAgendamentos();
+//	}.bind(this), 5000);
 
 });

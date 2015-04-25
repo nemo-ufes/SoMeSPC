@@ -2,3 +2,35 @@
 	margin-right: 0px;
 	margin-left: 0px;
 }
+
+th {	
+	border: 3px solid #2C3E50;
+	font-size: 16px;
+}
+
+thead, tfoot {
+	color: #fff;
+	border: 3px solid #2C3E50;
+	background-color: #2C3E50;
+}
+
+.iniciado {
+	border-left: 3px solid #2C3E50;
+	border-right: 3px solid #2C3E50;
+	font-size: 14px;
+	color: #5E7080;
+}
+
+.espera {
+	border-left: 3px solid #2C3E50;
+	border-right: 3px solid #2C3E50;
+	font-size: 14px;
+	color: #5E7080;
+}
+
+.pausado {
+	border-left: 3px solid #2C3E50;
+	border-right: 3px solid #2C3E50;
+	font-size: 14px;
+	color: #5E7080;
+}
