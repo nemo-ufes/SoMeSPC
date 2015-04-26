@@ -9,32 +9,17 @@ app.controller('MainController', function($scope, Entry) {
 	
 	$scope.medida_selected = [];
 	
-	$scope.verificador_medidas = new Array();
-	
-	$scope.add_index = function (index) {
-		console.log(index);
-		if($scope.verificador_medidas == "undefined" && $scope.verificador_medidas == null ){
-			$scope.verificador_medidas.push(index);
-			console.log(index);
-		}
-		for (i in $scope.verificador_medidas){
-			if($scope.verificador_medidas[i] != index){
-				$scope.verificador_medidas.push(index);
-				console.log(index);
-			}
-		}
-	};
-	
 	$scope.get_projeto = function (index) {
 		$scope.projeto_selected = $scope.projetos[index];
 		console.log($scope.projeto_selected.nome);
 	};
 	
 	$scope.get_medidas = function() {
-        for(i in $scope.verificador_medidas) {
-            var indice = $scope.verificador_medidas[i];
-        	$scope.medida_selected.push($scope.medidas[indice]);
-            console.log($scope.medidas[indice]);
+        for(medida in $scope.medida_selected) {
+        	if($scope.medida_selected[medida] != false){
+        	//$scope.medida_selected.push($scope.medidas[indice]);
+        		console.log(medida);
+        	}
         }                
     }
 	

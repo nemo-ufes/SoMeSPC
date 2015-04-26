@@ -49,9 +49,7 @@
 				<br />
 				<div id="medidas" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="medida in medidas">
 					<div class="col-md-1">
-						<p class="radio">
-							<input type="checkbox" ng-click="add_index($index)" />
-						</p>
+						<label class="checkbox" for="{{medida}}"><input type="checkbox" ng-model="medida_selected[medida]" name="group" id="{{medida}}" /></label>
 					</div>
 					<div class="col-md-11">
 						<div>
