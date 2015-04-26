@@ -1,0 +1,56 @@
+.panel-primary>.panel-heading {
+	background-image: linear-gradient(to bottom, #566472 0px, #2C3E50 100%);
+	background-repeat: repeat-x;
+}
+
+.panel-primary>.panel-heading {
+	color: #FFF;
+	background-color: #2C3E50;
+	border-color: #2C3E50;
+}
+
+.panel-heading {
+	padding: 10px 15px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.panel-primary {
+	border-color: #2C3E50;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover,
+	.pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover
+	{
+	z-index: 2;
+	color: #FFF;
+	cursor: default;
+	background-color: #2C3E50;
+	border-color: #2C3E50;
+	background-image: linear-gradient(to bottom, #566472 0px, #2C3E50 100%);
+	background-repeat: repeat-x;
+}
+
+.pagination>li>a, .pagination>li>span {
+	position: relative;
+	float: left;
+	padding: 6px 12px;
+	margin-left: -1px;
+	line-height: 1.42857;
+	color: #2C3E50;
+	text-decoration: none;
+	background-color: #FFF;
+	border: 1px solid #566472;
+}
+
+.pagination>.disabled>a {
+	border-color: #566472;
+}
+
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus,
+	.pagination>li>span:hover {
+	color: #566472;
+	background-color: #d4d8dc;
+	border-color: #566472;
+}

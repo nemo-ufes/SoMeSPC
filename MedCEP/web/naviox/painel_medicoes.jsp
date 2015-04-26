@@ -5,7 +5,7 @@
 
 		<div class="panel-heading">
 			<h1 class="panel-title text-center">
-				<b>Painel de Controle</b>
+				<b>Painel de Medições</b>
 			</h1>
 		</div>
 
@@ -37,3 +37,5 @@
 	</div>
 
 </div>
+
+<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/painel_medicoes.css' />

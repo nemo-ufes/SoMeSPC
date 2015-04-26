@@ -19,16 +19,10 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 		$scope.labels = ["0","0","0","0","0"];	
 		$scope.series = [''];
 		$scope.colours = [ {
-			 	fillColor : "#d5e3ee",
-			 	strokeColor : "#3073AD",
-			 	pointColor : "#3073AD",
+			 	fillColor : "#e9ebed",
+			 	strokeColor : "#2C3E50",
+			 	pointColor : "#2C3E50",
 			 	pointStrokeColor : "#fff",
-			 },
-			 {
-				fillColor : "#9ead8c",
-				strokeColor : "#1e2d0c",
-				pointColor : "#1e2d0c",
-				pointStrokeColor : "#fff",
 			 }]
 	}
 	

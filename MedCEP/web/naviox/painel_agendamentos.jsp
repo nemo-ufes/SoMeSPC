@@ -3,7 +3,7 @@
 	<table st-table="tabela-agendamentos" class="table table-striped">
 		<thead>
 			<tr>
-				<th>Agendamento</th>
+				<th>Nome</th>
 				<th>Última Execução</th>
 				<th>Próxima Execução</th>
 				<th>Situação</th>

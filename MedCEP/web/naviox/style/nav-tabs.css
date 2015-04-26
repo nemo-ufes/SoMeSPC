@@ -1,5 +1,5 @@
 .tab-pane {
-	border-top: 1px solid #2F70A8;	
+	border-top: 1px solid #2C3E50;	
 	border-radius: 0px 0px 5px 5px;
 	padding: 10px;
 }
@@ -13,13 +13,13 @@
 }
 
 a, a:focus, a:hover {
-	color: #2F70A8;
+	color: #2C3E50;
 }
 
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
 	{
-	background-color: #2F70A8;
+	background-color: #2C3E50;
 	color: #fff;
 	font-weight: bold;
-	border-color: #2F70A8 #2F70A8 #2F70A8 #2F70A8;
+	border-color: #2C3E50 #2C3E50 #2C3E50 #2C3E50;
 }
