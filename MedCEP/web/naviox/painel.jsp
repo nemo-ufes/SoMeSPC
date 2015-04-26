@@ -39,6 +39,8 @@
 <script type='text/javascript' src='js/Chart.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-chart.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/smart-table.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-sanitize.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-translate.min.js'></script>
 
 <title>Painel de Controle - MedCEP</title>
 <meta charset="utf-8">
@@ -97,7 +99,7 @@
 					<%-- Services --%>
 					<script type="text/javascript" src="js/angular/services/MedicaoService.js"></script>
 					<script type="text/javascript" src="js/angular/services/AgendamentoService.js"></script>
-
+										
 					<%-- JQuery --%>
 					<script type='text/javascript' src="js/jquery.js"></script>
 
@@ -106,13 +108,18 @@
 
 					<%-- Paginator --%>
 					<script type='text/javascript' src='js/ui-bootstrap-tpls-0.12.1.js'></script>
+					
+					<%-- Modal --%>
+					<script type='text/javascript' src='js/angular/shared/dialogs-default-translations.min.js'></script>
+					<script type='text/javascript' src='js/angular/shared/dialogs.min.js'></script>
 
 				</div>
 			</td>
 		</tr>
 	</table>
 
-	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/nav-tabs.css' />	
+	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/nav-tabs.css' />
+	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/dialogs.min.css' />	
 	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/js/themes/default/style.min.css' />
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/typewatch.js'></script>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/naviox.js'></script>

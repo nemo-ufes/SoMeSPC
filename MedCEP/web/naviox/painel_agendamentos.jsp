@@ -1,5 +1,10 @@
 
 <div id="painel2" class="container" ng-controller=AgendamentosController>
+
+	<div>
+		<p>Confirmação: {{confirmed}}</p>
+	</div>
+	
 	<table st-table="tabela-agendamentos" class="table table-striped">
 		<thead>
 			<tr>
@@ -35,7 +40,7 @@
 					<button type="button" ng-disabled="agendamento.estado_agendamento == 'PAUSADO'" ng-click="pausarAgendamento(agendamento)" class="btn btn-sm btn-primary">
 						<i class="glyphicon glyphicon-pause"></i>
 					</button>
-					<button type="button" ng-click="excluirAgendamento(agendamento)" class="btn btn-sm btn-danger">
+					<button type="button" ng-click="confirmar()" class="btn btn-sm btn-danger">
 						<i class="glyphicon glyphicon-remove"></i>
 					</button>
 				</td>

@@ -1,8 +1,10 @@
 /**
  * Controlador da aba de Agendamentos do Painel de Controle
  */
-app.controller('AgendamentosController', function($scope, $interval,
+app.controller('AgendamentosController', function($scope, $interval, dialogs,
 		AgendadorService) {
+
+	$scope.confirmed = "Sem confirmação";
 
 	/**
 	 * Obtem a lista de agendamentos.
@@ -52,6 +54,15 @@ app.controller('AgendamentosController', function($scope, $interval,
 		});
 	}
 
+	$scope.confirmar = function confirmar() {
+		var dlg = dialogs.confirm();
+		dlg.result.then(function(btn) {
+			$scope.confirmed = 'You confirmed "Yes."';
+		}, function(btn) {
+			$scope.confirmed = 'You confirmed "No."';
+		});
+	}
+
 	/**
 	 * Inicializa a lista de agendamentos.
 	 */
@@ -60,8 +71,8 @@ app.controller('AgendamentosController', function($scope, $interval,
 	/**
 	 * Atualiza a lista de agendamentos a cada X segundos;
 	 */
-//	$interval(function() {
-//		$scope.obterAgendamentos();
-//	}.bind(this), 5000);
+	$interval(function() {
+		$scope.obterAgendamentos();
+	}.bind(this), 5000);
 
 });
