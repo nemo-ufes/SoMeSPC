@@ -1,5 +1,4 @@
-<jsp:useBean id="wizardHelper" class="org.medcep.wizard.WizardHelper"
-	scope="session" />
+<jsp:useBean id="wizardHelper" class="org.medcep.wizard.WizardHelper" scope="session" />
 
 
 <!doctype html>
@@ -14,10 +13,8 @@
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 
 <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
-<script type='text/javascript'
-	src='js/angular/shared/angular-route.min.js'></script>
-<script type='text/javascript'
-	src='js/angular/shared/angular-resource.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-resource.min.js'></script>
 
 <title>Wizard - MedCEP</title>
 </head>
@@ -29,36 +26,31 @@
 			<fieldset>
 				<h2 class="text-primary text-center">Selecione os Projetos do Taiga</h2>
 				<br />
-				<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="projeto in projetos">
-					<div class="col-md-2">
+				<form name="formProjetos">
+					<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary">
 						<div class="radio">
-							<label><input type="radio" ng-click="get_projeto($index)"></label>
+							<label ng-repeat="projeto in projetos"><input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto">
+								<div>
+									<p>
+										<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+									</p>
+								</div>
+								<div>
+									<p>{{projeto.descricao}}</p>
+								</div> </label>
 						</div>
 					</div>
-					<div class="col-md-10">
-						<div>
-							<p>
-								<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
-							</p>
-						</div>
-						<div>
-							<p>{{projeto.descricao}}</p>
-						</div>
-					</div>
-
-
-				</div>
-
+				</form>
 			</fieldset>
 
 			<h2>Medidas</h2>
-			<fieldset style="overflow:scroll; border:1px solid #0000FF;">
+			<fieldset style="overflow: scroll; border: 1px solid #0000FF;">
 				<h2 class="text-primary text-center">Selecione as Medidas</h2>
 				<br />
 				<div id="medidas" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="medida in medidas">
 					<div class="col-md-1">
 						<p class="radio">
-							<input type="checkbox" ng-click="add_index($index)"/>
+							<input type="checkbox" ng-click="add_index($index)" />
 						</p>
 					</div>
 					<div class="col-md-11">
@@ -82,12 +74,10 @@
 	<script type="text/javascript" src="js/angular/app.js"></script>
 
 	<!-- Controllers -->
-	<script type="text/javascript"
-		src="js/angular/controllers/MainController.js"></script>
+	<script type="text/javascript" src="js/angular/controllers/MainController.js"></script>
 
 	<!-- Services -->
-	<script type="text/javascript"
-		src="js/angular/services/TaigaIntegratorService.js"></script>
+	<script type="text/javascript" src="js/angular/services/TaigaIntegratorService.js"></script>
 
 	<!-- JQuery -->
 	<script type='text/javascript' src="js/jquery.js"></script>
