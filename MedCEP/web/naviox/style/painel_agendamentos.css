@@ -7,6 +7,28 @@ table {
 	margin-left: 0px;
 }
 
+table {
+	*border-collapse: collapse; /* IE7 and lower */
+	border-spacing: 0;
+}
+
+th:first-child {
+	border-radius: 6px 0 0 0;
+}
+
+th:last-child {
+	border-radius: 0 6px 0 0;
+}
+
+th:only-child {
+	border-radius: 6px 6px 0 0;
+}
+
+.table>thead>tr>th {
+	vertical-align: bottom;
+	border-bottom: 2px solid #2C3E50;
+}
+
 th {
 	border: 3px solid #2C3E50;
 	font-size: 16px;
@@ -16,6 +38,18 @@ thead, tfoot {
 	color: #fff;
 	border: 3px solid #2C3E50;
 	background-color: #2C3E50;
+}
+
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover,
+	.pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover
+	{
+	z-index: 2;
+	color: #FFF;
+	cursor: default;
+	background-color: #476481;
+	border-color: #476481;
+	background-image: linear-gradient(to bottom, #566472 0px, #476481 100%);
+	background-repeat: repeat-x;
 }
 
 .iniciado {

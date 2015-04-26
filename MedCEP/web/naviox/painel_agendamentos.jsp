@@ -23,6 +23,7 @@
 				<th st-sort="estado_agendamento">Situação</th>
 				<th>Controles</th>
 			</tr>
+			<th colspan="5"><input st-search placeholder="Buscar..." class="input-md form-control" type="search" /></th>
 		</thead>
 		<tbody>
 			<tr ng-class="{ 'iniciado' : agendamento.estado_agendamento == 'INICIADO',
@@ -56,7 +57,11 @@
 			</tr>
 		</tbody>
 		<tfoot>
-			<tr></tr>
+			<tr>
+				<td colspan="5" class="text-center">
+					<div st-pagination="" st-items-by-page="10" st-displayed-pages="7"></div>
+				</td>
+			</tr>
 		</tfoot>
 	</table>
 </div>
