@@ -1,15 +1,19 @@
 /**
  * Controlador da aba de Agendamentos do Painel de Controle
  */
-app.controller('AgendamentosController', function($scope, $interval, dialogs,
+app.controller('AgendamentosController', function($scope, $interval, $filter, dialogs,
 		AgendadorService) {
 
+	$scope.agendamentos = [];
+	$scope.tabelaAgendamentos = [].concat($scope.agendamentos);
+	
 	/**
 	 * Obtem a lista de agendamentos.
 	 */
 	$scope.obterAgendamentos = function obterAgendamentos() {
 		AgendadorService.obterAgendamentos().then(function(agendamentos) {
 			$scope.agendamentos = agendamentos;
+			$scope.tabelaAgendamentos = [].concat($scope.agendamentos);
 		});
 	}
 

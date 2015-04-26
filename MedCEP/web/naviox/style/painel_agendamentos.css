@@ -1,5 +1,4 @@
-table
-{
+table {
 	margin-top: 20px;
 }
 
@@ -8,7 +7,7 @@ table
 	margin-left: 0px;
 }
 
-th {	
+th {
 	border: 3px solid #2C3E50;
 	font-size: 16px;
 }
@@ -38,4 +37,12 @@ thead, tfoot {
 	border-right: 3px solid #2C3E50;
 	font-size: 14px;
 	color: #5E7080;
+}
+
+.st-sort-ascent:after {
+	content: '\25B2';
+}
+
+.st-sort-descent:after {
+	content: '\25BC';
 }

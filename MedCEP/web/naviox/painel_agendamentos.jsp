@@ -14,20 +14,20 @@
 		</button>
 	</div>
 
-	<table st-table="tabela-agendamentos" class="table table-striped">
+	<table st-table="tabelaAgendamentos" st-safe-src="agendamentos" class="table table-striped">
 		<thead>
 			<tr>
-				<th>Nome</th>
-				<th>Última Execução</th>
-				<th>Próxima Execução</th>
-				<th>Situação</th>
+				<th st-sort="nome_agendamento">Nome</th>
+				<th st-sort="execucao_anterior">Última Execução</th>
+				<th st-sort="proxima_execucao">Próxima Execução</th>
+				<th st-sort="estado_agendamento">Situação</th>
 				<th>Controles</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-class="{ 'iniciado' : agendamento.estado_agendamento == 'INICIADO',
 							'espera' : agendamento.estado_agendamento == 'EM ESPERA',
-							'pausado'  : agendamento.estado_agendamento == 'PAUSADO'}" ng-repeat="agendamento in agendamentos">
+							'pausado'  : agendamento.estado_agendamento == 'PAUSADO'}" ng-repeat="agendamento in tabelaAgendamentos">
 				<td>
 					<div class="row">
 						<p>
