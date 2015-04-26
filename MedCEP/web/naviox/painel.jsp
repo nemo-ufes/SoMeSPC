@@ -94,7 +94,7 @@
 
 					<%-- Controllers --%>
 					<script type="text/javascript" src="js/angular/controllers/MedicoesController.js"></script>
-					<script type="text/javascript" src="js/angular/controllers/AgendamentosController.js"></script>
+					<script type="text/javascript" src="js/angular/controllers/AgendamentosController.js" charset="UTF-8"></script>
 
 					<%-- Services --%>
 					<script type="text/javascript" src="js/angular/services/MedicaoService.js"></script>
