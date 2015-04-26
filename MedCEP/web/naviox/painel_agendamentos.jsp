@@ -1,12 +1,17 @@
 
 <div id="painel2" class="container" ng-controller=AgendamentosController>
 
-	<div class="alert alert-success alert-dismissible" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<div class="alert alert-success alert-dismissible" role="alert" ng-show="exibirMensagem">
+		<button type="button" class="close" aria-label="Close" ng-click="ocultarMensagem()">
 			<span aria-hidden="true">&times;</span>
 		</button>
-		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-		{{mensagem}}
+		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{mensagem}}
+	</div>
+
+	<div>
+		<button type="button" class="btn btn-sm btn-success" ng-click="obterAgendamentos()">
+			<i class="glyphicon glyphicon-refresh"></i> Atualizar
+		</button>
 	</div>
 
 	<table st-table="tabela-agendamentos" class="table table-striped">

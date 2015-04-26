@@ -51,6 +51,7 @@ app.controller('AgendamentosController', function($scope, $interval, dialogs,
 				agendamento.grupo_agendamento).then(function() {
 			$scope.obterAgendamentos();
 			$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' excluído com sucesso!';
+			$scope.exibirMensagem = true;
 		});
 	}
 
@@ -71,7 +72,14 @@ app.controller('AgendamentosController', function($scope, $interval, dialogs,
 			$scope.excluirAgendamento($scope.linhaSelecionada);			
 		});
 	}
-
+	
+	/**
+	 * Oculta a mensagem.
+	 */
+	$scope.ocultarMensagem = function ocultarMensagem()	{
+		$scope.exibirMensagem = false;
+	}
+	
 	/**
 	 * Inicializa a lista de agendamentos.
 	 */
@@ -80,9 +88,9 @@ app.controller('AgendamentosController', function($scope, $interval, dialogs,
 	/**
 	 * Atualiza a lista de agendamentos a cada X segundos;
 	 */
-	$interval(function() {
-		$scope.obterAgendamentos();
-	}.bind(this), 5000);
+//	$interval(function() {
+//		$scope.obterAgendamentos();
+//	}.bind(this), 5000);
 
 })
 .config(function(dialogsProvider,$translateProvider){

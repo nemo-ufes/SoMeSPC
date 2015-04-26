@@ -28,6 +28,11 @@ public class AgendadorTest
 	    String nomeTrigger = "Agendamento de Teste " + Math.round(Math.random() * 10000);
 	    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
 
+	    int segundos = (int) Math.round(Math.random() * 60);
+
+	    if (segundos == 0)
+		segundos = 1;
+
 	    if (!existeJob)
 	    {
 		job = JobBuilder.newJob(HelloWorldJob.class)
@@ -38,7 +43,7 @@ public class AgendadorTest
 			.withIdentity(nomeTrigger, nomeGrupo)
 			.startNow()
 			.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds((int) Math.round(Math.random() * 60))
+				.withIntervalInSeconds(segundos)
 				.repeatForever())
 			.build();
 
@@ -52,7 +57,7 @@ public class AgendadorTest
 			.withIdentity(nomeTrigger, nomeGrupo)
 			.startNow()
 			.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-				.withIntervalInSeconds((int) Math.round(Math.random() * 60))
+				.withIntervalInSeconds(segundos)
 				.repeatForever())
 			.build();
 
