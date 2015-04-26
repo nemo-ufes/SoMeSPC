@@ -72,7 +72,7 @@ public class MedCEPSchedulerResource
 	Response response;
 	EntityManager manager = XPersistence.createManager();
 
-	String sql = "SELECT * FROM qrtz_triggers";
+	String sql = "SELECT * FROM qrtz_triggers ORDER BY trigger_group, trigger_name";
 
 	Query query = manager.createNativeQuery(sql);
 	@SuppressWarnings("unchecked")

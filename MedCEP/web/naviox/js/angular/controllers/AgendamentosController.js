@@ -26,7 +26,9 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 
 		AgendadorService.iniciarAgendamento(agendamento.nome_agendamento,
 				agendamento.grupo_agendamento).then(function() {
-			$scope.obterAgendamentos();
+					$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' iniciado com sucesso!';
+					$scope.exibirMensagem = true;
+					$scope.obterAgendamentos();
 		});
 	}
 
@@ -39,7 +41,9 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 
 		AgendadorService.pausarAgendamento(agendamento.nome_agendamento,
 				agendamento.grupo_agendamento).then(function() {
-			$scope.obterAgendamentos();
+					$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' pausado com sucesso!';
+					$scope.exibirMensagem = true;
+					$scope.obterAgendamentos();
 		});
 	}
 
