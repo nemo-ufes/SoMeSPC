@@ -2875,6 +2875,8 @@ public class TaigaIntegrator
 
 	    JobDataMap map = new JobDataMap();
 
+	    map.put("apelidoProjeto", projeto.getApelido());
+	    map.put("nomePlano", plano.getNome());
 	    map.put("nomeMedida", medida.getMedida().getNome());
 
 	    if (medida.getMedida().getNome().contains("Projeto"))
@@ -2900,6 +2902,7 @@ public class TaigaIntegrator
 
 		    trigger = TriggerBuilder.newTrigger().forJob(job)
 			    .withIdentity(nomeTrigger, nomeGrupo)
+			    .usingJobData(map)
 			    .startNow()
 			    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
 				    .withIntervalInHours(horas)
@@ -2914,6 +2917,7 @@ public class TaigaIntegrator
 
 		    trigger = TriggerBuilder.newTrigger().forJob(job)
 			    .withIdentity(nomeTrigger, nomeGrupo)
+			    .usingJobData(map)
 			    .startNow()
 			    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
 				    .withIntervalInHours(horas)
@@ -2951,6 +2955,7 @@ public class TaigaIntegrator
 
 			trigger = TriggerBuilder.newTrigger().forJob(job)
 				.withIdentity(nomeTrigger, nomeGrupo)
+				.usingJobData(map)
 				.startNow()
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
 					.withIntervalInHours(horas)
@@ -2965,6 +2970,7 @@ public class TaigaIntegrator
 
 			trigger = TriggerBuilder.newTrigger().forJob(job)
 				.withIdentity(nomeTrigger, nomeGrupo)
+				.usingJobData(map)
 				.startNow()
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
 					.withIntervalInHours(horas)
@@ -3007,6 +3013,7 @@ public class TaigaIntegrator
 
 			    trigger = TriggerBuilder.newTrigger().forJob(job)
 				    .withIdentity(nomeTrigger, nomeGrupo)
+				    .usingJobData(map)
 				    .startNow()
 				    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
 					    .withIntervalInHours(horas)
@@ -3021,6 +3028,7 @@ public class TaigaIntegrator
 
 			    trigger = TriggerBuilder.newTrigger().forJob(job)
 				    .withIdentity(nomeTrigger, nomeGrupo)
+				    .usingJobData(map)
 				    .startNow()
 				    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
 					    .withIntervalInHours(horas)
