@@ -536,6 +536,7 @@ public class TaigaIntegrator
 
     /**
      * Obtem as periodicidades cadastradas.
+     * 
      * @return
      */
     public List<Periodicidade> obterPeriodicidades()
@@ -548,7 +549,7 @@ public class TaigaIntegrator
 	manager.close();
 	return result;
     }
-    
+
     /**
      * Cadastra um RecursoHumano na MedCEP a partir de um Membro do Taiga.
      * Se já existir, retorna o RecursoHumano existente.
@@ -2689,7 +2690,7 @@ public class TaigaIntegrator
 
 	//Após criar o plano, agenda as medições.
 	this.agendarMedicoesPlanoMedicaoProjeto(plano, projeto);
-	
+
 	return plano;
     }
 
@@ -2807,8 +2808,9 @@ public class TaigaIntegrator
 
     /**
      * Agenda as medições de acordo com as medidas e definições operacionais de medida do plano.
+     * 
      * @param plano
-     * @throws Exception 
+     * @throws Exception
      */
     public void agendarMedicoesPlanoMedicaoProjeto(PlanoDeMedicaoDoProjeto plano, Projeto projeto) throws Exception
     {
@@ -2826,10 +2828,7 @@ public class TaigaIntegrator
 	{
 	    JobDetail job = null;
 	    Trigger trigger = null;
-	    String nomeJob = "Medição Job";
-	    String nomeGrupo = plano.getNome();
-
-	    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+	    String nomeJob = "Job do plano " + plano.getNome();
 
 	    //Converte a periodicidade em horas.
 	    String period = medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome();
@@ -2880,19 +2879,22 @@ public class TaigaIntegrator
 
 	    if (medida.getMedida().getNome().contains("Projeto"))
 	    {
-		String nomeTrigger = String.format("Medição %s da medida %s (%s) do projeto %s",
+
+		String nomeGrupo = projeto.getNome();
+		String nomeTrigger = String.format("Medição %s da medida %s (%s)",
 			medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
 			medida.getMedida().getNome(),
-			medida.getMedida().getMnemonico(),
-			projeto.getNome());
+			medida.getMedida().getMnemonico());
 
 		map.put("entidadeMedida", plano.getProjeto().getNome());
 		map.put("momento", plano.getProjeto().getNome());
 
+		boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+
 		//Cria um job para cada medida de um projeto.
 		if (!existeJob)
 		{
-		    job = JobBuilder.newJob(HelloWorldJob.class)
+		    job = JobBuilder.newJob(MedicaoJob.class)
 			    .withIdentity(nomeJob, nomeGrupo)
 			    .build();
 
@@ -2930,18 +2932,20 @@ public class TaigaIntegrator
 
 		for (Sprint sprint : sprints)
 		{
-		    String nomeTrigger = String.format("Medição %s da medida %s (%s) da sprint %s",
+		    String nomeGrupo = sprint.getNome();
+		    String nomeTrigger = String.format("Medição %s da medida %s (%s)",
 			    medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
 			    medida.getMedida().getNome(),
-			    medida.getMedida().getMnemonico(),
-			    sprint.getNome());
+			    medida.getMedida().getMnemonico());
 
 		    map.put("entidadeMedida", sprint.getNome());
 		    map.put("momento", sprint.getNome());
 
+		    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+
 		    if (!existeJob)
 		    {
-			job = JobBuilder.newJob(HelloWorldJob.class)
+			job = JobBuilder.newJob(MedicaoJob.class)
 				.withIdentity(nomeJob, nomeGrupo)
 				.build();
 
@@ -2983,18 +2987,21 @@ public class TaigaIntegrator
 
 		    for (Estoria estoria : estorias)
 		    {
-			String nomeTrigger = String.format("Medição %s da medida %s (%s) da estória %s",
+
+			String nomeGrupo = "Estória " + estoria.getTitulo();
+			String nomeTrigger = String.format("Medição %s da medida %s (%s)",
 				medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
 				medida.getMedida().getNome(),
-				medida.getMedida().getMnemonico(),
-				estoria.getTitulo());
+				medida.getMedida().getMnemonico());
 
 			map.put("entidadeMedida", estoria.getTitulo());
 			map.put("momento", estoria.getTitulo());
+			
+			boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
 
 			if (!existeJob)
 			{
-			    job = JobBuilder.newJob(HelloWorldJob.class)
+			    job = JobBuilder.newJob(MedicaoJob.class)
 				    .withIdentity(nomeJob, nomeGrupo)
 				    .build();
 

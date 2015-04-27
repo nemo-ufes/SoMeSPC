@@ -77,17 +77,13 @@ public class AgendadorTest
 	if (!sched.isStarted())
 	    sched.start();
 
-	for (int i = 0; i < 30; i++)
+	String nomeJob = "Medição Job";
+	String nomeGrupo = "Plano de Medição do Projeto Sincap (Wizard) - 27/04/2015 00:03:46";
+	boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+
+	if (existeJob)
 	{
-
-	    String nomeJob = "Job de Teste";
-	    String nomeGrupo = "Grupo de Teste";
-	    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
-
-	    if (existeJob)
-	    {
-		sched.deleteJob(new JobKey(nomeJob, nomeGrupo));
-	    }
+	    sched.deleteJob(new JobKey(nomeJob, nomeGrupo));
 	}
 
     }

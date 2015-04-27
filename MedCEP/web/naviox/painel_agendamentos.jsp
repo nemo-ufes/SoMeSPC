@@ -32,7 +32,10 @@
 				<td>
 					<div class="row">
 						<p>
-							<b>{{agendamento.nome_agendamento}} </b> ({{agendamento.grupo_agendamento}})
+							<b>{{agendamento.nome_agendamento}} </b>
+						</p>
+						<p>
+							<b>Grupo:</b> {{agendamento.grupo_agendamento}}
 						</p>
 						<p>
 							<b>Job:</b> {{agendamento.nome_job}}

@@ -409,7 +409,7 @@ public class TaigaIntegratorTest
 	    }	    
 	}
 
-	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+	MedidasTaiga[] medidasTaiga = {MedidasTaiga.PONTOS_ESTORIA};
 	integrator.criarPlanoMedicaoProjetoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), porHora, projeto);
     }
   
