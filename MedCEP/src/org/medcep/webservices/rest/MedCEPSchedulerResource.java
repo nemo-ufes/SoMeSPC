@@ -126,7 +126,7 @@ public class MedCEPSchedulerResource
 	manager.close();
 	return response;
     }
-    
+
     @Path("/Agendamento/Comando")
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -141,36 +141,40 @@ public class MedCEPSchedulerResource
 	if (!sched.isStarted())
 	    sched.start();
 
-	TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
-
-	boolean existe = sched.checkExists(id);
-	if (existe)
+	if (comando.getComando().equalsIgnoreCase("Iniciar"))
 	{
+	    TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
 
-	    if (comando.getComando().equalsIgnoreCase("Iniciar"))
-	    {
-		sched.resumeTrigger(id);
-		response = Response.status(Status.OK).entity("").build();
-	    }
-	    else if (comando.getComando().equalsIgnoreCase("Pausar"))
-	    {
-		sched.pauseTrigger(id);
-		response = Response.status(Status.OK).entity("").build();
-	    }
-	    else if (comando.getComando().equalsIgnoreCase("Excluir"))
-	    {
-		sched.unscheduleJob(id);
-		response = Response.status(Status.OK).entity("").build();
-	    }
-	    else
-	    {
-		throw new ComandoInexistenteException(String.format("Comando %s desconhecido.", comando.getComando()));
-	    }
+	    sched.resumeTrigger(id);
+	    response = Response.status(Status.OK).entity("").build();
+	}
+	else if (comando.getComando().equalsIgnoreCase("Pausar"))
+	{
+	    TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
 
+	    sched.pauseTrigger(id);
+	    response = Response.status(Status.OK).entity("").build();
+	}
+	else if (comando.getComando().equalsIgnoreCase("Excluir"))
+	{
+	    TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
+
+	    sched.unscheduleJob(id);
+	    response = Response.status(Status.OK).entity("").build();
+	}
+	else if (comando.getComando().equalsIgnoreCase("ExecutarAgora"))
+	{
+	    TriggerBuilder.newTrigger()
+	                .withIdentity(comando.getNomeJob(), comando.getGrupoJob())
+	                .startNow()
+	                .build();
+	    
+	    //sched.triggerJob(new JobKey(comando.getNomeJob(), comando.getGrupoJob()));
+	    response = Response.status(Status.OK).entity("").build();
 	}
 	else
 	{
-	    throw new ComandoInexistenteException(String.format("Agendamento %s não encontrado.", comando.getNomeAgendamento()));
+	    throw new ComandoInexistenteException(String.format("Comando %s desconhecido.", comando.getComando()));
 	}
 
 	return response;

@@ -6,14 +6,40 @@ import javax.xml.bind.annotation.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ComandoDTO
 {
-    @XmlElement(name="nome_agendamento")
+    @XmlElement(name = "nome_job")
+    private String nomeJob;
+
+    @XmlElement(name = "grupo_job")
+    private String grupoJob;
+
+    @XmlElement(name = "nome_agendamento")
     private String nomeAgendamento;
-    
-    @XmlElement(name="grupo_agendamento")
+
+    @XmlElement(name = "grupo_agendamento")
     private String grupoAgendamento;
-    
-    @XmlElement(name="comando")
+
+    @XmlElement(name = "comando")
     private String comando;
+
+    public String getNomeJob()
+    {
+	return nomeJob;
+    }
+
+    public void setNomeJob(String nomeJob)
+    {
+	this.nomeJob = nomeJob;
+    }
+
+    public String getGrupoJob()
+    {
+	return grupoJob;
+    }
+
+    public void setGrupoJob(String grupoJob)
+    {
+	this.grupoJob = grupoJob;
+    }
 
     public String getNomeAgendamento()
     {

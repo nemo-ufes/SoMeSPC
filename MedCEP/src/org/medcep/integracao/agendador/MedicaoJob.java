@@ -44,6 +44,10 @@ public class MedicaoJob implements Job
 	    String valorMedido = this.medir(nomeMedida, apelidoProjeto, integrator);
 
 	    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    
+	    System.out.println(String.format("Job %s (%s) executado com sucesso.",
+		    context.getTrigger().getKey().getName(),
+		    context.getTrigger().getKey().getGroup()));
 	}
 	catch (Exception ex)
 	{

@@ -45,7 +45,10 @@
 				<td style="min-width: 170px;">{{agendamento.execucao_anterior | date:'dd/MM/yyyy HH:mm:ss'}}</td>
 				<td style="min-width: 160px;">{{agendamento.proxima_execucao | date:'dd/MM/yyyy HH:mm:ss'}}</td>
 				<td style="min-width: 100px;">{{agendamento.estado_agendamento}}</td>
-				<td style="min-width: 130px;">
+				<td style="min-width: 170px;">
+					<button type="button" ng-disabled=" agendamento.estado_agendamento == 'PAUSADO'" ng-click="executarAgendamento(agendamento)" class="btn btn-sm btn-warning">
+						<i class="glyphicon glyphicon-cog"></i>
+					</button>
 					<button type="button" ng-disabled="agendamento.estado_agendamento == 'EXECUTANDO' 
 													|| agendamento.estado_agendamento == 'ATIVO'" ng-click="iniciarAgendamento(agendamento)" class="btn btn-sm btn-success">
 						<i class="glyphicon glyphicon-play"></i>

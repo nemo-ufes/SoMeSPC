@@ -62,6 +62,22 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 			$scope.exibirMensagem = true;
 		});
 	}
+	
+	/**
+	 * Executa o agendamento selecionado na linha.
+	 */
+	$scope.executarAgendamento = function executarAgendamento(linha) {
+		
+		var index = $scope.agendamentos.indexOf(linha);
+		var agendamento = $scope.agendamentos[index];	
+
+		AgendadorService.executarAgendamento(agendamento.nome_job,
+				agendamento.grupo_job).then(function() {
+			$scope.obterAgendamentos();
+			$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' - ' + agendamento.grupo_agendamento +  ' executado com sucesso!';
+			$scope.exibirMensagem = true;
+		});
+	}
 
 	/**
 	 * Abre um modal para confirmar a exclusão do agendamento.
