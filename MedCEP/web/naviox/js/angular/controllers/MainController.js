@@ -1,9 +1,11 @@
-app.controller('MainController', function($scope, Entry) {
+app.controller('MainController', function($scope, TaigaIntegrator, Api_Med_Resource) {
 	
 
-	$scope.projetos = Entry.query({ entidade: 'Projetos' });
+	$scope.projetos = TaigaIntegrator.query({ entidade: 'Projetos' });
 	
-	$scope.medidas = Entry.query({ entidade: 'Medidas' });
+	$scope.medidas = TaigaIntegrator.query({ entidade: 'Medidas' });
+	
+	$scope.periodicidades = Api_Med_Resource.query({ periodicidades_med_cep: 'Periodicidade' });
 	
 	$scope.projeto_selected;
 	

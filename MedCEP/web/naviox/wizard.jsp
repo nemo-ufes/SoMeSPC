@@ -59,11 +59,25 @@
 						</div>
 					</div>
 				</div>
+				<br>
+				<br>
 				<button type="button" class="btn btn-primary btn-md" ng-click="get_medidas()">Selecionar</button>
 			</fieldset>
 
 			<h2>Agendamento</h2>
-			<fieldset></fieldset>
+			<fieldset>
+				<h2 class="text-primary text-center">Periodicidade das Medidas</h2>
+				<br />
+				<div class="dropdown">
+					<button  type="button" class="btn btn-default btn-md" data-toggle="dropdown">Selecione a Periodicidade</button>
+					<button  type="button" class="btn btn-primary btn-md dropdown-toggle" data-toggle="dropdown">
+						<span class="caret sr-only"></span> <span class="sr-only"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li  ng-repeat="periodicidade in periodicidades"> <a href="#">{{periodicidade.nome}}</a></li>
+					</ul>
+				</div>
+			</fieldset>
 
 		</div>
 	</div>
