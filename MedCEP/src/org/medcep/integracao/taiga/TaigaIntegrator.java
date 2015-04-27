@@ -2988,7 +2988,7 @@ public class TaigaIntegrator
 		    for (Estoria estoria : estorias)
 		    {
 
-			String nomeGrupo = "Estória " + estoria.getTitulo();
+			String nomeGrupo = String.format("Estória (%s)" , estoria.getTitulo());
 			String nomeTrigger = String.format("Medição %s da medida %s (%s)",
 				medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
 				medida.getMedida().getNome(),

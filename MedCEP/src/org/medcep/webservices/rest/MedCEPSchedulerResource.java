@@ -108,9 +108,9 @@ public class MedCEPSchedulerResource
 		if (!estadoAgendamento.isEmpty())
 		{
 		    if (estadoAgendamento.equalsIgnoreCase("ACQUIRED"))
-			estadoAgendamento = "INICIADO";
+			estadoAgendamento = "EXECUTANDO";
 		    else if (estadoAgendamento.equalsIgnoreCase("WAITING"))
-			estadoAgendamento = "EM ESPERA";
+			estadoAgendamento = "ATIVO";
 		    else if (estadoAgendamento.equalsIgnoreCase("PAUSED"))
 			estadoAgendamento = "PAUSADO";
 		}
