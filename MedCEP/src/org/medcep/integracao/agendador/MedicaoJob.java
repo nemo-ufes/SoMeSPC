@@ -25,12 +25,6 @@ public class MedicaoJob implements Job
 	String entidadeMedida = dataMap.getString("entidadeMedida");
 	String momento = dataMap.getString("momento");
 	
-	System.out.println(apelidoProjeto);
-	System.out.println(nomePlano);
-	System.out.println(nomeMedida);
-	System.out.println(entidadeMedida);
-	System.out.println(momento);
-
 	EntityManager manager = XPersistence.createManager();
 
 	try
