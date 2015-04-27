@@ -23,7 +23,7 @@ public class AgendadorTest
 	for (int i = 1; i <= 30; i++)
 	{
 
-	    String nomeJob = "Job de Teste ";
+	    String nomeJob = "Job de Teste";
 	    String nomeGrupo = "Grupo de Teste";
 	    String nomeTrigger = "Agendamento de Teste " + Math.round(Math.random() * 10000);
 	    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
