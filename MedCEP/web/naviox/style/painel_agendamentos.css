@@ -7,21 +7,19 @@ table {
 	margin-left: 0px;
 }
 
-table {
-	*border-collapse: collapse; /* IE7 and lower */
-	border-spacing: 0;
+.popover {
+	background: #F9F9F9;
+	color: #5E7080;
 }
 
-th:first-child {
-	border-radius: 6px 0 0 0;
+.popover.bottom .arrow:after {
+	border-bottom-color: #F9F9F9;
+	color: #5E7080;
 }
 
-th:last-child {
-	border-radius: 0 6px 0 0;
-}
-
-th:only-child {
-	border-radius: 6px 6px 0 0;
+.popover.top .arrow:after {
+	border-top-color: #F9F9F9;
+	color: #5E7080;
 }
 
 .table>thead>tr>th {
