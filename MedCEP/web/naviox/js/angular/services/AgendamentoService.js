@@ -70,13 +70,15 @@ app.service("AgendadorService", function($http, $q) {
 		return (request.then(handleSuccess, handleError));
 	}
 	
-	function executarAgendamento(nomeJob, grupoJob) {
+	function executarAgendamento(nomeJob, grupoJob, nomeAgendamento, grupoAgendamento) {
 		var request = $http({
 			method : "post",
 			url : url + "/Agendamento/Comando",
 			data : {
 				nome_job : nomeJob,
 				grupo_job : grupoJob,
+				nome_agendamento : nomeAgendamento,
+				grupo_agendamento : grupoAgendamento,
 				comando : "ExecutarAgora"
 			}
 		});

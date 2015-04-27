@@ -158,18 +158,16 @@ public class MedCEPSchedulerResource
 	else if (comando.getComando().equalsIgnoreCase("Excluir"))
 	{
 	    TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
-
+	    
 	    sched.unscheduleJob(id);
 	    response = Response.status(Status.OK).entity("").build();
 	}
 	else if (comando.getComando().equalsIgnoreCase("ExecutarAgora"))
 	{
-	    TriggerBuilder.newTrigger()
-	                .withIdentity(comando.getNomeJob(), comando.getGrupoJob())
-	                .startNow()
-	                .build();
+	    Trigger trigger = sched.getTrigger(new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento()));
+	    JobDetail jobDetail= sched.getJobDetail(new JobKey(comando.getNomeJob(), comando.getGrupoJob()));
+	    sched.triggerJob(jobDetail.getKey(), trigger.getJobDataMap());
 	    
-	    //sched.triggerJob(new JobKey(comando.getNomeJob(), comando.getGrupoJob()));
 	    response = Response.status(Status.OK).entity("").build();
 	}
 	else

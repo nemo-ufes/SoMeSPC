@@ -71,9 +71,8 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 		var index = $scope.agendamentos.indexOf(linha);
 		var agendamento = $scope.agendamentos[index];	
 
-		AgendadorService.executarAgendamento(agendamento.nome_job,
-				agendamento.grupo_job).then(function() {
-			$scope.obterAgendamentos();
+		AgendadorService.executarAgendamento(agendamento.nome_job,agendamento.grupo_job, 
+				agendamento.nome_agendamento, agendamento.grupo_agendamento).then(function() {
 			$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' - ' + agendamento.grupo_agendamento +  ' executado com sucesso!';
 			$scope.exibirMensagem = true;
 		});

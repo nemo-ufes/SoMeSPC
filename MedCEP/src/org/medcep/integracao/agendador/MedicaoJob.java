@@ -10,6 +10,8 @@ import org.medcep.model.medicao.planejamento.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
 
+@DisallowConcurrentExecution
+@PersistJobDataAfterExecution 
 public class MedicaoJob implements Job
 {
 
