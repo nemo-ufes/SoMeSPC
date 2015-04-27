@@ -6,6 +6,10 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 
 	$scope.agendamentos = [];
 	$scope.tabelaAgendamentos = [].concat($scope.agendamentos);
+	$scope.msgBotaoExecutar = 'Executar o Job agora!';
+	$scope.msgBotaoIniciar = 'Ativar o Job';
+	$scope.msgBotaoPausar = 'Pausar o Job';
+	$scope.msgBotaoExcluir = 'Excluir o Job';
 	
 	/**
 	 * Obtem a lista de agendamentos.
