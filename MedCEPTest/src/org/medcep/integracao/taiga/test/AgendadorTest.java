@@ -82,10 +82,18 @@ public class AgendadorTest
 	boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
 
 	if (existeJob)
-	{
+	{	    
 	    sched.deleteJob(new JobKey(nomeJob, nomeGrupo));
 	}
 
+    }
+    
+    @Test
+    public void excluirTudo() throws SchedulerException
+    {
+	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+	Scheduler sched = schedFact.getScheduler();
+	sched.clear();
     }
 
 }
