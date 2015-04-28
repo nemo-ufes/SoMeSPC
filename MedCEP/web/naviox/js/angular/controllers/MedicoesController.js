@@ -42,7 +42,18 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 				});
 	}
 	
-	$scope.obterMedicoes = function (paginaAtual) {				
+	$scope.obterMedicoes = function (paginaAtual) {		
+		
+		if ($scope.projetoSelecionado == undefined){
+			console.warn("Nenhum projeto selecionado.");
+			return;
+		}
+		
+		if ($scope.medidaSelecionada == undefined){
+			console.warn("Nenhuma medida selecionada.");
+			return;
+		}
+		
 		MedicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
 			var dados = new Array();
 			var labels = new Array();

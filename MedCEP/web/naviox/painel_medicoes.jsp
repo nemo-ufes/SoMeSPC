@@ -1,6 +1,12 @@
 
 <div id="painel" class="container" ng-controller=MedicoesController>
 
+	<div>
+		<button type="button" class="btn btn-sm btn-success" ng-click="obterMedicoes(1)">
+			<i class="glyphicon glyphicon-refresh"></i> Atualizar
+		</button>
+	</div>
+
 	<div class="panel panel-primary" style="margin-top: 20px;">
 
 		<div class="panel-heading">
