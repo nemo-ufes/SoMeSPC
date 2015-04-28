@@ -197,10 +197,25 @@ public class TaigaIntegratorTest
     public void testObterMembro()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	Membro membro = integrator.obterMembroTaiga(4);
+	Membro membro = integrator.obterMembroTaiga(10);
 
 	assertNotNull(membro);
 	assertNotEquals(membro.getId(), 0);
+
+	dump(membro);
+    }
+    
+    @Test
+    public void testObterMembros()
+    {
+	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	
+	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
+	
+	List<Membro> membro = integrator.obterMembrosDoProjetoTaiga(projeto.getId());
+
+	assertNotNull(membro);
+	assertNotEquals(membro.size(), 0);
 
 	dump(membro);
     }

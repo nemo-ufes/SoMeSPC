@@ -533,6 +533,27 @@ public class TaigaIntegrator
 
 	return membro;
     }
+    
+    /**
+     * Obtem os dados do Membro pelo ID.
+     * 
+     * @param idMembro
+     *            - ID do membro a ser buscado.
+     * @return Membro
+     */
+    public List<Membro> obterMembrosDoProjetoTaiga(int idProjeto)
+    {
+	//Busca informações do membro.
+	WebTarget target = client.target(this.urlTaiga).path("memberships").queryParam("project", idProjeto);
+
+	List<Membro> membros = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Membro>>() {
+		});
+
+	return membros;
+    }
 
     /**
      * Obtem as periodicidades cadastradas.
