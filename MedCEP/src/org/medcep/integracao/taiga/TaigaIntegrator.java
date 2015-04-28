@@ -2689,7 +2689,7 @@ public class TaigaIntegrator
      * 
      * @throws Exception
      */
-    public void criarMedicaoMedCEP(PlanoDeMedicaoDoProjeto plano, Timestamp data, String nomeMedida, String entidadeMedida,
+    public synchronized void criarMedicaoMedCEP(PlanoDeMedicaoDoProjeto plano, Timestamp data, String nomeMedida, String entidadeMedida,
 	    String valorMedido, String momento) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();

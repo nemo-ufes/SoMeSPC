@@ -129,8 +129,13 @@ public class MedicaoJob implements Job
 	    {
 		String apelidoSprint = dataMap.getString("apelidoSprint");
 		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-		valorMedido = String.valueOf(estadoSprint.getPontosCompletados());
-		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+		List<Integer> pontos = estadoSprint.getPontosCompletados();
+
+		for (Integer ponto : pontos)
+		{
+		    valorMedido = String.valueOf(ponto);
+		    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+		}
 	    }
 	    else if (nomeMedida.equalsIgnoreCase("Tarefas Completadas na Sprint"))
 	    {
@@ -146,19 +151,17 @@ public class MedicaoJob implements Job
 		valorMedido = String.valueOf(estadoSprint.getTotalEstorias());
 		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
 	    }
-	    else if (nomeMedida.equalsIgnoreCase("Total de Estórias da Sprint"))
-	    {
-		String apelidoSprint = dataMap.getString("apelidoSprint");
-		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-		valorMedido = String.valueOf(estadoSprint.getTotalEstorias());
-		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
-	    }
 	    else if (nomeMedida.equalsIgnoreCase("Total de Pontos da Sprint"))
 	    {
 		String apelidoSprint = dataMap.getString("apelidoSprint");
 		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-		valorMedido = String.valueOf(estadoSprint.getTotalPontos());
-		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+		Map<String, Integer> pontos = estadoSprint.getTotalPontos();
+
+		for (Map.Entry<String, Integer> entry : pontos.entrySet())
+		{
+		    valorMedido = String.valueOf(entry.getValue());
+		    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+		}
 	    }
 	    else if (nomeMedida.equalsIgnoreCase("Total de Tarefas da Sprint"))
 	    {
