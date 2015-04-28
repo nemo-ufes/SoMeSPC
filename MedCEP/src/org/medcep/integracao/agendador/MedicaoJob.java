@@ -63,15 +63,32 @@ public class MedicaoJob implements Job
     private String medir(String nomeMedida, String apelidoProjeto, TaigaIntegrator integrator)
     {
 	String valorMedido = null;
+	    EstadoProjeto estado = integrator.obterEstadoProjetoTaiga(apelidoProjeto);
+		
 
 	if (nomeMedida.equalsIgnoreCase("Pontos Alocados no Projeto"))
 	{
-	    EstadoProjeto estado = integrator.obterEstadoProjetoTaiga(apelidoProjeto);
 	    valorMedido = String.valueOf(estado.getPontosAlocados());
 	}
 	else if (nomeMedida.equalsIgnoreCase("Pontos Definidos no Projeto"))
 	{
-
+	    valorMedido = String.valueOf(estado.getPontosDefinidos());
+	}
+	else if (nomeMedida.equalsIgnoreCase("Pontos Fechados no Projeto"))
+	{
+	    valorMedido = String.valueOf(estado.getPontosFechados());
+	}
+	else if (nomeMedida.equalsIgnoreCase("Total de Sprints do Projeto"))
+	{
+	    valorMedido = String.valueOf(estado.getTotalSprints());
+	}
+	else if (nomeMedida.equalsIgnoreCase("Total de Pontos do Projeto"))
+	{
+	    valorMedido = String.valueOf(estado.getTotalPontos());
+	}
+	else if (nomeMedida.equalsIgnoreCase("Velocidade do Projeto"))
+	{
+	    valorMedido = String.valueOf(estado.getVelocidade());
 	}
 
 	return valorMedido;
