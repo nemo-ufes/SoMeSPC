@@ -883,31 +883,31 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-		case PONTOS_ALOCADOS_POR_PAPEL_PROJETO:
-		    medida.setMnemonico("TAIGA-PAP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
-		    break;
+		//		case PONTOS_ALOCADOS_POR_PAPEL_PROJETO:
+		//		    medida.setMnemonico("TAIGA-PAP");
+		//		    medida.setElementoMensuravel(desempenho);
+		//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		//		    break;
 		case PONTOS_DEFINIDOS_PROJETO:
 		    medida.setMnemonico("TAIGA-PD");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-		case PONTOS_DEFINIDOS_POR_PAPEL_PROJETO:
-		    medida.setMnemonico("TAIGA-PDP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
-		    break;
+		//		case PONTOS_DEFINIDOS_POR_PAPEL_PROJETO:
+		//		    medida.setMnemonico("TAIGA-PDP");
+		//		    medida.setElementoMensuravel(desempenho);
+		//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		//		    break;
 		case PONTOS_FECHADOS_PROJETO:
 		    medida.setMnemonico("TAIGA-PF");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-		case PONTOS_FECHADOS_POR_PAPEL_PROJETO:
-		    medida.setMnemonico("TAIGA-PFP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
-		    break;
+		//		case PONTOS_FECHADOS_POR_PAPEL_PROJETO:
+		//		    medida.setMnemonico("TAIGA-PFP");
+		//		    medida.setElementoMensuravel(desempenho);
+		//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		//		    break;
 		case TOTAL_SPRINTS_PROJETO:
 		    medida.setMnemonico("TAIGA-TM");
 		    medida.setElementoMensuravel(tamanho);
@@ -927,7 +927,7 @@ public class TaigaIntegrator
 		    medida.setMnemonico("TAIGA-IOC");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
-		    break;		
+		    break;
 		case ESTORIAS_COMPLETADAS_SPRINT:
 		    medida.setMnemonico("TAIGA-ECS");
 		    medida.setElementoMensuravel(desempenho);
@@ -958,7 +958,7 @@ public class TaigaIntegrator
 		    medida.setMnemonico("TAIGA-TTS");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
-		    break;		
+		    break;
 		case PONTOS_ESTORIA:
 		    medida.setMnemonico("TAIGA-PES");
 		    medida.setElementoMensuravel(tamanho);
@@ -2936,8 +2936,8 @@ public class TaigaIntegrator
 			    medida.getMedida().getMnemonico());
 
 		    map.put("apelidoSprint", sprint.getApelido());
-		    map.put("entidadeMedida", sprint.getNome());
-		    map.put("momento", sprint.getNome());
+		    map.put("entidadeMedida", sprint.getNome() + " do Projeto " + projeto.getNome());
+		    map.put("momento", sprint.getNome() + " do Projeto " + projeto.getNome());
 
 		    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
 
@@ -2984,13 +2984,13 @@ public class TaigaIntegrator
 		for (Sprint sprint : sprints)
 		{
 		    map.put("apelidoSprint", sprint.getApelido());
-			   
+
 		    List<Estoria> estorias = this.obterEstoriasDaSprintBacklogTaiga(projeto.getApelido(), sprint.getApelido());
 
 		    for (Estoria estoria : estorias)
 		    {
 
-			String nomeGrupo = String.format("Estória (%s)" , estoria.getTitulo());
+			String nomeGrupo = String.format("Estória (%s)", estoria.getTitulo());
 			String nomeTrigger = String.format("Medição %s da medida %s (%s)",
 				medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
 				medida.getMedida().getNome(),
@@ -2998,7 +2998,7 @@ public class TaigaIntegrator
 
 			map.put("entidadeMedida", estoria.getTitulo());
 			map.put("momento", estoria.getTitulo());
-			
+
 			boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
 
 			if (!existeJob)

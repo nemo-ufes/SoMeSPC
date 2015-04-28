@@ -30,9 +30,9 @@ public enum MedidasTaiga
     VELOCIDADE_PROJETO("Velocidade do Projeto"),
 
     //Medidas do Recurso Humano na Equipe (Mede a Alocação)
-    PONTOS_ALOCADOS_POR_PAPEL_PROJETO("Pontos Alocados por Papel no Projeto"),
-    PONTOS_DEFINIDOS_POR_PAPEL_PROJETO("Pontos Definidos por Papel no Projeto"),
-    PONTOS_FECHADOS_POR_PAPEL_PROJETO("Pontos Fechados por Papel no Projeto"),
+    //PONTOS_ALOCADOS_POR_PAPEL_PROJETO("Pontos Alocados por Papel no Projeto"),
+    //PONTOS_DEFINIDOS_POR_PAPEL_PROJETO("Pontos Definidos por Papel no Projeto"),
+    //PONTOS_FECHADOS_POR_PAPEL_PROJETO("Pontos Fechados por Papel no Projeto"),
     
     //Medidas da Sprint
     DOSES_IOCAINE_SPRINT("Doses de Iocaine da Sprint"),

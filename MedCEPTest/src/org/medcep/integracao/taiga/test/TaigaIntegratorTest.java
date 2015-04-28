@@ -163,7 +163,7 @@ public class TaigaIntegratorTest
     public void testObterEstoriasDaSprintBacklogTaigaJson()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	String estorias = integrator.obterEstoriasDaSprintBacklogTaigaJson("paflopes-sincap", "sprint-19");
+	String estorias = integrator.obterEstoriasDaSprintBacklogTaigaJson("paflopes-sincap", "sprint-17");
 
 	assertNotNull(estorias);
 
@@ -412,7 +412,7 @@ public class TaigaIntegratorTest
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
 	integrator.criarPlanoMedicaoProjetoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), porHora, projeto);
     }
-  
+    
     private void dump(Object object)
     {
 	XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
