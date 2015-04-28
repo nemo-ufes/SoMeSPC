@@ -634,6 +634,54 @@ public class MedCEPResource
 
 	return response;
     }
+    
+    /**
+     * Obtem os as sprints de um projeto que tenha medições.
+     * 
+     * @return Projetos das medições.
+     * @throws Exception
+     */
+    @Path("Medicao/Projeto/{idProjeto}/Sprint")
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response obterSprintsDoProjetoComMedicoes(@PathParam("idProjeto") int idProjeto) throws Exception
+    {
+	Response response;
+
+	EntityManager manager = XPersistence.createManager();
+
+	TypedQuery<EntidadeMensuravel> query = manager.createQuery(
+		"Select distinct(m.entidadeMensuravel) "
+		+ "FROM Medicao m "
+		+ "WHERE m.entidadeMensuravel.nome LIKE 'Sprint%' "
+		+ "AND m.projeto.id = " + idProjeto
+		, EntidadeMensuravel.class);
+	List<EntidadeMensuravel> result = query.getResultList();
+
+	if (result == null)
+	    response = Response.status(Status.NOT_FOUND).build();
+	else
+	{
+	    List<EntidadeMensuravelDTO> listaDto = new ArrayList<EntidadeMensuravelDTO>();
+
+	    for (EntidadeMensuravel em : result)
+	    {
+		EntidadeMensuravelDTO dto = new EntidadeMensuravelDTO();
+
+		dto.setId(em.getId());
+		dto.setNome(em.getNome());
+
+		listaDto.add(dto);
+	    }
+
+	    response = Response.status(Status.OK).entity(listaDto).build();
+	}
+
+	manager.close();
+
+	return response;
+    }
 
     /**
      * Obtém as medidas das medições por projeto (QueryParam).
