@@ -22,6 +22,7 @@ package org.medcep.integracao.taiga;
 import java.sql.*;
 import java.text.*;
 import java.util.*;
+import java.util.Calendar;
 
 import javax.persistence.*;
 import javax.ws.rs.client.*;
@@ -30,6 +31,7 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
+import org.medcep.integracao.agendador.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
 import org.medcep.model.medicao.*;
@@ -38,6 +40,7 @@ import org.medcep.model.organizacao.*;
 import org.medcep.model.processo.*;
 import org.medcep.util.json.*;
 import org.openxava.jpa.*;
+import org.quartz.*;
 
 /**
  * Classe para integração do Taiga com a MedCEP.
@@ -529,6 +532,22 @@ public class TaigaIntegrator
 		.get(Membro.class);
 
 	return membro;
+    }
+
+    /**
+     * Obtem as periodicidades cadastradas.
+     * 
+     * @return
+     */
+    public List<Periodicidade> obterPeriodicidades()
+    {
+	EntityManager manager = XPersistence.createManager();
+
+	TypedQuery<Periodicidade> query = manager.createQuery("FROM Periodicidade", Periodicidade.class);
+	List<Periodicidade> result = query.getResultList();
+
+	manager.close();
+	return result;
     }
 
     /**
@@ -2329,7 +2348,7 @@ public class TaigaIntegrator
      *            - Projeto a ser incluído no Plano de Medição do Projeto.
      * @throws Exception
      */
-    public PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoMedCEP(List<MedidasTaiga> medidasTaiga, Projeto projeto) throws Exception
+    public PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoMedCEP(List<MedidasTaiga> medidasTaiga, Periodicidade periodicidadeMedicao, Projeto projeto) throws Exception
     {
 	PlanoDeMedicaoDoProjeto plano = new PlanoDeMedicaoDoProjeto();
 	EntityManager manager = XPersistence.createManager();
@@ -2548,6 +2567,7 @@ public class TaigaIntegrator
 	    String queryDefMedida = "SELECT p FROM DefinicaoOperacionalDeMedida p WHERE p.nome='Definição operacional padrão Taiga-MedCEP para " + medida.toString() + "'";
 	    TypedQuery<DefinicaoOperacionalDeMedida> typedQueryDefMedida = manager.createQuery(queryDefMedida, DefinicaoOperacionalDeMedida.class);
 	    DefinicaoOperacionalDeMedida defMed = typedQueryDefMedida.getSingleResult();
+	    defMed.setPeriodicidadeDeMedicao(periodicidadeMedicao);
 
 	    //Obtem as Medidas como MedidaPlanoDeMedicao
 	    MedidaPlanoDeMedicao medidaPlano = new MedidaPlanoDeMedicao();
@@ -2561,6 +2581,7 @@ public class TaigaIntegrator
 		    manager = XPersistence.createManager();
 
 		manager.getTransaction().begin();
+		manager.persist(defMed);
 		manager.persist(medidaPlano);
 		manager.getTransaction().commit();
 
@@ -2667,6 +2688,9 @@ public class TaigaIntegrator
 	    manager.close();
 	}
 
+	//Após criar o plano, agenda as medições.
+	this.agendarMedicoesPlanoMedicaoProjeto(plano, projeto);
+
 	return plano;
     }
 
@@ -2680,7 +2704,7 @@ public class TaigaIntegrator
     {
 	EntityManager manager = XPersistence.createManager();
 	Medicao medicao = new Medicao();
-	
+
 	medicao.setData(data);
 	medicao.setPlanoDeMedicao(plano);
 
@@ -2707,9 +2731,9 @@ public class TaigaIntegrator
 	medicao.setValorMedido(valor);
 
 	RecursoHumano wizard = new RecursoHumano();
-	wizard.setNome("Wizard MedCEP");
+	wizard.setNome("Medição Job");
 
-	//Persiste o Wizard como RH.	
+	//Persiste o job como RH.	
 	try
 	{
 	    if (!manager.isOpen())
@@ -2741,7 +2765,7 @@ public class TaigaIntegrator
 	medicao.setExecutorDaMedicao(wizard);
 
 	ContextoDeMedicao contexto = new ContextoDeMedicao();
-	contexto.setDescricao("Medição automática feita pelo Taiga Integrator.");
+	contexto.setDescricao("Medição automática feita pelo Job de Medição.");
 
 	//Persiste o contexto.	
 	try
@@ -2781,4 +2805,242 @@ public class TaigaIntegrator
 	manager.getTransaction().commit();
 
     }
+
+    /**
+     * Agenda as medições de acordo com as medidas e definições operacionais de medida do plano.
+     * 
+     * @param plano
+     * @throws Exception
+     */
+    public void agendarMedicoesPlanoMedicaoProjeto(PlanoDeMedicaoDoProjeto plano, Projeto projeto) throws Exception
+    {
+	/**
+	 * Inicia os agendamentos.
+	 */
+	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+	Scheduler sched = schedFact.getScheduler();
+
+	if (!sched.isStarted())
+	    sched.start();
+
+	//Cria um agendamento de medição para cada medida e entidade medida. 
+	for (MedidaPlanoDeMedicao medida : plano.getMedidaPlanoDeMedicao())
+	{
+	    JobDetail job = null;
+	    Trigger trigger = null;
+	    String nomeJob = "Job do plano " + plano.getNome();
+
+	    //Converte a periodicidade em horas.
+	    String period = medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome();
+	    int horas = 0;
+
+	    if (period.equalsIgnoreCase("Por Hora"))
+	    {
+		horas = 1;
+	    }
+	    else if (period.equalsIgnoreCase("Diária"))
+	    {
+		horas = 24;
+	    }
+	    else if (period.equalsIgnoreCase("Semanal"))
+	    {
+		horas = 24 * 7;
+	    }
+	    else if (period.equalsIgnoreCase("Quinzenal"))
+	    {
+		horas = 24 * 15;
+	    }
+	    else if (period.equalsIgnoreCase("Mensal"))
+	    {
+		horas = 24 * 30; //TODO: mes de 30 dias apenas...
+	    }
+	    else if (period.equalsIgnoreCase("Trimestral"))
+	    {
+		horas = 24 * 30 * 3; //TODO: mes de 30 dias apenas...
+	    }
+	    else if (period.equalsIgnoreCase("Semestral"))
+	    {
+		horas = 24 * 30 * 6; //TODO: mes de 30 dias apenas...
+	    }
+	    else if (period.equalsIgnoreCase("Anual"))
+	    {
+		horas = 24 * 30 * 12; //TODO: mes de 30 dias apenas...
+	    }
+	    else
+	    {
+		String mensagem = String.format("Periodicidade %s inexistente no Taiga.", period);
+		System.out.println(mensagem);
+		throw new Exception(mensagem);
+	    }
+
+	    JobDataMap map = new JobDataMap();
+
+	    map.put("apelidoProjeto", projeto.getApelido());
+	    map.put("nomePlano", plano.getNome());
+	    map.put("nomeMedida", medida.getMedida().getNome());
+
+	    if (medida.getMedida().getNome().contains("Projeto"))
+	    {
+
+		String nomeGrupo = projeto.getNome();
+		String nomeTrigger = String.format("Medição %s da medida %s (%s)",
+			medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
+			medida.getMedida().getNome(),
+			medida.getMedida().getMnemonico());
+
+		map.put("entidadeMedida", plano.getProjeto().getNome());
+		map.put("momento", plano.getProjeto().getNome());
+
+		boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+
+		//Cria um job para cada medida de um projeto.
+		if (!existeJob)
+		{
+		    job = JobBuilder.newJob(MedicaoJob.class)
+			    .withIdentity(nomeJob, nomeGrupo)
+			    .build();
+
+		    trigger = TriggerBuilder.newTrigger().forJob(job)
+			    .withIdentity(nomeTrigger, nomeGrupo)
+			    .usingJobData(map)
+			    .startNow()
+			    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+				    .withIntervalInHours(horas)
+				    .repeatForever())
+			    .build();
+
+		    sched.scheduleJob(job, trigger);
+		}
+		else
+		{
+		    job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
+
+		    trigger = TriggerBuilder.newTrigger().forJob(job)
+			    .withIdentity(nomeTrigger, nomeGrupo)
+			    .usingJobData(map)
+			    .startNow()
+			    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+				    .withIntervalInHours(horas)
+				    .repeatForever())
+			    .build();
+
+		    sched.scheduleJob(trigger);
+		}
+
+	    }
+	    else if (medida.getMedida().getNome().contains("Sprint"))
+	    {
+
+		//Cria um agendamento para cada medida de cada sprint.
+		List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
+
+		for (Sprint sprint : sprints)
+		{
+		    String nomeGrupo = sprint.getNome();
+		    String nomeTrigger = String.format("Medição %s da medida %s (%s)",
+			    medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
+			    medida.getMedida().getNome(),
+			    medida.getMedida().getMnemonico());
+
+		    map.put("entidadeMedida", sprint.getNome());
+		    map.put("momento", sprint.getNome());
+
+		    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+
+		    if (!existeJob)
+		    {
+			job = JobBuilder.newJob(MedicaoJob.class)
+				.withIdentity(nomeJob, nomeGrupo)
+				.build();
+
+			trigger = TriggerBuilder.newTrigger().forJob(job)
+				.withIdentity(nomeTrigger, nomeGrupo)
+				.usingJobData(map)
+				.startNow()
+				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+					.withIntervalInHours(horas)
+					.repeatForever())
+				.build();
+
+			sched.scheduleJob(job, trigger);
+		    }
+		    else
+		    {
+			job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
+
+			trigger = TriggerBuilder.newTrigger().forJob(job)
+				.withIdentity(nomeTrigger, nomeGrupo)
+				.usingJobData(map)
+				.startNow()
+				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+					.withIntervalInHours(horas)
+					.repeatForever())
+				.build();
+
+			sched.scheduleJob(trigger);
+		    }
+		}
+
+	    }
+	    else if (medida.getMedida().getNome().contains("Estória"))
+	    {
+		//Cria um agendamento para cada medida de cada estoria de cada sprint.
+		List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
+
+		for (Sprint sprint : sprints)
+		{
+		    List<Estoria> estorias = this.obterEstoriasDaSprintBacklogTaiga(projeto.getApelido(), sprint.getApelido());
+
+		    for (Estoria estoria : estorias)
+		    {
+
+			String nomeGrupo = String.format("Estória (%s)" , estoria.getTitulo());
+			String nomeTrigger = String.format("Medição %s da medida %s (%s)",
+				medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
+				medida.getMedida().getNome(),
+				medida.getMedida().getMnemonico());
+
+			map.put("entidadeMedida", estoria.getTitulo());
+			map.put("momento", estoria.getTitulo());
+			
+			boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+
+			if (!existeJob)
+			{
+			    job = JobBuilder.newJob(MedicaoJob.class)
+				    .withIdentity(nomeJob, nomeGrupo)
+				    .build();
+
+			    trigger = TriggerBuilder.newTrigger().forJob(job)
+				    .withIdentity(nomeTrigger, nomeGrupo)
+				    .usingJobData(map)
+				    .startNow()
+				    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+					    .withIntervalInHours(horas)
+					    .repeatForever())
+				    .build();
+
+			    sched.scheduleJob(job, trigger);
+			}
+			else
+			{
+			    job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
+
+			    trigger = TriggerBuilder.newTrigger().forJob(job)
+				    .withIdentity(nomeTrigger, nomeGrupo)
+				    .usingJobData(map)
+				    .startNow()
+				    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
+					    .withIntervalInHours(horas)
+					    .repeatForever())
+				    .build();
+
+			    sched.scheduleJob(trigger);
+			}
+		    }
+		}
+	    }
+	}
+    }
+
 }

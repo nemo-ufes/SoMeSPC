@@ -72,7 +72,7 @@ public class MedCEPSchedulerResource
 	Response response;
 	EntityManager manager = XPersistence.createManager();
 
-	String sql = "SELECT * FROM qrtz_triggers";
+	String sql = "SELECT * FROM qrtz_triggers ORDER BY trigger_group, trigger_name";
 
 	Query query = manager.createNativeQuery(sql);
 	@SuppressWarnings("unchecked")
@@ -108,9 +108,9 @@ public class MedCEPSchedulerResource
 		if (!estadoAgendamento.isEmpty())
 		{
 		    if (estadoAgendamento.equalsIgnoreCase("ACQUIRED"))
-			estadoAgendamento = "INICIADO";
+			estadoAgendamento = "EXECUTANDO";
 		    else if (estadoAgendamento.equalsIgnoreCase("WAITING"))
-			estadoAgendamento = "EM ESPERA";
+			estadoAgendamento = "ATIVO";
 		    else if (estadoAgendamento.equalsIgnoreCase("PAUSED"))
 			estadoAgendamento = "PAUSADO";
 		}
@@ -126,7 +126,7 @@ public class MedCEPSchedulerResource
 	manager.close();
 	return response;
     }
-    
+
     @Path("/Agendamento/Comando")
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -141,36 +141,38 @@ public class MedCEPSchedulerResource
 	if (!sched.isStarted())
 	    sched.start();
 
-	TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
-
-	boolean existe = sched.checkExists(id);
-	if (existe)
+	if (comando.getComando().equalsIgnoreCase("Iniciar"))
 	{
+	    TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
 
-	    if (comando.getComando().equalsIgnoreCase("Iniciar"))
-	    {
-		sched.resumeTrigger(id);
-		response = Response.status(Status.OK).entity("").build();
-	    }
-	    else if (comando.getComando().equalsIgnoreCase("Pausar"))
-	    {
-		sched.pauseTrigger(id);
-		response = Response.status(Status.OK).entity("").build();
-	    }
-	    else if (comando.getComando().equalsIgnoreCase("Excluir"))
-	    {
-		sched.unscheduleJob(id);
-		response = Response.status(Status.OK).entity("").build();
-	    }
-	    else
-	    {
-		throw new ComandoInexistenteException(String.format("Comando %s desconhecido.", comando.getComando()));
-	    }
+	    sched.resumeTrigger(id);
+	    response = Response.status(Status.OK).entity("").build();
+	}
+	else if (comando.getComando().equalsIgnoreCase("Pausar"))
+	{
+	    TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
 
+	    sched.pauseTrigger(id);
+	    response = Response.status(Status.OK).entity("").build();
+	}
+	else if (comando.getComando().equalsIgnoreCase("Excluir"))
+	{
+	    TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
+	    
+	    sched.unscheduleJob(id);
+	    response = Response.status(Status.OK).entity("").build();
+	}
+	else if (comando.getComando().equalsIgnoreCase("ExecutarAgora"))
+	{
+	    Trigger trigger = sched.getTrigger(new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento()));
+	    JobDetail jobDetail= sched.getJobDetail(new JobKey(comando.getNomeJob(), comando.getGrupoJob()));
+	    sched.triggerJob(jobDetail.getKey(), trigger.getJobDataMap());
+	    
+	    response = Response.status(Status.OK).entity("").build();
 	}
 	else
 	{
-	    throw new ComandoInexistenteException(String.format("Agendamento %s não encontrado.", comando.getNomeAgendamento()));
+	    throw new ComandoInexistenteException(String.format("Comando %s desconhecido.", comando.getComando()));
 	}
 
 	return response;

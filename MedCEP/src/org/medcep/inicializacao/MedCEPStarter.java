@@ -72,6 +72,7 @@ public class MedCEPStarter extends HttpServlet
 	    //Tenta obter o tipo Elemento Diretamente Mensurável.
 	    String query = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Diretamente Mensurável'";
 	    TypedQuery<TipoElementoMensuravel> typedQuery = manager.createQuery(query, TipoElementoMensuravel.class);
+	    @SuppressWarnings("unused")
 	    TipoElementoMensuravel elementoDiretamenteMensuravel = typedQuery.getSingleResult();
 
 	}
@@ -111,6 +112,7 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    String query = "SELECT t FROM ElementoMensuravel t WHERE t.nome='Desempenho'";
 	    TypedQuery<ElementoMensuravel> typedQuery = manager.createQuery(query, ElementoMensuravel.class);
+	    @SuppressWarnings("unused")
 	    ElementoMensuravel elementoDiretamenteMensuravel = typedQuery.getSingleResult();
 	}
 	catch (Exception ex)
@@ -180,6 +182,7 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    String query2 = "SELECT t FROM TipoMedida t WHERE t.nome='Medida Base'";
 	    TypedQuery<TipoMedida> typedQuery2 = manager.createQuery(query2, TipoMedida.class);
+	    @SuppressWarnings("unused")
 	    TipoMedida elementoIndiretamenteMensuravel = typedQuery2.getSingleResult();
 	}
 	catch (Exception ex)
@@ -218,6 +221,7 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    String query2 = "SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Projeto'";
 	    TypedQuery<TipoDeEntidadeMensuravel> typedQuery2 = manager.createQuery(query2, TipoDeEntidadeMensuravel.class);
+	    @SuppressWarnings("unused")
 	    TipoDeEntidadeMensuravel teste = typedQuery2.getSingleResult();
 	}
 	catch (Exception e)
@@ -385,8 +389,9 @@ public class MedCEPStarter extends HttpServlet
 
 	try
 	{
-	    String query2 = "SELECT t FROM Periodicidade t WHERE t.nome='Semanal'";
+	    String query2 = "SELECT t FROM Periodicidade t WHERE t.nome='Por Hora'";
 	    TypedQuery<Periodicidade> typedQuery2 = manager.createQuery(query2, Periodicidade.class);
+	    @SuppressWarnings("unused")
 	    Periodicidade teste = typedQuery2.getSingleResult();
 	}
 	catch (Exception e)
@@ -398,6 +403,7 @@ public class MedCEPStarter extends HttpServlet
 	    manager = XPersistence.createManager();
 
 	    Periodicidade cadaOcorrencia = new Periodicidade();
+	    Periodicidade porHora = new Periodicidade();
 	    Periodicidade diaria = new Periodicidade();
 	    Periodicidade semanal = new Periodicidade();
 	    Periodicidade quinzenal = new Periodicidade();
@@ -408,6 +414,9 @@ public class MedCEPStarter extends HttpServlet
 
 	    cadaOcorrencia.setNome("Em cada ocorrência da atividade");
 	    cadaOcorrencia.setDescricao("Em cada ocorrência da atividade");
+	    
+	    porHora.setNome("Por Hora");
+	    porHora.setNome("Por Hora");
 
 	    diaria.setNome("Diária");
 	    diaria.setDescricao("Diária");
@@ -433,6 +442,7 @@ public class MedCEPStarter extends HttpServlet
 	    //Persiste.
 	    List<Periodicidade> periodicidadesParaPersistir = new ArrayList<Periodicidade>();
 	    periodicidadesParaPersistir.add(cadaOcorrencia);
+	    periodicidadesParaPersistir.add(porHora);
 	    periodicidadesParaPersistir.add(diaria);
 	    periodicidadesParaPersistir.add(semanal);
 	    periodicidadesParaPersistir.add(quinzenal);
@@ -495,6 +505,7 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    String query2 = "SELECT t FROM TipoEscala t WHERE t.nome='Intervalar'";
 	    TypedQuery<TipoEscala> typedQuery2 = manager.createQuery(query2, TipoEscala.class);
+	    @SuppressWarnings("unused")
 	    TipoEscala teste = typedQuery2.getSingleResult();
 	}
 	catch (Exception e)
@@ -633,6 +644,7 @@ public class MedCEPStarter extends HttpServlet
 	{
 	    String query2 = "SELECT t FROM UnidadeDeMedida t WHERE t.nome='Pontos de Estória'";
 	    TypedQuery<UnidadeDeMedida> typedQuery2 = manager.createQuery(query2, UnidadeDeMedida.class);
+	    @SuppressWarnings("unused")
 	    UnidadeDeMedida teste = typedQuery2.getSingleResult();
 	}
 	catch (Exception e)

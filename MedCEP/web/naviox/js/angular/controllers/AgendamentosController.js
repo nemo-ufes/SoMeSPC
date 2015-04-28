@@ -6,6 +6,10 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 
 	$scope.agendamentos = [];
 	$scope.tabelaAgendamentos = [].concat($scope.agendamentos);
+	$scope.msgBotaoExecutar = 'Executar o Job agora!';
+	$scope.msgBotaoIniciar = 'Ativar o Job';
+	$scope.msgBotaoPausar = 'Pausar o Job';
+	$scope.msgBotaoExcluir = 'Excluir o Job';
 	
 	/**
 	 * Obtem a lista de agendamentos.
@@ -26,7 +30,9 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 
 		AgendadorService.iniciarAgendamento(agendamento.nome_agendamento,
 				agendamento.grupo_agendamento).then(function() {
-			$scope.obterAgendamentos();
+					$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' - ' + agendamento.grupo_agendamento + ' iniciado com sucesso!';
+					$scope.exibirMensagem = true;
+					$scope.obterAgendamentos();
 		});
 	}
 
@@ -39,7 +45,9 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 
 		AgendadorService.pausarAgendamento(agendamento.nome_agendamento,
 				agendamento.grupo_agendamento).then(function() {
-			$scope.obterAgendamentos();
+					$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' - ' + agendamento.grupo_agendamento +  ' pausado com sucesso!';
+					$scope.exibirMensagem = true;
+					$scope.obterAgendamentos();
 		});
 	}
 
@@ -54,7 +62,22 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 		AgendadorService.excluirAgendamento(agendamento.nome_agendamento,
 				agendamento.grupo_agendamento).then(function() {
 			$scope.obterAgendamentos();
-			$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' excluído com sucesso!';
+			$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' - ' + agendamento.grupo_agendamento +  ' excluído com sucesso!';
+			$scope.exibirMensagem = true;
+		});
+	}
+	
+	/**
+	 * Executa o agendamento selecionado na linha.
+	 */
+	$scope.executarAgendamento = function executarAgendamento(linha) {
+		
+		var index = $scope.agendamentos.indexOf(linha);
+		var agendamento = $scope.agendamentos[index];	
+
+		AgendadorService.executarAgendamento(agendamento.nome_job,agendamento.grupo_job, 
+				agendamento.nome_agendamento, agendamento.grupo_agendamento).then(function() {
+			$scope.mensagem = 'Agendamento ' + agendamento.nome_agendamento + ' - ' + agendamento.grupo_agendamento +  ' executado com sucesso!';
 			$scope.exibirMensagem = true;
 		});
 	}
@@ -68,7 +91,7 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 		
 		var cabecalho = 'Atenção!';
 		var mensagem = 'Os agendamentos são criados apenas durante o wizard para criar um Novo Plano de Medição.' 
-						+ ' Deseja prosseguir com a exclusão do agendamento "'+ linha.nome_agendamento +'" ?';
+						+ ' Deseja prosseguir com a exclusão do agendamento "'+ linha.nome_agendamento + ' - ' + linha.grupo_agendamento + '" ?';
 		
 		var dlg = dialogs.confirm(cabecalho, mensagem);
 		
