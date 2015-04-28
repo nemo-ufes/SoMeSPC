@@ -9,20 +9,26 @@ app.controller('MainController', function($scope, TaigaIntegrator, Api_Med_Resou
 	
 	$scope.projeto_selected;
 	
+	$scope.periodicidade_selected;
+	
 	$scope.medida_selected = [];
 	
 	$scope.get_projeto = function (index) {
 		$scope.projeto_selected = $scope.projetos[index];
 		console.log($scope.projeto_selected.nome);
-	};
+	}
 	
 	$scope.get_medidas = function() {
         for(medida in $scope.medida_selected) {
         	if($scope.medida_selected[medida] != false){
-        	//$scope.medida_selected.push($scope.medidas[indice]);
         		console.log(medida);
         	}
         }                
+    }
+	
+	$scope.get_periodicidade = function(index) {
+        $scope.periodicidade_selected = $scope.periodicidades[index];
+		console.log($scope.periodicidade_selected.nome);   
     }
 	
 	/*$scope.entry = new Entry(); //You can instantiate resource class

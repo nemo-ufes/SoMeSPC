@@ -68,13 +68,13 @@
 			<fieldset>
 				<h2 class="text-primary text-center">Periodicidade das Medidas</h2>
 				<br />
-				<div class="dropdown">
+				<div class="dropdown" style="text-align: center;">
 					<button  type="button" class="btn btn-default btn-md" data-toggle="dropdown">Selecione a Periodicidade</button>
-					<button  type="button" class="btn btn-primary btn-md dropdown-toggle" data-toggle="dropdown">
-						<span class="caret sr-only"></span> <span class="sr-only"></span>
+					<button  type="button" class="btn btn-primary btn-md" data-toggle="dropdown">
+						<span class="caret"></span> <span class="sr-only"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li  ng-repeat="periodicidade in periodicidades"> <a href="#">{{periodicidade.nome}}</a></li>
+						<li  ng-repeat="periodicidade in periodicidades" ng-click="get_periodicidade($index)"> <a href="#">{{periodicidade.nome}}</a></li>
 					</ul>
 				</div>
 			</fieldset>
