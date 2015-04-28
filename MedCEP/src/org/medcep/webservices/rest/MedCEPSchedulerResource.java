@@ -113,6 +113,14 @@ public class MedCEPSchedulerResource
 			estadoAgendamento = "ATIVO";
 		    else if (estadoAgendamento.equalsIgnoreCase("PAUSED"))
 			estadoAgendamento = "PAUSADO";
+		    else if (estadoAgendamento.equalsIgnoreCase("BLOCKED"))
+			estadoAgendamento = "BLOQUEADO";
+		    else if (estadoAgendamento.equalsIgnoreCase("PAUSED_BLOQUED"))
+			estadoAgendamento = "PAUSADO_BLOQUEADO";
+		    else if (estadoAgendamento.equalsIgnoreCase("COMPLETE"))
+			estadoAgendamento = "COMPLETO";
+		    else if (estadoAgendamento.equalsIgnoreCase("ERROR"))
+			estadoAgendamento = "ERRO";
 		}
 
 		dto.setEstadoAgendamento(estadoAgendamento);

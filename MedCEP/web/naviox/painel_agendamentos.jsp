@@ -26,9 +26,7 @@
 			<th colspan="5"><input st-search placeholder="Buscar..." class="input-md form-control" type="search" /></th>
 		</thead>
 		<tbody>
-			<tr ng-class="{ 'executando' : agendamento.estado_agendamento == 'EXECUTANDO',
-							'ativo' : agendamento.estado_agendamento == 'ATIVO',
-							'pausado'  : agendamento.estado_agendamento == 'PAUSADO'}" ng-repeat="agendamento in tabelaAgendamentos">
+			<tr class="agendamento-row" ng-repeat="agendamento in tabelaAgendamentos">
 				<td>
 					<div class="row">
 						<p>

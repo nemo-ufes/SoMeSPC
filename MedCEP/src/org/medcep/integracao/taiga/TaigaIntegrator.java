@@ -927,12 +927,7 @@ public class TaigaIntegrator
 		    medida.setMnemonico("TAIGA-IOC");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
-		    break;
-		case DURACAO_SPRINT:
-		    medida.setMnemonico("TAIGA-DSP");
-		    medida.setElementoMensuravel(duracao);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
-		    break;
+		    break;		
 		case ESTORIAS_COMPLETADAS_SPRINT:
 		    medida.setMnemonico("TAIGA-ECS");
 		    medida.setElementoMensuravel(desempenho);
@@ -963,12 +958,7 @@ public class TaigaIntegrator
 		    medida.setMnemonico("TAIGA-TTS");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
-		    break;
-		case DURACAO_ESTORIA:
-		    medida.setMnemonico("TAIGA-DES");
-		    medida.setElementoMensuravel(duracao);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoArtefato));
-		    break;
+		    break;		
 		case PONTOS_ESTORIA:
 		    medida.setMnemonico("TAIGA-PES");
 		    medida.setElementoMensuravel(tamanho);
@@ -2875,6 +2865,9 @@ public class TaigaIntegrator
 
 	    JobDataMap map = new JobDataMap();
 
+	    map.put("urlTaiga", this.urlTaiga.replace("/api/v1/", ""));
+	    map.put("usuarioTaiga", authInfo.getUsername());
+	    map.put("senhaTaiga", authInfo.getPassword());
 	    map.put("apelidoProjeto", projeto.getApelido());
 	    map.put("nomePlano", plano.getNome());
 	    map.put("nomeMedida", medida.getMedida().getNome());
@@ -2942,6 +2935,7 @@ public class TaigaIntegrator
 			    medida.getMedida().getNome(),
 			    medida.getMedida().getMnemonico());
 
+		    map.put("apelidoSprint", sprint.getApelido());
 		    map.put("entidadeMedida", sprint.getNome());
 		    map.put("momento", sprint.getNome());
 
@@ -2989,6 +2983,8 @@ public class TaigaIntegrator
 
 		for (Sprint sprint : sprints)
 		{
+		    map.put("apelidoSprint", sprint.getApelido());
+			   
 		    List<Estoria> estorias = this.obterEstoriasDaSprintBacklogTaiga(projeto.getApelido(), sprint.getApelido());
 
 		    for (Estoria estoria : estorias)

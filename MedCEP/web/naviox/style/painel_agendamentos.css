@@ -50,21 +50,7 @@ thead, tfoot {
 	background-repeat: repeat-x;
 }
 
-.executando {
-	border-left: 3px solid #2C3E50;
-	border-right: 3px solid #2C3E50;
-	font-size: 14px;
-	color: #5E7080;
-}
-
-.ativo {
-	border-left: 3px solid #2C3E50;
-	border-right: 3px solid #2C3E50;
-	font-size: 14px;
-	color: #5E7080;
-}
-
-.pausado {
+.agendamento-row {
 	border-left: 3px solid #2C3E50;
 	border-right: 3px solid #2C3E50;
 	font-size: 14px;

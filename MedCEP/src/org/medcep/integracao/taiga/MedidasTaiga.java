@@ -36,7 +36,6 @@ public enum MedidasTaiga
     
     //Medidas da Sprint
     DOSES_IOCAINE_SPRINT("Doses de Iocaine da Sprint"),
-    DURACAO_SPRINT("Duração da Sprint"), //Data Fim - Data Inicio
     ESTORIAS_COMPLETADAS_SPRINT("Estórias Completadas na Sprint"),
     PONTOS_COMPLETADOS_SPRINT("Pontos Completados na Sprint"),
     TAREFAS_COMPLETADAS_SPRINT("Tarefas Completadas na Sprint"),
@@ -45,7 +44,6 @@ public enum MedidasTaiga
     TOTAL_TAREFAS_SPRINT("Total de Tarefas da Sprint"),
         
     //Medidas da Estória
-    DURACAO_ESTORIA("Duração da Estória"), //Data Fim - Data Inicio
     PONTOS_ESTORIA("Pontos da Estória");
     
     private final String name;       

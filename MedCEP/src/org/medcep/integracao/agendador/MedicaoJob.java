@@ -1,6 +1,7 @@
 package org.medcep.integracao.agendador;
 
 import java.sql.*;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -10,37 +11,183 @@ import org.medcep.model.medicao.planejamento.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
 
-@DisallowConcurrentExecution
-@PersistJobDataAfterExecution 
 public class MedicaoJob implements Job
 {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException
     {
-	JobDataMap dataMap = context.getMergedJobDataMap();;
-	String apelidoProjeto = dataMap.getString("apelidoProjeto");
-	String nomePlano = dataMap.getString("nomePlano");
-	String nomeMedida = dataMap.getString("nomeMedida");
-	String entidadeMedida = dataMap.getString("entidadeMedida");
-	String momento = dataMap.getString("momento");
-	
 	EntityManager manager = XPersistence.createManager();
 
 	try
 	{
+	    JobDataMap dataMap = context.getMergedJobDataMap();
+
+	    String urlTaiga = dataMap.getString("urlTaiga");
+	    String usuarioTaiga = dataMap.getString("usuarioTaiga");
+	    String senhaTaiga = dataMap.getString("senhaTaiga");
+	    String apelidoProjeto = dataMap.getString("apelidoProjeto");
+	    String nomePlano = dataMap.getString("nomePlano");
+	    String nomeMedida = dataMap.getString("nomeMedida");
+	    String entidadeMedida = dataMap.getString("entidadeMedida");
+	    String momento = dataMap.getString("momento");
+
 	    String query = String.format("SELECT p FROM PlanoDeMedicaoDoProjeto p WHERE p.nome='%s'", nomePlano);
 	    TypedQuery<PlanoDeMedicaoDoProjeto> typedQuery = manager.createQuery(query, PlanoDeMedicaoDoProjeto.class);
-
 	    PlanoDeMedicaoDoProjeto plano = typedQuery.getSingleResult();
 
 	    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	    TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	    TaigaIntegrator integrator = new TaigaIntegrator(urlTaiga, usuarioTaiga, senhaTaiga);
 
-	    String valorMedido = this.medir(nomeMedida, apelidoProjeto, integrator);
+	    String valorMedido = null;
+	    EstadoProjeto estado = integrator.obterEstadoProjetoTaiga(apelidoProjeto);
 
-	    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
-	    
+	    if (nomeMedida.equalsIgnoreCase("Pontos Alocados no Projeto"))
+	    {
+		valorMedido = String.valueOf(estado.getPontosAlocados());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Pontos Definidos no Projeto"))
+	    {
+		valorMedido = String.valueOf(estado.getPontosDefinidos());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Pontos Fechados no Projeto"))
+	    {
+		valorMedido = String.valueOf(estado.getPontosFechados());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Total de Sprints do Projeto"))
+	    {
+		valorMedido = String.valueOf(estado.getTotalSprints());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Total de Pontos do Projeto"))
+	    {
+		valorMedido = String.valueOf(estado.getTotalPontos());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Velocidade do Projeto"))
+	    {
+		valorMedido = String.valueOf(estado.getVelocidade());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Pontos Alocados por Papel no Projeto"))
+	    {
+		//Meda cada alocação.
+		Map<String, Float> pontos = estado.getPontosAlocadosPorPapel();
+
+		for (Map.Entry<String, Float> entry : pontos.entrySet())
+		{
+		    Membro membro = integrator.obterMembroTaiga(Integer.parseInt(entry.getKey()));
+		    String nomeAlocacao = String.format("%s %s em Equipe %s", membro.getPapel(), membro.getNome(), plano.getProjeto().getNome());
+		    valorMedido = String.valueOf(entry.getValue());
+		    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, nomeAlocacao, valorMedido, momento);
+		}
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Pontos Definidos por Papel no Projeto"))
+	    {
+		//Meda cada alocação.
+		Map<String, Float> pontos = estado.getPontosDefinidosPorPapel();
+
+		for (Map.Entry<String, Float> entry : pontos.entrySet())
+		{
+		    Membro membro = integrator.obterMembroTaiga(Integer.parseInt(entry.getKey()));
+		    String nomeAlocacao = String.format("%s %s em Equipe %s", membro.getPapel(), membro.getNome(), plano.getProjeto().getNome());
+		    valorMedido = String.valueOf(entry.getValue());
+		    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, nomeAlocacao, valorMedido, momento);
+		}
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Pontos Fechados por Papel no Projeto"))
+	    {
+		//Meda cada alocação.
+		Map<String, Float> pontos = estado.getPontosFechadosPorPapel();
+
+		for (Map.Entry<String, Float> entry : pontos.entrySet())
+		{
+		    Membro membro = integrator.obterMembroTaiga(Integer.parseInt(entry.getKey()));
+		    String nomeAlocacao = String.format("%s %s em Equipe %s", membro.getPapel(), membro.getNome(), plano.getProjeto().getNome());
+		    valorMedido = String.valueOf(entry.getValue());
+		    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, nomeAlocacao, valorMedido, momento);
+		}
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Doses de Iocaine da Sprint"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
+		valorMedido = String.valueOf(estadoSprint.getDosesIocaine());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Estórias Completadas na Sprint"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
+		valorMedido = String.valueOf(estadoSprint.getEstoriasCompletadas());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Pontos Completados na Sprint"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
+		valorMedido = String.valueOf(estadoSprint.getPontosCompletados());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Tarefas Completadas na Sprint"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
+		valorMedido = String.valueOf(estadoSprint.getTarefasCompletadas());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Total de Estórias da Sprint"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
+		valorMedido = String.valueOf(estadoSprint.getTotalEstorias());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Total de Estórias da Sprint"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
+		valorMedido = String.valueOf(estadoSprint.getTotalEstorias());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Total de Pontos da Sprint"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
+		valorMedido = String.valueOf(estadoSprint.getTotalPontos());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Total de Tarefas da Sprint"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
+		valorMedido = String.valueOf(estadoSprint.getTotalTarefas());
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else if (nomeMedida.equalsIgnoreCase("Pontos da Estória"))
+	    {
+		String apelidoSprint = dataMap.getString("apelidoSprint");
+
+		List<Estoria> estorias = integrator.obterEstoriasDaSprintBacklogTaiga(apelidoProjeto, apelidoSprint);
+		for (Estoria estoria : estorias)
+		{
+		    if (estoria.getTitulo().equalsIgnoreCase(entidadeMedida))
+		    {
+			valorMedido = String.valueOf(estoria.getTotalPontos());
+			break;
+		    }
+		}
+
+		integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, entidadeMedida, valorMedido, momento);
+	    }
+	    else
+	    {
+		throw new Exception(String.format("Medida %s não encontrada.", nomeMedida));
+	    }
+
 	    System.out.println(String.format("Job %s (%s) executado com sucesso.",
 		    context.getTrigger().getKey().getName(),
 		    context.getTrigger().getKey().getGroup()));
@@ -58,39 +205,5 @@ public class MedicaoJob implements Job
 	{
 	    manager.close();
 	}
-    }
-
-    private String medir(String nomeMedida, String apelidoProjeto, TaigaIntegrator integrator)
-    {
-	String valorMedido = null;
-	    EstadoProjeto estado = integrator.obterEstadoProjetoTaiga(apelidoProjeto);
-		
-
-	if (nomeMedida.equalsIgnoreCase("Pontos Alocados no Projeto"))
-	{
-	    valorMedido = String.valueOf(estado.getPontosAlocados());
-	}
-	else if (nomeMedida.equalsIgnoreCase("Pontos Definidos no Projeto"))
-	{
-	    valorMedido = String.valueOf(estado.getPontosDefinidos());
-	}
-	else if (nomeMedida.equalsIgnoreCase("Pontos Fechados no Projeto"))
-	{
-	    valorMedido = String.valueOf(estado.getPontosFechados());
-	}
-	else if (nomeMedida.equalsIgnoreCase("Total de Sprints do Projeto"))
-	{
-	    valorMedido = String.valueOf(estado.getTotalSprints());
-	}
-	else if (nomeMedida.equalsIgnoreCase("Total de Pontos do Projeto"))
-	{
-	    valorMedido = String.valueOf(estado.getTotalPontos());
-	}
-	else if (nomeMedida.equalsIgnoreCase("Velocidade do Projeto"))
-	{
-	    valorMedido = String.valueOf(estado.getVelocidade());
-	}
-
-	return valorMedido;
     }
 }
