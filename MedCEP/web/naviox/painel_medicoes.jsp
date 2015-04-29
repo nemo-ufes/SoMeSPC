@@ -17,11 +17,11 @@
 
 		<div class="row" style="margin: 20px;">
 			<div class="col-md-5">
-				<label for="selectProjeto">Projeto</label> <select class="form-control" id="selectProjeto" ng-model="projetoSelecionado" ng-options="projetos[projetos.indexOf(projeto)].nome  for projeto in projetos" ng-change="obterMedidas()">
+				<label for="selectEntidade">Entidade Mensurável</label> <select class="form-control" id="selectEntidade" ng-model="entidadeSelecionada" ng-options="entidades[entidades.indexOf(entidade)].nome for entidade in entidades" ng-change="obterMedidas()">
 				</select>
 			</div>
 			<div class="col-md-5">
-				<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome  for medida in medidas" ng-change="obterMedicoes(1)">
+				<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome for medida in medidas" ng-change="obterMedicoes(1)">
 				</select>
 			</div>
 			<div class="col-md-2">

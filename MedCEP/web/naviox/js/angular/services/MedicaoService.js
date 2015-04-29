@@ -1,9 +1,9 @@
 app.service("MedicaoService", function($http, $q) {
 
 	var url = 'http://localhost:8080/MedCEP/api/Medicao';
-	
+
 	return ({
-		obterProjetos : obterProjetos,
+		obterEntidades : obterEntidades,
 		obterMedidas : obterMedidas,
 		obterMedicoes : obterMedicoes,
 		obterValoresMedicao : obterValoresMedicao,
@@ -12,89 +12,83 @@ app.service("MedicaoService", function($http, $q) {
 		obterTotalMedicoes : obterTotalMedicoes
 	});
 
-	function obterProjetos() {
+	function obterEntidades() {
 
 		var request = $http({
 			method : "get",
-			url : url + "/Projeto",
+			url : url + "/Entidade",
 			params : {}
 		});
 		return (request.then(handleSuccess, handleError));
 	}
 
-	function obterMedidas(idProjeto) {
+	function obterMedidas(idEntidade) {
 
 		var request = $http({
 			method : "get",
-			url : url + "/Medida",
-			params : {
-				projeto : idProjeto
-			}
+			url : url + "/Entidade/" + idEntidade + "/Medida"
 		});
 		return (request.then(handleSuccess, handleError));
 	}
 
-	function obterMedicoes(idProjeto, idMedida, indiceAtual, tamanhoPagina) {
+	function obterMedicoes(idEntidade, idMedida, indiceAtual, tamanhoPagina) {
 		var request = $http({
 			method : "get",
 			url : url,
 			params : {
-				projeto : idProjeto,
+				entidade : idEntidade,
 				medida : idMedida,
 				indiceAtual : indiceAtual,
-				tamanhoPagina: tamanhoPagina		
+				tamanhoPagina : tamanhoPagina
 			}
 		});
 		return (request.then(handleSuccess, handleError));
 	}
 
-	function obterValoresMedicao(idProjeto, idMedida) {
+	function obterValoresMedicao(idEntidade, idMedida) {
 
 		var request = $http({
 			method : "get",
-			url : url + "/Valor",
-			params : {
-				projeto : idProjeto,
-				medida : idMedida
-			}
+			url : url + "/Entidade/" + idEntidade + "/Medida/" + idMedida
+					+ "/Valor"
 		});
 		return (request.then(handleSuccess, handleError));
 	}
 
-	function obterDataHoraMedicao(idProjeto, idMedida) {
+	function obterDataHoraMedicao(idEntidade, idMedida) {
 
 		var request = $http({
 			method : "get",
 			url : url + "/DataHora",
 			params : {
-				projeto : idProjeto,
+				entidade : idEntidade,
 				medida : idMedida
 			}
 		});
 		return (request.then(handleSuccess, handleError));
 	}
-	
-	function obterPaginas(tamanhoPagina, idProjeto, idMedida) {
+
+	function obterPaginas(tamanhoPagina, idEntidade, idMedida) {
 
 		var request = $http({
 			method : "get",
 			url : url + "/Pagina",
 			params : {
 				tamanhoPagina : tamanhoPagina,
-				projeto : idProjeto,
+				entidade : idEntidade,
 				medida : idMedida
 			}
 		});
 		return (request.then(handleSuccess, handleError));
 	}
-	
-	function obterTotalMedicoes(idProjeto, idMedida) {
+
+	function obterTotalMedicoes(idEntidade, idMedida) {
 
 		var request = $http({
 			method : "get",
 			url : url + "/Total",
-			params : {				
-				projeto : idProjeto,
+			params : {
+				entidade : idEntidade,
 				medida : idMedida
 			}
 		});

@@ -484,14 +484,14 @@ public class MedCEPResource
     public Response obterPaginasMedicoes(
 	    @QueryParam("tamanhoPagina") int tamanhoPagina,
 	    @QueryParam("medida") int idMedidaPlano,
-	    @QueryParam("projeto") int idProjeto)
+	    @QueryParam("entidade") int idEntidade)
     {
 	Response response;
 	EntityManager manager = XPersistence.createManager();
 
 	Query queryTotal = manager.createQuery(String.format("SELECT COUNT(*) FROM Medicao m "
 		+ "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-		+ "AND m.projeto.id = %d", idMedidaPlano, idProjeto));
+		+ "AND m.entidadeMensuravel.id = %d", idMedidaPlano, idEntidade));
 
 	Long total = (Long) queryTotal.getSingleResult();
 
@@ -514,14 +514,14 @@ public class MedCEPResource
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response obterTotalMedicoes(
 	    @QueryParam("medida") int idMedidaPlano,
-	    @QueryParam("projeto") int idProjeto)
+	    @QueryParam("entidade") int idEntidade)
     {
 	Response response;
 	EntityManager manager = XPersistence.createManager();
 
 	Query queryTotal = manager.createQuery(String.format("SELECT COUNT(*) FROM Medicao m "
 		+ "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-		+ "AND m.projeto.id = %d", idMedidaPlano, idProjeto));
+		+ "AND m.entidadeMensuravel.id = %d", idMedidaPlano, idEntidade));
 
 	Long total = (Long) queryTotal.getSingleResult();
 
@@ -542,13 +542,13 @@ public class MedCEPResource
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response obterMedicoes(@QueryParam("medida") int idMedidaPlano,
-	    @QueryParam("projeto") int idProjeto,
+	    @QueryParam("entidade") int idEntidade,
 	    @QueryParam("indiceAtual") int indiceAtual,
 	    @QueryParam("tamanhoPagina") int tamanhoPagina) throws Exception
     {
 	Response response;
 
-	if (idMedidaPlano == 0 || idProjeto == 0)
+	if (idMedidaPlano == 0 || idEntidade == 0)
 	{
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
@@ -558,7 +558,7 @@ public class MedCEPResource
 
 	    TypedQuery<Medicao> query = manager.createQuery(String.format("Select m FROM Medicao m "
 		    + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-		    + "AND m.projeto.id = %d ORDER BY m.data ASC", idMedidaPlano, idProjeto), Medicao.class)
+		    + "AND m.entidadeMensuravel.id = %d ORDER BY m.data ASC", idMedidaPlano, idEntidade), Medicao.class)
 		    .setFirstResult((indiceAtual * tamanhoPagina) - tamanhoPagina)
 		    .setMaxResults(tamanhoPagina);
 
@@ -591,71 +591,23 @@ public class MedCEPResource
     }
 
     /**
-     * Obtem os projetos que das medições.
+     * Obtem as entidades com medições.
      * 
-     * @return Projetos das medições.
+     * @return Entidades com medições.
      * @throws Exception
      */
-    @Path("Medicao/Projeto")
+    @Path("Medicao/Entidade")
     @GET
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response obterProjetosComMedicoes() throws Exception
-    {
-	Response response;
-
-	EntityManager manager = XPersistence.createManager();
-
-	TypedQuery<Projeto> query = manager.createQuery(
-		"Select distinct(m.projeto) FROM Medicao m "
-		, Projeto.class);
-	List<Projeto> result = query.getResultList();
-
-	if (result == null)
-	    response = Response.status(Status.NOT_FOUND).build();
-	else
-	{
-	    List<ProjetoDTO> listaDto = new ArrayList<ProjetoDTO>();
-
-	    for (Projeto proj : result)
-	    {
-		ProjetoDTO dto = new ProjetoDTO();
-
-		dto.setId(proj.getId());
-		dto.setNome(proj.getNome());
-
-		listaDto.add(dto);
-	    }
-
-	    response = Response.status(Status.OK).entity(listaDto).build();
-	}
-
-	manager.close();
-
-	return response;
-    }
-    
-    /**
-     * Obtem os as sprints de um projeto que tenha medições.
-     * 
-     * @return Projetos das medições.
-     * @throws Exception
-     */
-    @Path("Medicao/Projeto/{idProjeto}/Sprint")
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response obterSprintsDoProjetoComMedicoes(@PathParam("idProjeto") int idProjeto) throws Exception
+    public Response obterEntidadesComMedicoes() throws Exception
     {
 	Response response;
 
 	EntityManager manager = XPersistence.createManager();
 
 	TypedQuery<EntidadeMensuravel> query = manager.createQuery(
-		"Select distinct(m.entidadeMensuravel) "
-		+ "FROM Medicao m "
-		+ "WHERE m.entidadeMensuravel.nome LIKE 'Sprint%' "
-		+ "AND m.projeto.id = " + idProjeto
+		"Select distinct(m.entidadeMensuravel) FROM Medicao m "
 		, EntidadeMensuravel.class);
 	List<EntidadeMensuravel> result = query.getResultList();
 
@@ -684,22 +636,21 @@ public class MedCEPResource
     }
 
     /**
-     * Obtém as medidas das medições por projeto (QueryParam).
+     * Obtém as medidas das entidades.
      * 
-     * @param idProjeto
-     *            - Id do projeto para buscar as medidas.
-     * @return Medidas das medições do projeto informado.
+     * @param id- Id da entidade para buscar as medidas.
+     * @return Medidas das da entidade informada.
      * @throws Exception
      */
-    @Path("Medicao/Medida")
+    @Path("Medicao/Entidade/{id}/Medida")
     @GET
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response obterMedidasDasMedicoesPorProjeto(@QueryParam("projeto") int idProjeto) throws Exception
+    public Response obterMedidasdasEntidadesComMedicoes(@PathParam("id") int id) throws Exception
     {
 	Response response;
 
-	if (idProjeto == 0)
+	if (id == 0)
 	{
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
@@ -712,7 +663,7 @@ public class MedCEPResource
 	    TypedQuery<Medida> query = manager.createQuery(
 		    "Select distinct(m.medidaPlanoDeMedicao.medida) "
 			    + "FROM Medicao m "
-			    + "WHERE m.projeto.id = " + idProjeto
+			    + "WHERE m.entidadeMensuravel.id = " + id
 		    , Medida.class);
 	    List<Medida> result = query.getResultList();
 
@@ -741,22 +692,22 @@ public class MedCEPResource
     }
 
     /**
-     * Obtém as medidas das medições por projeto (QueryParam).
+     * Obtém os valores das medidas por entidade.
      * 
-     * @param idProjeto
-     *            - Id do projeto para buscar as medidas.
-     * @return Medidas das medições do projeto informado.
+     * @param idEntidade - Id da entidade para buscar os valores
+     * @param idMedida - Id da medida para buscar os valores
+     * @return Valores da medida.
      * @throws Exception
      */
-    @Path("Medicao/Valor")
+    @Path("Medicao/Entidade/{id}/Medida/{id2}/Valor")
     @GET
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response obterValorMedicoesPorMedidaEProjeto(@QueryParam("projeto") int idProjeto, @QueryParam("medida") int idMedida) throws Exception
+    public Response obterValorMedicoesPorMedidaEntidade(@QueryParam("id") int idEntidade, @QueryParam("id2") int idMedida) throws Exception
     {
 	Response response;
 
-	if (idProjeto == 0)
+	if (idEntidade == 0)
 	{
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
@@ -769,7 +720,7 @@ public class MedCEPResource
 	    TypedQuery<String> query = manager.createQuery(
 		    "Select m.valorMedido.valorMedido "
 			    + "FROM Medicao m "
-			    + "WHERE m.projeto.id = " + idProjeto + " "
+			    + "WHERE m.entidadeMensuravel.id = " + idEntidade + " "
 			    + "AND m.medidaPlanoDeMedicao.medida.id = " + idMedida
 			    + " ORDER BY m.id"
 		    , String.class);
@@ -806,11 +757,11 @@ public class MedCEPResource
     @GET
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response obterDataHoraMedicoesPorMedidaEProjeto(@QueryParam("projeto") int idProjeto, @QueryParam("medida") int idMedida) throws Exception
+    public Response obterDataHoraMedicoesPorMedidaEProjeto(@QueryParam("entidade") int idEntidade, @QueryParam("medida") int idMedida) throws Exception
     {
 	Response response;
 
-	if (idProjeto == 0)
+	if (idEntidade == 0)
 	{
 	    response = Response.status(Status.BAD_REQUEST).build();
 	}
@@ -823,7 +774,7 @@ public class MedCEPResource
 	    TypedQuery<Medicao> query = manager.createQuery(
 		    "Select m "
 			    + "FROM Medicao m "
-			    + "WHERE m.projeto.id = " + idProjeto + " "
+			    + "WHERE m.entidadeMensuravel.id = " + idEntidade + " "
 			    + "AND m.medidaPlanoDeMedicao.medida.id = " + idMedida
 			    + " ORDER BY m.id"
 		    , Medicao.class);

@@ -3,12 +3,12 @@
  */
 app.controller('MedicoesController', function($scope, MedicaoService) {
 	
-	carregarProjetos();
+	carregarEntidades();
 	inicializar();
 
-	function carregarProjetos() {
-		MedicaoService.obterProjetos().then(function(projetos) {
-			$scope.projetos = projetos;
+	function carregarEntidades() {
+		MedicaoService.obterEntidades().then(function(entidades) {
+			$scope.entidades = entidades;
 		});
 	}
 	
@@ -27,7 +27,7 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 	}
 	
 	$scope.configurarPaginator = function configurarPaginator(numPerPage)	{
-		MedicaoService.obterTotalMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id).then(function (total) {
+		MedicaoService.obterTotalMedicoes($scope.entidadeSelecionada.id, $scope.medidaSelecionada.id).then(function (total) {
 			 $scope.totalItems = total;
 			 $scope.numPerPage = numPerPage;
 		});
@@ -36,7 +36,7 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 	$scope.obterMedidas = function obterMedidas() {
 		inicializar();
 		
-		MedicaoService.obterMedidas($scope.projetoSelecionado.id).then(
+		MedicaoService.obterMedidas($scope.entidadeSelecionada.id).then(
 				function(medidas) {
 					$scope.medidas = medidas;
 				});
@@ -44,8 +44,8 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 	
 	$scope.obterMedicoes = function (paginaAtual) {		
 		
-		if ($scope.projetoSelecionado == undefined){
-			console.warn("Nenhum projeto selecionado.");
+		if ($scope.entidadeSelecionada == undefined){
+			console.warn("Nenhuma entidade selecionada.");
 			return;
 		}
 		
@@ -54,7 +54,7 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 			return;
 		}
 		
-		MedicaoService.obterMedicoes($scope.projetoSelecionado.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
+		MedicaoService.obterMedicoes($scope.entidadeSelecionada.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
 			var dados = new Array();
 			var labels = new Array();
 			
@@ -66,7 +66,7 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 			$scope.paginaAtual = paginaAtual;
 			$scope.dados = [dados];
 			$scope.labels = labels;			
-			$scope.series = [$scope.projetoSelecionado.nome + ' / ' + $scope.medidaSelecionada.nome];
+			$scope.series = [$scope.entidadeSelecionada.nome + ' / ' + $scope.medidaSelecionada.nome];
 			
 			$scope.configurarPaginator($scope.numPerPage);
 		});
