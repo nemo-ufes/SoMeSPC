@@ -54,3 +54,7 @@
 	background-color: #d4d8dc;
 	border-color: #566472;
 }
+
+input[type="text"], input[type="password"], input[type="file"] {
+    height: 34px;
+}

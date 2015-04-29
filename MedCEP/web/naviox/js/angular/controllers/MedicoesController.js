@@ -6,6 +6,7 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 	carregarEntidades();
 	inicializar();
 
+	
 	function carregarEntidades() {
 		MedicaoService.obterEntidades().then(function(entidades) {
 			$scope.entidades = entidades;
@@ -18,13 +19,14 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 		$scope.dados = [[0,0,0,0,0]];
 		$scope.labels = ["0","0","0","0","0"];	
 		$scope.series = [''];
-		$scope.colours = [ {
-			 	fillColor : "#e9ebed",
-			 	strokeColor : "#2C3E50",
-			 	pointColor : "#2C3E50",
-			 	pointStrokeColor : "#fff",
-			 }]
+		$scope.colours = [{fillColor : "#e9ebed", strokeColor : "#2C3E50", pointColor : "#2C3E50", pointStrokeColor : "#fff"}];
 	}
+	
+	$scope.onSelecionarEntidade = function onSelecionarEntidade($item, $model, $label) {
+		$scope.entidadeSelecionada = $item;
+		console.log($scope.entidadeSelecionada.id);
+		$scope.obterMedidas();
+	};
 	
 	$scope.configurarPaginator = function configurarPaginator(numPerPage)	{
 		MedicaoService.obterTotalMedicoes($scope.entidadeSelecionada.id, $scope.medidaSelecionada.id).then(function (total) {
