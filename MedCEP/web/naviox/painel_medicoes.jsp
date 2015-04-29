@@ -18,7 +18,8 @@
 		<div class="row" style="margin: 20px;">
 
 			<div class="col-md-5">
-				<label for="selectEntidade">Entidade Mensurável</label> <input type="text" ng-model="entidadeSelecionada" placeholder="Buscar entidade..." typeahead-editable="false" typeahead="entidade.nome for entidade in entidades | filter:$viewValue | limitTo:8" typeahead-on-select="onSelecionarEntidade($item, $model, $label)" class="form-control">
+				<label for="selectEntidade">Entidade Mensurável 1</label> <input type="text" ng-model="entidadeSelecionada" placeholder="Buscar entidade..." typeahead-editable="false" typeahead="entidade.nome for entidade in entidades | filter:$viewValue | limitTo:8" typeahead-on-select="onSelecionarEntidade($item, $model, $label)" class="form-control">
+				<label for="selectEntidade2">Entidade Mensurável 2</label> <input type="text" ng-model="entidadeSelecionada2" placeholder="Buscar entidade..." typeahead-editable="false" typeahead="entidade.nome for entidade in entidades | filter:$viewValue | limitTo:8" typeahead-on-select="onSelecionarEntidade2($item, $model, $label)" class="form-control">
 			</div>
 			<div class="col-md-5">
 				<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome for medida in medidas" ng-change="obterMedicoes(1)">

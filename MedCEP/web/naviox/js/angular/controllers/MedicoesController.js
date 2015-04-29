@@ -24,7 +24,13 @@ app.controller('MedicoesController', function($scope, MedicaoService) {
 	
 	$scope.onSelecionarEntidade = function onSelecionarEntidade($item, $model, $label) {
 		$scope.entidadeSelecionada = $item;
-		console.log($scope.entidadeSelecionada.id);
+		console.log("Entidade 1: " + $scope.entidadeSelecionada.id);
+		$scope.obterMedidas();
+	};
+
+	$scope.onSelecionarEntidade2 = function onSelecionarEntidade2($item, $model, $label) {
+		$scope.entidadeSelecionada2 = $item;
+		console.log("Entidade 2: " + $scope.entidadeSelecionada2.id);
 		$scope.obterMedidas();
 	};
 	
