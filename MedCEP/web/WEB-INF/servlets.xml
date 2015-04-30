@@ -18,13 +18,3 @@
 	<servlet-class>org.medcep.inicializacao.MedCEPStarter</servlet-class>
 	<load-on-startup>1</load-on-startup>
 </servlet>
-
-<servlet>
-	<servlet-name>MedCEPWizard</servlet-name>
-	<servlet-class>org.medcep.wizard.WizardHelper</servlet-class>
-</servlet>
-
-<servlet-mapping>
-	<servlet-name>MedCEPWizard</servlet-name>
-	<url-pattern>/wizard.do</url-pattern>
-</servlet-mapping>
