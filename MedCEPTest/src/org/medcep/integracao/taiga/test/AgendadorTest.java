@@ -35,7 +35,7 @@ public class AgendadorTest
 
 	    if (!existeJob)
 	    {
-		job = JobBuilder.newJob(HelloWorldJob.class)
+		job = JobBuilder.newJob(MedicaoJob.class)
 			.withIdentity(nomeJob, nomeGrupo)
 			.build();
 
