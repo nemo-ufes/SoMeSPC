@@ -4,6 +4,13 @@
 app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 	
 	/**
+	 * Função auxiliar.
+	 */
+	angular.isUndefinedOrNull = function(val) {
+	    return angular.isUndefined(val) || val === null || val === ""
+	}
+	
+	/**
 	 * Inicialização.
 	 */
 	carregarEntidades();
@@ -22,10 +29,11 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 	 * Inicializa o gráfico.
 	 */
 	function inicializar(){
+		$scope.medidas = "";
 		$scope.paginaAtual = 1;
 		$scope.numPerPage = 5;
-		$scope.dados = [[0,0,0,0,0]];
-		$scope.labels = ["0","0","0","0","0"];	
+		$scope.dados = new Array();
+		$scope.labels = new Array();	
 		$scope.series = [''];
 		$scope.colours = [{fillColor : "#e9ebed", strokeColor : "#2C3E50", pointColor : "#2C3E50", pointStrokeColor : "#fff"},
 		                  {fillColor : "#c5cabf", strokeColor : "#3E502C", pointColor : "#3E502C", pointStrokeColor : "#fff"}];
@@ -36,7 +44,6 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 	 */
 	$scope.onSelecionarEntidade = function onSelecionarEntidade($item, $model, $label) {
 		$scope.entidadeSelecionada = $item;
-		console.log("Entidade 1: " + $scope.entidadeSelecionada.id);
 		$scope.obterMedidas();
 	};
 
@@ -45,7 +52,6 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 	 */
 	$scope.onSelecionarEntidade2 = function onSelecionarEntidade2($item, $model, $label) {
 		$scope.entidadeSelecionada2 = $item;
-		console.log("Entidade 2: " + $scope.entidadeSelecionada2.id);
 		$scope.obterMedidas();
 	};
 	
@@ -64,22 +70,21 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 	 */
 	$scope.obterMedidas = function obterMedidas() {
 		inicializar();
-				
-		//Se as duas entidades foram selecionadas, aguarda o retorno das medidas das duas.
-		if ($scope.entidadeSelecionada != undefined && $scope.entidadeSelecionada != null
-				&& $scope.entidadeSelecionada2 != undefined && $scope.entidadeSelecionada2 != null){			
+	
+		// Se as duas entidades foram selecionadas, aguarda o retorno das
+		// medidas das duas.
+		if (!angular.isUndefinedOrNull($scope.entidadeSelecionada) && !angular.isUndefinedOrNull($scope.entidadeSelecionada2)){			
 		
 			$q.all([MedicaoService.obterMedidas($scope.entidadeSelecionada.id), MedicaoService.obterMedidas($scope.entidadeSelecionada2.id)])
-			.then(function(responses){
+			.then(function(responses){					
 				$scope.medidasEntidade1 = responses[0].data;
 				$scope.medidasEntidade2 = responses[1].data;
 				$scope.selecionarMedidasParaExibicao();
 			})
 		}
-		else{
-			
-			//Senão, busca da que foi selecionada.
-			if ($scope.entidadeSelecionada != undefined && $scope.entidadeSelecionada != null){			
+		else{			
+			// Senão, busca da que foi selecionada.
+			if (!angular.isUndefinedOrNull($scope.entidadeSelecionada)){			
 				MedicaoService.obterMedidas($scope.entidadeSelecionada.id).then(
 						function(medidas) {
 							$scope.medidasEntidade1 = medidas;
@@ -87,7 +92,7 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 						});
 			}
 			
-			if ($scope.entidadeSelecionada2 != undefined && $scope.entidadeSelecionada2 != null){			
+			if (!angular.isUndefinedOrNull($scope.entidadeSelecionada2)){			
 				MedicaoService.obterMedidas($scope.entidadeSelecionada2.id).then(
 						function(medidas) {
 							$scope.medidasEntidade2 = medidas;
@@ -99,61 +104,82 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 	}
 	
 	$scope.selecionarMedidasParaExibicao = function selecionarMedidasParaExibicao(){
-		//Se somente uma entidade foi selecionada, usa apenas as medidas dela.
-		if (($scope.entidadeSelecionada != undefined && $scope.entidadeSelecionada != null)
-				!=($scope.entidadeSelecionada2 != undefined && $scope.entidadeSelecionada2 != null)){
-			
-			if ($scope.medidasEntidade1 != undefined){
+		// Se somente uma entidade foi selecionada, usa apenas as medidas dela.
+		if (angular.isUndefinedOrNull($scope.entidadeSelecionada) != angular.isUndefinedOrNull($scope.entidadeSelecionada2)){			
+		
+			console.log("Entrou xor");
+			if (!angular.isUndefinedOrNull($scope.medidasEntidade1)){
 				$scope.medidas = $scope.medidasEntidade1
 			}
 			else{
 				$scope.medidas = $scope.medidasEntidade2
 			}
 		}
-		else {
-			//Senão, seleciona as medidas em comum.
-			//Primeiro, testa as medidas do array 1 no array 2.
-			for (var i = 0; i < $scope.medidasEntidade1.length; i++) {				
-				var index = $.inArray($scope.medidasEntidade1[i], $scope.medidasEntidade2)
-				
-				//Se não tiver a medida (indice -1), remove do array.
-				if (index == -1){
-					$scope.medidasEntidade1 = $scope.medidasEntidade1.splice(index, 1);
-				}
-			 }	
+		else {			
+			console.log("Entrou else");
 			
-			//Agora inverte, buscando as medidas do array 2 no array 1.
-			for (var i = 0; i < $scope.medidasEntidade2.length; i++) {				
-				var index = $.inArray($scope.medidasEntidade2[i], $scope.medidasEntidade1)
+			if (angular.isUndefinedOrNull($scope.medidasEntidade1) && angular.isUndefinedOrNull($scope.medidasEntidade2)){
 				
-				//Se não tiver a medida (indice -1), remove do array.
-				if (index == -1){
-					$scope.medidasEntidade2= $scope.medidasEntidade2.splice(index, 1);
-				}
-			 }	
-			
-			//Agora que os arrays são iguais, usa qualquer um para exibir as medidas.
-			$scope.medidas = $scope.medidasEntidade1;			
-		}	 	 
+				$q.all([MedicaoService.obterMedidas($scope.entidadeSelecionada.id), MedicaoService.obterMedidas($scope.entidadeSelecionada2.id)])
+					.then(function(responses){					
+						$scope.medidasEntidade1 = responses[0];
+						$scope.medidasEntidade2 = responses[1];
+						
+						console.log("medidas1: " + responses[0]);
+						console.log("medidas2: " + responses[1]);
+						
+						// Senão, seleciona as medidas em comum.
+						// Primeiro, testa as medidas do array 1 no array 2.
+						for (var i = 0; i < $scope.medidasEntidade1.length; i++) {				
+							var index = $.inArray($scope.medidasEntidade1[i], $scope.medidasEntidade2)
+							
+							// Se não tiver a medida (indice -1), remove do
+							// array.
+							if (index == -1){
+								$scope.medidasEntidade1 = $scope.medidasEntidade1.splice(index, 1);
+							}
+						 }	
+						
+						// Agora inverte, buscando as medidas do array 2 no
+						// array 1.
+						for (var i = 0; i < $scope.medidasEntidade2.length; i++) {				
+							var index = $.inArray($scope.medidasEntidade2[i], $scope.medidasEntidade1)
+							
+							// Se não tiver a medida (indice -1), remove do
+							// array.
+							if (index == -1){
+								$scope.medidasEntidade2= $scope.medidasEntidade2.splice(index, 1);
+							}
+						 }	
+						
+						console.log("medidas1 pós: " + responses[0]);
+						console.log("medidas2 pós: " + responses[1]);
+						
+						// Agora que os arrays são iguais, usa qualquer um
+						// para exibir as medidas.
+						$scope.medidas = $scope.medidasEntidade1;			
+					}); 
+			}				 	 
+		}
 	}
 	
 	/**
-	 * Busca os valores das medições de acordo com a página atual do paginator e das entidades selecionadas.
+	 * Busca os valores das medições de acordo com a página atual do paginator e
+	 * das entidades selecionadas.
 	 */
 	$scope.obterMedicoes = function (paginaAtual) {		
 		
-		if ($scope.entidadeSelecionada == undefined){
+		if (angular.isUndefinedOrNull($scope.entidadeSelecionada) && angular.isUndefinedOrNull($scope.entidadeSelecionada2)){
 			console.warn("Nenhuma entidade selecionada.");
 			return;
 		}
 		
-		if ($scope.medidaSelecionada == undefined){
+		if (angular.isUndefinedOrNull($scope.medidaSelecionada)){
 			console.warn("Nenhuma medida selecionada.");
 			return;
 		}
 		
-		if ($scope.entidadeSelecionada != undefined && $scope.entidadeSelecionada != null){
-			console.log("entidade 1: " + $scope.entidadeSelecionada.nome);
+		if (!angular.isUndefinedOrNull($scope.entidadeSelecionada)){
 			MedicaoService.obterMedicoes($scope.entidadeSelecionada.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
 				var dados = new Array();
 				var labels = new Array();
@@ -162,18 +188,17 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 					dados.push(medicao.valor_medido);
 					labels.push(medicao.data)
 				};
-					
+								
 				$scope.paginaAtual = paginaAtual;
-				$scope.dados[0] = [dados];
+				$scope.dados[0] = dados;
 				$scope.labels = labels;			
-				$scope.series = [$scope.entidadeSelecionada.nome + ' / ' + $scope.medidaSelecionada.nome];
+				$scope.series[0] = [$scope.entidadeSelecionada.nome + ' / ' + $scope.medidaSelecionada.nome];
 				
 				$scope.configurarPaginator($scope.numPerPage);
 			});
 		}
 		
-		if ($scope.entidadeSelecionada2 != undefined && $scope.entidadeSelecionada2 != null){
-			console.log("entidade 2: " +$scope.entidadeSelecionada2.nome);
+		if (!angular.isUndefinedOrNull($scope.entidadeSelecionada2)){
 			MedicaoService.obterMedicoes($scope.entidadeSelecionada2.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
 				var dados = new Array();
 				var labels = new Array();
@@ -182,13 +207,12 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 					dados.push(medicao.valor_medido);
 					labels.push(medicao.data)
 				};
-					
+									
 				$scope.paginaAtual = paginaAtual;
-				$scope.dados[1] = [dados];
+				$scope.dados[1] = dados;
+				$scope.labels = labels;			
 				$scope.series[1] = [$scope.entidadeSelecionada2.nome + ' / ' + $scope.medidaSelecionada.nome];
-				
 			});
 		}
-	}
-	
+	}	
 });
