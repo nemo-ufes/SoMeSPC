@@ -197,7 +197,7 @@ public class TaigaIntegratorTest
     public void testObterMembro()
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	Membro membro = integrator.obterMembroTaiga(10);
+	Membro membro = integrator.obterMembroTaiga(8);
 
 	assertNotNull(membro);
 	assertNotEquals(membro.getId(), 0);

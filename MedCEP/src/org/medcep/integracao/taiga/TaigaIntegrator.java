@@ -525,15 +525,23 @@ public class TaigaIntegrator
     {
 	//Busca informações do membro.
 	WebTarget target = client.target(this.urlTaiga).path("memberships/" + idMembro);
+	Membro membro;
 
-	Membro membro = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get(Membro.class);
+	try
+	{
+	    membro = target
+		    .request(MediaType.APPLICATION_JSON_TYPE)
+		    .header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		    .get(Membro.class);
+	}
+	catch (Exception ex)
+	{
+	    membro = null;
+	}
 
 	return membro;
     }
-    
+
     /**
      * Obtem os dados do Membro pelo ID.
      * 
@@ -589,24 +597,24 @@ public class TaigaIntegrator
 
 	try
 	{
-	    manager.getTransaction().begin();
-	    manager.persist(recursoHumano);
-	    manager.getTransaction().commit();
+	    String query = String.format("SELECT r FROM RecursoHumano r WHERE r.nome='%s'", membro.getNome());
+	    TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
+	    recursoHumano = typedQuery.getSingleResult();
 	}
 	catch (Exception ex)
 	{
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
 
+	    if (!manager.isOpen())
+		manager = XPersistence.createManager();
+
 	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 	    {
-		System.out.println(String.format("Recurso Humano %s já existe.", membro.getNome()));
-
-		String query = String.format("SELECT r FROM RecursoHumano r WHERE r.nome='%s'", membro.getNome());
-		TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
-
-		recursoHumano = typedQuery.getSingleResult();
+		manager.getTransaction().begin();
+		manager.persist(recursoHumano);
+		manager.getTransaction().commit();
 	    }
 	    else
 	    {
@@ -638,24 +646,24 @@ public class TaigaIntegrator
 
 	try
 	{
-	    manager.getTransaction().begin();
-	    manager.persist(papel);
-	    manager.getTransaction().commit();
+	    String query = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='%s'", membro.getPapel());
+	    TypedQuery<PapelRecursoHumano> typedQuery = manager.createQuery(query, PapelRecursoHumano.class);
+	    papel = typedQuery.getSingleResult();
 	}
 	catch (Exception ex)
 	{
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
 
+	    if (!manager.isOpen())
+		manager = XPersistence.createManager();
+
 	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 	    {
-		System.out.println(String.format("Papel de Recurso Humano %s já existe.", membro.getPapel()));
-
-		String query = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='%s'", membro.getPapel());
-		TypedQuery<PapelRecursoHumano> typedQuery = manager.createQuery(query, PapelRecursoHumano.class);
-
-		papel = typedQuery.getSingleResult();
+		manager.getTransaction().begin();
+		manager.persist(papel);
+		manager.getTransaction().commit();
 	    }
 	    else
 	    {
@@ -741,6 +749,75 @@ public class TaigaIntegrator
 		TypedQuery<Equipe> typedQuery = manager.createQuery(query, Equipe.class);
 
 		equipe = typedQuery.getSingleResult();
+	    }
+	    else
+	    {
+		throw ex;
+	    }
+	}
+	finally
+	{
+	    manager.close();
+	}
+
+	return equipe;
+    }
+
+    /**
+     * Adiciona um membro na equipe.
+     * @param equipe
+     * @param membro
+     * @return
+     * @throws Exception
+     */
+    public Equipe adicionarMembroEmEquipeMedCEP(Equipe equipe, Membro membro) throws Exception
+    {
+	EntityManager manager = XPersistence.createManager();
+	
+	//Verifica se o membro já está na equipe.
+	for (AlocacaoEquipe aloc : equipe.getAlocacaoEquipe())
+	{
+	    if (aloc.getRecursoHumano().getNome().equalsIgnoreCase(membro.getNome())
+		    && aloc.getPapelRecursoHumano().getNome().equalsIgnoreCase(membro.getPapel())){
+		return equipe;
+	    }
+	}
+
+	String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Alocação de Recurso Humano'");
+	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = manager.createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoAlocacaco = tipoEntidadeTypedQuery.getSingleResult();
+
+	AlocacaoEquipe alocacao = new AlocacaoEquipe();
+	alocacao.setEquipe(equipe);
+
+	//Insere o Recurso Humano na Equipe e na Alocacao. 
+	//Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
+	RecursoHumano rec = this.criarRecursoHumanoMedCEP(membro);
+
+	alocacao.setRecursoHumano(rec);
+	alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoMedCEP(membro));
+	alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
+
+	equipe.getRecursoHumano().add(rec);
+	equipe.getAlocacaoEquipe().add(alocacao);
+
+	try
+	{
+	    manager.getTransaction().begin();
+	    manager.persist(equipe);
+	    manager.persist(alocacao);
+	    manager.getTransaction().commit();
+	}
+	catch (Exception ex)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	    {
+		System.out.println("Erro ao adicionar o membro na equipe.");
+		ex.printStackTrace();
 	    }
 	    else
 	    {
@@ -2741,18 +2818,18 @@ public class TaigaIntegrator
 
 	medicao.setValorMedido(valor);
 
-	RecursoHumano wizard = new RecursoHumano();
-	wizard.setNome("Medição Job");
+	RecursoHumano medicaoJob = new RecursoHumano();
+	medicaoJob.setNome("Medição Job");
 
 	//Persiste o job como RH.	
 	try
 	{
 	    if (!manager.isOpen())
 		manager = XPersistence.createManager();
-	    String query = String.format("SELECT p FROM RecursoHumano p WHERE p.nome='%s'", wizard.getNome());
+	    String query = String.format("SELECT p FROM RecursoHumano p WHERE p.nome='%s'", medicaoJob.getNome());
 	    TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
 
-	    wizard = typedQuery.getSingleResult();
+	    medicaoJob = typedQuery.getSingleResult();
 	}
 	catch (Exception ex)
 	{
@@ -2763,7 +2840,7 @@ public class TaigaIntegrator
 	    manager = XPersistence.createManager();
 
 	    manager.getTransaction().begin();
-	    manager.persist(wizard);
+	    manager.persist(medicaoJob);
 	    manager.getTransaction().commit();
 
 	    throw ex;
@@ -2773,7 +2850,7 @@ public class TaigaIntegrator
 	    manager.close();
 	}
 
-	medicao.setExecutorDaMedicao(wizard);
+	medicao.setExecutorDaMedicao(medicaoJob);
 
 	ContextoDeMedicao contexto = new ContextoDeMedicao();
 	contexto.setDescricao("Medição automática feita pelo Job de Medição.");

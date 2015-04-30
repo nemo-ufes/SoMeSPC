@@ -8,6 +8,7 @@ import javax.persistence.*;
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.model.medicao.planejamento.*;
+import org.medcep.model.organizacao.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
 
@@ -80,6 +81,23 @@ public class MedicaoJob implements Job
 		for (Map.Entry<String, Float> entry : pontos.entrySet())
 		{
 		    Membro membro = integrator.obterMembroTaiga(Integer.parseInt(entry.getKey()));
+		    
+		    if (membro == null)
+		    {
+			membro = new Membro();
+			membro.setNome("Panthom");
+			membro.setPapel("Fantasma");
+
+			for (Equipe equipe : plano.getProjeto().getEquipe())
+			{
+			    if (equipe.getNome().equalsIgnoreCase("Equipe " + plano.getProjeto().getNome()))
+			    {
+				integrator.adicionarMembroEmEquipeMedCEP(equipe, membro);
+				break;
+			    }
+			}
+		    }
+		    
 		    String nomeAlocacao = String.format("%s %s em Equipe %s", membro.getPapel(), membro.getNome(), plano.getProjeto().getNome());
 		    valorMedido = String.valueOf(entry.getValue());
 		    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, nomeAlocacao, valorMedido, momento);
@@ -93,6 +111,23 @@ public class MedicaoJob implements Job
 		for (Map.Entry<String, Float> entry : pontos.entrySet())
 		{
 		    Membro membro = integrator.obterMembroTaiga(Integer.parseInt(entry.getKey()));
+
+		    if (membro == null)
+		    {
+			membro = new Membro();
+			membro.setNome("Panthom");
+			membro.setPapel("Fantasma");
+
+			for (Equipe equipe : plano.getProjeto().getEquipe())
+			{
+			    if (equipe.getNome().equalsIgnoreCase("Equipe " + plano.getProjeto().getNome()))
+			    {
+				integrator.adicionarMembroEmEquipeMedCEP(equipe, membro);
+				break;
+			    }
+			}
+		    }
+
 		    String nomeAlocacao = String.format("%s %s em Equipe %s", membro.getPapel(), membro.getNome(), plano.getProjeto().getNome());
 		    valorMedido = String.valueOf(entry.getValue());
 		    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, nomeAlocacao, valorMedido, momento);
@@ -106,6 +141,23 @@ public class MedicaoJob implements Job
 		for (Map.Entry<String, Float> entry : pontos.entrySet())
 		{
 		    Membro membro = integrator.obterMembroTaiga(Integer.parseInt(entry.getKey()));
+
+		    if (membro == null)
+		    {
+			membro = new Membro();
+			membro.setNome("Panthom");
+			membro.setPapel("Fantasma");
+
+			for (Equipe equipe : plano.getProjeto().getEquipe())
+			{
+			    if (equipe.getNome().equalsIgnoreCase("Equipe " + plano.getProjeto().getNome()))
+			    {
+				integrator.adicionarMembroEmEquipeMedCEP(equipe, membro);
+				break;
+			    }
+			}
+		    }
+
 		    String nomeAlocacao = String.format("%s %s em Equipe %s", membro.getPapel(), membro.getNome(), plano.getProjeto().getNome());
 		    valorMedido = String.valueOf(entry.getValue());
 		    integrator.criarMedicaoMedCEP(plano, timestamp, nomeMedida, nomeAlocacao, valorMedido, momento);
