@@ -22,11 +22,11 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 2. Instalar o MySQL.
 3. Criar um esquema de banco de dados chamado **"medcep"**.
 4. Criar um usuário e senha **"medcep"** com permissão total no esquema criado. 
-5. Na utilização de outro usuário/senha, atualizar a os arquivos:
+5. Na utilização de outro usuário/senha, atualizar os arquivos abaixo após clonar o repositório do Github:
  1. MedCEP/Persistence/META-INF/persistence.xml
  2. MedCEP/Properties/quartz.properties
 4. Executar o script SQL [tables_mysql.sql](https://github.com/nemo-ufes/MedCEP/blob/master/MedCEP/properties/quartz_tables_scripts/tables_mysql.sql)
-4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira instalar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
+4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira instalar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b> após clonar o repositório do Github. 
 6. Descompactar o IDE Eclipse Luna.
 7. Executar o Eclipse.
 8. Clonar o repositório MedCEP do GitHub.
