@@ -13,7 +13,7 @@
 <div id="main_navigation_left">
 	<nobr>
 		<button onclick="toggle();" style="margin: 0px;" class="btn btn-xs btn-menu">
-			<i class="glyphicon glyphicon-align-justify"></i> <span>Menus</span>
+			<i class="glyphicon glyphicon-align-justify"></i> <span style="margin-left: 5px;">Menus</span>
 		</button>
 		<span style="margin-left: 10px;">MedCEP - A powerful tool to measure</span> &nbsp; <a href="<%=request.getContextPath()%>/naviox/wizard.jsp"><span style="color: white; font-size: 14px; font-weight: bold; margin-left: 50px;">Wizard</span></a>
 	</nobr>

@@ -1020,18 +1020,18 @@ div.ox-subcontroller table {
 }
 
 .btn-menu:focus, .btn-menu:hover {
-    background-color: #626262;
+    background-color: #383885;
     background-position: -10px -20px;
 }
 
 .btn-menu.active, .btn-menu.focus, .btn-menu:active, .btn-menu:focus, .btn-menu:hover, .open > .dropdown-toggle.btn-menu {
     color: #FFF;
-    background-color: #626262;
-    border-color: #626262;
+    background-color: #383885;
+    border-color: #383885;
 }
 
 .btn-menu {
-    background-image: linear-gradient(to bottom, #69b069 0px, #285e28 100%);
+    background-image: linear-gradient(to bottom, #7878b4 0px, #3F3F94 100%);
     background-repeat: repeat-x;
-    border-color: #285e28;
+    border-color: #3F3F94;
 }

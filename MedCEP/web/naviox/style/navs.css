@@ -7,6 +7,7 @@
 
 .nav-tabs {
 	margin-top: 20px;
+	margin-left: 20px;
 }
 
 .tab-content>.active {
@@ -26,7 +27,6 @@ a, a:focus, a:hover {
 	font-weight: bold;
 	border-color: #2C3E50;
 	margin-top: 10px;
-	margin-left: 20px;
 }
 
 .nav-tabs>li>a {
