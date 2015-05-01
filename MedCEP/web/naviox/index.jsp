@@ -47,6 +47,8 @@
 <script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/angular/shared/angular-sanitize.min.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/angular/shared/angular-translate.min.js'></script>
 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
 </head>
 
 <body <%=NaviOXStyle.getBodyClass(request)%>>

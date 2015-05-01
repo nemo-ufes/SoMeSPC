@@ -24,16 +24,15 @@
 <link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
 
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="style/angular-chart.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/naviox/style/naviox.css" rel="stylesheet" type="text/css">
 
 <script type='text/javascript' src='<%=request.getContextPath()%>/xava/js/dwr-engine.js?ox=<%=oxVersion%>'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/dwr/interface/Modules.js?ox=<%=oxVersion%>'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/dwr/interface/Folders.js?ox=<%=oxVersion%>'></script>
-
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-<link href="style/angular-chart.css" rel="stylesheet">
-
 <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
 <script type='text/javascript' src='js/Chart.min.js'></script>
@@ -72,8 +71,6 @@
 
 			<td valign="top">
 				<div class="module-wrapper">
-
-					<br />
 
 					<ul class="nav nav-tabs" role="tablist" id="painel_tab">
 						<li role="presentation" class="active"><a href="#medicoes" aria-controls="medicoes" role="tab" data-toggle="tab">Medições</a></li>

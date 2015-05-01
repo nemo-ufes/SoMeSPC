@@ -2,10 +2,11 @@
 	border: 1px;
 	padding: 10px;
 	border-radius: 0px 0px 5px 5px;
+	margin-left: 20px;
 }
 
 .nav-tabs {
-	margin: 0;
+	margin-top: 20px;
 }
 
 .tab-content>.active {
@@ -21,7 +22,16 @@ a, a:focus, a:hover {
 .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
 	{
 	background-color: #2C3E50;
-	color: #fff;
+	color: #FFF;
 	font-weight: bold;
-	border-color: #2C3E50 #2C3E50 #2C3E50 #2C3E50;
+	border-color: #2C3E50;
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+.nav-tabs>li>a {
+	margin-right: 2px;
+	line-height: 1.42857;
+	border-radius: 4px 4px 0px 0px;
+	margin-top: 10px;
 }

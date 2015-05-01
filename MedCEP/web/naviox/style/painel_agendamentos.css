@@ -1,5 +1,4 @@
 table {
-	margin-top: 20px;
 }
 
 .row {
@@ -15,6 +14,10 @@ table {
 .popover.bottom .arrow:after {
 	border-bottom-color: #F9F9F9;
 	color: #5E7080;
+}
+
+* {
+	box-sizing: border-box !important;
 }
 
 .popover.top .arrow:after {
