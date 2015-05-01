@@ -9,10 +9,10 @@
 	</div>
 
 	<div>
-		<button type="button" class="btn btn-md btn-success text-left" ng-click="obterAgendamentos()">
+		<button type="button" class="btn btn-md btn-success" ng-click="obterAgendamentos()">
 			<i class="glyphicon glyphicon-refresh"></i> Atualizar
 		</button>
-		<button type="button" class="btn btn-md btn-danger text-right" ng-click="confirmarExclusaoTudo()">
+		<button type="button" class="btn btn-md btn-danger" style="float: right;" ng-click="confirmarExclusaoTudo()">
 			<i class="glyphicon glyphicon-remove"></i> Excluir Todos
 		</button>
 	</div>
