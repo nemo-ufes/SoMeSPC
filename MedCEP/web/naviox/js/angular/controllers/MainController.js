@@ -1,11 +1,11 @@
-app.controller('MainController', function($scope, TaigaIntegrator, Api_Med_Resource) {
+app.controller('MainController', function($scope, TaigaIntegrator, MedCEPResource, TaigaIntegratorPost) {
 	
 
 	$scope.projetos = TaigaIntegrator.query({ entidade: 'Projetos' });
 	
 	$scope.medidas = TaigaIntegrator.query({ entidade: 'Medidas' });
 	
-	$scope.periodicidades = Api_Med_Resource.query({ periodicidades_med_cep: 'Periodicidade' });
+	$scope.periodicidades = MedCEPResource.query({ periodicidades_med_cep: 'Periodicidade' });
 	
 	$scope.projeto_selected;
 	
@@ -13,8 +13,7 @@ app.controller('MainController', function($scope, TaigaIntegrator, Api_Med_Resou
 	
 	$scope.medida_selected = [];
 	
-	$scope.get_projeto = function (index) {
-		$scope.projeto_selected = $scope.projetos[index];
+	$scope.mostra_projeto = function () {
 		console.log($scope.projeto_selected.nome);
 	}
 	
@@ -31,12 +30,17 @@ app.controller('MainController', function($scope, TaigaIntegrator, Api_Med_Resou
 		console.log($scope.periodicidade_selected.nome);   
     }
 	
-	/*$scope.entry = new Entry(); //You can instantiate resource class
-	 
-	$scope.entry.data = 'some data';
 	
-	Entry.save($scope.entry, function() {
-	    //data saved. do something here.
-	  }); //saves an entry. Assuming $scope.entry is the Entry object*/
 	
+	$scope.POST = function(){
+		$scope.entry = new TaigaIntegratorPost(); //You can instantiate resource class
+		 
+		$scope.entry.nome_Projeto = $scope.projeto_selected.nome;
+		$scope.entry.nome_Periodicidade = $scope.periodicidade_selected.nome;
+		$scope.entry.nome_Medidas = [];
+	    for(medida in $scope.medida_selected) {
+	    	$scope.entry.nome_Medidas.push(medida);
+	    }	
+		$scope.entry.$save();
+	}
 });

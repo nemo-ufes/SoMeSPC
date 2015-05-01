@@ -1,6 +1,3 @@
-<jsp:useBean id="wizardHelper" class="org.medcep.wizard.WizardHelper" scope="session" />
-
-
 <!doctype html>
 <html lang="us">
 <head>
@@ -29,7 +26,7 @@
 				<form name="formProjetos">
 					<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary">
 						<div class="radio">
-							<label ng-repeat="projeto in projetos"><input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto">
+							<label ng-repeat="projeto in projetos"><input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" ng-click="mostra_projeto()">
 								<div>
 									<p>
 										<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
@@ -59,9 +56,11 @@
 						</div>
 					</div>
 				</div>
-				<br>
-				<br>
-				<button type="button" class="btn btn-primary btn-md" ng-click="get_medidas()">Selecionar</button>
+				<br/>
+				<br/>
+				<div align="center">
+					<button type="button" class="btn btn-primary btn-md" ng-click="get_medidas()">Selecionar</button>
+				</div>
 			</fieldset>
 
 			<h2>Agendamento</h2>
@@ -70,7 +69,7 @@
 				<br />
 				
 				
-				<label for="selected">Selecione a Periodicidade (select one):</label> 
+				<label for="selected">Selecione a Periodicidade:</label> 
 				<select class="form-control" id="selected">
 					<option ng-repeat="periodicidade in periodicidades" ng-click="get_periodicidade($index)">{{periodicidade.nome}}</option>
 				</select>
@@ -103,7 +102,16 @@
 			headerTag : "h2",
 			bodyTag : "fieldset",
 			transitionEffect : "slideLeft",
-			autoFocus : true
+			autoFocus : true,
+		    onFinished: function (event, currentIndex)
+		    {
+		    	// get scope from the DOM element
+		        e = document.getElementById('medcep-wizard');
+		        scope = angular.element(e).scope();
+		        // update the model with a wrap in $apply(fn) which will refresh the view for us
+		        scope.POST();
+		    	//alert("Wizard concluido com Sucesso!");
+		    }
 
 		});
 	</script>
