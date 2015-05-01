@@ -1,4 +1,4 @@
-<br />
+<br/>
 <div id="menu_tree" style="position: relative; -moz-border-radius: 7px; -webkit-border-radius: 7px; border-radius: 7px;">
 	<%-- 
 	Necessário informar o id do elemento li com o mesmo valor 

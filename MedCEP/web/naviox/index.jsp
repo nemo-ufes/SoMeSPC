@@ -30,10 +30,23 @@
 <title><%=modules.getCurrentModuleDescription(request)%></title>
 <link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
+
+<link href="<%=request.getContextPath()%>/naviox/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/naviox/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/naviox/style/angular-chart.css" rel="stylesheet" />
 <link href="<%=request.getContextPath()%>/naviox/style/naviox.css" rel="stylesheet" type="text/css">
+
 <script type='text/javascript' src='<%=request.getContextPath()%>/xava/js/dwr-engine.js?ox=<%=oxVersion%>'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/dwr/interface/Modules.js?ox=<%=oxVersion%>'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/dwr/interface/Folders.js?ox=<%=oxVersion%>'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/angular/shared/angular.min.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/angular/shared/angular-route.min.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/Chart.min.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/angular/shared/angular-chart.min.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/angular/shared/smart-table.min.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/angular/shared/angular-sanitize.min.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/angular/shared/angular-translate.min.js'></script>
+
 </head>
 
 <body <%=NaviOXStyle.getBodyClass(request)%>>
@@ -92,6 +105,8 @@
 		</tr>
 	</table>
 
+	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/navs.css' />
+	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/dialogs.min.css' />
 	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/js/themes/default/style.min.css' />
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/typewatch.js'></script>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/naviox.js'></script>
@@ -119,8 +134,8 @@
 				$('#menu_tree').jstree('select_node', '#' + moduloAtual);
 
 			$('#menu_tree').on("changed.jstree", function(e, data) {
-					var href = data.node.a_attr.href;
-					window.location = href;				
+				var href = data.node.a_attr.href;
+				window.location = href;
 			});
 		});
 	</script>
