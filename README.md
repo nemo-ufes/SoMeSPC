@@ -26,7 +26,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
  1. MedCEP/Persistence/META-INF/persistence.xml
  2. MedCEP/Properties/quartz.properties
 4. Executar o script SQL [tables_mysql.sql](https://github.com/nemo-ufes/MedCEP/blob/master/MedCEP/properties/quartz_tables_scripts/tables_mysql.sql)
-4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira executar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
+4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira instalar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
 6. Descompactar o IDE Eclipse Luna.
 7. Executar o Eclipse.
 8. Clonar o repositório MedCEP do GitHub.
