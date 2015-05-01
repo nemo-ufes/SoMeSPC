@@ -166,16 +166,16 @@ public class MedCEPSchedulerResource
 	else if (comando.getComando().equalsIgnoreCase("Excluir"))
 	{
 	    TriggerKey id = new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento());
-	    
+
 	    sched.unscheduleJob(id);
 	    response = Response.status(Status.OK).entity("").build();
 	}
 	else if (comando.getComando().equalsIgnoreCase("ExecutarAgora"))
 	{
 	    Trigger trigger = sched.getTrigger(new TriggerKey(comando.getNomeAgendamento(), comando.getGrupoAgendamento()));
-	    JobDetail jobDetail= sched.getJobDetail(new JobKey(comando.getNomeJob(), comando.getGrupoJob()));
+	    JobDetail jobDetail = sched.getJobDetail(new JobKey(comando.getNomeJob(), comando.getGrupoJob()));
 	    sched.triggerJob(jobDetail.getKey(), trigger.getJobDataMap());
-	    
+
 	    response = Response.status(Status.OK).entity("").build();
 	}
 	else
@@ -184,6 +184,19 @@ public class MedCEPSchedulerResource
 	}
 
 	return response;
+    }
+
+    @Path("/Agendamento/Comando/ExcluirTudo")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+    public Response excluirTudo() throws Exception
+    {
+	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+	Scheduler sched = schedFact.getScheduler();
+	sched.clear();
+	
+	return Response.status(Status.OK).entity("").build();
     }
 
 }

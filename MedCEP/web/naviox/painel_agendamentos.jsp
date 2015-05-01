@@ -9,12 +9,15 @@
 	</div>
 
 	<div>
-		<button type="button" class="btn btn-sm btn-success" ng-click="obterAgendamentos()">
+		<button type="button" class="btn btn-md btn-success text-left" ng-click="obterAgendamentos()">
 			<i class="glyphicon glyphicon-refresh"></i> Atualizar
+		</button>
+		<button type="button" class="btn btn-md btn-danger text-right" ng-click="confirmarExclusaoTudo()">
+			<i class="glyphicon glyphicon-remove"></i> Excluir Todos
 		</button>
 	</div>
 
-	<table st-table="tabelaAgendamentos" st-safe-src="agendamentos" class="table table-striped" >
+	<table st-table="tabelaAgendamentos" st-safe-src="agendamentos" class="table table-striped">
 		<thead popover="Clique no nome da coluna para ordenar!" popover-placement="top" popover-trigger="mouseenter">
 			<tr>
 				<th st-sort="nome_agendamento">Nome</th>

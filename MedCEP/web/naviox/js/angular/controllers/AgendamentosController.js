@@ -68,6 +68,18 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 	}
 	
 	/**
+	 * Exclui todos os agendamentos.
+	 */
+	$scope.excluirTudo = function excluirTudo() {
+			
+		AgendadorService.excluirTudo().then(function() {
+			$scope.obterAgendamentos();
+			$scope.mensagem = 'Agendamentos excluídos com sucesso!';
+			$scope.exibirMensagem = true;
+		});
+	}
+	
+	/**
 	 * Executa o agendamento selecionado na linha.
 	 */
 	$scope.executarAgendamento = function executarAgendamento(linha) {
@@ -97,6 +109,23 @@ app.controller('AgendamentosController', function($scope, $interval, $filter, di
 		
 		dlg.result.then(function(btn) {
 			$scope.excluirAgendamento($scope.linhaSelecionada);			
+		});
+	}
+	
+	/**
+	 * Abre um modal para confirmar a exclusão de todos os agendamentos.
+	 */
+	$scope.confirmarExclusaoTudo = function confirmarExclusaoTudo() {		
+		
+		
+		var cabecalho = 'Atenção!';
+		var mensagem = 'Os agendamentos são criados apenas durante o wizard para criar um Novo Plano de Medição.' 
+						+ ' Deseja prosseguir com a exclusão de todos os agendamentos?';
+		
+		var dlg = dialogs.confirm(cabecalho, mensagem);
+		
+		dlg.result.then(function(btn) {
+			$scope.excluirTudo();			
 		});
 	}
 	
