@@ -31,6 +31,7 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
+import org.hibernate.validator.*;
 import org.medcep.integracao.agendador.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
@@ -609,17 +610,10 @@ public class TaigaIntegrator
 	    if (!manager.isOpen())
 		manager = XPersistence.createManager();
 
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-	    {
-		manager.getTransaction().begin();
-		manager.persist(recursoHumano);
-		manager.getTransaction().commit();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
+	    manager.getTransaction().begin();
+	    manager.persist(recursoHumano);
+	    manager.getTransaction().commit();
+
 	}
 	finally
 	{
@@ -658,17 +652,10 @@ public class TaigaIntegrator
 	    if (!manager.isOpen())
 		manager = XPersistence.createManager();
 
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-	    {
-		manager.getTransaction().begin();
-		manager.persist(papel);
-		manager.getTransaction().commit();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
+	    manager.getTransaction().begin();
+	    manager.persist(papel);
+	    manager.getTransaction().commit();
+
 	}
 	finally
 	{
@@ -765,6 +752,7 @@ public class TaigaIntegrator
 
     /**
      * Adiciona um membro na equipe.
+     * 
      * @param equipe
      * @param membro
      * @return
@@ -773,22 +761,27 @@ public class TaigaIntegrator
     public Equipe adicionarMembroEmEquipeMedCEP(Equipe equipe, Membro membro) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
-	
+
 	//Verifica se o membro já está na equipe.
 	for (AlocacaoEquipe aloc : equipe.getAlocacaoEquipe())
 	{
 	    if (aloc.getRecursoHumano().getNome().equalsIgnoreCase(membro.getNome())
-		    && aloc.getPapelRecursoHumano().getNome().equalsIgnoreCase(membro.getPapel())){
+		    && aloc.getPapelRecursoHumano().getNome().equalsIgnoreCase(membro.getPapel()))
+	    {
 		return equipe;
 	    }
 	}
+
+	String equipeQuery = String.format("SELECT e FROM Equipe e WHERE e.nome='%s'", equipe.getNome());
+	TypedQuery<Equipe> equipeTypedQuery = manager.createQuery(equipeQuery, Equipe.class);
+	Equipe equipeExistente = equipeTypedQuery.getSingleResult();
 
 	String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Alocação de Recurso Humano'");
 	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = manager.createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoAlocacaco = tipoEntidadeTypedQuery.getSingleResult();
 
 	AlocacaoEquipe alocacao = new AlocacaoEquipe();
-	alocacao.setEquipe(equipe);
+	alocacao.setEquipe(equipeExistente);
 
 	//Insere o Recurso Humano na Equipe e na Alocacao. 
 	//Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
@@ -797,32 +790,22 @@ public class TaigaIntegrator
 	alocacao.setRecursoHumano(rec);
 	alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoMedCEP(membro));
 	alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
-
-	equipe.getRecursoHumano().add(rec);
-	equipe.getAlocacaoEquipe().add(alocacao);
-
+	
 	try
 	{
 	    manager.getTransaction().begin();
-	    manager.persist(equipe);
 	    manager.persist(alocacao);
 	    manager.getTransaction().commit();
 	}
 	catch (Exception ex)
 	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+	    InvalidStateException e = (InvalidStateException) ex.getCause();
+	    for (InvalidValue invalidValue : e.getInvalidValues())
 	    {
-		System.out.println("Erro ao adicionar o membro na equipe.");
-		ex.printStackTrace();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
+		System.out.println("Instance of bean class: " + invalidValue.getBeanClass().getSimpleName() +
+			" has an invalid property: " + invalidValue.getPropertyName() +
+			" with message: " + invalidValue.getMessage());
+	    }	    
 	}
 	finally
 	{

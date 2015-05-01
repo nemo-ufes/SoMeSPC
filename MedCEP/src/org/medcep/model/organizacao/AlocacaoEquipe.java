@@ -59,28 +59,9 @@ public class AlocacaoEquipe extends EntidadeMensuravel
     @ReferenceView("Simple")
     private PapelRecursoHumano papelRecursoHumano;
 
-    @ManyToOne
-    @Required
-    @DefaultValueCalculator(
-	    value = TipoDeEntidadeMensuravelCalculator.class,
-	    properties = {
-		    @PropertyValue(name = "nomeEntidade", value = "Alocação de Recurso Humano")
-	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-
     @ReadOnly
     private String nome;
-
-    public String getNome()
-    {
-	return nome;
-    }
-
-    public void setNome(String nome)
-    {
-	this.nome = nome;
-    }
-
+    
     public Date getInicio()
     {
 	return inicio;
@@ -131,6 +112,13 @@ public class AlocacaoEquipe extends EntidadeMensuravel
 	this.papelRecursoHumano = papelRecursoHumano;
     }
 
+    @ManyToOne
+    @Required
+    @DefaultValueCalculator(
+	    value = TipoDeEntidadeMensuravelCalculator.class,
+	    properties = {
+		    @PropertyValue(name = "nomeEntidade", value = "Alocação de Recurso Humano")
+	    })
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;

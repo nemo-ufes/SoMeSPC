@@ -411,7 +411,8 @@ public class TaigaIntegratorTest
     public void testCriarPlanoMedicaoProjetoMedCEP() throws Exception
     {
 	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	Projeto projeto = integrator.obterProjetoTaiga("paulossjunior-lifebox");
+	//Projeto projeto = integrator.obterProjetoTaiga("paulossjunior-lifebox");
+	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 
 	List<Periodicidade> periodicidades = integrator.obterPeriodicidades();
 	Periodicidade porHora = null;
