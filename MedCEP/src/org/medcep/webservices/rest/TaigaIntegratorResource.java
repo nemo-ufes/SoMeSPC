@@ -1,26 +1,14 @@
 package org.medcep.webservices.rest;
 
-import java.net.URI;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
-import org.medcep.model.medicao.TipoDeEntidadeMensuravel;
-import org.medcep.model.processo.OcorrenciaProcesso;
-import org.medcep.model.processo.ProcessoProjeto;
-import org.medcep.webservices.rest.dto.OcorrenciaDTO;
-import org.medcep.webservices.rest.dto.PlanoDTO;
-import org.medcep.webservices.rest.exceptions.EntidadeNaoEncontradaException;
-import org.openxava.jpa.XPersistence;
+import org.medcep.webservices.rest.dto.*;
 
 import com.owlike.genson.*;
 
@@ -28,15 +16,27 @@ import com.owlike.genson.*;
 public class TaigaIntegratorResource
 {
     @Path("/Projetos")
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response obterProjetos() throws Exception
+    public Response obterProjetos(TaigaLoginDTO login) throws Exception
     {
-	TaigaIntegrator integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
-	List<Projeto> projetos = integrator.obterProjetosTaiga();
 
-	return Response.ok().entity(projetos).build();
+	Response response;
+
+	if (login == null || login.getUrl().isEmpty()
+		|| login.getUsuario().isEmpty() || login.getSenha().isEmpty())
+	{
+	    response = Response.status(Status.BAD_REQUEST).build();
+	}
+	else
+	{
+	    TaigaIntegrator integrator = new TaigaIntegrator(login.getUrl(), login.getUsuario(), login.getSenha());
+	    List<Projeto> projetos = integrator.obterProjetosTaiga();
+	    response = Response.ok().entity(projetos).build();
+	}
+
+	return response;
     }
 
     @Path("/Medidas")
@@ -52,7 +52,7 @@ public class TaigaIntegratorResource
 
 	return Response.ok().entity(json).build();
     }
-    
+
     /**
      * Cria plano projeto.
      * 
@@ -66,11 +66,12 @@ public class TaigaIntegratorResource
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public synchronized void criarPlanoMedicao(PlanoDTO planoDto) throws Exception
     {
-    	System.out.println(planoDto.getNomePeriodicidade());
-    	System.out.println(planoDto.getNomeProjeto());
-    	for (int i =0; i<planoDto.getNomesMedidas().size(); i++){
-    		System.out.println(planoDto.getNomesMedidas().get(i));
-    	}
+	System.out.println(planoDto.getNomePeriodicidade());
+	System.out.println(planoDto.getNomeProjeto());
+	for (int i = 0; i < planoDto.getNomesMedidas().size(); i++)
+	{
+	    System.out.println(planoDto.getNomesMedidas().get(i));
+	}
     }
 
 }
