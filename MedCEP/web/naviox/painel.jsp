@@ -118,7 +118,7 @@
 		</tr>
 	</table>
 
-	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/nav-tabs.css' />
+	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/navs.css' />
 	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/style/dialogs.min.css' />	
 	<link rel='stylesheet' href='<%=request.getContextPath()%>/naviox/js/themes/default/style.min.css' />
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/typewatch.js'></script>

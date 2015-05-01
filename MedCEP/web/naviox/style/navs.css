@@ -1,15 +1,17 @@
 .tab-pane {
-	border-top: 1px solid #2C3E50;	
-	border-radius: 0px 0px 5px 5px;
+	border: 1px;
 	padding: 10px;
+	border-radius: 0px 0px 5px 5px;
 }
 
 .nav-tabs {
-	margin-bottom: 0;
+	margin: 0;
 }
 
 .tab-content>.active {
-	background-color: #fff;
+	background-color: #e9ebed;
+	border-color: #2C3E50 #2C3E50 #2C3E50 #2C3E50;
+	border: 1px solid;
 }
 
 a, a:focus, a:hover {

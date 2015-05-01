@@ -58,3 +58,12 @@
 input[type="text"], input[type="password"], input[type="file"] {
     height: 34px;
 }
+
+label {
+	font-size: 14px;
+	margin-top: 10px;
+}
+
+.panel{
+	background-color: #F9F9F9;
+}
