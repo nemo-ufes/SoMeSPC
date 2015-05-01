@@ -59,9 +59,6 @@ public class AlocacaoEquipe extends EntidadeMensuravel
     @ReferenceView("Simple")
     private PapelRecursoHumano papelRecursoHumano;
 
-    @ReadOnly
-    private String nome;
-    
     public Date getInicio()
     {
 	return inicio;

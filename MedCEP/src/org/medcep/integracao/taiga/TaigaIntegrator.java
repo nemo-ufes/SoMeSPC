@@ -31,7 +31,6 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
-import org.hibernate.validator.*;
 import org.medcep.integracao.agendador.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
@@ -790,23 +789,13 @@ public class TaigaIntegrator
 	alocacao.setRecursoHumano(rec);
 	alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoMedCEP(membro));
 	alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
-	
+
 	try
 	{
 	    manager.getTransaction().begin();
 	    manager.persist(alocacao);
 	    manager.getTransaction().commit();
-	}
-	catch (Exception ex)
-	{
-	    InvalidStateException e = (InvalidStateException) ex.getCause();
-	    for (InvalidValue invalidValue : e.getInvalidValues())
-	    {
-		System.out.println("Instance of bean class: " + invalidValue.getBeanClass().getSimpleName() +
-			" has an invalid property: " + invalidValue.getPropertyName() +
-			" with message: " + invalidValue.getMessage());
-	    }	    
-	}
+	}	
 	finally
 	{
 	    manager.close();
@@ -964,31 +953,31 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-		//		case PONTOS_ALOCADOS_POR_PAPEL_PROJETO:
-		//		    medida.setMnemonico("TAIGA-PAP");
-		//		    medida.setElementoMensuravel(desempenho);
-		//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
-		//		    break;
+		case PONTOS_ALOCADOS_POR_PAPEL_PROJETO:
+		    medida.setMnemonico("TAIGA-PAP");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		    break;
 		case PONTOS_DEFINIDOS_PROJETO:
 		    medida.setMnemonico("TAIGA-PD");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-		//		case PONTOS_DEFINIDOS_POR_PAPEL_PROJETO:
-		//		    medida.setMnemonico("TAIGA-PDP");
-		//		    medida.setElementoMensuravel(desempenho);
-		//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
-		//		    break;
+		case PONTOS_DEFINIDOS_POR_PAPEL_PROJETO:
+		    medida.setMnemonico("TAIGA-PDP");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		    break;
 		case PONTOS_FECHADOS_PROJETO:
 		    medida.setMnemonico("TAIGA-PF");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
 		    break;
-		//		case PONTOS_FECHADOS_POR_PAPEL_PROJETO:
-		//		    medida.setMnemonico("TAIGA-PFP");
-		//		    medida.setElementoMensuravel(desempenho);
-		//		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
-		//		    break;
+		case PONTOS_FECHADOS_POR_PAPEL_PROJETO:
+		    medida.setMnemonico("TAIGA-PFP");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		    break;
 		case TOTAL_SPRINTS_PROJETO:
 		    medida.setMnemonico("TAIGA-TM");
 		    medida.setElementoMensuravel(tamanho);
@@ -2463,6 +2452,8 @@ public class TaigaIntegrator
 
 	    proj = this.criarProjetoMedCEP(projeto);
 	}
+
+	this.criarProcessoProjetoScrumMedCEP(projeto);
 
 	Calendar cal = Calendar.getInstance();
 	plano.setData(cal.getTime());
