@@ -12,19 +12,30 @@
 &nbsp;
 <div id="main_navigation_left">
 	<nobr>
+		<%
+		    if (Is.emptyString(NaviOXPreferences.getInstance()
+							.getAutologinUser())) {
+						String userName = Users.getCurrent();
+						if (userName != null) {
+		%>
 		<button onclick="toggle();" style="margin: 0px;" class="btn btn-xs btn-menu">
 			<i class="glyphicon glyphicon-align-justify"></i> <span style="margin-left: 5px;">Menus</span>
 		</button>
 		<span style="margin-left: 10px;">MedCEP - A powerful tool to measure</span> &nbsp; <a href="<%=request.getContextPath()%>/naviox/wizard.jsp"><span style="color: white; font-size: 14px; font-weight: bold; margin-left: 50px;">Wizard</span></a>
+
+		<%
+		    } else {
+		%>
+		<span>MedCEP - A powerful tool to measure</span> &nbsp; <a href="<%=request.getContextPath()%>/naviox/wizard.jsp"><span style="color: white; font-size: 14px; font-weight: bold; margin-left: 50px;">Wizard</span></a>
+		<%
+		    }
+		%>
 	</nobr>
 </div>
 
 <span id="main_navigation_right"> <nobr>
 		<span id="main_navigation_right_bridge1">&nbsp;&nbsp;&nbsp;</span><span id="main_navigation_right_bridge2">&nbsp;&nbsp;&nbsp;</span><span id="main_navigation_right_content"> <%
-     if (Is.emptyString(NaviOXPreferences.getInstance()
- 					.getAutologinUser())) {
- 				String userName = Users.getCurrent();
- 				if (userName == null) {
+     if (userName == null) {
  %> <%
      String selected = "SignIn".equals(request
  							.getParameter("module")) ? "selected" : "";
