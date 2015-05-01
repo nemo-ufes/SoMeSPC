@@ -29,9 +29,9 @@ public class TipoEscala
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_tipo_escala", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Hidden
+    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="TIPO_ESCALA_ID", valueColumnName="ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
+     @Hidden
     private Integer id;
 
     public Integer getId()
@@ -44,7 +44,7 @@ public class TipoEscala
 	this.id = id;
     }
 
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 

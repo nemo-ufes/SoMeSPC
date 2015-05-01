@@ -63,7 +63,7 @@ import org.openxava.annotations.*;
 public class Medida extends TreeItemPlanoMedicaoBase
 {
 
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 

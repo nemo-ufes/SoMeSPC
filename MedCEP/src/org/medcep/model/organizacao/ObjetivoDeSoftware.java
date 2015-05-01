@@ -82,36 +82,4 @@ public class ObjetivoDeSoftware extends Objetivo
     {
 	this.objetivoEstrategico = objetivoEstrategico;
     }
-
-    /*
-     * private Collection<PlanoDeMedicao> planoDeMedicao;
-     * 
-     * public Collection<PlanoDeMedicao> getPlanoDeMedicao() {
-     * return planoDeMedicao;
-     * }
-     * 
-     * public void setPlanoDeMedicao(Collection<PlanoDeMedicao> planoDeMedicao) {
-     * this.planoDeMedicao = planoDeMedicao;
-     * }
-     */
-
-    /*
-     * @PreCreate
-     * 
-     * @PreUpdate
-     * public void validate() throws Exception
-     * {
-     * if(objetivoEstrategico == null || objetivoEstrategico.size() < 1)
-     * throw new Exception("necessario_objetivo_estrategico");
-     * throw new InvalidStateException( // The validation exception from
-     * new InvalidValue[] { // Hibernate Validator framework
-     * new InvalidValue(
-     * "necessario_objetivo_estrategico",
-     * getClass(), "delivered",
-     * true, this
-     * )
-     * }
-     * );
-     * }//validate
-     */
 }

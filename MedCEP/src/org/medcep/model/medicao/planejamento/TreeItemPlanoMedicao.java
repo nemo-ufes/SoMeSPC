@@ -39,9 +39,9 @@ public class TreeItemPlanoMedicao
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_tree_item_plano_medicao", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Hidden
+    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="TREE_ITEM_PLANO_MED_ID", valueColumnName="ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
+      @Hidden
     private Integer id;
 
     public Integer getId()

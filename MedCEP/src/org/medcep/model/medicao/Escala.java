@@ -37,8 +37,8 @@ public class Escala
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_escala", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "ESCALA_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     @Hidden
     private Integer id;
 
@@ -52,7 +52,7 @@ public class Escala
 	this.id = id;
     }
 
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 
@@ -70,7 +70,7 @@ public class Escala
     @OneToMany(mappedBy = "escala")
     private Collection<Medida> medida;
 
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "escala_valorDeEscala", joinColumns = { @JoinColumn(name = "escala_id") }, inverseJoinColumns = { @JoinColumn(name = "valorDeEscala_id") })
     private Collection<ValorDeEscala> valorDeEscala;
 

@@ -43,8 +43,8 @@ public class ModeloDeDesempenhoDeProcesso
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_modelo_desempenho_processo", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "MODELO_DESEMP_PROC_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     @Hidden
     private Integer id;
 

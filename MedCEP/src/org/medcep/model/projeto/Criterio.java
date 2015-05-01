@@ -32,12 +32,12 @@ public class Criterio
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_criterio", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "CRITERIO_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     @Hidden
     private Integer id;
 
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 

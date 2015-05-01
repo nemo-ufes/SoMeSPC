@@ -32,19 +32,17 @@ import org.openxava.annotations.*;
 	@View(name = "Simple", members = "nome"),
 	@View(name = "SimpleNoFrame", members = "nome"),
 })
-//@Tab(properties="nome")
-//@Tab(properties="nome", baseCondition="TYPE(e) = EntidadeMensuravel", defaultOrder="${nome} asc")
 @Tab(properties = "nome, tipoDeEntidadeMensuravel.nome", defaultOrder = "${nome} asc")
 public class EntidadeMensuravel
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_entidade_mensuravel", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Hidden
+    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="ENTIDADE_MENSURAVEL_ID", valueColumnName="ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
+      @Hidden
     private Integer id;
 
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 

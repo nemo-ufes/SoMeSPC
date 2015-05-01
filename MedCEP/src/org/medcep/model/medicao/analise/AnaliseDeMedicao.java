@@ -40,33 +40,24 @@ import org.openxava.annotations.*;
 		+ "momentoRealDaAnaliseDeMedicao;"
 		+ "resultado;"
 		+ "medicao;"
-	//+ "Medições para Análise {medicao;},"
-	//+ "Detalhes da Análise {"
-	//+ "executorDaAnaliseDeMedicao;"
-	//+ "momentoRealDaAnaliseDeMedicao;}"
 	),
 	@View(name = "CEP",
 		members = "data; resultado;"
-	//+ "Medicoes {medicao;},"
-	//+ "Resultado { resultado;}"
 	),
 	@View(name = "Simple", members = "resultado")
 })
 @Tabs({
 	@Tab(properties = "data, " +
 		"medidaPlanoDeMedicao.medida.nome, " +
-		//"medidaPlanoDeMedicao.medida.entidadeMedida.nome, " +
-		//"executorDaAnaliseDeMedicao.nome, " +
-		//"momentoRealDaAnaliseDeMedicao.nome" +
 		"projeto", defaultOrder = "${data} desc")
 })
 public class AnaliseDeMedicao
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_analise_medicao", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Hidden
+    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="ANALISE_MEDICAO_ID", valueColumnName="ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
+     @Hidden
     private Integer id;
 
     @Stereotype("TEXT_AREA")

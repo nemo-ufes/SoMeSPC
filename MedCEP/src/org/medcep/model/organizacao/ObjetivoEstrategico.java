@@ -26,21 +26,8 @@ import javax.persistence.*;
 import org.openxava.annotations.*;
 
 @Entity
-/*
- * @View(members="nome;"
- * + "indicadores;"
- * + "Necessidade de Informacao { necessidadeDeInformacao }"
- * + "Objetivos de Medicao { objetivoDeMedicao }"
- * //+ "Objetivos de Software { objetivoDeSoftware }"
- * //+ "Objetivos Estrategicos { objetivoEstrategico }"
- * )
- */
 @Views({
-	@View(members = "nome;"
-	//+ "necessidadeDeInformacao;"
-	//+ "indicadores;" 
-	//+ "objetivoDeSoftware;"
-	//+ "objetivoDeMedicao;"			
+	@View(members = "nome;"			
 	),
 	@View(name = "Simple", members = "nome"),
 })
@@ -52,7 +39,7 @@ public class ObjetivoEstrategico extends Objetivo
 
     @ManyToMany
     @JoinTable(
-	    name = "ObjetivoDeSoftware_BaseadoEm_ObjetivoEstrategico"//TODO: remover o "O" a mais do inicio
+	    name = "ObjetivoDeSoftware_BaseadoEm_ObjetivoEstrategico"
 	    ,
 	    joinColumns = {
 		    @JoinColumn(name = "ObjetivoEstrategico")

@@ -1,52 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-    MedCEP - A powerful tool for measure
-    
-    Copyright (C) 2013 Ciro Xavier Maretto
-    Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
+<!-- MedCEP - A powerful tool for measure Copyright (C) 2013 Ciro Xavier Maretto Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>. -->
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Lesser General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/lgpl.html>.    
- -->
-
-<persistence xmlns="http://java.sun.com/xml/ns/persistence"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
-	version="1.0">
-
-	<!-- Tomcat + Hypersonic -->
+	<!-- PostgreSQL  -->
 	<!-- 
-	<persistence-unit name="default">
+	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<non-jta-data-source>java:comp/env/jdbc/MedCEPDS</non-jta-data-source>
-		<class>org.openxava.session.GalleryImage</class>
 		<properties>
-			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
+			<property name="hibernate.connection.username" value="postgres" />
+			<property name="hibernate.connection.password" value="postgres" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/medcep" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.jdbc.factory_class" value="org.hibernate.jdbc.NonBatchingBatcherFactory" />
 		</properties>
 	</persistence-unit>
-	-->
-	
+ 	-->
+ 	
+	<!-- MySQL -->
 	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <properties>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver" />
-            <property name="hibernate.connection.username" value="postgres" />
-            <property name="hibernate.connection.password" value="postgres" />
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/medcep" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />            
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.jdbc.factory_class" value="org.hibernate.jdbc.NonBatchingBatcherFactory"/>            
-        </properties>
-    </persistence-unit>
-	
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<properties>
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
+			<property name="hibernate.connection.username" value="medcep" />
+			<property name="hibernate.connection.password" value="medcep" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://localhost/medcep" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.jdbc.factory_class" value="org.hibernate.jdbc.NonBatchingBatcherFactory" />
+		</properties>
+	</persistence-unit>
+
 </persistence>

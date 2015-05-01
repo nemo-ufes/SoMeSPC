@@ -31,28 +31,12 @@ import org.openxava.annotations.*;
 	@View(members = "projeto; criterio; valorMedido; "),
 	@View(name = "Projeto", members = "criterio; valorMedido;")
 })
-/*
- * @Tabs({
- * 
- * @Tab(properties="nome, mnemonico, indicador", defaultOrder="${nome} asc")
- * })
- * 
- * @EntityValidator(
- * value=MedidaValidator.class,
- * properties={
- * 
- * @PropertyValue(name="tipoMedida"),
- * 
- * @PropertyValue(name="elementoMensuravel")
- * }
- * )
- */
 public class CriterioDeProjeto
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_criterio_projeto", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "CRITERIO_PROJETO_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     @Hidden
     private Integer id;
 

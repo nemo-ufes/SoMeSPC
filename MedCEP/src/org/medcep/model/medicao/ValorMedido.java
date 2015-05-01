@@ -30,9 +30,9 @@ public class ValorMedido
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_valor_medido", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Hidden
+    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="VALOR_MEDIDO_ID", valueColumnName="ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
+      @Hidden
     private Integer id;
 
     public Integer getId()

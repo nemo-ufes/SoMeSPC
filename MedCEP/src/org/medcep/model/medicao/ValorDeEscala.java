@@ -36,12 +36,12 @@ public class ValorDeEscala
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_valor_escala", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Hidden
+    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="VALOR_ESCALA_ID", valueColumnName="ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
+      @Hidden
     private Integer id;
 
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String valor;
 

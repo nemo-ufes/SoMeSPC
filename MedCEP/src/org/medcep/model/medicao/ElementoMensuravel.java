@@ -40,12 +40,12 @@ public class ElementoMensuravel
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_elemento_mensuravel", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Hidden
+    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="ELEMENTO_MENSURAVEL_iD", valueColumnName="ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
+     @Hidden
     private Integer id;
 
-    @Column(length = 500)
+    @Column(length = 255)
     @Required
     private String nome;
 

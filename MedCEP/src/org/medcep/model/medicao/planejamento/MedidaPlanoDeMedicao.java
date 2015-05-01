@@ -42,8 +42,8 @@ public class MedidaPlanoDeMedicao
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_medida_plano_medicao", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "MED_PLANO_MEDICAO_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     private Integer id;
 
     public Integer getId()
@@ -101,34 +101,8 @@ public class MedidaPlanoDeMedicao
 
     public void setDefinicaoOperacionalDeMedida(DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida)
     {
-	/*
-	 * if(definicaoOperacionalDeMedida.getMedida().getid() != getMedida().getid())
-	 * throw new InvalidStateException(
-	 * new InvalidValue[] {
-	 * new InvalidValue(
-	 * "a",
-	 * getClass(), "a",
-	 * true, this)
-	 * }
-	 * );
-	 */
+
 	this.definicaoOperacionalDeMedida = definicaoOperacionalDeMedida;
     }
-
-    /*
-     * @OneToMany(mappedBy="medidaPlanoDeMedicao")
-     * private Collection<Medicao> medicao;
-     * 
-     * public Collection<Medicao> getMedicao() {
-     * return medicao;
-     * }
-     * 
-     * public void setMedicao(Collection<Medicao> medicao) {
-     * this.medicao = medicao;
-     * }
-     */
-    /*
-     * private Collection<AnaliseDeMedicao> analiseDeMedição;
-     */
 
 }

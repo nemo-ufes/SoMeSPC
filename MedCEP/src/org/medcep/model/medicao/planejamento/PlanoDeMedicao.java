@@ -57,9 +57,9 @@ public class PlanoDeMedicao
     }
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_plano_medicao", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
-    @Hidden
+    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="PLANO_MEDICAO_ID", valueColumnName="ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
+     @Hidden
     private Integer id;
 
     public Integer getId()
@@ -72,7 +72,7 @@ public class PlanoDeMedicao
 	this.id = id;
     }
 
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 

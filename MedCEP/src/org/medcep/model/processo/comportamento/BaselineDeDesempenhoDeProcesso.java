@@ -37,18 +37,8 @@ import org.openxava.annotations.*;
 	@View(members =
 		"nome; "
 			+ "data; "
-			//+ "processoPadrao;"
-			//+ "descricao;"
-			//+ "medida;"
-			//+ "Limites ["
-			//+ "limiteDeControle; "
-			//+ "];"
-			//+ "Detalhes do Registro {"
 			+ "registradoPor; "
-			//+ "modeloDeDesempenhoDeProcesso;"
 			+ "contextoDeBaselineDeDesempenhoDeProcesso;"
-	//+ "atualizaBaselineDeDesempenhoDeProcesso; " 
-	//+ "}"
 	),
 	@View(name = "Simple", members = "data; limiteDeControle; Processo Padrão [processoPadrao.nome]; Medida [medida.nome];"),
 })
@@ -59,8 +49,8 @@ public class BaselineDeDesempenhoDeProcesso
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_baseline_desempenho_processo", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "BASELINE_DESEMP_PROC_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     @Hidden
     private Integer id;
 
@@ -78,7 +68,7 @@ public class BaselineDeDesempenhoDeProcesso
     private Date data;
 
     @Required
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     private String nome;
 
     public String getNome()

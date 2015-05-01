@@ -35,18 +35,14 @@ import org.openxava.annotations.*;
 		"capacidade, resultado;"
 			+ "data; "
 			+ "desempenhoDeProcessoEspecificado; "
-	//+ "processoPadrao; " 
-	//+ "medida; "
-	//+ "Procedimento { procedimentoDeDeterminacaoDeCapacidadeDeProcesso; }"
-	//+ "procedimento"
 	)
 })
 public class CapacidadeDeProcesso
 {
 
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_capacidade_processo", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "CAPACIDADE_PROCESSO_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     @Hidden
     private Integer id;
 
@@ -91,7 +87,6 @@ public class CapacidadeDeProcesso
     //@Required
     @ReferenceView("Simple")
     private ProcessoPadrao processoPadrao;
-
 
     @ManyToOne
     //@Required
@@ -161,7 +156,6 @@ public class CapacidadeDeProcesso
 	this.processoPadrao = processoPadrao;
     }
 
-  
     public Medida getMedida()
     {
 	return medida;

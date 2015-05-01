@@ -31,30 +31,19 @@ import org.openxava.annotations.*;
 @Entity
 @Views({
 	@View(members = "nome;"),
-	//@View(members="nome; tipoDeEntidadeMensuravel; elementoMensuravel;"),
 	@View(name = "Simple", members = "nome")
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
-/*
- * @EntityValidator(
- * value=RecursoHumanoValidator.class,
- * properties={
- * 
- * @PropertyValue(name="tipoDeEntidadeMensuravel")
- * }
- * )
- */
 @XmlRootElement
 public class RecursoHumano
-{//extends EntidadeMensuravel {
-
+{
     @Id
-    @SequenceGenerator(name="pk_sequence",sequenceName="seq_recurso_humano", allocationSize=1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "RECURSO_HUMANO_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     @Hidden
     private Integer id;
 
-    @Column(length = 500, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 
