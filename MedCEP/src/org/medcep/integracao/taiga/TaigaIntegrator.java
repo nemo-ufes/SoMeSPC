@@ -2408,7 +2408,7 @@ public class TaigaIntegrator
      *            - Projeto a ser incluído no Plano de Medição do Projeto.
      * @throws Exception
      */
-    public PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoMedCEP(List<MedidasTaiga> medidasTaiga, Periodicidade periodicidadeMedicao, Projeto projeto) throws Exception
+    public synchronized PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoMedCEP(List<MedidasTaiga> medidasTaiga, Periodicidade periodicidadeMedicao, Projeto projeto) throws Exception
     {
 	PlanoDeMedicaoDoProjeto plano = new PlanoDeMedicaoDoProjeto();
 	EntityManager manager = XPersistence.createManager();
@@ -2874,7 +2874,7 @@ public class TaigaIntegrator
      * @param plano
      * @throws Exception
      */
-    public void agendarMedicoesPlanoMedicaoProjeto(PlanoDeMedicaoDoProjeto plano, Projeto projeto) throws Exception
+    public synchronized void agendarMedicoesPlanoMedicaoProjeto(PlanoDeMedicaoDoProjeto plano, Projeto projeto) throws Exception
     {
 	/**
 	 * Inicia os agendamentos.

@@ -16,7 +16,7 @@ public class MedicaoJob implements Job
 {
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException
+    public synchronized void execute(JobExecutionContext context) throws JobExecutionException
     {
 	EntityManager manager = XPersistence.createManager();
 
