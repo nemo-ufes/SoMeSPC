@@ -14,17 +14,18 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 - Microsoft Windows 7 SP1 64 bits (ou outro sistema operacional com suporte à plataforma Java)
 - Java 7 JDK (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 - IDE Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
-- PostgreSQL 9.4.1 (x64) - [Download] (http://www.enterprisedb.com/products-services-training/pgdownload)
+- MySQL 5.6.24 - [Download] (https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-5.6.24.0.msi)
 - Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
 
 ###Instruções para configuração da MedCEP
 1. Instalar o Java 7 JDK.
-2. Instalar o PostgreSQL com usuário e senha <b>"postgres"</b>. Na utilização de outra senha, atualizar a senha nos arquivos:
- 1. MedCEP/Persistence/hibernate.cfg.xml
- 2. MedCEP/Persistence/META-INF/persistence.xml
- 3. MedCEP/Properties/quartz.properties
-3. Criar um banco de dados no PostgreSQL chamado <b>"medcep"</b> e informar como dono o usuário <b>"postgres"</b>.
-4. Executar o script SQL [tables_postgres.sql](https://github.com/nemo-ufes/MedCEP/blob/master/MedCEP/properties/quartz_tables_scripts/tables_postgres.sql)
+2. Instalar o MySQL.
+3. Criar um esquema de banco de dados chamado **"medcep"**.
+4. Criar um usuário e senha **"medcep"** com permissão total no esquema criado. 
+5. Na utilização de outro usuário/senha, atualizar a os arquivos:
+ 1. MedCEP/Persistence/META-INF/persistence.xml
+ 2. MedCEP/Properties/quartz.properties
+4. Executar o script SQL [tables_mysql.sql](https://github.com/nemo-ufes/MedCEP/blob/master/MedCEP/properties/quartz_tables_scripts/tables_mysql.sql)
 4. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira executar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b>. 
 6. Descompactar o IDE Eclipse Luna.
 7. Executar o Eclipse.
