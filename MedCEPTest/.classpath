@@ -42,5 +42,6 @@
 	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/slf4j-api.jar"/>
 	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/slf4j-jdk14.jar"/>
 	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/slf4j-log4j12-1.6.6.jar"/>
+	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/mysql-connector-java-5.1.35-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
