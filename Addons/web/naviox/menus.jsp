@@ -7,7 +7,8 @@
 --%>
 
 	<ul>
-		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/painel.png"}' id="PainelControle"><a href="<%=request.getContextPath()%>/naviox/painel.jsp"> Painel de Controle</a></li>
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/painel.png"}' id="PainelControle"><a href="<%=request.getContextPath()%>/naviox/painel.jsp"> Painel de Controle</a></li>		
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoIntegrado"><a href="<%=request.getContextPath()%>/naviox/wizard.jsp"> Novo Plano de Medição Integrado (Taiga)</a></li>
 		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/cadastros.png"}' class="jstree-close">Cadastros
 			<ul>
 				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' class="jstree-close">Organização
