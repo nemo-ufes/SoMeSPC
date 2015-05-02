@@ -8,6 +8,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
+import org.medcep.model.medicao.*;
 import org.medcep.webservices.rest.dto.*;
 
 import com.owlike.genson.*;
@@ -66,12 +67,31 @@ public class TaigaIntegratorResource
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public synchronized void criarPlanoMedicao(PlanoDTO planoDto) throws Exception
     {
-	System.out.println(planoDto.getNomePeriodicidade());
-	System.out.println(planoDto.getNomeProjeto());
-	for (int i = 0; i < planoDto.getNomesMedidas().size(); i++)
+
+	List<MedidasTaiga> medidas = new ArrayList<MedidasTaiga>();
+
+	for (String medida : planoDto.getNomesMedidas())
 	{
-	    System.out.println(planoDto.getNomesMedidas().get(i));
+	    MedidasTaiga medidaTaiga = MedidasTaiga.valueOf(medida);
+	    medidas.add(medidaTaiga);
 	}
+
+	TaigaIntegrator integrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),
+		planoDto.getTaigaLogin().getUsuario(), planoDto.getTaigaLogin().getSenha());
+
+	List<Periodicidade> periodicidades = integrator.obterPeriodicidades();
+
+	Periodicidade periodicidadeSelecionada = null;
+
+	for (Periodicidade periodicidade : periodicidades)
+	{
+	    if (periodicidade.getNome().equalsIgnoreCase(planoDto.getNomePeriodicidade()))
+		periodicidadeSelecionada = periodicidade;
+	}
+
+	Projeto projeto = integrator.obterProjetoTaiga(planoDto.getApelidoProjeto());
+
+	integrator.criarPlanoMedicaoProjetoMedCEP(medidas, periodicidadeSelecionada, projeto);
     }
 
 }

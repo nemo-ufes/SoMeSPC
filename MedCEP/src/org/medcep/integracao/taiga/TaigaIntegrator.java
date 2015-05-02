@@ -2944,6 +2944,9 @@ public class TaigaIntegrator
 	    map.put("nomePlano", plano.getNome());
 	    map.put("nomeMedida", medida.getMedida().getNome());
 
+	    //Espera um segundo para cadastrar cada job, para evitar erros.
+	    Thread.sleep(1000);
+	    
 	    if (medida.getMedida().getNome().contains("Projeto"))
 	    {
 
