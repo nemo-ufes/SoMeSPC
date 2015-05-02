@@ -74,57 +74,62 @@
 			<td valign="top"><jsp:include page="menus.jsp" /></td>
 
 			<td valign="top">
-				<div id="medcep-wizard" ng-controller="MainController" style="margin: 40px auto; width: 700px;">
-					<h2>Projetos</h2>
-					<fieldset>
-						<h2 class="text-primary text-center">Selecione os Projetos do Taiga</h2>
-						<br />
-						<form name="formProjetos">
-							<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary">
-								<div class="radio">
-									<label ng-repeat="projeto in projetos"><input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" ng-click="mostra_projeto()">
-										<div>
-											<p>
-												<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
-											</p>
-										</div>
-										<div>
-											<p>{{projeto.descricao}}</p>
-										</div> </label>
+				<div class="module-wrapper">
+					<div id="medcep-wizard" ng-controller="MainController">
+						<h2>Conexão</h2>
+						<fieldset>
+							<h3 class="text-center">Conexão com o Taiga</h3>
+						</fieldset>
+
+						<h2>Projetos</h2>
+						<fieldset>
+							<h2 class="text-primary text-center">Selecione os Projetos do Taiga</h2>
+							<br />
+							<form name="formProjetos">
+								<div id="projetos" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary">
+									<div class="radio">
+										<label ng-repeat="projeto in projetos"><input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" ng-click="mostra_projeto()">
+											<div>
+												<p>
+													<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+												</p>
+											</div>
+											<div>
+												<p>{{projeto.descricao}}</p>
+											</div> </label>
+									</div>
+								</div>
+							</form>
+						</fieldset>
+
+						<h2>Medidas</h2>
+						<fieldset style="overflow: scroll; border: 1px solid #0000FF;">
+							<h2 class="text-primary text-center">Selecione as Medidas</h2>
+							<br /> <label for="selected">Selecione a Periodicidade:</label> <select class="form-control" id="selected">
+								<option ng-repeat="periodicidade in periodicidades" ng-click="get_periodicidade($index)">{{periodicidade.nome}}</option>
+							</select> <br />
+							<div id="medidas" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="medida in medidas">
+								<div class="col-md-1">
+									<label class="checkbox" for="{{medida}}"><input type="checkbox" ng-model="medida_selected[medida]" name="group" id="{{medida}}" /></label>
+								</div>
+								<div class="col-md-11">
+									<div>
+										<p>
+											<b>{{medida}}</b>
+										</p>
+									</div>
 								</div>
 							</div>
-						</form>
-					</fieldset>
-
-					<h2>Medidas</h2>
-					<fieldset style="overflow: scroll; border: 1px solid #0000FF;">
-						<h2 class="text-primary text-center">Selecione as Medidas</h2>
-						<br />
-						<div id="medidas" style="margin-top: 10px; margin-left: 10px;" class="row bg-primary" ng-repeat="medida in medidas">
-							<div class="col-md-1">
-								<label class="checkbox" for="{{medida}}"><input type="checkbox" ng-model="medida_selected[medida]" name="group" id="{{medida}}" /></label>
+							<br /> <br />
+							<div align="center">
+								<button type="button" class="btn btn-primary btn-md" ng-click="get_medidas()">Selecionar</button>
 							</div>
-							<div class="col-md-11">
-								<div>
-									<p>
-										<b>{{medida}}</b>
-									</p>
-								</div>
-							</div>
-						</div>
-						<br /> <br />
-						<div align="center">
-							<button type="button" class="btn btn-primary btn-md" ng-click="get_medidas()">Selecionar</button>
-						</div>
-					</fieldset>
+						</fieldset>
 
-					<h2>Agendamento</h2>
-					<fieldset>
-						<h2 class="text-primary text-center">Periodicidade das Medidas</h2>
-						<br /> <label for="selected">Selecione a Periodicidade:</label> <select class="form-control" id="selected">
-							<option ng-repeat="periodicidade in periodicidades" ng-click="get_periodicidade($index)">{{periodicidade.nome}}</option>
-						</select>
-					</fieldset>
+						<h2>Confirmação</h2>
+						<fieldset>
+						</fieldset>
+					</div>
 				</div>
 			</td>
 		</tr>
@@ -159,8 +164,17 @@
 		$("#medcep-wizard").steps({
 			headerTag : "h2",
 			bodyTag : "fieldset",
-			transitionEffect : "slideLeft",
+			transitionEffect : "slideLeft",			
 			autoFocus : true,
+			labels: {
+		        cancel: "Cancelar",
+		        current: "Passo atual:",
+		        pagination: "Paginação",
+		        finish: "Concluir",
+		        next: "Próximo",
+		        previous: "Anterior",
+		        loading: "Carregando ..."
+		    },
 			onFinished : function(event, currentIndex) {
 				// get scope from the DOM element
 				e = document.getElementById('medcep-wizard');
