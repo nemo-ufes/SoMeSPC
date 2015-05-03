@@ -12,6 +12,7 @@ import org.medcep.model.organizacao.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
 
+@DisallowConcurrentExecution
 public class MedicaoJob implements Job
 {
 
