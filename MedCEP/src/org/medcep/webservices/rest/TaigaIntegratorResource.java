@@ -11,8 +11,6 @@ import org.medcep.integracao.taiga.model.*;
 import org.medcep.model.medicao.*;
 import org.medcep.webservices.rest.dto.*;
 
-import com.owlike.genson.*;
-
 @Path("TaigaIntegrator")
 public class TaigaIntegratorResource
 {
@@ -46,12 +44,15 @@ public class TaigaIntegratorResource
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     public Response obterMedidas() throws Exception
     {
-	Genson genson = new Genson();
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
 
-	String json = genson.serialize(medidasTaiga);
-
-	return Response.ok().entity(json).build();
+	List<String> nomesMedidas = new ArrayList<String>();
+	for (MedidasTaiga medida : medidasTaiga)
+	{
+	    nomesMedidas.add(medida.toString());
+	}
+	
+	return Response.ok().entity(nomesMedidas).build();
     }
 
     /**
