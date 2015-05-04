@@ -1,11 +1,20 @@
-app.controller('MainController', function($scope, TaigaIntegrator, MedCEPResource, TaigaIntegratorPost) {
+//Definição do Controlador - AngularJS
+app.controller('MainController', function($scope, $resource, TaigaIntegratorProjeto, MedCEPResource, TaigaIntegratorPlano, TaigaIntegrator) {
 	
-
-	$scope.projetos = TaigaIntegrator.query({ entidade: 'Projetos' });
+	//Objeto Login
+	$scope.login = {
+			url: 'http://ledsup.sr.ifes.edu.br/',
+			usuario: 'vinnysoft',
+			senha: 'teste123'
+	};
 	
+	//Objeto Lista de Medidas - GET através da Web Service do Taiga, usando $Resource do Angular JS
 	$scope.medidas = TaigaIntegrator.query({ entidade: 'Medidas' });
 	
+	//Objeto Lista de Periodicidades - GET através da Web Service do Taiga, usando $Resource do Angular JS
 	$scope.periodicidades = MedCEPResource.query({ periodicidades_med_cep: 'Periodicidade' });
+	
+	$scope.projetos;
 	
 	$scope.projeto_selected;
 	
@@ -29,11 +38,9 @@ app.controller('MainController', function($scope, TaigaIntegrator, MedCEPResourc
         $scope.periodicidade_selected = $scope.periodicidades[index];
 		console.log($scope.periodicidade_selected.nome);   
     }
-	
-	
-	
-	$scope.POST = function(){
-		$scope.entry = new TaigaIntegratorPost(); //You can instantiate resource class
+		
+	$scope.post_plano = function(){
+		$scope.entry = new TaigaIntegratorPlano(); //You can instantiate resource class
 		 
 		$scope.entry.nome_Projeto = $scope.projeto_selected.nome;
 		$scope.entry.nome_Periodicidade = $scope.periodicidade_selected.nome;
@@ -42,5 +49,18 @@ app.controller('MainController', function($scope, TaigaIntegrator, MedCEPResourc
 	    	$scope.entry.nome_Medidas.push(medida);
 	    }	
 		$scope.entry.$save();
+	}
+	
+	$scope.post_projeto= function(retorno){
+		TaigaIntegratorProjeto.save($scope.login).$promise.then(function (result){
+			$scope.projetos = result;
+			if($scope.projetos != undefined){
+				return retorno(true);
+			}
+			else{
+				console.log('false');
+				return retorno(false);
+			}
+		});
 	}
 });

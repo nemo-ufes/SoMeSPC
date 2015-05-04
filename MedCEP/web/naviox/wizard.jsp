@@ -20,6 +20,15 @@
 <html lang="pt-br">
 <head>
 
+<style>
+    input
+    {
+      width: 300px;
+      height: 20px;
+      vertical-align: middle;
+    }
+</style>
+
 <meta charset="utf-8">
 <link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
@@ -78,7 +87,33 @@
 					<div id="medcep-wizard" ng-controller="MainController">
 						<h2>Conexão</h2>
 						<fieldset>
+							<form name="loginForm" novalidate>
 							<h3 class="text-center">Conexão com o Taiga</h3>
+							<br/>
+							<label for="url"><strong>URL *</strong></label>
+								<input type="url" name="url" ng-model="login.url" required>
+									<span style="color: red" ng-show="loginForm.url.$dirty && loginForm.url.$invalid">
+										<span ng-show="loginForm.url.$error.required">Digite a URL.</span>
+										<span ng-show="loginForm.url.$error.url">Endereço de URL inválido.</span>
+									</span>
+							<br/>
+							<br/>
+							<label for="usuario" ><strong>Usuário *</strong></label>
+								<input type="text" name="usuario" ng-model="login.usuario" required>
+									<span style="color: red" ng-show="loginForm.usuario.$dirty && loginForm.usuario.$invalid"> 
+										<span ng-show="loginForm.usuario.$error.required">Digite o Nome do Usuário.</span>
+									</span>
+							<br/>
+							<br/>
+							<label for="password"><strong>Senha *</strong></label>
+								<input type="password" name="password" ng-model="login.senha" required>
+									<span style="color: red" ng-show="loginForm.password.$dirty && loginForm.password.$invalid"> 
+										<span ng-show="loginForm.password.$error.required">Digite a Senha.</span>
+									</span>
+							<br/>
+							<br/>
+							<p>(*)Campos Obrigatórios</p>
+							</form>					
 						</fieldset>
 
 						<h2>Projetos</h2>
@@ -149,6 +184,7 @@
 	<script type='text/javascript' src="js/jquery-ui.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.checkbox.js"></script>
 	<script type='text/javascript' src='js/jquery.steps.js'></script>
+	<script type='text/javascript' src='js/jquery.validate.js'></script>
 
 	<!-- Bootstrap -->
 	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
@@ -161,29 +197,50 @@
 
 	<script type="text/javascript">
 		//Wizard Steps
+		
 		$("#medcep-wizard").steps({
 			headerTag : "h2",
 			bodyTag : "fieldset",
-			transitionEffect : "slideLeft",			
+			transitionEffect : "slideLeft",
 			autoFocus : true,
-			labels: {
-		        cancel: "Cancelar",
-		        current: "Passo atual:",
-		        pagination: "Paginação",
-		        finish: "Concluir",
-		        next: "Próximo",
-		        previous: "Anterior",
-		        loading: "Carregando ..."
-		    },
+			labels : {
+				cancel : "Cancelar",
+				current : "Passo atual:",
+				pagination : "Paginação",
+				finish : "Concluir",
+				next : "Próximo",
+				previous : "Anterior",
+				loading : "Carregando ..."
+			},
+			onStepChanging : function(event, currentIndex, newIndex) {
+		        if (newIndex === 1)
+		        {
+					e = document.getElementById('medcep-wizard');
+					scope = angular.element(e).scope();
+					scope.post_projeto(function (conexao){
+						console.log(conexao);
+						if (conexao){
+							alert("aqui");
+							return true;
+						}
+						else{
+							alert("Dados Incorretos - Conexão não foi concluida, tente novamente.");
+							return false;
+						}
+					});
+					return true;
+		        }
+		        else{
+		        	return true;
+		        }
+		        
+			},
 			onFinished : function(event, currentIndex) {
-				// get scope from the DOM element
 				e = document.getElementById('medcep-wizard');
 				scope = angular.element(e).scope();
-				// update the model with a wrap in $apply(fn) which will refresh the view for us
-				scope.POST();
-				//alert("Wizard concluido com Sucesso!");
+				scope.post_plano();
+				alert("Wizard concluido com Sucesso!");
 			}
-
 		});
 
 		$(function() {
