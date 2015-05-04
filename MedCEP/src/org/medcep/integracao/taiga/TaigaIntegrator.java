@@ -795,7 +795,7 @@ public class TaigaIntegrator
 	    manager.getTransaction().begin();
 	    manager.persist(alocacao);
 	    manager.getTransaction().commit();
-	}	
+	}
 	finally
 	{
 	    manager.close();
@@ -934,6 +934,7 @@ public class TaigaIntegrator
 	//Obtem o ElementoMensuravel Duração.
 	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
 	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
+	@SuppressWarnings("unused")
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	manager.close();
@@ -2946,7 +2947,7 @@ public class TaigaIntegrator
 
 	    //Espera um segundo para cadastrar cada job, para evitar erros.
 	    Thread.sleep(1000);
-	    
+
 	    if (medida.getMedida().getNome().contains("Projeto"))
 	    {
 
@@ -3004,6 +3005,9 @@ public class TaigaIntegrator
 
 		for (Sprint sprint : sprints)
 		{
+		    //Espera um segundo para cadastrar cada job, para evitar erros.
+		    Thread.sleep(1000);
+
 		    String nomeGrupo = sprint.getNome();
 		    String nomeTrigger = String.format("Medição %s da medida %s (%s)",
 			    medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
@@ -3064,6 +3068,8 @@ public class TaigaIntegrator
 
 		    for (Estoria estoria : estorias)
 		    {
+			//Espera um segundo para cadastrar cada job, para evitar erros.
+			Thread.sleep(1000);
 
 			String nomeGrupo = String.format("Estória (%s)", estoria.getTitulo());
 			String nomeTrigger = String.format("Medição %s da medida %s (%s)",

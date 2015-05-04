@@ -26,7 +26,7 @@
 		<%
 		    } else {
 		%>
-		<span>MedCEP - A powerful tool to measure</span> &nbsp; <a href="<%=request.getContextPath()%>/naviox/wizard.jsp"><span style="color: white; font-size: 14px; font-weight: bold; margin-left: 50px;">Wizard</span></a>
+		<span>MedCEP - A powerful tool to measure</span>
 		<%
 		    }
 		%>
