@@ -59,8 +59,6 @@ public class TipoDeArtefato extends EntidadeMensuravel
 	    properties = {
 		    @PropertyValue(name = "nomeEntidade", value = "Tipo de Artefato")
 	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;

@@ -63,8 +63,6 @@ public class AtividadePadrao extends EntidadeMensuravel
 	    properties = {
 		    @PropertyValue(name = "nomeEntidade", value = "Atividade Padrão")
 	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;
@@ -166,32 +164,32 @@ public class AtividadePadrao extends EntidadeMensuravel
 	this.momentoDeAnaliseDeMedicao = momentoDeAnaliseDeMedicao;
     }
 
-    //    @PreCreate
-    //    @PreUpdate
-    //    public void ajustaElementosMensuraveis()
-    //    {
-    //	if (elementoMensuravel == null)
-    //	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
-    //
-    //	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
-    //	{
-    //	    boolean add;
-    //	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
-    //	    {
-    //		add = true;
-    //		for (ElementoMensuravel elem : elementoMensuravel)
-    //		{
-    //		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-    //		    {
-    //			add = false;
-    //			break;
-    //		    }
-    //		}
-    //		if (add)
-    //		    elementoMensuravel.add(elemTipo);
-    //	    }//elemTipo
-    //	}
-    //    }//ajusta
+//    @PreCreate
+//    @PreUpdate
+//    public void ajustaElementosMensuraveis()
+//    {
+//	if (elementoMensuravel == null)
+//	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+//
+//	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
+//	{
+//	    boolean add;
+//	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
+//	    {
+//		add = true;
+//		for (ElementoMensuravel elem : elementoMensuravel)
+//		{
+//		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
+//		    {
+//			add = false;
+//			break;
+//		    }
+//		}
+//		if (add)
+//		    elementoMensuravel.add(elemTipo);
+//	    }//elemTipo
+//	}
+//    }//ajusta
 
     public Collection<AtividadePadrao> getDependeDe()
     {

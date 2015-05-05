@@ -31,6 +31,7 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
+import org.hibernate.validator.*;
 import org.medcep.integracao.agendador.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
@@ -1304,6 +1305,7 @@ public class TaigaIntegrator
 		manager.getTransaction().commit();
 		tiposDeArtefato.add(tipo);
 	    }
+
 	    catch (Exception ex)
 	    {
 		if (manager.getTransaction().isActive())
@@ -1311,6 +1313,16 @@ public class TaigaIntegrator
 
 		manager.close();
 		manager = XPersistence.createManager();
+
+		if (ex.getCause() instanceof InvalidStateException)
+		{
+		    for (InvalidValue invalidValue : ((InvalidStateException) ex.getCause()).getInvalidValues())
+		    {
+			System.out.println("Instance of bean class: " + invalidValue.getBeanClass().getSimpleName() +
+				" has an invalid property: " + invalidValue.getPropertyName() +
+				" with message: " + invalidValue.getMessage());
+		    }
+		}
 
 		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
@@ -1535,6 +1547,11 @@ public class TaigaIntegrator
 		+ "Scrum consists of Scrum Teams and their associated roles, events, artifacts,"
 		+ " and rules, as defined in the Scrum GuideTM (https://www.scrum.org/Resources/Scrum-Glossary).");
 
+	//Obtem o tipo de Entidade Mensurável AtividadePadrao.
+	String queryProcessoPadrao = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Processo de Software Padrão'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQueryProcessoPadrao = manager.createQuery(queryProcessoPadrao, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel processoPadrao = typedQueryProcessoPadrao.getSingleResult();
+
 	//Obtem as atividades Scrum.
 	String queryAtividade1 = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Planejamento da Sprint'";
 	TypedQuery<AtividadePadrao> typedQueryAtividade1 = manager.createQuery(queryAtividade1, AtividadePadrao.class);
@@ -1563,6 +1580,7 @@ public class TaigaIntegrator
 	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
+	scrum.setTipoDeEntidadeMensuravel(processoPadrao);
 	scrum.setAtividadePadrao(Arrays.asList(atividade1, atividade2, atividade3));
 	scrum.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
 
@@ -1577,6 +1595,16 @@ public class TaigaIntegrator
 	{
 	    if (manager.getTransaction().isActive())
 		manager.getTransaction().rollback();
+
+	    if (ex.getCause() instanceof InvalidStateException)
+	    {
+		for (InvalidValue invalidValue : ((InvalidStateException) ex.getCause()).getInvalidValues())
+		{
+		    System.out.println("Instance of bean class: " + invalidValue.getBeanClass().getSimpleName() +
+			    " has an invalid property: " + invalidValue.getPropertyName() +
+			    " with message: " + invalidValue.getMessage());
+		}
+	    }
 
 	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
@@ -2801,6 +2829,7 @@ public class TaigaIntegrator
 	{
 	    if (!manager.isOpen())
 		manager = XPersistence.createManager();
+	    
 	    String query = String.format("SELECT p FROM RecursoHumano p WHERE p.nome='%s'", medicaoJob.getNome());
 	    TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
 

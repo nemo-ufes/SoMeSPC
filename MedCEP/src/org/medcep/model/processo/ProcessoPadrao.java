@@ -145,8 +145,6 @@ public class ProcessoPadrao extends EntidadeMensuravel
 	    properties = {
 		    @PropertyValue(name = "nomeEntidade", value = "Processo de Software Padrão")
 	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;

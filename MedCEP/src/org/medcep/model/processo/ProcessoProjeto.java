@@ -65,16 +65,6 @@ public class ProcessoProjeto extends EntidadeMensuravel
     @NewAction("ProcessoDeProjeto.add")
     private Collection<AtividadeProjeto> atividadeProjeto;
 
-    @ManyToOne
-    @Required
-    @Transient
-    @DefaultValueCalculator(
-	    value = TipoDeEntidadeMensuravelCalculator.class,
-	    properties = {
-		    @PropertyValue(name = "nomeEntidade", value = "Processo de Software em Projeto")
-	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-
     public Collection<AtividadeProjeto> getAtividadeProjeto()
     {
 	return atividadeProjeto;
@@ -96,6 +86,14 @@ public class ProcessoProjeto extends EntidadeMensuravel
 	this.projeto = projeto;
     }
 
+    @ManyToOne
+    @Required
+    @Transient
+    @DefaultValueCalculator(
+	    value = TipoDeEntidadeMensuravelCalculator.class,
+	    properties = {
+		    @PropertyValue(name = "nomeEntidade", value = "Processo de Software em Projeto")
+	    })
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;
