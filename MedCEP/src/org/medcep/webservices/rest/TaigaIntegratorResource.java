@@ -31,8 +31,15 @@ public class TaigaIntegratorResource
 	else
 	{
 	    TaigaIntegrator integrator = new TaigaIntegrator(login.getUrl(), login.getUsuario(), login.getSenha());
-	    List<Projeto> projetos = integrator.obterProjetosTaiga();
-	    response = Response.ok().entity(projetos).build();
+	    try
+	    {
+		List<Projeto> projetos = integrator.obterProjetosTaiga();
+		response = Response.ok().entity(projetos).build();
+	    }
+	    catch (Exception ex)
+	    {
+		response = Response.status(Status.BAD_REQUEST).build();
+	    }
 	}
 
 	return response;
@@ -51,7 +58,7 @@ public class TaigaIntegratorResource
 	{
 	    nomesMedidas.add(medida.toString());
 	}
-	
+
 	return Response.ok().entity(nomesMedidas).build();
     }
 

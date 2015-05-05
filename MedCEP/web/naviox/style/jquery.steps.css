@@ -1,3 +1,12 @@
+.bg-wizard {
+	background-color: #2C3E50;
+	color: #fff;
+}
+.radio input[type="radio"], .radio-inline input[type="radio"] {
+	position: relative !important;
+	width: 30px;
+	float: left;
+}
 /*
     Common 
 */
@@ -7,7 +16,6 @@
 	overflow: hidden;
 	margin: 20px auto;
 }
-
 
 .wizard a, .tabcontrol a {
 	outline: 0;

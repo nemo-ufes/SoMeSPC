@@ -52,15 +52,11 @@ app.controller('MainController', function($scope, $resource, TaigaIntegratorProj
 	}
 	
 	$scope.post_projeto= function(retorno){
-		TaigaIntegratorProjeto.save($scope.login).$promise.then(function (result){
+		TaigaIntegratorProjeto.save($scope.login).$promise.then(function sucesso(result){
 			$scope.projetos = result;
-			if($scope.projetos != undefined){
-				return retorno(true);
-			}
-			else{
-				console.log('false');
-				return retorno(false);
-			}
+			return retorno(true);
+		}, function erro(err){
+			return retorno(false);
 		});
 	}
 });
