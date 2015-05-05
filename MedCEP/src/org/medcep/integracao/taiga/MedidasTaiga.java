@@ -19,12 +19,14 @@
  */
 package org.medcep.integracao.taiga;
 
+import java.util.*;
+
 public enum MedidasTaiga
 {
     //Medidas do Projeto
-    PONTOS_ALOCADOS_PROJETO("Pontos Alocados no Projeto"),    
-    PONTOS_DEFINIDOS_PROJETO("Pontos Definidos no Projeto"),    
-    PONTOS_FECHADOS_PROJETO("Pontos Fechados no Projeto"),    
+    PONTOS_ALOCADOS_PROJETO("Pontos Alocados no Projeto"),
+    PONTOS_DEFINIDOS_PROJETO("Pontos Definidos no Projeto"),
+    PONTOS_FECHADOS_PROJETO("Pontos Fechados no Projeto"),
     TOTAL_SPRINTS_PROJETO("Total de Sprints do Projeto"),
     TOTAL_PONTOS_PROJETO("Total de Pontos do Projeto"),
     VELOCIDADE_PROJETO("Velocidade do Projeto"),
@@ -33,7 +35,7 @@ public enum MedidasTaiga
     PONTOS_ALOCADOS_POR_PAPEL_PROJETO("Pontos Alocados por Papel no Projeto"),
     PONTOS_DEFINIDOS_POR_PAPEL_PROJETO("Pontos Definidos por Papel no Projeto"),
     PONTOS_FECHADOS_POR_PAPEL_PROJETO("Pontos Fechados por Papel no Projeto"),
-    
+
     //Medidas da Sprint
     DOSES_IOCAINE_SPRINT("Doses de Iocaine da Sprint"),
     ESTORIAS_COMPLETADAS_SPRINT("Estórias Completadas na Sprint"),
@@ -42,22 +44,44 @@ public enum MedidasTaiga
     TOTAL_ESTORIAS_SPRINT("Total de Estórias da Sprint"),
     TOTAL_PONTOS_SPRINT("Total de Pontos da Sprint"),
     TOTAL_TAREFAS_SPRINT("Total de Tarefas da Sprint"),
-        
+
     //Medidas da Estória
     PONTOS_ESTORIA("Pontos da Estória");
-    
-    private final String name;       
 
-    private MedidasTaiga(String s) {
-        name = s;
+    private final String name;
+
+    private MedidasTaiga(String s)
+    {
+	name = s;
+	this.descricao = s;
     }
 
-    public boolean equalsName(String otherName){
-        return (otherName == null)? false:name.equals(otherName);
+    public boolean equalsName(String otherName)
+    {
+	return (otherName == null) ? false : name.equals(otherName);
     }
 
-    public String toString(){
-       return name;
+    public String toString()
+    {
+	return name;
     }
-    
+
+    private final String descricao;
+    private static final Map<String, MedidasTaiga> lookup = new HashMap<String, MedidasTaiga>();
+    static
+    {
+	for (MedidasTaiga d : MedidasTaiga.values())
+	    lookup.put(d.getDescricao(), d);
+    }
+
+    public String getDescricao()
+    {
+	return descricao;
+    }
+
+    public static MedidasTaiga get(String descricao)
+    {
+	return lookup.get(descricao);
+    }
+
 };

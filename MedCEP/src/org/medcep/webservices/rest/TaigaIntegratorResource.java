@@ -80,7 +80,7 @@ public class TaigaIntegratorResource
 
 	for (String medida : planoDto.getNomesMedidas())
 	{
-	    MedidasTaiga medidaTaiga = MedidasTaiga.valueOf(medida);
+	    MedidasTaiga medidaTaiga = MedidasTaiga.get(medida);
 	    medidas.add(medidaTaiga);
 	}
 

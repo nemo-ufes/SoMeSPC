@@ -83,25 +83,22 @@ input {
 						<h2>Conexão</h2>
 						<fieldset>
 							<form name="loginForm" novalidate>
-								<h3 class="text-center">Conexão com o Taiga</h3>
 								<br /> <label for="url"><strong>URL *</strong></label> <input type="url" name="url" ng-model="login.url" required> <span style="color: red" ng-show="loginForm.url.$dirty && loginForm.url.$invalid"> <span ng-show="loginForm.url.$error.required">Digite a URL.</span> <span ng-show="loginForm.url.$error.url">Endereço de URL inválido.</span>
 								</span> <br /> <br /> <label for="usuario"><strong>Usuário *</strong></label> <input type="text" name="usuario" ng-model="login.usuario" required> <span style="color: red" ng-show="loginForm.usuario.$dirty && loginForm.usuario.$invalid"> <span ng-show="loginForm.usuario.$error.required">Digite o Nome do Usuário.</span>
 								</span> <br /> <br /> <label for="password"><strong>Senha *</strong></label> <input type="password" name="password" ng-model="login.senha" required> <span style="color: red" ng-show="loginForm.password.$dirty && loginForm.password.$invalid"> <span ng-show="loginForm.password.$error.required">Digite a Senha.</span>
 								</span> <br /> <br />
-								<p>(*)Campos Obrigatórios</p>
+								<p>(*) Campos obrigatórios</p>
 							</form>
 						</fieldset>
 
 						<h2>Projetos</h2>
 						<fieldset>
-							<h3 class="text-center">Selecione os Projetos do Taiga</h3>
 							<form name="formProjetos">
 								<div id="projetos" class="row bg-wizard">
 									<div class="radio">
 										<label ng-repeat="projeto in projetos">
 											<div class="col-md-12">
-												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" ng-click="mostra_projeto()" />
-
+												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" />
 												<div>
 													<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
 												</div>
@@ -113,26 +110,31 @@ input {
 							</form>
 						</fieldset>
 
-						<h2>Medidas</h2>
+						<h2>Coleta</h2>
 						<fieldset style="overflow: scroll;">
-							<h3 class="text-center">Selecione as Medidas</h3>
-							<label for="selected">Selecione a Periodicidade:</label> <select class="form-control" id="selected">
-								<option ng-repeat="periodicidade in periodicidades" ng-click="get_periodicidade($index)">{{periodicidade.nome}}</option>
+							<label for="selectPeriodicidades">Periodicidades:</label> <select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
 							</select> <br />
 							<div class="row">
+								<b>Medidas:</b> <br />
+								<br />
 								<div id="medidas" class="row bg-wizard" ng-repeat="medida in medidas">
 									<div class="col-md-12">
 										<label class="checkbox" for="{{medida}}"><input type="checkbox" ng-model="medida_selected[medida]" name="group" id="{{medida}}" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{medida}}</b></span> </label>
 									</div>
 								</div>
+								<br />
+								<br />
 							</div>
 						</fieldset>
 
 						<h2>Confirmação</h2>
 						<fieldset>
 
-							<p>Projeto selecionado: {{projeto_selected.nome}}</p>
-							<p>Medidas selecionadas: {{medida_selected}}</p>
+							<p><b>Projeto:</b> {{projeto_selected.nome}}</p>
+							<p><b>Periodicidade:</b> {{periodicidade_selected.nome}}</p>
+							<p>
+								<b>Medida(s):</b> <span ng-repeat="medida in medida_selected"> {{medida}} </span>|
+							</p>
 
 						</fieldset>
 					</div>
@@ -212,8 +214,15 @@ input {
 							onFinished : function(event, currentIndex) {
 								e = document.getElementById('medcep-wizard');
 								scope = angular.element(e).scope();
-								scope.post_plano();
-								alert("Wizard concluido com Sucesso!");
+								
+								if (scope.projeto_selected === undefined)
+									alert("Selecione um projeto antes de concluir!");
+								else if (scope.periodicidade_selected === undefined)
+									alert("Selecione uma periodicidade de coleta antes de concluir!");
+								else{
+									scope.post_plano();
+									alert("Wizard concluido com Sucesso!");
+								}
 							}
 						});
 
