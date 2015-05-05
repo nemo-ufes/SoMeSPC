@@ -77,16 +77,6 @@ public class AtividadeProjeto extends EntidadeMensuravel
 //    @ListProperties("nome")
 //    private Collection<AlocacaoEquipe> realizadoPor;
 
-    @ManyToOne
-    @Required
-    @Transient
-    @DefaultValueCalculator(
-	    value = TipoDeEntidadeMensuravelCalculator.class,
-	    properties = {
-		    @PropertyValue(name = "nomeEntidade", value = "Atividade de Projeto")
-	    })
-    private TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
 	    name = "AtividadeProjeto_produz_Artefato"
@@ -153,6 +143,14 @@ public class AtividadeProjeto extends EntidadeMensuravel
 //	this.realizadoPor = realizadoPor;
 //    }
 
+    @ManyToOne
+    @Required
+    @Transient
+    @DefaultValueCalculator(
+	    value = TipoDeEntidadeMensuravelCalculator.class,
+	    properties = {
+		    @PropertyValue(name = "nomeEntidade", value = "Atividade de Projeto")
+	    })
     public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
 	return tipoDeEntidadeMensuravel;
