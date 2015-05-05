@@ -94,15 +94,14 @@ input {
 
 						<h2>Projetos</h2>
 						<fieldset>
-							<h2 class="text-center">Selecione os Projetos do Taiga</h2>
-							<br />
+							<h3 class="text-center">Selecione os Projetos do Taiga</h3>
 							<form name="formProjetos">
 								<div id="projetos" class="row bg-wizard">
-									<div class="row radio">
+									<div class="radio">
 										<label ng-repeat="projeto in projetos">
 											<div class="col-md-12">
 												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" ng-click="mostra_projeto()" />
-											
+
 												<div>
 													<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
 												</div>
@@ -116,17 +115,17 @@ input {
 
 						<h2>Medidas</h2>
 						<fieldset style="overflow: scroll;">
-							<h2 class="text-center">Selecione as Medidas</h2>
-							<br /> <label for="selected">Selecione a Periodicidade:</label> <select class="form-control" id="selected">
+							<h3 class="text-center">Selecione as Medidas</h3>
+							<label for="selected">Selecione a Periodicidade:</label> <select class="form-control" id="selected">
 								<option ng-repeat="periodicidade in periodicidades" ng-click="get_periodicidade($index)">{{periodicidade.nome}}</option>
 							</select> <br />
-							<div id="medidas" class="row bg-wizard" ng-repeat="medida in medidas">
-								<label class="checkbox" for="{{medida}}"><input type="checkbox" ng-model="medida_selected[medida]" name="group" id="{{medida}}" /></label>
-								<div>
-									<b>{{medida}}</b>
+							<div class="row">
+								<div id="medidas" class="row bg-wizard" ng-repeat="medida in medidas">
+									<div class="col-md-12">
+										<label class="checkbox" for="{{medida}}"><input type="checkbox" ng-model="medida_selected[medida]" name="group" id="{{medida}}" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{medida}}</b></span> </label>
+									</div>
 								</div>
 							</div>
-							<br />
 						</fieldset>
 
 						<h2>Confirmação</h2>
