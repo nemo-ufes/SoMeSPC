@@ -48,7 +48,7 @@ app.controller('MainController', function($scope, $resource,
 		$scope.periodicidade_selected = $scope.periodicidades[index];
 	}
 
-	$scope.post_plano = function() {
+	$scope.post_plano = function(retorno) {
 		$scope.entry = new TaigaIntegratorPlano(); // You can instantiate
 													// resource class
 
@@ -59,7 +59,11 @@ app.controller('MainController', function($scope, $resource,
 			$scope.entry.nome_Medidas.push($scope.medidas_selected[idx]);
 		}
 		$scope.entry.taiga_Login = $scope.login;
-		$scope.entry.$save();
+		$scope.entry.$save(function sucesso(plano){
+			return retorno(plano);
+		}, function erro(err){
+			return retorno(err);
+		});
 	}
 
 	$scope.post_projeto = function(retorno) {

@@ -146,6 +146,10 @@ input {
 							</p>
 						</fieldset>
 					</div>
+
+
+
+
 				</div>
 			</td>
 		</tr>
@@ -174,7 +178,24 @@ input {
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/naviox.js'></script>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/jstree.min.js'></script>
 
+
+
 	<script type="text/javascript">
+		function toggleButton(buttonId, enable) {
+			if (enable) {
+				// Enable disabled button
+				var button = $("#medcep-wizard").find(
+						'a[href="#' + buttonId + '-disabled"]');
+				button.attr("href", '#' + buttonId);
+				button.parent().removeClass();
+			} else {
+				// Disable enabled button
+				var button = $("#medcep-wizard").find(
+						'a[href="#' + buttonId + '"]');
+				button.attr("href", '#' + buttonId + '-disabled');
+				button.parent().addClass("disabled");
+			}
+		}
 		//Wizard Steps
 
 		$("#medcep-wizard")
@@ -193,6 +214,7 @@ input {
 								previous : "Anterior",
 								loading : "Carregando ..."
 							},
+							loadingTemplate : '<span class="spinner"></span> #text#',
 							onStepChanging : function(event, currentIndex,
 									newIndex) {
 								if (newIndex === 1) {
@@ -228,6 +250,8 @@ input {
 
 							},
 							onFinished : function(event, currentIndex) {
+								toggleButton('finish', false);
+
 								e = document.getElementById('medcep-wizard');
 								scope = angular.element(e).scope();
 
@@ -236,8 +260,9 @@ input {
 								else if (scope.periodicidade_selected === undefined)
 									alert("Selecione uma periodicidade de coleta antes de concluir!");
 								else {
-									scope.post_plano();
-									alert("Wizard concluido com Sucesso!");
+									scope.post_plano(function retorno(result) {
+												alert("Plano de Medição criado com sucesso!");
+									});
 								}
 							}
 						});

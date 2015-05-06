@@ -9,6 +9,8 @@ import javax.ws.rs.core.Response.Status;
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.model.medicao.*;
+import org.medcep.model.medicao.planejamento.*;
+import org.medcep.util.json.*;
 import org.medcep.webservices.rest.dto.*;
 
 @Path("TaigaIntegrator")
@@ -73,7 +75,7 @@ public class TaigaIntegratorResource
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public synchronized void criarPlanoMedicao(PlanoDTO planoDto) throws Exception
+    public synchronized Response criarPlanoMedicao(PlanoDTO planoDto) throws Exception
     {
 
 	List<MedidasTaiga> medidas = new ArrayList<MedidasTaiga>();
@@ -99,7 +101,12 @@ public class TaigaIntegratorResource
 
 	Projeto projeto = integrator.obterProjetoTaiga(planoDto.getApelidoProjeto());
 
-	integrator.criarPlanoMedicaoProjetoMedCEP(medidas, periodicidadeSelecionada, projeto);
+	PlanoDeMedicao plano = integrator.criarPlanoMedicaoProjetoMedCEP(medidas, periodicidadeSelecionada, projeto);
+	
+	JSONObject json = new JSONObject();
+	json.append("nome", plano.getNome());
+	
+	return Response.ok().entity(json).build();
     }
 
 }
