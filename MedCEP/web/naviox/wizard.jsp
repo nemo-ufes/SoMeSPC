@@ -115,25 +115,27 @@ input {
 							<label for="selectPeriodicidades">Periodicidades:</label> <select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
 							</select> <br />
 							<div class="row">
-								<b>Medidas:</b> <br />
-								<br />
-								<div id="medidas" class="row bg-wizard" ng-repeat="medida in medidas">
+								<b>Medidas:</b> <br /> <br />
+								<div id="medidas" class="row bg-wizard" ng-repeat="(index, medida) in medidas">
 									<div class="col-md-12">
-										<label class="checkbox" for="{{medida}}"><input type="checkbox" ng-model="medida_selected[medida]" name="group" id="{{medida}}" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{medida}}</b></span> </label>
+										<label class="checkbox" for="{{medida}}"><input id="{{medida}}" type="checkbox" ng-checked="medidas_selected.indexOf(medida) > -1" ng-click="toggleSelection(medida)" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{medida}}</b></span> </label>
 									</div>
 								</div>
-								<br />
-								<br />
+								<br /> <br />
 							</div>
 						</fieldset>
 
 						<h2>Confirmação</h2>
 						<fieldset>
 
-							<p><b>Projeto:</b> {{projeto_selected.nome}}</p>
-							<p><b>Periodicidade:</b> {{periodicidade_selected.nome}}</p>
 							<p>
-								<b>Medida(s):</b> <span ng-repeat="medida in medida_selected"> {{medida}} </span>|
+								<b>Projeto:</b> {{projeto_selected.nome}}
+							</p>
+							<p>
+								<b>Periodicidade:</b> {{periodicidade_selected.nome}}
+							</p>
+							<p>
+								<b>Medida(s):</b> <span ng-repeat="medida in medidas_selected"> {{medida}} </span>|
 							</p>
 
 						</fieldset>
@@ -206,6 +208,14 @@ input {
 									} else {
 										return true;
 									}
+								} else if (newIndex === 3) {
+									if (scope.periodicidade_selected === undefined 
+											|| scope.medidas_selected === undefined
+											|| scope.medidas_selected.length === 0) {
+										return false;
+									} else {
+										return true;
+									}
 								} else {
 									return true;
 								}
@@ -214,12 +224,12 @@ input {
 							onFinished : function(event, currentIndex) {
 								e = document.getElementById('medcep-wizard');
 								scope = angular.element(e).scope();
-								
+
 								if (scope.projeto_selected === undefined)
 									alert("Selecione um projeto antes de concluir!");
 								else if (scope.periodicidade_selected === undefined)
 									alert("Selecione uma periodicidade de coleta antes de concluir!");
-								else{
+								else {
 									scope.post_plano();
 									alert("Wizard concluido com Sucesso!");
 								}
