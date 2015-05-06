@@ -1,6 +1,8 @@
-app.service("AgendadorService", function($http, $q) {
+app.service("AgendadorService", function($http, $q, $location) {
 	// URL da API da MedCEP
-	var url = 'http://localhost:8080/MedCEP/api/Agendador';
+
+	var host = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+	var url = host + '/MedCEP/api/Agendador';
 
 	return ({
 		obterJobs : obterJobs,

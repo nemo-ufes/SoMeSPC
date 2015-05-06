@@ -1,6 +1,6 @@
-app.service("MedicaoService", function($http, $q) {
-
-	var url = 'http://localhost:8080/MedCEP/api/Medicao';
+app.service("MedicaoService", function($http, $q, $location) {
+	var host = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+	var url = host + '/MedCEP/api/Medicao';
 
 	return ({
 		obterEntidades : obterEntidades,
