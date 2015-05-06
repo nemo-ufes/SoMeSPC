@@ -55,8 +55,8 @@ app.controller('MainController', function($scope, $resource,
 		$scope.entry.apelido_Projeto = $scope.projeto_selected.apelido;
 		$scope.entry.nome_Periodicidade = $scope.periodicidade_selected.nome;
 		$scope.entry.nome_Medidas = [];
-		for (medida in $scope.medida_selected) {
-			$scope.entry.nome_Medidas.push(medida);
+		for (idx in $scope.medidas_selected) {
+			$scope.entry.nome_Medidas.push($scope.medidas_selected[idx]);
 		}
 		$scope.entry.taiga_Login = $scope.login;
 		$scope.entry.$save();

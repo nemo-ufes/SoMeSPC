@@ -99,10 +99,10 @@ input {
 										<label ng-repeat="projeto in projetos">
 											<div class="col-md-12">
 												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" />
-												<div>
+												<p>
 													<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
-												</div>
-												<div>{{projeto.descricao}}</div>
+												</p>
+												<p>{{projeto.descricao}}</p>
 											</div>
 										</label>
 									</div>
@@ -112,10 +112,13 @@ input {
 
 						<h2>Coleta</h2>
 						<fieldset style="overflow: scroll;">
-							<label for="selectPeriodicidades">Periodicidades:</label> <select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
+							<label for="selectPeriodicidades">Periodicidade da coleta:</label> <select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
 							</select> <br />
 							<div class="row">
-								<b>Medidas:</b> <br /> <br />
+								<p>
+									<b>Medidas:</b>
+								</p>
+								<br />
 								<div id="medidas" class="row bg-wizard" ng-repeat="(index, medida) in medidas">
 									<div class="col-md-12">
 										<label class="checkbox" for="{{medida}}"><input id="{{medida}}" type="checkbox" ng-checked="medidas_selected.indexOf(medida) > -1" ng-click="toggleSelection(medida)" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{medida}}</b></span> </label>
@@ -125,19 +128,22 @@ input {
 							</div>
 						</fieldset>
 
-						<h2>Confirmação</h2>
-						<fieldset>
-
+						<h2>Resumo</h2>
+						<fieldset style="overflow: scroll;">
 							<p>
 								<b>Projeto:</b> {{projeto_selected.nome}}
 							</p>
 							<p>
-								<b>Periodicidade:</b> {{periodicidade_selected.nome}}
+								<b>Periodicidade da coleta:</b> {{periodicidade_selected.nome}}
 							</p>
 							<p>
-								<b>Medida(s):</b> <span ng-repeat="medida in medidas_selected"> {{medida}} </span>|
+								<b>Medida(s):</b> <br />
+							<ul style="font-size: 16px; margin-left: 20px;">
+								<span ng-repeat="medida in medidas_selected">
+									<li style="margin-bottom: 5px;">{{medida}}</li>
+								</span>
+							</ul>
 							</p>
-
 						</fieldset>
 					</div>
 				</div>
@@ -209,7 +215,7 @@ input {
 										return true;
 									}
 								} else if (newIndex === 3) {
-									if (scope.periodicidade_selected === undefined 
+									if (scope.periodicidade_selected === undefined
 											|| scope.medidas_selected === undefined
 											|| scope.medidas_selected.length === 0) {
 										return false;

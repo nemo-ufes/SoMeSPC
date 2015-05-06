@@ -1,3 +1,7 @@
+p, label {
+	font-size: 16px;
+}
+
 .bg-wizard {
 	background-color: #2C3E50;
 	color: #fff;
@@ -11,10 +15,15 @@
 .radio input[type="radio"], .radio-inline input[type="radio"] {
 	position: relative !important;
 	width: 30px;
+	height: 30px;
 	float: left;
 }
 
-.checkbox input[type="checkbox"]{
+.checkbox label, .radio label {
+	padding-left: 10px !important;
+}
+
+.checkbox input[type="checkbox"] {
 	position: relative !important;
 	width: 30px;
 	margin-left: 0px !important;
