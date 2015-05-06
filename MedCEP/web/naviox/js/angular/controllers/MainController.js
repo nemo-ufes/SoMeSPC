@@ -5,9 +5,9 @@ app.controller('MainController', function($scope, $resource,
 
 	// Objeto Login
 	$scope.login = {
-		url : 'http://ledsup.sr.ifes.edu.br/',
-		usuario : 'vinnysoft',
-		senha : 'teste123'
+		url : '',
+		usuario : '',
+		senha : ''
 	};
 
 	// Objeto Lista de Medidas - GET através da Web Service do Taiga, usando

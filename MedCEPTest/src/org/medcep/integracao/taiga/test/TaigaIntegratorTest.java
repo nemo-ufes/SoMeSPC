@@ -48,7 +48,7 @@ public class TaigaIntegratorTest
     public void init() throws Exception
     {
 	MedCEPStarter.inicializarMedCEP();
-	integrator = new TaigaIntegrator("http://ledsup.sr.ifes.edu.br/", "vinnysoft", "teste123");
+	integrator = new TaigaIntegrator("", "", "");
     }
 
     @Test

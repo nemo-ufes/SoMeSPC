@@ -83,8 +83,8 @@ input {
 						<h2>Conexão</h2>
 						<fieldset>
 							<form name="loginForm" novalidate>
-								<br /> <label for="url"><strong>URL *</strong></label> <input type="url" name="url" ng-model="login.url" required> <span style="color: red" ng-show="loginForm.url.$dirty && loginForm.url.$invalid"> <span ng-show="loginForm.url.$error.required">Digite a URL.</span> <span ng-show="loginForm.url.$error.url">Endereço de URL inválido.</span>
-								</span> <br /> <br /> <label for="usuario"><strong>Usuário *</strong></label> <input type="text" name="usuario" ng-model="login.usuario" required> <span style="color: red" ng-show="loginForm.usuario.$dirty && loginForm.usuario.$invalid"> <span ng-show="loginForm.usuario.$error.required">Digite o Nome do Usuário.</span>
+								<br /> <label for="url"><strong>URL *</strong></label> <input placeholder="URL do servidor do Taiga" type="url" name="url" ng-model="login.url" required> <span style="color: red" ng-show="loginForm.url.$dirty && loginForm.url.$invalid"> <span ng-show="loginForm.url.$error.required">Digite a URL.</span> <span ng-show="loginForm.url.$error.url">Endereço de URL inválido.</span>
+								</span> <br /> <br /> <label for="usuario"><strong>Usuário *</strong></label> <input placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="login.usuario" required> <span style="color: red" ng-show="loginForm.usuario.$dirty && loginForm.usuario.$invalid"> <span ng-show="loginForm.usuario.$error.required">Digite o Nome do Usuário.</span>
 								</span> <br /> <br /> <label for="password"><strong>Senha *</strong></label> <input type="password" name="password" ng-model="login.senha" required> <span style="color: red" ng-show="loginForm.password.$dirty && loginForm.password.$invalid"> <span ng-show="loginForm.password.$error.required">Digite a Senha.</span>
 								</span> <br /> <br />
 								<p>(*) Campos obrigatórios</p>
