@@ -44,26 +44,26 @@ import org.openxava.annotations.*;
 	@Tab(properties = "medidaPlanoDeMedicao.medida.nome, " +
 		"projeto.nome, " +
 		"data, " +
-		"valorMedido.valorMedido", defaultOrder = "${data} desc")
+		"valorMedido.valorMedido")
 })
 public class Medicao implements Comparable<Medicao>
 {
 
     @Id
-    @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="MEDICAO_ID", valueColumnName="ID_TABLE_VALUE")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
-      private Integer id;
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "MEDICAO_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
+    private Integer id;
 
     private Timestamp data;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @Required
     @NoCreate
     @NoModify
     @DescriptionsList(descriptionProperties = "nome")
     private PlanoDeMedicao planoDeMedicao;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @Required
     @NoCreate
     @NoModify
@@ -71,27 +71,24 @@ public class Medicao implements Comparable<Medicao>
     @DescriptionsList(
 	    descriptionProperties = "medida.nome, medida.mnemonico"
 	    , depends = "planoDeMedicao"
-	    , condition = "${planoDeMedicao.id} = ?"
-	    , order = "${medida.nome} asc")
+	    , condition = "${planoDeMedicao.id} = ?")
     private MedidaPlanoDeMedicao medidaPlanoDeMedicao;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @Required
     @NoCreate
     @ReferenceView("Simple")
     //@SearchAction("Medicao.searchEntidadeMensuravel")
     private EntidadeMensuravel entidadeMensuravel;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @DescriptionsList(
-	    descriptionProperties = "nome"
-	    , order = "${nome} asc")
+	    descriptionProperties = "nome")
     private ElementoMensuravel elementoMensuravel;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @DescriptionsList(
-	    descriptionProperties = "nome",
-	    order = "${nome} asc")
+	    descriptionProperties = "nome")
     private Projeto projeto;
 
     public Projeto getProjeto()
@@ -104,20 +101,20 @@ public class Medicao implements Comparable<Medicao>
 	this.projeto = projeto;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @ReferenceView("Simple")
     private ContextoDeMedicao contextoDeMedicao;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @ReferenceView("Simple")
     @SearchAction("Medicao.searchMomentoReal")
     private EntidadeMensuravel momentoRealDaMedicao;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @ReferenceView("Simple")
     private RecursoHumano executorDaMedicao;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @NoSearch
     @OnChange(OnChangePropertyDoNothingValorMedido.class)
     @Required

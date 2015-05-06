@@ -2846,8 +2846,6 @@ public class TaigaIntegrator
 	    manager.getTransaction().begin();
 	    manager.persist(medicaoJob);
 	    manager.getTransaction().commit();
-
-	    throw ex;
 	}
 	finally
 	{
