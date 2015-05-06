@@ -402,7 +402,6 @@ public class MedCEPStarter extends HttpServlet
 	    manager.close();
 	    manager = XPersistence.createManager();
 
-	    Periodicidade cadaOcorrencia = new Periodicidade();
 	    Periodicidade porHora = new Periodicidade();
 	    Periodicidade diaria = new Periodicidade();
 	    Periodicidade semanal = new Periodicidade();
@@ -411,9 +410,6 @@ public class MedCEPStarter extends HttpServlet
 	    Periodicidade trimestral = new Periodicidade();
 	    Periodicidade semestral = new Periodicidade();
 	    Periodicidade anual = new Periodicidade();
-
-	    cadaOcorrencia.setNome("Em cada ocorrência da atividade");
-	    cadaOcorrencia.setDescricao("Em cada ocorrência da atividade");
 	    
 	    porHora.setNome("Por Hora");
 	    porHora.setNome("Por Hora");
@@ -441,7 +437,6 @@ public class MedCEPStarter extends HttpServlet
 
 	    //Persiste.
 	    List<Periodicidade> periodicidadesParaPersistir = new ArrayList<Periodicidade>();
-	    periodicidadesParaPersistir.add(cadaOcorrencia);
 	    periodicidadesParaPersistir.add(porHora);
 	    periodicidadesParaPersistir.add(diaria);
 	    periodicidadesParaPersistir.add(semanal);

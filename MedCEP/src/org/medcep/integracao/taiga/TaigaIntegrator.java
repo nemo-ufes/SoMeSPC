@@ -2829,7 +2829,7 @@ public class TaigaIntegrator
 	{
 	    if (!manager.isOpen())
 		manager = XPersistence.createManager();
-	    
+
 	    String query = String.format("SELECT p FROM RecursoHumano p WHERE p.nome='%s'", medicaoJob.getNome());
 	    TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
 
@@ -2975,14 +2975,18 @@ public class TaigaIntegrator
 	    //Espera um segundo para cadastrar cada job, para evitar erros.
 	    Thread.sleep(1000);
 
+	    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	    String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
+
 	    if (medida.getMedida().getNome().contains("Projeto"))
 	    {
 
 		String nomeGrupo = projeto.getNome();
-		String nomeTrigger = String.format("Medição %s da medida %s (%s)",
+		String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
 			medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
 			medida.getMedida().getNome(),
-			medida.getMedida().getMnemonico());
+			medida.getMedida().getMnemonico(),
+			dataHora);
 
 		map.put("entidadeMedida", plano.getProjeto().getNome());
 		map.put("momento", plano.getProjeto().getNome());
@@ -3036,10 +3040,11 @@ public class TaigaIntegrator
 		    Thread.sleep(1000);
 
 		    String nomeGrupo = sprint.getNome();
-		    String nomeTrigger = String.format("Medição %s da medida %s (%s)",
+		    String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
 			    medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
 			    medida.getMedida().getNome(),
-			    medida.getMedida().getMnemonico());
+			    medida.getMedida().getMnemonico(),
+			    dataHora);
 
 		    map.put("apelidoSprint", sprint.getApelido());
 		    map.put("entidadeMedida", sprint.getNome() + " do Projeto " + projeto.getNome());
@@ -3099,10 +3104,11 @@ public class TaigaIntegrator
 			Thread.sleep(1000);
 
 			String nomeGrupo = String.format("Estória (%s)", estoria.getTitulo());
-			String nomeTrigger = String.format("Medição %s da medida %s (%s)",
+			String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
 				medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
 				medida.getMedida().getNome(),
-				medida.getMedida().getMnemonico());
+				medida.getMedida().getMnemonico(),
+				dataHora);
 
 			map.put("entidadeMedida", estoria.getTitulo());
 			map.put("momento", estoria.getTitulo());
