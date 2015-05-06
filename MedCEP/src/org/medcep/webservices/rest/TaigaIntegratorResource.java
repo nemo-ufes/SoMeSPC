@@ -40,6 +40,7 @@ public class TaigaIntegratorResource
 	    }
 	    catch (Exception ex)
 	    {
+		ex.printStackTrace();
 		response = Response.status(Status.BAD_REQUEST).build();
 	    }
 	}
