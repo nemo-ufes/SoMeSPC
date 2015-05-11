@@ -11,13 +11,13 @@
 
   <!-- All application exceptions/errors will be written here -->  
   <category name="org.directwebremoting.log.accessLog">
-     <priority value="WARN"/>
+     <priority value="ERROR"/>
      <appender-ref ref="console" />
   </category>
   
   <!-- All DWR startup information will be written here --> 
   <category name="org.directwebremoting.log.startup">
-     <priority value="WARN"/>
+     <priority value="ERROR"/>
      <appender-ref ref="console" />
   </category>
   
@@ -29,13 +29,13 @@
   
   <!-- All DWR session information will be written here --> 
   <category name="org.directwebremoting.log.session">
-     <priority value="WARN"/>
+     <priority value="ERROR"/>
      <appender-ref ref="console" />
   </category>
   
   <!-- All other messages will be written here, including exceptions internal to DWR -->
   <root>
-    <priority value="WARN" /> 
+    <priority value="ERROR" /> 
     <appender-ref ref="console" />
   </root>
 

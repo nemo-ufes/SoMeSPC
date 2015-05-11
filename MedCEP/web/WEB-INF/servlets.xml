@@ -18,13 +18,3 @@
 	<servlet-class>org.medcep.inicializacao.MedCEPStarter</servlet-class>
 	<load-on-startup>1</load-on-startup>
 </servlet>
-
-<listener>
-	<listener-class>
-		se.jiderhamn.classloader.leak.prevention.ClassLoaderLeakPreventor
-	</listener-class>
-</listener>
-<context-param>
-	<param-name>ClassLoaderLeakPreventor.threadWaitMs</param-name>
-	<param-value>100</param-value>
-</context-param>
