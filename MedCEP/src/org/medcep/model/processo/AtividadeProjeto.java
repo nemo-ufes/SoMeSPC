@@ -38,7 +38,7 @@ import org.openxava.annotations.*;
 	@Tab(properties = "nome", defaultOrder = "${nome} asc")
 })
 @EntityValidator(
-	value = AtividadeDeProjetoValidator.class,
+	value = AtividadeProjetoValidator.class,
 	properties = {
 		@PropertyValue(name = "tipoDeEntidadeMensuravel")
 	})

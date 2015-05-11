@@ -23,7 +23,7 @@ import org.medcep.model.medicao.*;
 import org.openxava.util.*;
 import org.openxava.validators.*;
 
-public class AtividadeDeProjetoValidator implements IValidator
+public class AtividadeProjetoValidator implements IValidator
 { // Must implement IPropertyValidator (1)
 
     /**
