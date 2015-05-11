@@ -34,7 +34,7 @@ import org.medcep.integracao.sonarqube.model.*;
  */
 public class SonarQubeIntegrator
 {
-    
+
     private final String urlSonar;
     private static Client client;
 
@@ -58,7 +58,7 @@ public class SonarQubeIntegrator
 	this.urlSonar = urlSonar + "/api/resources";
 	client = ClientBuilder.newClient();
     }
-    
+
     /**
      * Obtem todos os projetos (recursos).
      * 
@@ -68,6 +68,26 @@ public class SonarQubeIntegrator
     {
 	//Busca informações dos projetos.
 	WebTarget target = client.target(this.urlSonar);
+
+	List<Recurso> projetos = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.get(new GenericType<List<Recurso>>() {
+		});
+
+	return projetos;
+    }
+
+    /**
+     * Obtém os recursos do projeto.
+     * 
+     * @param chaveProjeto
+     *            - Chave do projeto (case sensitive!).
+     * @return List<Recurso> recursos (pacotes, arquivos, etc).
+     */
+    public List<Recurso> obterRecursosDoProjeto(String chaveProjeto)
+    {
+	//Busca informações dos recursos do projeto.
+	WebTarget target = client.target(this.urlSonar).queryParam("resource", chaveProjeto).queryParam("depth", "-1");
 
 	List<Recurso> projetos = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
