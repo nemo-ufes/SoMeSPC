@@ -19,7 +19,62 @@
  */
 package org.medcep.integracao.sonarqube;
 
+import java.util.*;
+
+import javax.ws.rs.client.*;
+import javax.ws.rs.core.*;
+
+import org.medcep.integracao.sonarqube.model.*;
+
+/**
+ * Classe para a integração da MedCEP com o SonarQube.
+ * 
+ * @author Vinicius
+ *
+ */
 public class SonarQubeIntegrator
 {
+    
+    private final String urlSonar;
+    private static Client client;
+
+    /**
+     * Construtor
+     * 
+     * @param urlTaiga
+     *            - URL base do Taiga.
+     * @param usuario
+     *            - login do Taiga.
+     * @param senha
+     *            - senha do Taiga.
+     */
+    public SonarQubeIntegrator(String urlSonar)
+    {
+	if (urlSonar.endsWith("/"))
+	{
+	    urlSonar = urlSonar.substring(0, urlSonar.length() - 1);
+	}
+
+	this.urlSonar = urlSonar + "/api/resources";
+	client = ClientBuilder.newClient();
+    }
+    
+    /**
+     * Obtem todos os projetos (recursos).
+     * 
+     * @return List<Recurso> projetos
+     */
+    public List<Recurso> obterProjetos()
+    {
+	//Busca informações dos projetos.
+	WebTarget target = client.target(this.urlSonar);
+
+	List<Recurso> projetos = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.get(new GenericType<List<Recurso>>() {
+		});
+
+	return projetos;
+    }
 
 }
