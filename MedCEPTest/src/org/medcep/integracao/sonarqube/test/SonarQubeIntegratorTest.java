@@ -65,6 +65,17 @@ public class SonarQubeIntegratorTest
 
 	dump(recursos);
     }
+    
+    @Test
+    public void testObterMetricas()
+    {
+	List<Metrica> metricas = integrator.obterMetricas();
+
+	assertNotNull(metricas);
+	assertNotEquals(metricas.size(), 0);
+
+	dump(metricas);
+    }
 
     private void dump(Object object)
     {
