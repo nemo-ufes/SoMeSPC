@@ -26,11 +26,30 @@ public class MedCEPStarter extends HttpServlet
     {
 	try
 	{
+	    System.out.println("Inicializando MedCEP...");
 	    MedCEPStarter.inicializarMedCEP();
+	    System.out.println("MedCEP inicializada!");
 	}
 	catch (Exception e)
 	{
 	    System.out.println("Erro ao inicializar os dados básicos da MedCEP.");
+	    e.printStackTrace();
+	}
+    }
+    
+    @Override
+    public void destroy()
+    {
+	try
+	{
+	    System.out.println("Encerrando MedCEP...");
+	    MedCEPStarter.encerrarMedCEP();
+
+	    System.out.println("MedCEP encerrada.");
+	}
+	catch (Exception e)
+	{
+	    System.out.println("Erro ao encerrar a MedCEP.");
 	    e.printStackTrace();
 	}
     }
@@ -52,6 +71,16 @@ public class MedCEPStarter extends HttpServlet
 	inicializarAgendador();
     }   
     
+    /**
+     * Inicializa o banco de dados da MedCEP com informações básicas.
+     * 
+     * @throws Exception
+     */
+    public static void encerrarMedCEP() throws Exception
+    {
+	encerrarAgendador();
+    }  
+    
     private static void inicializarAgendador() throws SchedulerException
     {
 	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
@@ -59,6 +88,15 @@ public class MedCEPStarter extends HttpServlet
 	
 	if (!sched.isStarted())
 	sched.start();
+    }
+    
+    private static void encerrarAgendador() throws SchedulerException
+    {
+	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+	Scheduler sched = schedFact.getScheduler();
+	
+	if (sched.isStarted())
+	sched.shutdown();
     }
 
     private static void inicializarTiposElementosMensuraveis() throws Exception
