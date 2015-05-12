@@ -54,7 +54,7 @@ public class SonarQubeIntegratorTest
 
 	dump(projetos);
     }
-    
+
     @Test
     public void testObterRecursosDoProjeto()
     {
@@ -65,7 +65,7 @@ public class SonarQubeIntegratorTest
 
 	dump(recursos);
     }
-    
+
     @Test
     public void testObterMetricas()
     {
@@ -75,6 +75,20 @@ public class SonarQubeIntegratorTest
 	assertNotEquals(metricas.size(), 0);
 
 	dump(metricas);
+    }
+
+    @Test
+    public void testObterMedidasDoRecurso()
+    {
+	List<Metrica> metricas = integrator.obterMetricas();
+	Recurso recurso = integrator.obterRecurso("br.ifes.leds.sincap:SincapEntities");
+
+	List<Medida> medidas = integrator.obterMedidasDoRecurso(metricas, recurso);
+
+	assertNotNull(medidas);
+	assertNotEquals(medidas.size(), 0);
+
+	dump(medidas);
     }
 
     private void dump(Object object)

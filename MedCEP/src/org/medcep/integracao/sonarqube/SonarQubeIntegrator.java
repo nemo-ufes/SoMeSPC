@@ -101,6 +101,23 @@ public class SonarQubeIntegrator
     }
 
     /**
+     * Obtém um recurso pela chave.
+     * @param chaveRecurso - Chave do recurso.
+     * @return Recurso obtido.
+     */
+    public Recurso obterRecurso(String chaveRecurso)
+    {
+	WebTarget target = client.target(this.urlSonarResources).queryParam("resource", chaveRecurso);
+
+	List<Recurso> recursos = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.get(new GenericType<List<Recurso>>() {
+		});
+
+	return recursos.get(0);
+    }
+
+    /**
      * Obtém a lista de métricas.
      * 
      * @return List<Metrica> métricas.
@@ -115,6 +132,56 @@ public class SonarQubeIntegrator
 		});
 
 	return metricas;
+    }
+
+    /**
+     * Obtém as medidas dos recursos.
+     * 
+     * @param metricas
+     *            - Medidas a serem obtidas.
+     * @param recurso
+     *            - Recurso a ser medido.
+     * @return List<Medida> medidas.
+     */
+    public List<Medida> obterMedidasDoRecurso(List<Metrica> metricas, Recurso recurso)
+    {
+
+	String metricasComVirgula = this.joinMetricas(metricas);
+
+	WebTarget target = client.target(this.urlSonarResources).queryParam("metrics", metricasComVirgula).queryParam("resource", recurso.getChave());
+
+	List<Recurso> recursos = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.get(new GenericType<List<Recurso>>() {
+		});
+
+	return recursos.get(0).getMedidas();
+    }
+
+    /**
+     * Une as métricas com vírgula. Ex: nloc,coverage,comments
+     * 
+     * @param metricas
+     *            a serem unidas.
+     * @return Métricas com vírgula.
+     */
+    private String joinMetricas(List<Metrica> metricas)
+    {
+
+	StringBuilder sb = new StringBuilder();
+
+	String loopDelim = "";
+
+	for (Metrica m : metricas)
+	{
+
+	    sb.append(loopDelim);
+	    sb.append(m.getChave());
+
+	    loopDelim = ",";
+	}
+
+	return sb.toString();
     }
 
 }
