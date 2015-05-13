@@ -75,6 +75,9 @@ input {
 
 			<td valign="top">
 				<div class="module-wrapper">
+				
+					<h2 align="center"><b>Novo Plano de Medição Integrado (Taiga)</b></h2>
+				
 					<div id="medcep-wizard" ng-controller="MainController">
 						<h2>Conexão</h2>
 						<fieldset>
