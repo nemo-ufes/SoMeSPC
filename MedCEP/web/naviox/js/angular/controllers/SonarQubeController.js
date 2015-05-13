@@ -51,5 +51,18 @@ app.controller('SonarQubeController', function($scope, SonarQubeService,
 			$scope.periodicidades = periodicidades;
 		})
 	}
+	
+	/**
+	 * Inclui/Remove uma métrica de acordo com o checkbox.
+	 */
+	$scope.toggleMetrica = function toggleMetrica(metrica) {
+		var idx = $scope.metricasSelecionadas.indexOf(metrica);
+
+		if (idx > -1) {
+			$scope.metricasSelecionadas.splice(idx, 1);
+		} else {
+			$scope.metricasSelecionadas.push(metrica);
+		}
+	};
 
 });

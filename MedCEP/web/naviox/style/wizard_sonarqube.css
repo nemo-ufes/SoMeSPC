@@ -2,6 +2,10 @@ p, label {
 	font-size: 16px;
 }
 
+label {
+	font-weight: 100 !important;
+}
+
 .bg-wizard {
 	background-color: #2C3E50;
 	color: #fff;
@@ -194,7 +198,8 @@ p, label {
 
 .wizard>.content>.body label {
 	display: inline-block;
-	margin-bottom: 0.5em;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 .wizard>.content>.body label.error {

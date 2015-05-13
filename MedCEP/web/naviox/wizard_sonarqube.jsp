@@ -112,7 +112,12 @@ input {
 								<br />
 								<div id="metricas" class="row bg-wizard" ng-repeat="(index, metrica) in metricas">
 									<div class="col-md-12">
-										<label class="checkbox" for="{{metrica}}"><input id="{{metrica}}" type="checkbox" ng-checked="metricasSelecionadas.indexOf(metrica) > -1" ng-click="toggleSelection(metrica)" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{metrica.nome}}</b></span> </label>
+										<label class="checkbox" for="{{metrica}}">
+											<input id="{{metrica}}" type="checkbox" ng-checked="metricasSelecionadas.indexOf(metrica) > -1" ng-click="toggleMetrica(metrica)" /> 
+											<span>
+												<b>{{metrica.nome}}</b><span ng-show="metrica.descricao"> ({{metrica.descricao}})</span>
+											</span> 
+										</label>
 									</div>
 								</div>
 								<br /> <br />
@@ -121,7 +126,20 @@ input {
 
 						<h2>Resumo</h2>
 						<fieldset style="overflow: scroll;">
-							
+							<p>
+								<b>Projeto:</b> {{projetoSelecionado.nome}}
+							</p>
+							<p>
+								<b>Periodicidade da coleta:</b> {{periodicidadeSelecionada.nome}}
+							</p>
+							<p>
+							<b>Medida(s):</b> <br />
+							<ul style="font-size: 16px; margin-left: 20px;">
+								<span ng-repeat="metrica in metricasSelecionadas">
+									<li style="margin-bottom: 5px;">{{metrica.nome}}</li>
+								</span>
+							</ul>
+							</p>
 						</fieldset>
 					</div>
 				</div>
@@ -204,7 +222,9 @@ input {
 							if (scope.projetoSelecionado === undefined) {
 								return false;
 							} else {
-								scope.obterMetricas();
+								if (scope.metricasSelecionadas === undefined || scope.metricasSelecionadas.length === 0){
+									scope.obterMetricas();	
+								}								
 								return true;
 							}
 						} else if (newIndex === 3) {
