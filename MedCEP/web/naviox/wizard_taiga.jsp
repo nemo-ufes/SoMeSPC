@@ -88,7 +88,7 @@ input {
 						</fieldset>
 
 						<h2>Projetos</h2>
-						<fieldset>
+						<fieldset style="overflow: scroll;">
 							<form name="formProjetos">
 								<div id="projetos" class="row bg-wizard">
 									<div class="radio">
