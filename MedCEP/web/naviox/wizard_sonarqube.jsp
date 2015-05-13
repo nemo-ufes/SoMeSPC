@@ -92,11 +92,8 @@ input {
 									<div class="radio">
 										<label ng-repeat="projeto in projetos" class="col-md-12">
 											<div>
-												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" />
-												<p>
-													<b>Projeto: {{projeto.nome}}</b>
-												</p>
-												<p>{{projeto.chave}}</p>
+												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" /> 
+												<b>Projeto: {{projeto.nome}}</b>
 											</div>
 										</label>
 									</div>

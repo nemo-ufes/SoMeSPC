@@ -14,9 +14,13 @@ p, label {
 
 .radio input[type="radio"], .radio-inline input[type="radio"] {
 	position: relative !important;
+	margin: 0px 0px 0px !important;
 	width: 30px;
-	height: 30px;
 	float: left;
+}
+
+.radio label {
+	padding-left: 0px !important;
 }
 
 .checkbox input[type="checkbox"] {
