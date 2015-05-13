@@ -3,7 +3,8 @@ app.service("SonarQubeService", function($http, $q, $location) {
 	var url = host + '/MedCEP/api/SonarQubeIntegrator';
 
 	return ({
-		obterProjetos : obterProjetos
+		obterProjetos : obterProjetos,
+		obterMetricas : obterMetricas
 	});
 
 	function obterProjetos(urlSonar) {
@@ -13,10 +14,21 @@ app.service("SonarQubeService", function($http, $q, $location) {
 			url : url + "/Projetos",
 			data : urlSonar
 		});
-		
+
 		return (request.then(handleSuccess, handleError));
 	}
-	
+
+	function obterMetricas(urlSonar) {
+
+		var request = $http({
+			method : "post",
+			url : url + "/Metricas",
+			data : urlSonar
+		});
+
+		return (request.then(handleSuccess, handleError));
+	}
+
 	function handleError(response) {
 		if (!angular.isObject(response.data) || !response.data.message) {
 			return ($q.reject("Ocorreu um erro."));

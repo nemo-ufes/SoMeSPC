@@ -2,6 +2,10 @@ p, label {
 	font-size: 16px;
 }
 
+label {
+	font-weight: 100 !important;
+}
+
 .bg-wizard {
 	background-color: #2C3E50;
 	color: #fff;
@@ -14,13 +18,13 @@ p, label {
 
 .radio input[type="radio"], .radio-inline input[type="radio"] {
 	position: relative !important;
+	margin: 0px 0px 0px !important;
 	width: 30px;
-	height: 30px;
 	float: left;
 }
 
-.checkbox label, .radio label {
-	padding-left: 10px !important;
+.radio label {
+	padding-left: 0px !important;
 }
 
 .checkbox input[type="checkbox"] {
@@ -194,7 +198,8 @@ p, label {
 
 .wizard>.content>.body label {
 	display: inline-block;
-	margin-bottom: 0.5em;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 .wizard>.content>.body label.error {

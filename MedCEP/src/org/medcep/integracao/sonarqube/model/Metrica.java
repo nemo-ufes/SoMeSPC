@@ -3,7 +3,7 @@ package org.medcep.integracao.sonarqube.model;
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement
-public class Metrica
+public class Metrica implements Comparable<Metrica>
 {
     @XmlElement(name = "key")
     private String chave;
@@ -120,6 +120,12 @@ public class Metrica
     public void setOculta(Boolean oculta)
     {
 	this.oculta = oculta;
+    }
+
+    @Override
+    public int compareTo(Metrica arg0)
+    {
+	return nome.compareTo(arg0.getNome());
     }
 
 }
