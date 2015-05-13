@@ -92,7 +92,7 @@ input {
 									<div class="radio">
 										<label ng-repeat="projeto in projetos" class="col-md-12">
 											<div>
-												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" /> 
+												<input type="radio" ng-model="$parent.projetoSelecionado" ng-value="projeto" /> 
 												<b>Projeto: {{projeto.nome}}</b>
 											</div>
 										</label>
@@ -103,7 +103,20 @@ input {
 
 						<h2>Coleta</h2>
 						<fieldset style="overflow: scroll;">
-						
+							<label for="selectPeriodicidades">Periodicidade da coleta:</label> <select class="form-control" id="selectPeriodicidades" ng-model="periodicidadeSelecionada" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
+							</select> <br />
+							<div class="row">
+								<p>
+									<b>Medidas:</b>
+								</p>
+								<br />
+								<div id="metricas" class="row bg-wizard" ng-repeat="(index, metrica) in metricas">
+									<div class="col-md-12">
+										<label class="checkbox" for="{{metrica}}"><input id="{{metrica}}" type="checkbox" ng-checked="metricasSelecionadas.indexOf(metrica) > -1" ng-click="toggleSelection(metrica)" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{metrica.nome}}</b></span> </label>
+									</div>
+								</div>
+								<br /> <br />
+							</div>
 						</fieldset>
 
 						<h2>Resumo</h2>
@@ -124,6 +137,7 @@ input {
 
 	<!-- Services -->
 	<script type="text/javascript" src="js/angular/services/SonarQubeService.js"></script>
+	<script type="text/javascript" src="js/angular/services/MedCEPService.js"></script>
 
 	<!-- JQuery -->
 	<script type='text/javascript' src="js/jquery.js"></script>
@@ -187,15 +201,16 @@ input {
 							});
 							return true;
 						} else if (newIndex === 2) {
-							if (scope.projeto_selected === undefined) {
+							if (scope.projetoSelecionado === undefined) {
 								return false;
 							} else {
+								scope.obterMetricas();
 								return true;
 							}
 						} else if (newIndex === 3) {
-							if (scope.periodicidade_selected === undefined
-									|| scope.medidas_selected === undefined
-									|| scope.medidas_selected.length === 0) {
+							if (scope.periodicidadeSelecionada === undefined
+									|| scope.metricasSelecionadas === undefined
+									|| scope.metricasSelecionadas.length === 0) {
 								return false;
 							} else {
 								return true;
@@ -211,9 +226,9 @@ input {
 						e = document.getElementById('medcep-wizard');
 						scope = angular.element(e).scope();
 
-						if (scope.projeto_selected === undefined)
+						if (scope.projetoSelecionado === undefined)
 							alert("Selecione um projeto antes de concluir!");
-						else if (scope.periodicidade_selected === undefined)
+						else if (scope.periodicidadeSelecionada === undefined)
 							alert("Selecione uma periodicidade de coleta antes de concluir!");
 						else {
 							scope.post_plano(function retorno(result) {

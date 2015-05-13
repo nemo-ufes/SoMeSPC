@@ -66,6 +66,7 @@ public class SonarQubeIntegratorResource
 	    try
 	    {
 		List<Metrica> metricas = integrator.obterMetricas();
+		Collections.sort(metricas);
 		response = Response.ok().entity(metricas).build();
 	    }
 	    catch (Exception ex)
