@@ -33,7 +33,6 @@ input {
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
 
 <link href="style/jquery-ui.css" rel="stylesheet">
-<link href="style/jquery.steps.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/naviox/style/naviox.css" rel="stylesheet" type="text/css">
@@ -139,8 +138,7 @@ input {
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/typewatch.js'></script>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/naviox.js'></script>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/naviox/js/jstree.min.js'></script>
-
-
+	<link href="style/wizard_sonarqube.css" rel="stylesheet">
 
 	<script type="text/javascript">
 		function toggleButton(buttonId, enable) {

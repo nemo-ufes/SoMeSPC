@@ -38,7 +38,7 @@ input {
 <link href="style/normalize.css" rel="stylesheet">
 <link href="style/main.css" rel="stylesheet">
  --%>
-<link href="style/jquery.steps.css" rel="stylesheet">
+<link href="style/wizard_taiga.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/naviox/style/naviox.css" rel="stylesheet" type="text/css">
