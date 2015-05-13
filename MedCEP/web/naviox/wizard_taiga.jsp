@@ -34,10 +34,6 @@ input {
 
 
 <link href="style/jquery-ui.css" rel="stylesheet">
-<%--
-<link href="style/normalize.css" rel="stylesheet">
-<link href="style/main.css" rel="stylesheet">
- --%>
 <link href="style/wizard_taiga.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -96,8 +92,8 @@ input {
 							<form name="formProjetos">
 								<div id="projetos" class="row bg-wizard">
 									<div class="radio">
-										<label ng-repeat="projeto in projetos">
-											<div class="col-md-12">
+										<label ng-repeat="projeto in projetos" class="col-md-12">
+											<div>
 												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" />
 												<p>
 													<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
