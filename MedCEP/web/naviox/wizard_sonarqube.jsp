@@ -32,12 +32,7 @@ input {
 <link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
 
-
 <link href="style/jquery-ui.css" rel="stylesheet">
-<%--
-<link href="style/normalize.css" rel="stylesheet">
-<link href="style/main.css" rel="stylesheet">
- --%>
 <link href="style/jquery.steps.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -79,14 +74,11 @@ input {
 
 			<td valign="top">
 				<div class="module-wrapper">
-					<div id="medcep-wizard" ng-controller="MainController">
+					<div id="medcep-wizard" ng-controller="SonarQubeController">
 						<h2>Conexão</h2>
 						<fieldset>
 							<form name="loginForm" novalidate>
-								<br /> <label for="url"><strong>URL *</strong></label> <input placeholder="URL do servidor do Taiga" type="url" name="url" ng-model="login.url" required> <span style="color: red" ng-show="loginForm.url.$dirty && loginForm.url.$invalid"> <span ng-show="loginForm.url.$error.required">Digite a URL.</span> <span ng-show="loginForm.url.$error.url">Endereço de URL inválido.</span>
-								</span> <br /> <br /> <label for="usuario"><strong>Usuário *</strong></label> <input placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="login.usuario" required> <span style="color: red" ng-show="loginForm.usuario.$dirty && loginForm.usuario.$invalid"> <span ng-show="loginForm.usuario.$error.required">Digite o Nome do Usuário.</span>
-								</span> <br /> <br /> <label for="password"><strong>Senha *</strong></label> <input type="password" name="password" ng-model="login.senha" required> <span style="color: red" ng-show="loginForm.password.$dirty && loginForm.password.$invalid"> <span ng-show="loginForm.password.$error.required">Digite a Senha.</span>
-								</span> <br /> <br />
+								<br /> <label for="url"><strong>URL *</strong></label> <input placeholder="URL do SonarQube" type="url" name="url" ng-model="url" required> <span style="color: red" ng-show="loginForm.url.$dirty && loginForm.url.$invalid"> <span ng-show="loginForm.url.$error.required">Digite a URL.</span> <span ng-show="loginForm.url.$error.url">Endereço de URL inválido.</span>
 								<p>(*) Campos obrigatórios</p>
 							</form>
 						</fieldset>
@@ -100,9 +92,9 @@ input {
 											<div class="col-md-12">
 												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" />
 												<p>
-													<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+													<b>Projeto: {{projeto.nome}}</b>
 												</p>
-												<p>{{projeto.descricao}}</p>
+												<p>{{projeto.chave}}</p>
 											</div>
 										</label>
 									</div>
@@ -112,44 +104,14 @@ input {
 
 						<h2>Coleta</h2>
 						<fieldset style="overflow: scroll;">
-							<label for="selectPeriodicidades">Periodicidade da coleta:</label> <select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
-							</select> <br />
-							<div class="row">
-								<p>
-									<b>Medidas:</b>
-								</p>
-								<br />
-								<div id="medidas" class="row bg-wizard" ng-repeat="(index, medida) in medidas">
-									<div class="col-md-12">
-										<label class="checkbox" for="{{medida}}"><input id="{{medida}}" type="checkbox" ng-checked="medidas_selected.indexOf(medida) > -1" ng-click="toggleSelection(medida)" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{medida}}</b></span> </label>
-									</div>
-								</div>
-								<br /> <br />
-							</div>
+						
 						</fieldset>
 
 						<h2>Resumo</h2>
 						<fieldset style="overflow: scroll;">
-							<p>
-								<b>Projeto:</b> {{projeto_selected.nome}}
-							</p>
-							<p>
-								<b>Periodicidade da coleta:</b> {{periodicidade_selected.nome}}
-							</p>
-							<p>
-								<b>Medida(s):</b> <br />
-							<ul style="font-size: 16px; margin-left: 20px;">
-								<span ng-repeat="medida in medidas_selected">
-									<li style="margin-bottom: 5px;">{{medida}}</li>
-								</span>
-							</ul>
-							</p>
+							
 						</fieldset>
 					</div>
-
-
-
-
 				</div>
 			</td>
 		</tr>
@@ -159,10 +121,10 @@ input {
 	<script type="text/javascript" src="js/angular/app.js"></script>
 
 	<!-- Controllers -->
-	<script type="text/javascript" src="js/angular/controllers/MainController.js"></script>
+	<script type="text/javascript" src="js/angular/controllers/SonarQubeController.js"></script>
 
 	<!-- Services -->
-	<script type="text/javascript" src="js/angular/services/TaigaIntegratorService.js"></script>
+	<script type="text/javascript" src="js/angular/services/SonarQubeService.js"></script>
 
 	<!-- JQuery -->
 	<script type='text/javascript' src="js/jquery.js"></script>
@@ -196,76 +158,73 @@ input {
 				button.parent().addClass("disabled");
 			}
 		}
-		//Wizard Steps
-
+		
+		
 		$("#medcep-wizard")
-				.steps(
-						{
-							headerTag : "h2",
-							bodyTag : "fieldset",
-							transitionEffect : "slideLeft",
-							autoFocus : true,
-							labels : {
-								cancel : "Cancelar",
-								current : "Passo atual:",
-								pagination : "Paginação",
-								finish : "Concluir",
-								next : "Próximo",
-								previous : "Anterior",
-								loading : "Carregando ..."
-							},
-							loadingTemplate : '<span class="spinner"></span> #text#',
-							onStepChanging : function(event, currentIndex,
-									newIndex) {
-								if (newIndex === 1) {
-									e = document
-											.getElementById('medcep-wizard');
-									scope = angular.element(e).scope();
-									scope
-											.post_projeto(function resultado(
-													conexao) {
-												if (!conexao) {
-													alert("Erro ao estabelecer a conexão! Verifique se os dados de login estão corretos e tente novamente.")
-												}
-											});
-
-									return true;
-								} else if (newIndex === 2) {
-									if (scope.projeto_selected === undefined) {
-										return false;
-									} else {
-										return true;
-									}
-								} else if (newIndex === 3) {
-									if (scope.periodicidade_selected === undefined
-											|| scope.medidas_selected === undefined
-											|| scope.medidas_selected.length === 0) {
-										return false;
-									} else {
-										return true;
-									}
-								} else {
-									return true;
+		.steps(
+				{
+					headerTag : "h2",
+					bodyTag : "fieldset",
+					transitionEffect : "slideLeft",
+					autoFocus : true,
+					labels : {
+						cancel : "Cancelar",
+						current : "Passo atual:",
+						pagination : "Paginação",
+						finish : "Concluir",
+						next : "Próximo",
+						previous : "Anterior",
+						loading : "Carregando ..."
+					},
+					loadingTemplate : '<span class="spinner"></span> #text#',
+					onStepChanging : function(event, currentIndex,
+							newIndex) {
+						if (newIndex === 1) {
+							e = document.getElementById('medcep-wizard');
+							scope = angular.element(e).scope();
+							scope.obterProjetos(function resultado(conexao) {
+								if (!conexao) {
+									alert("Erro ao estabelecer a conexão! Verifique se os dados de login estão corretos e tente novamente.")
 								}
-
-							},
-							onFinished : function(event, currentIndex) {
-								toggleButton('finish', false);
-
-								e = document.getElementById('medcep-wizard');
-								scope = angular.element(e).scope();
-
-								if (scope.projeto_selected === undefined)
-									alert("Selecione um projeto antes de concluir!");
-								else if (scope.periodicidade_selected === undefined)
-									alert("Selecione uma periodicidade de coleta antes de concluir!");
-								else {
-									scope.post_plano(function retorno(result) {
-												alert("Plano de Medição criado com sucesso!");
-									});
-								}
+							});
+							return true;
+						} else if (newIndex === 2) {
+							if (scope.projeto_selected === undefined) {
+								return false;
+							} else {
+								return true;
 							}
-						});
+						} else if (newIndex === 3) {
+							if (scope.periodicidade_selected === undefined
+									|| scope.medidas_selected === undefined
+									|| scope.medidas_selected.length === 0) {
+								return false;
+							} else {
+								return true;
+							}
+						} else {
+							return true;
+						}
+
+					},
+					onFinished : function(event, currentIndex) {
+						toggleButton('finish', false);
+
+						e = document.getElementById('medcep-wizard');
+						scope = angular.element(e).scope();
+
+						if (scope.projeto_selected === undefined)
+							alert("Selecione um projeto antes de concluir!");
+						else if (scope.periodicidade_selected === undefined)
+							alert("Selecione uma periodicidade de coleta antes de concluir!");
+						else {
+							scope.post_plano(function retorno(result) {
+										alert("Plano de Medição criado com sucesso!");
+							});
+						}
+					}
+				});
+		
 
 		$(function() {
 			naviox.init();
@@ -285,8 +244,8 @@ input {
 			if (moduloAtual == 'painel.jsp')
 				$('#menu_tree').jstree('select_node', 'PainelControle');
 			else if (moduloAtual == 'wizard.jsp')
-				$('#menu_tree')
-						.jstree('select_node', 'PlanoDeMedicaoIntegrado');
+				$('#menu_tree').jstree('select_node',
+						'PlanoDeMedicaoIntegradoSonarQube');
 			else
 				$('#menu_tree').jstree('select_node', '#' + moduloAtual);
 

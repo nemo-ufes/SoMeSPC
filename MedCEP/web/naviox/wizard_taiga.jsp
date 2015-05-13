@@ -286,7 +286,7 @@ input {
 				$('#menu_tree').jstree('select_node', 'PainelControle');
 			else if (moduloAtual == 'wizard.jsp')
 				$('#menu_tree')
-						.jstree('select_node', 'PlanoDeMedicaoIntegrado');
+						.jstree('select_node', 'PlanoDeMedicaoIntegradoTaiga');
 			else
 				$('#menu_tree').jstree('select_node', '#' + moduloAtual);
 
