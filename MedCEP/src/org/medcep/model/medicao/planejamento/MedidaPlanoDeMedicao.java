@@ -58,7 +58,6 @@ public class MedidaPlanoDeMedicao
 
     @ManyToOne
     @NoCreate
-    @NoModify
     @ReferenceView("Simple")
     @SearchAction("MedidaPlanoDeMedicao.searchMedidaPlanoMedicao")
     private Medida medida;
@@ -69,7 +68,6 @@ public class MedidaPlanoDeMedicao
 
     @ManyToOne
     @NoCreate
-    @NoModify
     @ReferenceView("Simple")
     @SearchAction("MedidaPlanoDeMedicao.searchDefinicaoOperacionalMedidaForMedidaPlanoMedicao")
     private DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida;
