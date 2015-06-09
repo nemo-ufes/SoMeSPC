@@ -27,12 +27,6 @@ import javax.ws.rs.core.Response.Status;
 
 import org.medcep.integracao.sonarqube.*;
 import org.medcep.integracao.sonarqube.model.*;
-import org.medcep.integracao.taiga.*;
-import org.medcep.integracao.taiga.model.*;
-import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
-import org.medcep.util.json.*;
-import org.medcep.webservices.rest.dto.*;
 
 @Path("SonarQubeIntegrator")
 public class SonarQubeIntegratorResource
@@ -105,6 +99,7 @@ public class SonarQubeIntegratorResource
      *            - Recebe um objeto que contém todas as entidades pertencentes ao plano de medição para a persistencia do mesmo.
      * @throws Exception
      */
+    /*
     @Path("/Plano")
     @POST
     @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -112,6 +107,7 @@ public class SonarQubeIntegratorResource
     public synchronized Response criarPlanoMedicao(PlanoDTO planoDto) throws Exception
     {
 
+	
 	List<MedidasTaiga> medidas = new ArrayList<MedidasTaiga>();
 
 	for (String medida : planoDto.getNomesMedidas())
@@ -141,6 +137,7 @@ public class SonarQubeIntegratorResource
 	json.append("nome", plano.getNome());
 	
 	return Response.ok().entity(json).build();
-    }
+	
+    }*/
 
 }

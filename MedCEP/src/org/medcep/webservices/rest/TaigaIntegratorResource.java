@@ -119,13 +119,17 @@ public class TaigaIntegratorResource
 		periodicidadeSelecionada = periodicidade;
 	}
 
-	Projeto projeto = integrator.obterProjetoTaiga(planoDto.getApelidoProjeto());
-
-	PlanoDeMedicao plano = integrator.criarPlanoMedicaoProjetoMedCEP(medidas, periodicidadeSelecionada, projeto);
-	
 	JSONObject json = new JSONObject();
-	json.append("nome", plano.getNome());
-	
+
+	for (int i = 0; i < planoDto.getApelidosProjetos().size(); i++)
+	{
+	    String apelido = planoDto.getApelidosProjetos().get(i);
+	    Projeto projeto = integrator.obterProjetoTaiga(apelido);
+	    PlanoDeMedicao plano = integrator.criarPlanoMedicaoProjetoMedCEP(medidas, periodicidadeSelecionada, projeto);
+
+	    json.append("Plano " + (i+1), plano.getNome());
+	}
+
 	return Response.ok().entity(json).build();
     }
 

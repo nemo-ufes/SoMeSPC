@@ -92,24 +92,27 @@ input {
 
 						<h2>Projetos</h2>
 						<fieldset style="overflow: scroll;">
-							<form name="formProjetos">
-								<div id="projetos" class="row bg-wizard">
-									<div class="radio">
-										<label ng-repeat="projeto in projetos" class="col-md-12">
-											<div>
-												<input type="radio" ng-model="$parent.projeto_selected" ng-value="projeto" />
-												<p>
-													<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
-												</p>
-												<p>{{projeto.descricao}}</p>
+							<form name="formProjetos">							
+									
+								<div id="projetos" class="row bg-wizard" ng-repeat="(index, projeto) in projetos">
+									<div class="col-md-12">
+										<label class="checkbox" for="{{projeto}}">
+											<div class="row">
+												<input id="{{projeto}}" class="col-md-2" type="checkbox" ng-checked="projetosSelecionados.indexOf(projeto) > -1" ng-click="toggleSelectionProjeto(projeto)" /> 
+												<div class="col-md-10">
+													<p>
+														<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+													</p>
+													<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
+												</div>
 											</div>
 										</label>
 									</div>
-								</div>
+								</div>																	
 							</form>
 						</fieldset>
 
-						<h2>Coleta</h2>
+						<h2>Medidas</h2>
 						<fieldset style="overflow: scroll;">
 							<label for="selectPeriodicidades">Periodicidade da coleta:</label> <select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
 							</select> <br />
@@ -120,7 +123,7 @@ input {
 								<br />
 								<div id="medidas" class="row bg-wizard" ng-repeat="(index, medida) in medidas">
 									<div class="col-md-12">
-										<label class="checkbox" for="{{medida}}"><input id="{{medida}}" type="checkbox" ng-checked="medidas_selected.indexOf(medida) > -1" ng-click="toggleSelection(medida)" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{medida}}</b></span> </label>
+										<label class="checkbox" for="{{medida}}"><input id="{{medida}}" type="checkbox" ng-checked="medidas_selected.indexOf(medida) > -1" ng-click="toggleSelectionMedida(medida)" /> <span style="vertical-align: middle !important; padding-top: 5px !important;"><b>{{medida}}</b></span> </label>
 									</div>
 								</div>
 								<br /> <br />
@@ -130,18 +133,23 @@ input {
 						<h2>Resumo</h2>
 						<fieldset style="overflow: scroll;">
 							<p>
-								<b>Projeto:</b> {{projeto_selected.nome}}
+								<b>Projeto(s):</b> <br />
+								<ul style="font-size: 16px; margin-left: 20px;">
+									<span ng-repeat="projeto in projetosSelecionados">
+										<li style="margin-bottom: 5px;">{{projeto.nome}}</li>
+									</span>
+								</ul>
 							</p>
 							<p>
 								<b>Periodicidade da coleta:</b> {{periodicidade_selected.nome}}
 							</p>
 							<p>
 								<b>Medida(s):</b> <br />
-							<ul style="font-size: 16px; margin-left: 20px;">
-								<span ng-repeat="medida in medidas_selected">
-									<li style="margin-bottom: 5px;">{{medida}}</li>
-								</span>
-							</ul>
+								<ul style="font-size: 16px; margin-left: 20px;">
+									<span ng-repeat="medida in medidas_selected">
+										<li style="margin-bottom: 5px;">{{medida}}</li>
+									</span>
+								</ul>
 							</p>
 						</fieldset>
 					</div>
@@ -197,8 +205,7 @@ input {
 		}
 		//Wizard Steps
 
-		$("#medcep-wizard")
-				.steps(
+		$("#medcep-wizard").steps(
 						{
 							headerTag : "h2",
 							bodyTag : "fieldset",
@@ -217,11 +224,9 @@ input {
 							onStepChanging : function(event, currentIndex,
 									newIndex) {
 								if (newIndex === 1) {
-									e = document
-											.getElementById('medcep-wizard');
+									e = document.getElementById('medcep-wizard');
 									scope = angular.element(e).scope();
-									scope
-											.post_projeto(function resultado(
+									scope.post_projeto(function resultado(
 													conexao) {
 												if (!conexao) {
 													alert("Erro ao estabelecer a conexão! Verifique se os dados de login estão corretos e tente novamente.")
@@ -230,7 +235,8 @@ input {
 
 									return true;
 								} else if (newIndex === 2) {
-									if (scope.projeto_selected === undefined) {
+									if (scope.projetosSelecionados === undefined
+											|| scope.projetosSelecionados.length === 0) {
 										return false;
 									} else {
 										return true;
@@ -254,13 +260,13 @@ input {
 								e = document.getElementById('medcep-wizard');
 								scope = angular.element(e).scope();
 
-								if (scope.projeto_selected === undefined)
-									alert("Selecione um projeto antes de concluir!");
+								if (scope.projetosSelecionados === undefined || scope.projetosSelecionados.length === 0)
+									alert("Selecione ao menos um projeto antes de concluir!");
 								else if (scope.periodicidade_selected === undefined)
 									alert("Selecione uma periodicidade de coleta antes de concluir!");
 								else {
 									scope.post_plano(function retorno(result) {
-												alert("Plano de Medição criado com sucesso!");
+										alert("Plano(s) de Medição criado com sucesso!");
 									});
 								}
 							}

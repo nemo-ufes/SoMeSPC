@@ -5,9 +5,9 @@ app.controller('MainController', function($scope, $resource,
 
 	// Objeto Login
 	$scope.login = {
-		url : '',
-		usuario : '',
-		senha : ''
+		url : 'http://ledsup.sr.ifes.edu.br/',
+		usuario : 'vinnysoft',
+		senha : 'teste123'
 	};
 
 	// Objeto Lista de Medidas - GET através da Web Service do Taiga, usando
@@ -23,23 +23,26 @@ app.controller('MainController', function($scope, $resource,
 	});
 
 	$scope.projetos;
-
-	$scope.projeto_selected;
-
+	$scope.projetosSelecionados = [];
 	$scope.periodicidade_selected;
-
 	$scope.medidas_selected = [];
 
-	$scope.toggleSelection = function toggleSelection(medida) {
+	$scope.toggleSelectionProjeto = function toggleSelectionProjeto(projeto) {
+		var idx = $scope.projetosSelecionados.indexOf(projeto);
+
+		if (idx > -1) {
+			$scope.projetosSelecionados.splice(idx, 1);
+		} else {
+			$scope.projetosSelecionados.push(projeto);
+		}
+	};
+	
+	$scope.toggleSelectionMedida = function toggleSelectionMedida(medida) {
 		var idx = $scope.medidas_selected.indexOf(medida);
 
-		// is currently selected
 		if (idx > -1) {
 			$scope.medidas_selected.splice(idx, 1);
-		}
-
-		// is newly selected
-		else {
+		} else {
 			$scope.medidas_selected.push(medida);
 		}
 	};
@@ -49,15 +52,21 @@ app.controller('MainController', function($scope, $resource,
 	}
 
 	$scope.post_plano = function(retorno) {
-		$scope.entry = new TaigaIntegratorPlano(); // You can instantiate
-													// resource class
+			
+		$scope.entry = new TaigaIntegratorPlano(); 
 
-		$scope.entry.apelido_Projeto = $scope.projeto_selected.apelido;
+		$scope.entry.apelido_Projetos = [];
 		$scope.entry.nome_Periodicidade = $scope.periodicidade_selected.nome;
 		$scope.entry.nome_Medidas = [];
+		
+		for (idx in $scope.projetosSelecionados) {
+			$scope.entry.apelido_Projetos.push($scope.projetosSelecionados[idx].apelido);
+		}
+		
 		for (idx in $scope.medidas_selected) {
 			$scope.entry.nome_Medidas.push($scope.medidas_selected[idx]);
 		}
+		
 		$scope.entry.taiga_Login = $scope.login;
 		$scope.entry.$save(function sucesso(plano){
 			return retorno(plano);
@@ -70,6 +79,7 @@ app.controller('MainController', function($scope, $resource,
 		TaigaIntegratorProjeto.save($scope.login).$promise.then(
 				function sucesso(result) {
 					$scope.projetos = result;
+					$scope.projetosSelecionados = [];
 					return retorno(true);
 				}, function erro(err) {
 					return retorno(false);

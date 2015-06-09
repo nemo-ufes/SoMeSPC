@@ -12,8 +12,8 @@ public class PlanoDTO
     @XmlElement(name = "taiga_Login")
     private TaigaLoginDTO taigaLogin;
 
-    @XmlElement(name = "apelido_Projeto")
-    private String apelidoProjeto;
+    @XmlElement(name = "apelido_Projetos")
+    private List<String> apelidosProjetos;
 
     @XmlElement(name = "nome_Periodicidade")
     private String nomePeriodicidade;
@@ -21,14 +21,14 @@ public class PlanoDTO
     @XmlElement(name = "nome_Medidas")
     private List<String> nomesMedidas;
 
-    public String getApelidoProjeto()
+    public List<String> getApelidosProjetos()
     {
-	return apelidoProjeto;
+	return apelidosProjetos;
     }
 
-    public void setApelidoProjeto(String apelidoProjeto)
+    public void setApelidosProjetos(List<String> apelidosProjetos)
     {
-	this.apelidoProjeto = apelidoProjeto;
+	this.apelidosProjetos = apelidosProjetos;
     }
 
     public String getNomePeriodicidade()
