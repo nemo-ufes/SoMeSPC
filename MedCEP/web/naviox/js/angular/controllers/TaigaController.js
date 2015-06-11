@@ -1,13 +1,13 @@
 //Definição do Controlador - AngularJS
-app.controller('MainController', function($scope, $resource,
+app.controller('TaigaController', function($scope, $resource,
 		TaigaIntegratorProjeto, MedCEPResource, TaigaIntegratorPlano,
 		TaigaIntegrator) {
 
 	// Objeto Login
 	$scope.login = {
-		url : '',
-		usuario : '',
-		senha : ''
+		url : 'http://ledsup.sr.ifes.edu.br/',
+		usuario : 'vinnysoft',
+		senha : 'teste123'
 	};
 
 	// Objeto Lista de Medidas - GET através da Web Service do Taiga, usando
@@ -22,11 +22,16 @@ app.controller('MainController', function($scope, $resource,
 		periodicidades_med_cep : 'Periodicidade'
 	});
 
+	$scope.loading = false;
 	$scope.projetos;
 	$scope.projetosSelecionados = [];
 	$scope.periodicidade_selected;
 	$scope.medidas_selected = [];
 
+	$scope.toggleLoading = function toggleLoading(){
+		$scope.loading = !$scope.loading;
+	}
+	
 	$scope.toggleSelectionProjeto = function toggleSelectionProjeto(projeto) {
 		var idx = $scope.projetosSelecionados.indexOf(projeto);
 
@@ -53,6 +58,7 @@ app.controller('MainController', function($scope, $resource,
 
 	$scope.post_plano = function(retorno) {
 			
+		$scope.toggleLoading();
 		$scope.entry = new TaigaIntegratorPlano(); 
 
 		$scope.entry.apelido_Projetos = [];
@@ -69,19 +75,24 @@ app.controller('MainController', function($scope, $resource,
 		
 		$scope.entry.taiga_Login = $scope.login;
 		$scope.entry.$save(function sucesso(plano){
+			$scope.toggleLoading();
 			return retorno(plano);
 		}, function erro(err){
-			return retorno(err);
+			$scope.toggleLoading();
+			return retorno(err);			
 		});
 	}
 
 	$scope.post_projeto = function(retorno) {
+		$scope.toggleLoading();
 		TaigaIntegratorProjeto.save($scope.login).$promise.then(
 				function sucesso(result) {
 					$scope.projetos = result;
 					$scope.projetosSelecionados = [];
+					$scope.toggleLoading();
 					return retorno(true);
 				}, function erro(err) {
+					$scope.toggleLoading();
 					return retorno(false);
 				});
 	}
