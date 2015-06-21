@@ -170,8 +170,8 @@ public class AtividadeProjeto extends EntidadeMensuravel
     	
     	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
     }
-	if (elementoMensuravel == null)
-	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+	if (getElementoMensuravel() == null)
+	    setElementoMensuravel(new ArrayList<ElementoMensuravel>());
 
 	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
 	{
@@ -179,7 +179,7 @@ public class AtividadeProjeto extends EntidadeMensuravel
 	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
 	    {
 		add = true;
-		for (ElementoMensuravel elem : elementoMensuravel)
+		for (ElementoMensuravel elem : getElementoMensuravel())
 		{
 		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
 		    {
@@ -188,7 +188,7 @@ public class AtividadeProjeto extends EntidadeMensuravel
 		    }
 		}
 		if (add)
-		    elementoMensuravel.add(elemTipo);
+		    getElementoMensuravel().add(elemTipo);
 	    }//elemTipo
 	}
     }//ajusta

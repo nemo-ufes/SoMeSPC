@@ -36,11 +36,11 @@ import org.openxava.annotations.*;
 @Tabs({
 	@Tab(properties = "nome", defaultOrder = "${nome} asc")
 })
-@EntityValidator(
-		value = ObjetivoDeSoftwareValidator.class,
-		properties = {
-			@PropertyValue(name = "objetivoEstrategico")
-		})
+//@EntityValidator(
+//		value = ObjetivoDeSoftwareValidator.class,
+//		properties = {
+//			@PropertyValue(name = "objetivoEstrategico")
+//		})
 public class ObjetivoDeSoftware extends Objetivo
 {
 

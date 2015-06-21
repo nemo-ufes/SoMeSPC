@@ -23,11 +23,11 @@
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="AtividadePadrao"><a href="<%=request.getContextPath()%>/m/AtividadePadrao"> Atividade Padrão</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="ProcessoProjeto"><a href="<%=request.getContextPath()%>/m/ProcessoProjeto"> Processo de Projeto</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="AtividadeProjeto"><a href="<%=request.getContextPath()%>/m/AtividadeProjeto"> Atividade de Projeto</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="OcorrenciaProcesso"><a href="<%=request.getContextPath()%>/m/OcorrenciaProcesso"> Ocorrência de Processo</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="OcorrenciaAtividade"><a href="<%=request.getContextPath()%>/m/OcorrenciaAtividade"> Ocorrência de Atividade</a></li>
+<%-- 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="OcorrenciaProcesso"><a href="<%=request.getContextPath()%>/m/OcorrenciaProcesso"> Ocorrência de Processo</a></li> --%>
+<%-- 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="OcorrenciaAtividade"><a href="<%=request.getContextPath()%>/m/OcorrenciaAtividade"> Ocorrência de Atividade</a></li> --%>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="TipoDeArtefato"><a href="<%=request.getContextPath()%>/m/TipoDeArtefato"> Tipo de Artefato</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="Artefato"><a href="<%=request.getContextPath()%>/m/Artefato"> Artefato</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="Procedimento"><a href="<%=request.getContextPath()%>/m/Procedimento"> Procedimento</a></li>
+<%-- 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="Procedimento"><a href="<%=request.getContextPath()%>/m/Procedimento"> Procedimento</a></li> --%>
 					</ul>
 				</li>
 				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' class="jstree-close">Medição
@@ -36,10 +36,10 @@
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="TipoDeEntidadeMensuravel"><a href="<%=request.getContextPath()%>/m/TipoDeEntidadeMensuravel"> Tipo de Entidade Mensurável</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="ElementoMensuravel"><a href="<%=request.getContextPath()%>/m/ElementoMensuravel"> Elemento Mensurável</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="TipoElementoMensuravel"><a href="<%=request.getContextPath()%>/m/TipoElementoMensuravel"> Tipo de Elemento Mensurável</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="ObjetivoEstrategico"><a href="<%=request.getContextPath()%>/m/ObjetivoEstrategico"> Objetivo Estratégico</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="ObjetivoDeSoftware"><a href="<%=request.getContextPath()%>/m/ObjetivoDeSoftware"> Objetivo de Software</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="ObjetivoDeMedicao"><a href="<%=request.getContextPath()%>/m/ObjetivoDeMedicao"> Objetivo de Medição</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="NecessidadeDeInformacao"><a href="<%=request.getContextPath()%>/m/NecessidadeDeInformacao"> Necessidade de Informação</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="ObjetivoEstrategico"><a href="<%=request.getContextPath()%>/m/ObjetivoEstrategico"> Objetivo Estratégico</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="ObjetivoDeSoftware"><a href="<%=request.getContextPath()%>/m/ObjetivoDeSoftware"> Objetivo de Software</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="ObjetivoDeMedicao"><a href="<%=request.getContextPath()%>/m/ObjetivoDeMedicao"> Objetivo de Medição</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="NecessidadeDeInformacao"><a href="<%=request.getContextPath()%>/m/NecessidadeDeInformacao"> Necessidade de Informação</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="Escala"><a href="<%=request.getContextPath()%>/m/Escala"> Escala</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="TipoEscala"><a href="<%=request.getContextPath()%>/m/TipoEscala"> Tipo de Escala</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/medicao.png"}' id="ValorDeEscala"><a href="<%=request.getContextPath()%>/m/ValorDeEscala"> Valores de Escala</a></li>

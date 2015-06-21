@@ -35,7 +35,6 @@ import org.openxava.annotations.*;
 		+ "medidaPlanoDeMedicao;"
 		+ "entidadeMensuravel;"
 		+ "valorMedido;"
-		+ "momentoRealDaMedicao; "
 		+ "executorDaMedicao; "
 		+ "contextoDeMedicao"
 	)
@@ -105,10 +104,10 @@ public class Medicao implements Comparable<Medicao>
     @ReferenceView("Simple")
     private ContextoDeMedicao contextoDeMedicao;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @ReferenceView("Simple")
-    @SearchAction("Medicao.searchMomentoReal")
-    private EntidadeMensuravel momentoRealDaMedicao;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @ReferenceView("Simple")
+//    @SearchAction("Medicao.searchMomentoReal")
+//    private EntidadeMensuravel momentoRealDaMedicao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ReferenceView("Simple")
@@ -150,15 +149,15 @@ public class Medicao implements Comparable<Medicao>
 	this.contextoDeMedicao = contextoDeMedicao;
     }
 
-    public EntidadeMensuravel getMomentoRealDaMedicao()
-    {
-	return momentoRealDaMedicao;
-    }
-
-    public void setMomentoRealDaMedicao(EntidadeMensuravel momentoRealDaMedicao)
-    {
-	this.momentoRealDaMedicao = momentoRealDaMedicao;
-    }
+//    public EntidadeMensuravel getMomentoRealDaMedicao()
+//    {
+//	return momentoRealDaMedicao;
+//    }
+//
+//    public void setMomentoRealDaMedicao(EntidadeMensuravel momentoRealDaMedicao)
+//    {
+//	this.momentoRealDaMedicao = momentoRealDaMedicao;
+//    }
 
     public RecursoHumano getExecutorDaMedicao()
     {

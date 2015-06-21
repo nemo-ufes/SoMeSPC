@@ -173,14 +173,14 @@ public class ProcessoPadrao extends EntidadeMensuravel
     {
 	if(tipoDeEntidadeMensuravel != null){
     	
-    	String nomeEntidade = "Processo Padrão";
+    	String nomeEntidade = "Processo de Software Padrão";
     	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
     	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
     	
     	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
     }
-	if (elementoMensuravel == null)
-	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+	if (getElementoMensuravel() == null)
+	    setElementoMensuravel(new ArrayList<ElementoMensuravel>());
 
 	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
 	{
@@ -188,7 +188,7 @@ public class ProcessoPadrao extends EntidadeMensuravel
 	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
 	    {
 		add = true;
-		for (ElementoMensuravel elem : elementoMensuravel)
+		for (ElementoMensuravel elem : getElementoMensuravel())
 		{
 		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
 		    {
@@ -197,7 +197,7 @@ public class ProcessoPadrao extends EntidadeMensuravel
 		    }
 		}
 		if (add)
-		    elementoMensuravel.add(elemTipo);
+		    getElementoMensuravel().add(elemTipo);
 	    }//elemTipo
 	}
     }//ajusta

@@ -953,88 +953,88 @@ public class TaigaIntegrator
 		case PONTOS_ALOCADOS_PROJETO:
 		    medida.setMnemonico("TAIGA-PA");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
 		case PONTOS_ALOCADOS_POR_PAPEL_PROJETO:
 		    medida.setMnemonico("TAIGA-PAP");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacaoEquipe)));
 		    break;
 		case PONTOS_DEFINIDOS_PROJETO:
 		    medida.setMnemonico("TAIGA-PD");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
 		case PONTOS_DEFINIDOS_POR_PAPEL_PROJETO:
 		    medida.setMnemonico("TAIGA-PDP");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacaoEquipe)));
 		    break;
 		case PONTOS_FECHADOS_PROJETO:
 		    medida.setMnemonico("TAIGA-PF");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
 		case PONTOS_FECHADOS_POR_PAPEL_PROJETO:
 		    medida.setMnemonico("TAIGA-PFP");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAlocacaoEquipe));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacaoEquipe)));
 		    break;
 		case TOTAL_SPRINTS_PROJETO:
 		    medida.setMnemonico("TAIGA-TM");
 		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
 		case TOTAL_PONTOS_PROJETO:
 		    medida.setMnemonico("TAIGA-TP");
 		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
 		case VELOCIDADE_PROJETO:
 		    medida.setMnemonico("TAIGA-VEL");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoProjeto));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
 		case DOSES_IOCAINE_SPRINT:
 		    medida.setMnemonico("TAIGA-IOC");
 		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
 		case ESTORIAS_COMPLETADAS_SPRINT:
 		    medida.setMnemonico("TAIGA-ECS");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
 		case PONTOS_COMPLETADOS_SPRINT:
 		    medida.setMnemonico("TAIGA-PCS");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
 		case TAREFAS_COMPLETADAS_SPRINT:
 		    medida.setMnemonico("TAIGA-TCS");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
 		case TOTAL_ESTORIAS_SPRINT:
 		    medida.setMnemonico("TAIGA-TES");
 		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
 		case TOTAL_PONTOS_SPRINT:
 		    medida.setNome("Total de Pontos da Sprint");
 		    medida.setMnemonico("TAIGA-TPS");
 		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
 		case TOTAL_TAREFAS_SPRINT:
 		    medida.setMnemonico("TAIGA-TTS");
 		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoAtividadePadrao));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
 		case PONTOS_ESTORIA:
 		    medida.setMnemonico("TAIGA-PES");
 		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(Arrays.asList(tipoArtefato));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoArtefato)));
 		    break;
 		default:
 		    System.out.println(String.format("Medida %s inexistente no Taiga.", medidaTaiga.toString()));
@@ -1261,23 +1261,23 @@ public class TaigaIntegrator
 
 	estoriaPB.setNome("Estória de Product Backlog");
 	estoriaPB.setDescricao("Estória de Product Backlog do Scrum.");
-	estoriaPB.setElementoMensuravel(Arrays.asList(tamanho, duracao));
+	estoriaPB.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, duracao)));
 
 	estoriaSB.setNome("Estória de Sprint Backlog");
 	estoriaSB.setDescricao("Estória de Sprint Backlog do Scrum.");
-	estoriaSB.setElementoMensuravel(Arrays.asList(tamanho, duracao));
+	estoriaSB.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, duracao)));
 
 	codigoFonte.setNome("Código Fonte");
 	codigoFonte.setDescricao("Código fonte de um software.");
-	codigoFonte.setElementoMensuravel(Arrays.asList(tamanho));
+	codigoFonte.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
 
 	documentacao.setNome("Documentação");
 	documentacao.setDescricao("Documentação de software. Inclui modelos, diagramas, relatórios, etc.");
-	documentacao.setElementoMensuravel(Arrays.asList(tamanho));
+	documentacao.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
 
 	releaseSoftware.setNome("Release de Software");
 	releaseSoftware.setDescricao("Incremento de software pronto para implantação.");
-	releaseSoftware.setElementoMensuravel(Arrays.asList(tamanho));
+	releaseSoftware.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
 
 	List<TipoDeArtefato> tiposDeArtefatoParaPersistir = new ArrayList<TipoDeArtefato>();
 
@@ -1425,7 +1425,7 @@ public class TaigaIntegrator
 
 	reuniaoPS.setRequerTipoDeArtefato(artefatosRequeridosReuniaoPS);
 	reuniaoPS.setProduzTipoDeArtefato(artefatosProduzidosReuniaoPS);
-	reuniaoPS.setElementoMensuravel(Arrays.asList(duracao));
+	reuniaoPS.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(duracao)));
 
 	//Preenche a Sprint
 	sprint.setNome("Sprint");
@@ -1453,8 +1453,8 @@ public class TaigaIntegrator
 
 	sprint.setRequerTipoDeArtefato(artefatosRequeridosSprint);
 	sprint.setProduzTipoDeArtefato(artefatosProduzidosSprint);
-	sprint.setDependeDe(Arrays.asList(reuniaoPS));
-	sprint.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
+	sprint.setDependeDe(new ArrayList<AtividadePadrao>(Arrays.asList(reuniaoPS)));
+	sprint.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, desempenho, duracao)));
 
 	//Preenche a Reunião de Revisão da Sprint
 	reuniaoRS.setNome("Reunião de Revisão da Sprint");
@@ -1483,8 +1483,8 @@ public class TaigaIntegrator
 
 	reuniaoRS.setRequerTipoDeArtefato(artefatosRequeridosReuniaoRS);
 	reuniaoRS.setProduzTipoDeArtefato(artefatosProduzidosReuniaoRS);
-	reuniaoRS.setDependeDe(Arrays.asList(sprint));
-	reuniaoRS.setElementoMensuravel(Arrays.asList(duracao));
+	reuniaoRS.setDependeDe(new ArrayList<AtividadePadrao>(Arrays.asList(sprint)));
+	reuniaoRS.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(duracao)));
 
 	List<AtividadePadrao> atividadesParaPersistir = new ArrayList<AtividadePadrao>();
 
@@ -1581,8 +1581,8 @@ public class TaigaIntegrator
 	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
 	scrum.setTipoDeEntidadeMensuravel(processoPadrao);
-	scrum.setAtividadePadrao(Arrays.asList(atividade1, atividade2, atividade3));
-	scrum.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
+	scrum.setAtividadePadrao(new ArrayList<AtividadePadrao>(Arrays.asList(atividade1, atividade2, atividade3)));
+	scrum.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, desempenho, duracao)));
 
 	//Persiste.	
 	try
@@ -1703,7 +1703,7 @@ public class TaigaIntegrator
 	    reuniaoPSProjeto.setDescricao(String.format("Reunião de Planejamento da Sprint - %s do Projeto %s.", sprint.getNome(), projeto.getNome()));
 	    reuniaoPSProjeto.setBaseadoEm(reuniaoPS);
 	    reuniaoPSProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
-	    reuniaoPSProjeto.setElementoMensuravel(Arrays.asList(duracao));
+	    reuniaoPSProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(duracao)));
 
 	    //Obtem as estórias do PB.
 	    List<Estoria> estoriasPB = this.obterEstoriasDoProjectBacklogTaiga(projeto.getApelido());
@@ -1726,16 +1726,16 @@ public class TaigaIntegrator
 	    sprintProjeto.setDescricao(sprint.getNome() + " do Projeto " + projeto.getNome());
 	    sprintProjeto.setBaseadoEm(atividadeSprint);
 	    sprintProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
-	    sprintProjeto.setDependeDe(Arrays.asList(reuniaoPSProjeto));
+	    sprintProjeto.setDependeDe(new ArrayList<AtividadeProjeto>(Arrays.asList(reuniaoPSProjeto)));
 	    sprintProjeto.setRequer(artEstoriasSB);
-	    sprintProjeto.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
+	    sprintProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, desempenho, duracao)));
 
 	    Artefato codigoFonteProjeto = new Artefato();
 	    codigoFonteProjeto.setNome("Código fonte do Projeto " + projeto.getNome());
 	    codigoFonteProjeto.setDescricao("Código fonte do Projeto " + projeto.getNome() + " criado durante a Sprint - " + sprint.getNome());
 	    codigoFonteProjeto.setTipoDeEntidadeMensuravel(tipoArtefato);
 	    codigoFonteProjeto.setTipoDeArtefato(tipoCodigoFonte);
-	    codigoFonteProjeto.setElementoMensuravel(Arrays.asList(tamanho));
+	    codigoFonteProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
 
 	    //Persiste.	
 	    try
@@ -1778,7 +1778,7 @@ public class TaigaIntegrator
 	    documentacaoProjeto.setDescricao("Documentação do Projeto " + projeto.getNome() + " criada durante a Sprint - " + sprint.getNome());
 	    documentacaoProjeto.setTipoDeEntidadeMensuravel(manager.find(TipoDeEntidadeMensuravel.class, tipoArtefato.getId()));
 	    documentacaoProjeto.setTipoDeArtefato(manager.find(TipoDeArtefato.class, tipoDocumentacao.getId()));
-	    documentacaoProjeto.setElementoMensuravel(Arrays.asList(tamanho));
+	    documentacaoProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
 
 	    //Persiste.	
 	    try
@@ -1813,7 +1813,7 @@ public class TaigaIntegrator
 		manager.close();
 	    }
 
-	    sprintProjeto.setProduz(Arrays.asList(codigoFonteProjeto, documentacaoProjeto));
+	    sprintProjeto.setProduz(new ArrayList<Artefato>(Arrays.asList(codigoFonteProjeto, documentacaoProjeto)));
 
 	    //Preenche a Reunião de Revisão da Sprint do Projeto
 	    AtividadeProjeto reuniaoRSProjeto = new AtividadeProjeto();
@@ -1822,21 +1822,21 @@ public class TaigaIntegrator
 	    reuniaoRSProjeto.setDescricao("Reunião de Revisão da Sprint - " + sprint.getNome() + " do Projeto " + projeto.getNome());
 	    reuniaoRSProjeto.setBaseadoEm(reuniaoRS);
 	    reuniaoRSProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
-	    reuniaoRSProjeto.setDependeDe(Arrays.asList(sprintProjeto));
+	    reuniaoRSProjeto.setDependeDe(new ArrayList<AtividadeProjeto>(Arrays.asList(sprintProjeto)));
 
 	    List<Artefato> artefatosRequeridosReuniaoRS = new ArrayList<Artefato>();
 	    artefatosRequeridosReuniaoRS.addAll(artEstoriasSB);
-	    artefatosRequeridosReuniaoRS.addAll(Arrays.asList(codigoFonteProjeto, documentacaoProjeto));
+	    artefatosRequeridosReuniaoRS.addAll(new ArrayList<Artefato>(Arrays.asList(codigoFonteProjeto, documentacaoProjeto)));
 
 	    reuniaoRSProjeto.setRequer(artefatosRequeridosReuniaoRS);
-	    reuniaoRSProjeto.setElementoMensuravel(Arrays.asList(duracao));
+	    reuniaoRSProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(duracao)));
 
 	    Artefato releaseSoftware = new Artefato();
 	    releaseSoftware.setNome("Release do Projeto " + projeto.getNome());
 	    releaseSoftware.setDescricao("Release do Projeto " + projeto.getNome() + " criado após a Sprint - " + sprint.getNome());
 	    releaseSoftware.setTipoDeEntidadeMensuravel(tipoArtefato);
 	    releaseSoftware.setTipoDeArtefato(tipoRelease);
-	    releaseSoftware.setElementoMensuravel(Arrays.asList(tamanho));
+	    releaseSoftware.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
 
 	    //Persiste.	
 	    try
@@ -1871,7 +1871,7 @@ public class TaigaIntegrator
 		manager.close();
 	    }
 
-	    reuniaoRSProjeto.setProduz(Arrays.asList(releaseSoftware));
+	    reuniaoRSProjeto.setProduz(new ArrayList<Artefato>(Arrays.asList(releaseSoftware)));
 
 	    List<AtividadeProjeto> atividadesParaPersistir = new ArrayList<AtividadeProjeto>();
 	    atividadesParaPersistir.add(reuniaoPSProjeto);
@@ -1971,7 +1971,7 @@ public class TaigaIntegrator
 	scrum.setTipoDeEntidadeMensuravel(tipoPP);
 	scrum.setAtividadeProjeto(atividades);
 	scrum.setProjeto(proj);
-	scrum.setElementoMensuravel(Arrays.asList(tamanho, desempenho, duracao));
+	scrum.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, desempenho, duracao)));
 
 	//Persiste.	
 	try
@@ -2060,7 +2060,7 @@ public class TaigaIntegrator
 	    artefato.setNome(estoria.getTitulo());
 	    artefato.setTipoDeEntidadeMensuravel(tipoArtefato);
 	    artefato.setTipoDeArtefato(tipoEstoria);
-	    artefato.setElementoMensuravel(Arrays.asList(tamanho, duracao));
+	    artefato.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, duracao)));
 
 	    if (estoria.getDescricao().isEmpty() || estoria.getDescricao().equals(""))
 		artefato.setDescricao(estoria.getTitulo());
@@ -2183,7 +2183,7 @@ public class TaigaIntegrator
 	    manager.close();
 	}
 
-	plano.setRecursoHumano(Arrays.asList(wizard));
+	plano.setRecursoHumano(new ArrayList<RecursoHumano>(Arrays.asList(wizard)));
 
 	ObjetivoEstrategico objEstrategico = new ObjetivoEstrategico();
 	ObjetivoDeMedicao objMedicao = new ObjetivoDeMedicao();
@@ -2191,7 +2191,7 @@ public class TaigaIntegrator
 	objEstrategico.setNome("Aumentar a qualidade dos projetos de software da organização");
 
 	objMedicao.setNome("Monitorar os projetos de software ágeis");
-	objMedicao.setObjetivoEstrategico(Arrays.asList(objEstrategico));
+	objMedicao.setObjetivoEstrategico(new ArrayList<ObjetivoEstrategico>(Arrays.asList(objEstrategico)));
 
 	try
 	{
@@ -2460,7 +2460,7 @@ public class TaigaIntegrator
 
 	    //Se não existir, cria o plano da organização com todas as medidas.
 	    MedidasTaiga[] todasMedidas = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-	    planoOrganizacao = this.criarPlanoMedicaoOrganizacaoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(todasMedidas)));
+	    planoOrganizacao = this.criarPlanoMedicaoOrganizacaoMedCEP(new ArrayList<MedidasTaiga>(new ArrayList<MedidasTaiga>(Arrays.asList(todasMedidas))));
 	}
 
 	org.medcep.model.organizacao.Projeto proj = new org.medcep.model.organizacao.Projeto();
@@ -2535,7 +2535,7 @@ public class TaigaIntegrator
 	    manager.close();
 	}
 
-	plano.setRecursoHumano(Arrays.asList(wizard));
+	plano.setRecursoHumano(new ArrayList<RecursoHumano>(Arrays.asList(wizard)));
 
 	ObjetivoEstrategico objEstrategico = new ObjetivoEstrategico();
 	ObjetivoDeMedicao objMedicao = new ObjetivoDeMedicao();
@@ -2543,7 +2543,7 @@ public class TaigaIntegrator
 	objEstrategico.setNome("Aumentar a qualidade dos projetos de software da organização");
 
 	objMedicao.setNome("Monitorar os projetos de software ágeis");
-	objMedicao.setObjetivoEstrategico(Arrays.asList(objEstrategico));
+	objMedicao.setObjetivoEstrategico(new ArrayList<ObjetivoEstrategico>(Arrays.asList(objEstrategico)));
 
 	try
 	{
@@ -2811,9 +2811,9 @@ public class TaigaIntegrator
 	TypedQuery<EntidadeMensuravel> typedQueryEntidade = manager.createQuery(queryEntidade, EntidadeMensuravel.class);
 	medicao.setEntidadeMensuravel(typedQueryEntidade.getSingleResult());
 
-	String queryMomento = String.format("SELECT p FROM EntidadeMensuravel p WHERE p.nome='%s'", momento);
-	TypedQuery<EntidadeMensuravel> typedQueryMomento = manager.createQuery(queryMomento, EntidadeMensuravel.class);
-	medicao.setMomentoRealDaMedicao(typedQueryMomento.getSingleResult());
+//	String queryMomento = String.format("SELECT p FROM EntidadeMensuravel p WHERE p.nome='%s'", momento);
+//	TypedQuery<EntidadeMensuravel> typedQueryMomento = manager.createQuery(queryMomento, EntidadeMensuravel.class);
+//	medicao.setMomentoRealDaMedicao(typedQueryMomento.getSingleResult());
 
 	ValorNumerico valor = new ValorNumerico();
 	valor.setValorNumerico(Float.parseFloat(valorMedido));
