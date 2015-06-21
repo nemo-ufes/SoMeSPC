@@ -28,10 +28,11 @@ import org.medcep.model.medicao.*;
 import org.medcep.model.organizacao.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
+import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; baseadoEm; projeto; atividadeProjeto; elementoMensuravel;"),
+	@View(members = "nome; descricao; baseadoEm; projeto; atividadeProjeto; Subprocesso;"),
 	@View(name = "Simple", members = "nome"),
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
@@ -51,8 +52,27 @@ public class ProcessoProjeto extends EntidadeMensuravel
     @OneToOne
     @ReferenceView("Simple")
     private Projeto projeto;
-
+    
+    @JoinTable(name = "ProcessoProjeto_dependeDe_ProcessoProjeto",
+	    joinColumns = {
+		    @JoinColumn(name = "processo1", referencedColumnName = "id", nullable = false)
+	    },
+	    inverseJoinColumns = {
+		    @JoinColumn(name = "processo2", referencedColumnName = "id", nullable = false)
+	    })
     @ManyToMany(fetch = FetchType.LAZY)
+    @ListProperties("nome")
+    private Collection<ProcessoProjeto> Subprocesso;
+
+    public Collection<ProcessoProjeto> getSubprocesso() {
+		return Subprocesso;
+	}
+
+	public void setSubprocesso(Collection<ProcessoProjeto> subprocesso) {
+		Subprocesso = subprocesso;
+	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
 	    name = "ProcessoProjeto_AtividadeProjeto"
 	    , joinColumns = {
@@ -87,7 +107,6 @@ public class ProcessoProjeto extends EntidadeMensuravel
     }
 
     @ManyToOne
-    @Required
     @Transient
     @DefaultValueCalculator(
 	    value = TipoDeEntidadeMensuravelCalculator.class,
@@ -119,6 +138,14 @@ public class ProcessoProjeto extends EntidadeMensuravel
     @PreUpdate
     public void ajustaElementosMensuraveis()
     {
+	if(tipoDeEntidadeMensuravel != null){
+    	
+    	String nomeEntidade = "Processo de Software em Projeto";
+    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
+    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
+    	
+    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
+    }
 	if (elementoMensuravel == null)
 	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
 

@@ -28,13 +28,14 @@ import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
+import org.openxava.jpa.XPersistence;
 
 /**
  * Atividade Analisar Dados de Monitoramento do Projeto; Atividade Homologar Especificação de Requisitos
  */
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; requerTipoDeArtefato; produzTipoDeArtefato; dependeDe; elementoMensuravel;"),
+	@View(members = "nome; descricao; requerTipoDeArtefato; produzTipoDeArtefato; dependeDe;"),
 	@View(name = "Simple", members = "nome")
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
@@ -56,7 +57,6 @@ public class AtividadePadrao extends EntidadeMensuravel
     private Collection<AtividadeProjeto> atividadeProjeto;
 
     @ManyToOne
-    @Required
     @Transient
     @DefaultValueCalculator(
 	    value = TipoDeEntidadeMensuravelCalculator.class,
@@ -164,32 +164,40 @@ public class AtividadePadrao extends EntidadeMensuravel
 	this.momentoDeAnaliseDeMedicao = momentoDeAnaliseDeMedicao;
     }
 
-//    @PreCreate
-//    @PreUpdate
-//    public void ajustaElementosMensuraveis()
-//    {
-//	if (elementoMensuravel == null)
-//	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
-//
-//	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
-//	{
-//	    boolean add;
-//	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
-//	    {
-//		add = true;
-//		for (ElementoMensuravel elem : elementoMensuravel)
-//		{
-//		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-//		    {
-//			add = false;
-//			break;
-//		    }
-//		}
-//		if (add)
-//		    elementoMensuravel.add(elemTipo);
-//	    }//elemTipo
-//	}
-//    }//ajusta
+    @PreCreate
+    @PreUpdate
+    public void ajustaElementosMensuraveis()
+    {
+	if(tipoDeEntidadeMensuravel != null){
+    	
+    	String nomeEntidade = "Atividade Padrão";
+    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
+    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
+    	
+    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
+    }
+	if (elementoMensuravel == null)
+	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+
+	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
+	{
+	    boolean add;
+	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
+	    {
+		add = true;
+		for (ElementoMensuravel elem : elementoMensuravel)
+		{
+		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
+		    {
+			add = false;
+			break;
+		    }
+		}
+		if (add)
+		    elementoMensuravel.add(elemTipo);
+	    }//elemTipo
+	}
+    }//ajusta
 
     public Collection<AtividadePadrao> getDependeDe()
     {

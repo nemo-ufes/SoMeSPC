@@ -34,8 +34,10 @@ public class ProcessoInstanciadoValidator implements IValidator
 
     public void validate(Messages errors) throws Exception
     {
-	if (tipoDeEntidadeMensuravel.getNome().compareTo("Ocorrência de Processo de Software") != 0)
-	    errors.add("tipo_entidade_mensuravel_fixo");
+    if(tipoDeEntidadeMensuravel != null){
+    	if (tipoDeEntidadeMensuravel.getNome().compareTo("Ocorrência de Processo de Software") != 0)
+    		errors.add("tipo_entidade_mensuravel_fixo");
+    }
 
     }
 

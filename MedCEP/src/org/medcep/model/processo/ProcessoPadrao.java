@@ -28,10 +28,11 @@ import org.medcep.model.medicao.*;
 import org.medcep.model.processo.comportamento.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
+import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
-	@View(members = "nome, versao;  tipoDeEntidadeMensuravel; descricao; atividadePadrao; elementoMensuravel; capacidadeDeProcesso;"),
+	@View(members = "nome, versao;  descricao; atividadePadrao; capacidadeDeProcesso; Subprocesso;"),
 	@View(name = "Simple", members = "nome"),
 	@View(name = "SimpleNoFrame", members = "nome")
 })
@@ -56,6 +57,17 @@ public class ProcessoPadrao extends EntidadeMensuravel
     @OneToMany(mappedBy = "baseadoEm")
     private Collection<ProcessoProjeto> processoProjeto;
 
+    @JoinTable(name = "ProcessoPadrao_dependeDe_ProcessoPadrap",
+	    joinColumns = {
+		    @JoinColumn(name = "processo1", referencedColumnName = "id", nullable = false)
+	    },
+	    inverseJoinColumns = {
+		    @JoinColumn(name = "processo2", referencedColumnName = "id", nullable = false)
+	    })
+    @ManyToMany(fetch = FetchType.LAZY)
+    @ListProperties("nome")
+    private Collection<ProcessoPadrao> Subprocesso;
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
 	    name = "ProcessoPadrao_AtividadePadrao"
@@ -138,7 +150,6 @@ public class ProcessoPadrao extends EntidadeMensuravel
     }
 
     @ManyToOne
-    @Required
     @Transient
     @DefaultValueCalculator(
 	    value = TipoDeEntidadeMensuravelCalculator.class,
@@ -160,6 +171,14 @@ public class ProcessoPadrao extends EntidadeMensuravel
     @PreUpdate
     public void ajustaElementosMensuraveis()
     {
+	if(tipoDeEntidadeMensuravel != null){
+    	
+    	String nomeEntidade = "Processo Padrão";
+    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
+    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
+    	
+    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
+    }
 	if (elementoMensuravel == null)
 	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
 

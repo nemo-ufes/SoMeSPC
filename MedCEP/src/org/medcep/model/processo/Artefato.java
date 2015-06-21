@@ -26,10 +26,11 @@ import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
+import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; tipoDeArtefato; descricao; elementoMensuravel;"),
+	@View(members = "nome; tipoDeArtefato; descricao;"),
 	@View(name = "Simple", members = "nome"),
 	@View(name = "SimpleNoFrame", members = "nome")
 })
@@ -60,7 +61,6 @@ public class Artefato extends EntidadeMensuravel
     }
 
     @ManyToOne
-    @Required
     @Transient
     @DefaultValueCalculator(
 	    value = TipoDeEntidadeMensuravelCalculator.class,
@@ -78,31 +78,17 @@ public class Artefato extends EntidadeMensuravel
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
 
-    //    @PreCreate
-    //    @PreUpdate
-    //    public void ajustaElementosMensuraveis()
-    //    {
-    //	if (elementoMensuravel == null)
-    //	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
-    //
-    //	if (tipoDeArtefato != null && tipoDeArtefato.getElementoMensuravel() != null)
-    //	{
-    //	    boolean add;
-    //	    for (ElementoMensuravel elemTipo : tipoDeArtefato.getElementoMensuravel())
-    //	    {
-    //		add = true;
-    //		for (ElementoMensuravel elem : elementoMensuravel)
-    //		{
-    //		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-    //		    {
-    //			add = false;
-    //			break;
-    //		    }
-    //		}
-    //		if (add)
-    //		    elementoMensuravel.add(elemTipo);
-    //	    }//elemTipo
-    //	}
-    //    }//ajusta
-
+    @PreCreate
+    @PreUpdate
+    public void ajusta()
+    {
+	if(tipoDeEntidadeMensuravel != null){
+    	
+    	String nomeEntidade = "Artefato";
+    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
+    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
+    	
+    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
+    }
+    }//ajusta
 }

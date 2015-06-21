@@ -26,10 +26,11 @@ import javax.persistence.*;
 import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
 import org.openxava.annotations.*;
+import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel;"),
+	@View(members = "nome; descricao;"),
 	@View(name = "Simple", members = "nome")
 })
 @Tabs({
@@ -52,7 +53,6 @@ public class TipoDeArtefato extends EntidadeMensuravel
     }
 
     @ManyToOne
-    @Required
     @Transient
     @DefaultValueCalculator(
 	    value = TipoDeEntidadeMensuravelCalculator.class,
@@ -69,5 +69,19 @@ public class TipoDeArtefato extends EntidadeMensuravel
     {
 	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
+    
+    @PreCreate
+    @PreUpdate
+    public void ajusta()
+    {
+	if(tipoDeEntidadeMensuravel != null){
+    	
+    	String nomeEntidade = "Tipo de Artefato";
+    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
+    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
+    	
+    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
+    }
+    }//ajusta
 
 }

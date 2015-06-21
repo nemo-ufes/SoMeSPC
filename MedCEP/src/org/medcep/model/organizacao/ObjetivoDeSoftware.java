@@ -23,6 +23,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.medcep.validators.ObjetivoDeSoftwareValidator;
 import org.openxava.annotations.*;
 
 @Entity
@@ -35,6 +36,11 @@ import org.openxava.annotations.*;
 @Tabs({
 	@Tab(properties = "nome", defaultOrder = "${nome} asc")
 })
+@EntityValidator(
+		value = ObjetivoDeSoftwareValidator.class,
+		properties = {
+			@PropertyValue(name = "objetivoEstrategico")
+		})
 public class ObjetivoDeSoftware extends Objetivo
 {
 
@@ -81,5 +87,13 @@ public class ObjetivoDeSoftware extends Objetivo
 	    Collection<ObjetivoEstrategico> objetivoEstrategico)
     {
 	this.objetivoEstrategico = objetivoEstrategico;
+    }
+    
+    @PreCreate
+    @PreUpdate
+    public void ajusta()throws Exception{
+    	if (objetivoEstrategico == null || objetivoEstrategico.isEmpty()){
+    		throw new NullPointerException("erro");
+    	}
     }
 }

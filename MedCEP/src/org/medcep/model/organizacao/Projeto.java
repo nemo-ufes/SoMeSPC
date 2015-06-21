@@ -28,10 +28,11 @@ import org.medcep.model.medicao.*;
 import org.medcep.model.medicao.planejamento.*;
 import org.medcep.model.projeto.*;
 import org.openxava.annotations.*;
+import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; dataInicio, dataFim; equipe; objetivo; elementoMensuravel; criterioDeProjeto;"),
+	@View(members = "nome; dataInicio, dataFim; equipe; objetivo; criterioDeProjeto;"),
 	@View(name = "Simple", members = "nome"),
 	@View(name = "SimpleNoFrame", members = "nome")
 })
@@ -136,7 +137,6 @@ public class Projeto extends EntidadeMensuravel
     private Collection<CriterioDeProjeto> criterioDeProjeto;
 
     @ManyToOne
-    @Required
     @Transient
     @DefaultValueCalculator(
 	    value = TipoDeEntidadeMensuravelCalculator.class,
@@ -158,6 +158,15 @@ public class Projeto extends EntidadeMensuravel
     @PreUpdate
     public void ajustaElementosMensuraveis()
     {
+    if(tipoDeEntidadeMensuravel != null){
+    	
+    	String nomeEntidade = "Projeto";
+    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
+    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
+    	
+    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
+    }
+    	
 	if (elementoMensuravel == null)
 	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
 
