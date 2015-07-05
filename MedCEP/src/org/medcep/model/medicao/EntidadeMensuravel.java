@@ -28,7 +28,7 @@ import org.openxava.annotations.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; descricao;"),
 	@View(name = "Simple", members = "nome"),
 	@View(name = "SimpleNoFrame", members = "nome"),
 })
