@@ -28,7 +28,7 @@ import org.openxava.annotations.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; descricao; elementoMensuravel"),
+	@View(members = "nome; tipoDeEntidadeMensuravel; descricao;"),
 	@View(name = "Simple", members = "nome"),
 	@View(name = "SimpleNoFrame", members = "nome"),
 })
@@ -82,7 +82,7 @@ public class EntidadeMensuravel
      */
     @NewAction("EntidadeMensuravel.AddElementoMensuravel")
     @ListProperties("nome")
-    protected Collection<ElementoMensuravel> elementoMensuravel;
+    private Collection<ElementoMensuravel> elementoMensuravel;
 
     public Integer getId()
     {

@@ -27,10 +27,11 @@ import org.medcep.calculators.*;
 import org.medcep.model.medicao.*;
 import org.medcep.validators.*;
 import org.openxava.annotations.*;
+import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
-	@View(members = "nome; tipoDeEntidadeMensuravel; atividadeProjetoOcorrida"),
+	@View(members = "nome; atividadeProjetoOcorrida"),
 	@View(name = "Simple", members = "nome")
 })
 @Tabs({
@@ -51,7 +52,6 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     private AtividadeProjeto atividadeProjetoOcorrida;
 
     @ManyToOne
-    @Required
     @Transient
     @DefaultValueCalculator(
 	    value = TipoDeEntidadeMensuravelCalculator.class,
@@ -79,5 +79,19 @@ public class OcorrenciaAtividade extends EntidadeMensuravel
     {
 	this.atividadeProjetoOcorrida = atividadeProjetoOcorrida;
     }
+    
+    @PreCreate
+    @PreUpdate
+    public void ajusta()
+    {
+	if(tipoDeEntidadeMensuravel != null){
+    	
+    	String nomeEntidade = "Ocorrência de Atividade";
+    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
+    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
+    	
+    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
+    }
+    }//ajusta
 
 }

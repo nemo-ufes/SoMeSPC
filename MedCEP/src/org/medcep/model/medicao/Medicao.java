@@ -35,9 +35,9 @@ import org.openxava.annotations.*;
 		+ "medidaPlanoDeMedicao;"
 		+ "entidadeMensuravel;"
 		+ "valorMedido;"
-		+ "momentoRealDaMedicao; "
 		+ "executorDaMedicao; "
-		+ "contextoDeMedicao"
+		+ "contextoDeMedicao; "
+		+ "momentoRealDaMedicao"
 	)
 })
 @Tabs({

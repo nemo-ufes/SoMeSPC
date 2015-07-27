@@ -133,8 +133,8 @@ public class AlocacaoEquipe extends EntidadeMensuravel
     {
 	this.setNome(String.format("%s %s em %s", papelRecursoHumano.getNome(), recursoHumano.getNome(), equipe.getNome()));
 
-	if (elementoMensuravel == null)
-	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
+	if (getElementoMensuravel() == null)
+	    setElementoMensuravel(new ArrayList<ElementoMensuravel>());
 
 	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
 	{
@@ -142,7 +142,7 @@ public class AlocacaoEquipe extends EntidadeMensuravel
 	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
 	    {
 		add = true;
-		for (ElementoMensuravel elem : elementoMensuravel)
+		for (ElementoMensuravel elem : getElementoMensuravel())
 		{
 		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
 		    {
@@ -151,7 +151,7 @@ public class AlocacaoEquipe extends EntidadeMensuravel
 		    }
 		}
 		if (add)
-		    elementoMensuravel.add(elemTipo);
+		    getElementoMensuravel().add(elemTipo);
 	    }//elemTipo
 	}
     }//ajusta

@@ -34,7 +34,7 @@ import org.openxava.annotations.*;
  */
 @Entity
 @Views({
-	@View(members = "nome; descricao; formulaDeCalculoDeMedida;"),
+	@View(members = "nome; descricao;"),
 	@View(name = "Simple", members = "nome"),
 })
 @Tabs({
