@@ -19,7 +19,8 @@
  */
 package org.medcep.validators;
 
-import org.medcep.model.medicao.*;
+import org.medcep.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
+import org.medcep.model.entidades_e_medidas.*;
 import org.openxava.util.*;
 import org.openxava.validators.*;
 

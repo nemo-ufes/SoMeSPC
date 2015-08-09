@@ -31,10 +31,10 @@ import org.medcep.inicializacao.*;
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
-import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
-import org.medcep.model.organizacao.*;
-import org.medcep.model.processo.*;
+import org.medcep.model.entidades_e_medidas.*;
+import org.medcep.model.organizacao_de_software.*;
+import org.medcep.model.plano_de_medicao.*;
+import org.medcep.model.processo_de_software.*;
 
 import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.json.*;
@@ -270,7 +270,7 @@ public class TaigaIntegratorTest
 
 	dump(sincap);
 
-	org.medcep.model.organizacao.Projeto projeto = integrator.criarProjetoMedCEP(sincap);
+	org.medcep.model.organizacao_de_software.Projeto projeto = integrator.criarProjetoMedCEP(sincap);
 
 	assertNotNull(projeto);
 	assertNotEquals(projeto.getId(), "");

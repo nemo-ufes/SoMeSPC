@@ -7,7 +7,8 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import org.hibernate.exception.*;
-import org.medcep.model.medicao.*;
+import org.medcep.model.definicao_operacional_de_medida.Periodicidade;
+import org.medcep.model.entidades_e_medidas.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
 

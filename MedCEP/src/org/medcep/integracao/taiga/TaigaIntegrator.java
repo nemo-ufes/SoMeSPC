@@ -35,10 +35,20 @@ import org.hibernate.validator.*;
 import org.medcep.integracao.agendador.*;
 import org.medcep.integracao.taiga.model.*;
 import org.medcep.integracao.taiga.model.Projeto;
-import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
-import org.medcep.model.organizacao.*;
-import org.medcep.model.processo.*;
+import org.medcep.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
+import org.medcep.model.definicao_operacional_de_medida.Periodicidade;
+import org.medcep.model.definicao_operacional_de_medida.ProcedimentoDeAnaliseDeMedicao;
+import org.medcep.model.definicao_operacional_de_medida.ProcedimentoDeMedicao;
+import org.medcep.model.entidades_e_medidas.*;
+import org.medcep.model.medicao.ContextoDeMedicao;
+import org.medcep.model.medicao.Medicao;
+import org.medcep.model.medicao.ValorNumerico;
+import org.medcep.model.objetivos.NecessidadeDeInformacao;
+import org.medcep.model.objetivos.ObjetivoDeMedicao;
+import org.medcep.model.objetivos.ObjetivoEstrategico;
+import org.medcep.model.organizacao_de_software.*;
+import org.medcep.model.plano_de_medicao.*;
+import org.medcep.model.processo_de_software.*;
 import org.medcep.util.json.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
@@ -814,7 +824,7 @@ public class TaigaIntegrator
      * @return Projeto MedCEP criado/existente.
      * @throws Exception
      */
-    public org.medcep.model.organizacao.Projeto criarProjetoMedCEP(Projeto projeto) throws Exception
+    public org.medcep.model.organizacao_de_software.Projeto criarProjetoMedCEP(Projeto projeto) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
 	Equipe equipe = this.criarEquipeMedCEP("Equipe " + projeto.getNome(), projeto.getMembros());
@@ -825,7 +835,7 @@ public class TaigaIntegrator
 	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = manager.createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoProjeto = tipoEntidadeTypedQuery.getSingleResult();
 
-	org.medcep.model.organizacao.Projeto projetoMedCEP = new org.medcep.model.organizacao.Projeto();
+	org.medcep.model.organizacao_de_software.Projeto projetoMedCEP = new org.medcep.model.organizacao_de_software.Projeto();
 	projetoMedCEP.setNome(projeto.getNome());
 	projetoMedCEP.setEquipe(equipes);
 	projetoMedCEP.setDataInicio(projeto.getDataCriacao());
@@ -848,7 +858,7 @@ public class TaigaIntegrator
 		System.out.println(String.format("Projeto %s já existe.", projeto.getNome()));
 
 		String query = String.format("SELECT p FROM Projeto p WHERE p.nome='%s'", projeto.getNome());
-		TypedQuery<org.medcep.model.organizacao.Projeto> typedQuery = manager.createQuery(query, org.medcep.model.organizacao.Projeto.class);
+		TypedQuery<org.medcep.model.organizacao_de_software.Projeto> typedQuery = manager.createQuery(query, org.medcep.model.organizacao_de_software.Projeto.class);
 
 		projetoMedCEP = typedQuery.getSingleResult();
 	    }
@@ -1964,8 +1974,8 @@ public class TaigaIntegrator
 	TipoDeEntidadeMensuravel tipoPP = typedQuery1.getSingleResult();
 
 	String query2 = "SELECT e FROM Projeto e WHERE e.nome='" + projeto.getNome() + "'";
-	TypedQuery<org.medcep.model.organizacao.Projeto> typedQuery2 = manager.createQuery(query2, org.medcep.model.organizacao.Projeto.class);
-	org.medcep.model.organizacao.Projeto proj = typedQuery2.getSingleResult();
+	TypedQuery<org.medcep.model.organizacao_de_software.Projeto> typedQuery2 = manager.createQuery(query2, org.medcep.model.organizacao_de_software.Projeto.class);
+	org.medcep.model.organizacao_de_software.Projeto proj = typedQuery2.getSingleResult();
 
 	scrum.setBaseadoEm(processoScrum);
 	scrum.setTipoDeEntidadeMensuravel(tipoPP);
@@ -2463,12 +2473,12 @@ public class TaigaIntegrator
 	    planoOrganizacao = this.criarPlanoMedicaoOrganizacaoMedCEP(new ArrayList<MedidasTaiga>(new ArrayList<MedidasTaiga>(Arrays.asList(todasMedidas))));
 	}
 
-	org.medcep.model.organizacao.Projeto proj = new org.medcep.model.organizacao.Projeto();
+	org.medcep.model.organizacao_de_software.Projeto proj = new org.medcep.model.organizacao_de_software.Projeto();
 	//Verifica se o projeto está criado.
 	try
 	{
 	    String queryProjeto = String.format("SELECT p FROM Projeto p WHERE p.nome='%s'", projeto.getNome());
-	    TypedQuery<org.medcep.model.organizacao.Projeto> typedQueryProjeto = manager.createQuery(queryProjeto, org.medcep.model.organizacao.Projeto.class);
+	    TypedQuery<org.medcep.model.organizacao_de_software.Projeto> typedQueryProjeto = manager.createQuery(queryProjeto, org.medcep.model.organizacao_de_software.Projeto.class);
 	    proj = typedQueryProjeto.getSingleResult();
 	}
 	catch (Exception ex)

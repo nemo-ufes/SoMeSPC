@@ -28,7 +28,7 @@ import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.*;
-import org.medcep.model.organizacao.*;
+import org.medcep.model.organizacao_de_software.*;
 import org.openxava.jpa.*;
 
 /**

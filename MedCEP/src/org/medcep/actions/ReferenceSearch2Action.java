@@ -21,8 +21,11 @@ package org.medcep.actions;
 
 import java.util.*;
 
-import org.medcep.model.medicao.planejamento.*;
-import org.medcep.model.organizacao.*;
+import org.medcep.model.objetivos.NecessidadeDeInformacao;
+import org.medcep.model.objetivos.ObjetivoDeMedicao;
+import org.medcep.model.objetivos.ObjetivoDeSoftware;
+import org.medcep.model.objetivos.ObjetivoEstrategico;
+import org.medcep.model.plano_de_medicao.*;
 import org.openxava.actions.*;
 import org.openxava.view.*;
 

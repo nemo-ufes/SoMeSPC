@@ -27,8 +27,8 @@ import javax.ws.rs.core.Response.Status;
 
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
-import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
+import org.medcep.model.definicao_operacional_de_medida.Periodicidade;
+import org.medcep.model.plano_de_medicao.*;
 import org.medcep.util.json.*;
 import org.medcep.webservices.rest.dto.*;
 

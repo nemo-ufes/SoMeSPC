@@ -24,8 +24,10 @@ import java.sql.*;
 import javax.persistence.*;
 
 import org.medcep.actions.*;
-import org.medcep.model.medicao.planejamento.*;
-import org.medcep.model.organizacao.*;
+import org.medcep.model.entidades_e_medidas.ElementoMensuravel;
+import org.medcep.model.entidades_e_medidas.EntidadeMensuravel;
+import org.medcep.model.organizacao_de_software.*;
+import org.medcep.model.plano_de_medicao.*;
 import org.openxava.annotations.*;
 
 @Entity

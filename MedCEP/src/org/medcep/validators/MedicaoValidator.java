@@ -19,8 +19,8 @@
  */
 package org.medcep.validators;
 
-import org.medcep.model.medicao.*;
-import org.medcep.model.medicao.planejamento.*;
+import org.medcep.model.entidades_e_medidas.*;
+import org.medcep.model.plano_de_medicao.*;
 import org.openxava.util.*;
 import org.openxava.validators.*;
 

@@ -22,7 +22,7 @@ package org.medcep.calculators;
 
 import javax.persistence.*;
 
-import org.medcep.model.medicao.*;
+import org.medcep.model.entidades_e_medidas.*;
 import org.openxava.calculators.*;
 import org.openxava.jpa.*;
 

@@ -37,12 +37,14 @@ public class NewTreeViewItemPlanoMedicaoAction extends NewTreeViewItemAction { /
 	 * estatica para uso posterior. (Não é a solução mais adequada, pois pode causar problema no
 	 * uso simultaneo, mas foi uma forma encontrada até o momento para ter essa informação 
 	 * posteriormente - uso no TreeView do PlanoDeMedicao)*/
+	@SuppressWarnings("unchecked")
 	public void execute() throws Exception 
 	{	
 		
 		View collectionElementView = getCollectionElementView();
 		Tab collectionTab = collectionElementView.getCollectionTab();
 		
+		@SuppressWarnings("deprecation")
 		int[] selected = collectionTab.getSelected();
 		
 		entities = collectionElementView.getCollectionObjects();

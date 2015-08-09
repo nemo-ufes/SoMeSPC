@@ -19,7 +19,7 @@
  */
 package org.medcep.actions;
 
-import org.medcep.model.processo.comportamento.*;
+import org.medcep.model.comportamento_processo_de_software.*;
 import org.openxava.actions.*;
 import org.openxava.jpa.*;
 

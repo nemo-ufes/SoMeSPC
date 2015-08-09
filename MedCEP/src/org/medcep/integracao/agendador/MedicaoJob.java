@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 import org.medcep.integracao.taiga.*;
 import org.medcep.integracao.taiga.model.*;
-import org.medcep.model.medicao.planejamento.*;
-import org.medcep.model.organizacao.*;
+import org.medcep.model.organizacao_de_software.*;
+import org.medcep.model.plano_de_medicao.*;
 import org.openxava.jpa.*;
 import org.quartz.*;
 

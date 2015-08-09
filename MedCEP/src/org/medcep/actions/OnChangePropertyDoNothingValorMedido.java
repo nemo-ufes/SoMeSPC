@@ -19,7 +19,7 @@
  */
 package org.medcep.actions;
 
-import org.medcep.model.medicao.*;
+import org.medcep.model.medicao.Medicao;
 import org.openxava.actions.*;
 import org.openxava.jpa.*;
 

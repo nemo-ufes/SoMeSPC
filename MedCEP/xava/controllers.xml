@@ -87,8 +87,30 @@
 
 	<controller name="ProcessoDeProjeto">
 		<extends controller="Typical" />
-		<action name="add" class="org.medcep.actions.GoAddAtividadeProjetoAction"
+		<action name="add" class="org.medcep.actions.GoAddProcessoDeProjetoAction"
 			hidden="true" image="images/create_new.gif" />
+		<action name="adicionar" class="org.medcep.actions.GoAddProcessoDeProjetoActionSimple"
+			hidden="true" image="images/search_add.gif" />
+	</controller>
+	
+	<controller name="ProcessoPadrao">
+		<extends controller="Typical" />
+		<action name="add" class="org.medcep.actions.GoAddProcessoPadraoAction"
+			hidden="true" image="images/create_new.gif" />
+		<action name="adicionar" class="org.medcep.actions.GoAddProcessoPadraoActionSimple"
+			hidden="true" image="images/search_add.gif" />
+	</controller>
+	
+	<controller name="AtividadePadrao">
+		<extends controller="Typical" />
+		<action name="add" class="org.medcep.actions.GoAddAtividadePadraoAction"
+			hidden="true" image="images/search_add.gif" />
+	</controller>
+	
+	<controller name="AtividadeProjeto">
+		<extends controller="Typical" />
+		<action name="add" class="org.medcep.actions.GoAddAtividadeProjetoAction"
+			hidden="true" image="images/search_add.gif" />
 	</controller>
 
 	<controller name="ProcessoInstanciado">
@@ -151,18 +173,10 @@
 
 	<controller name="ObjetivoDeSoftware">
 		<extends controller="Typical" />
-		<action name="save" class="org.medcep.actions.SaveObjetivoDeSoftwareAction"
-			image="images/save.gif">
-			<set property="resetAfter" value="false" />
-		</action>
 	</controller>
 
 	<controller name="ObjetivoDeMedicao">
 		<extends controller="Typical" />
-		<action name="save" class="org.medcep.actions.SaveObjetivoDeMedicaoAction"
-			image="images/save.gif">
-			<set property="resetAfter" value="false" />
-		</action>
 	</controller>
 
 	<controller name="EntidadeMensuravel">
@@ -175,6 +189,8 @@
 		<extends controller="Typical" />
 		<action name="addObjetivoDeMedicao" class="org.medcep.actions.GoAddObjetivoMedicaoAction"
 			hidden="true" image="images/create_new.gif" />
+		<action name="addNecessidadeDeInformacao" class="org.medcep.actions.GoAddNecessidadeDeInformacao"
+			hidden="true" image="images/search_add.gif" />
 	</controller>
 
 	<controller name="Medicao">
