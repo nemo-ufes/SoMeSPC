@@ -573,6 +573,26 @@ public class TaigaIntegrator
 
 	return membros;
     }
+    
+    /**
+     * Obtem os dados de Sprints do Taiga em JSON.
+     * 
+     * @return Json das Sprints Taiga
+     */
+    public String obterMembrosDoProjetoTaigaJson(int idProjeto)
+    {
+	//Busca informações do membro.
+	WebTarget target = client.target(this.urlTaiga).path("memberships").queryParam("project", idProjeto);
+
+	Response membrosResponse = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	JSONArray membrosJson = new JSONArray(membrosResponse.readEntity(String.class));
+
+	return membrosJson.toString();
+    }
 
     /**
      * Obtem as periodicidades cadastradas.

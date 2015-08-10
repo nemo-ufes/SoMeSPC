@@ -48,7 +48,7 @@ public class TaigaIntegratorTest
     public void init() throws Exception
     {
 	MedCEPStarter.inicializarMedCEP();
-	integrator = new TaigaIntegrator("", "", "");
+	integrator = new TaigaIntegrator("https://api.taiga.io/", "vinnysoft", "teste123");
     }
 
     @Test
@@ -75,7 +75,7 @@ public class TaigaIntegratorTest
     @Test
     public void testObterProjetoJson()
     {
-	String projeto = integrator.obterProjetoTaigaJson("paflopes-sincap");
+	String projeto = integrator.obterProjetoTaigaJson("vinnysoft-points-per-role");
 
 	assertNotNull(projeto);
 
@@ -115,7 +115,7 @@ public class TaigaIntegratorTest
     @Test
     public void testObterEstadoProjetoTaigaJson()
     {
-	String projeto = integrator.obterEstadoProjetoTaigaJson("paflopes-sincap");
+	String projeto = integrator.obterEstadoProjetoTaigaJson("vinnysoft-points-per-role");
 
 	assertNotNull(projeto);
 
@@ -155,7 +155,7 @@ public class TaigaIntegratorTest
     @Test
     public void testObterEstoriasDaSprintBacklogTaigaJson()
     {
-	String estorias = integrator.obterEstoriasDaSprintBacklogTaigaJson("paflopes-sincap", "sprint-17");
+	String estorias = integrator.obterEstoriasDaSprintBacklogTaigaJson("paflopes-sincap", "sprint-19");
 
 	assertNotNull(estorias);
 
@@ -206,6 +206,19 @@ public class TaigaIntegratorTest
 	assertNotEquals(membro.size(), 0);
 
 	dump(membro);
+    }
+    
+    @Test
+    public void testObterMembrosDoProjetoTaigaJson()
+    {
+
+	Projeto projeto = integrator.obterProjetoTaiga("vinnysoft-points-per-role");
+
+	String membros = integrator.obterMembrosDoProjetoTaigaJson(projeto.getId());
+
+	assertNotNull(membros);
+
+	System.out.println(membros);
     }
 
     @Test
