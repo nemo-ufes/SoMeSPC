@@ -1,7 +1,7 @@
-# MedCEP - A powerful tool to measure
+# SoMeSPC - A powerful tool for measurement
 
-<img src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/logo_new.png" alt="Logo MedCEP" width="140px" height="120px"/> 
-<img align="right" src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img align="right" src="https://github.com/vinnysoft/MedCEP/blob/master/Addons/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
+<img src="https://github.com/nemo-ufes/MedCEP/blob/master/SoMeSPC/web/naviox/images/logo.png" alt="Logo SoMeSPC" width="140px" height="120px"/> 
+<img align="right" src="https://github.com/nemo-ufes/MedCEP/blob/master/SoMeSPC/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img align="right" src="https://github.com/vinnysoft/nemo-ufes/blob/master/SoMeSPC/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
 
 **Copyright &copy; 2013 Ciro Xavier Maretto** <br/>
 **Copyright &copy; 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca** 
@@ -9,7 +9,7 @@
 Ferramenta para Medição de Software e Controle Estatístico de Processos. 
 <br/>Baseada na arquitetura de referência de medição de software de MARETTO (2014).
 
-##Configuração da MedCEP
+##Configuração da SoMeSPC
 ###Requisitos
 - Microsoft Windows 7 SP1 64 bits (ou outro sistema operacional com suporte à plataforma Java)
 - Java 7 JDK (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
@@ -17,34 +17,34 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 - MySQL 5.6.24 - [Download] (https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-5.6.24.0.msi)
 - Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
 
-###Instruções para configuração da MedCEP
+###Instruções para configuração da SoMeSPC
 1. Instalar o Java 7 JDK.
 2. Instalar o MySQL.
-3. Criar um esquema de banco de dados chamado **"medcep"**.
-4. Criar um usuário e senha **"medcep"** com permissão total no esquema criado. 
+3. Criar um esquema de banco de dados chamado **"somespc"**.
+4. Criar um usuário e senha **"somespc"** com permissão total no esquema criado. 
 5. Na utilização de outro usuário/senha, atualizar os arquivos abaixo após clonar o repositório do Github:
- 1. MedCEP/Persistence/META-INF/persistence.xml
- 2. MedCEP/Properties/quartz.properties
-6. Executar o script SQL [tables_mysql.sql](https://github.com/nemo-ufes/MedCEP/blob/master/MedCEP/properties/quartz_tables_scripts/tables_mysql.sql)
-7. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira instalar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>MedCEP/properties/openxava.properties</b> após clonar o repositório do Github. O arquivo apache-tomcat-7.0.59.zip se encontra no [Link](http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.59/bin/).
+ 1. SoMeSPC/Persistence/META-INF/persistence.xml
+ 2. SoMeSPC/Properties/quartz.properties
+6. Executar o script SQL [tables_mysql.sql](https://github.com/nemo-ufes/MedCEP/blob/master/SoMeSPC/properties/quartz_tables_scripts/tables_mysql.sql)
+7. Descompactar o Apache Tomcat em C:\apache-tomcat-7.0.59 (caminho padrão). Caso queira instalar o Apache Tomcat em outro diretório, atualizar a variável <b>tomcat.dir</b> do arquivo <b>SoMeSPCm/properties/openxava.properties</b> após clonar o repositório do Github. O arquivo apache-tomcat-7.0.59.zip se encontra no [Link](http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.59/bin/).
 8. Descompactar o IDE Eclipse Luna.
 9. Executar o Eclipse.
-10. Clonar o repositório MedCEP do GitHub.
+10. Clonar o repositório SoMeSPC do GitHub.
 11. Configurar o Apache Tomcat como servidor web no Eclipse (<b>Window -> Preferences -> Server -> Runtime Environments -> Add...</b>). Clicar no botao <b>Add</b>, escolher a opção <b>Apache Tomcat v7.0</b>, em seguida escolher o caminho, onde o Apache Tomcat foi descompactado anteriormente, clicando em <b>Browse</b> e por fim selecionar <b>jr7</b>.
 12. Na aba Server (parte inferior do Eclipse), dar duplo clique em <b>Tomcat v7 Server</b>. No arquivo que abrir, selecionar a opção <b>"Use Tomcat Installation (takes control of Tomcat installation)"</b> na área Server Locations.
 13. Iniciar o Apache Tomcat.
-14. Clicar com o botão direito em Tomcat v7.0 Server e selecionar <b>Add and Remove</b>, escolher a ferramenta MedCEP e clicar em <b>Add</b>.
-15. Abrir a pasta do projeto MedCEP no IDE Eclipse.
+14. Clicar com o botão direito em Tomcat v7.0 Server e selecionar <b>Add and Remove</b>, escolher a ferramenta SoMeSPC e clicar em <b>Add</b>.
+15. Abrir a pasta do projeto SoMeSPC no IDE Eclipse.
 16. Procurar pelo arquivo <b>build.xml</b>.
 17. Clicar com o botão direito do mouse, selecionar <b>"Run as"</b> e escolher a 3º opção <b>"Ant Build..."</b>.
-18. Defina um nome, por exemplo <b>"MedCEP.Implantar"</b>, depois clique em <b>Apply</b>.
+18. Defina um nome, por exemplo <b>"SoMeSPC.Implantar"</b>, depois clique em <b>Apply</b>.
 19. Clique em <b>Run</b>.
-20. Executar a Ant Build <b>MedCEP.Implantar</b>.
-21. Abrir a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP). Caso não tenha sido possível abrir a aplicação através da URL via browser, faça:
+20. Executar a Ant Build <b>SoMeSPC.Implantar</b>.
+21. Abrir a aplicação no browser pela URL: [http://localhost:8080/SoMeSPC](http://localhost:8080/SoMeSPC). Caso não tenha sido possível abrir a aplicação através da URL via browser, faça:
  1. Pare o Apache Tomcat.
  2. Inicie novamente o Apache Tomcat.
- 3. Execute a Ant Build <b>MedCEP.Implantar</b>.
- 4. Abra a aplicação no browser pela URL: [http://localhost:8080/MedCEP](http://localhost:8080/MedCEP).
+ 3. Execute a Ant Build <b>SoMeSPC.Implantar</b>.
+ 4. Abra a aplicação no browser pela URL: [http://localhost:8080/SoMeSPC](http://localhost:8080/SoMeSPC).
 
 <!---
 ##Configuração do Sonar
@@ -156,7 +156,7 @@ C. X. MARETTO and M. P. BARCELLOS, <b>[Uma Arquitetura de Referência para Medi�
 
 ##Licença
 ```
- MedCEP - A powerful tool to measure
+ SoMeSPC - A powerful tool for measurement
  
  Copyright 2013 Ciro Xavier Maretto
  Copyright 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca                          
