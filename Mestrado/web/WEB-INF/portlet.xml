@@ -9,9 +9,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
 > 
 	<portlet id="FormulaDeCalculoDeMedida">
-		<description>MEDCEP - Formula de calculo de medida</description>       
+		<description>SoMeSPC - Formula de calculo de medida</description>       
 		<portlet-name>FormulaDeCalculoDeMedida</portlet-name>
-		<display-name>MEDCEP - Formula de calculo de medida</display-name> 
+		<display-name>SoMeSPC - Formula de calculo de medida</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -30,9 +30,9 @@
     	<resource-bundle>portlets/FormulaDeCalculoDeMedida</resource-bundle>
 	</portlet> 
 	<portlet id="AnaliseDeMedicao">
-		<description>MEDCEP - Analise de medicao</description>       
+		<description>SoMeSPC - Analise de medicao</description>       
 		<portlet-name>AnaliseDeMedicao</portlet-name>
-		<display-name>MEDCEP - Analise de medicao</display-name> 
+		<display-name>SoMeSPC - Analise de medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -51,9 +51,9 @@
     	<resource-bundle>portlets/AnaliseDeMedicao</resource-bundle>
 	</portlet> 
 	<portlet id="Procedimento">
-		<description>MEDCEP - Procedimento</description>       
+		<description>SoMeSPC - Procedimento</description>       
 		<portlet-name>Procedimento</portlet-name>
-		<display-name>MEDCEP - Procedimento</display-name> 
+		<display-name>SoMeSPC - Procedimento</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -72,9 +72,9 @@
     	<resource-bundle>portlets/Procedimento</resource-bundle>
 	</portlet> 
 	<portlet id="TipoDeArtefato">
-		<description>MEDCEP - Tipo de artefato</description>       
+		<description>SoMeSPC - Tipo de artefato</description>       
 		<portlet-name>TipoDeArtefato</portlet-name>
-		<display-name>MEDCEP - Tipo de artefato</display-name> 
+		<display-name>SoMeSPC - Tipo de artefato</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -93,9 +93,9 @@
     	<resource-bundle>portlets/TipoDeArtefato</resource-bundle>
 	</portlet> 
 	<portlet id="TipoElementoMensuravel">
-		<description>MEDCEP - Tipo elemento mensuravel</description>       
+		<description>SoMeSPC - Tipo elemento mensuravel</description>       
 		<portlet-name>TipoElementoMensuravel</portlet-name>
-		<display-name>MEDCEP - Tipo elemento mensuravel</display-name> 
+		<display-name>SoMeSPC - Tipo elemento mensuravel</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -114,9 +114,9 @@
     	<resource-bundle>portlets/TipoElementoMensuravel</resource-bundle>
 	</portlet> 
 	<portlet id="Projeto">
-		<description>MEDCEP - Projeto</description>       
+		<description>SoMeSPC - Projeto</description>       
 		<portlet-name>Projeto</portlet-name>
-		<display-name>MEDCEP - Projeto</display-name> 
+		<display-name>SoMeSPC - Projeto</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -135,9 +135,9 @@
     	<resource-bundle>portlets/Projeto</resource-bundle>
 	</portlet> 
 	<portlet id="Medicao">
-		<description>MEDCEP - Medicao</description>       
+		<description>SoMeSPC - Medicao</description>       
 		<portlet-name>Medicao</portlet-name>
-		<display-name>MEDCEP - Medicao</display-name> 
+		<display-name>SoMeSPC - Medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -156,9 +156,9 @@
     	<resource-bundle>portlets/Medicao</resource-bundle>
 	</portlet> 
 	<portlet id="ValorNumerico">
-		<description>MEDCEP - Valor numerico</description>       
+		<description>SoMeSPC - Valor numerico</description>       
 		<portlet-name>ValorNumerico</portlet-name>
-		<display-name>MEDCEP - Valor numerico</display-name> 
+		<display-name>SoMeSPC - Valor numerico</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -177,9 +177,9 @@
     	<resource-bundle>portlets/ValorNumerico</resource-bundle>
 	</portlet> 
 	<portlet id="PlanoDeMedicaoDoProjeto">
-		<description>MEDCEP - Plano de medicao do projeto</description>       
+		<description>SoMeSPC - Plano de medicao do projeto</description>       
 		<portlet-name>PlanoDeMedicaoDoProjeto</portlet-name>
-		<display-name>MEDCEP - Plano de medicao do projeto</display-name> 
+		<display-name>SoMeSPC - Plano de medicao do projeto</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -198,9 +198,9 @@
     	<resource-bundle>portlets/PlanoDeMedicaoDoProjeto</resource-bundle>
 	</portlet> 
 	<portlet id="AnaliseDeComportamentoDeProcesso">
-		<description>MEDCEP - Analise de comportamento de processo</description>       
+		<description>SoMeSPC - Analise de comportamento de processo</description>       
 		<portlet-name>AnaliseDeComportamentoDeProcesso</portlet-name>
-		<display-name>MEDCEP - Analise de comportamento de processo</display-name> 
+		<display-name>SoMeSPC - Analise de comportamento de processo</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -219,9 +219,9 @@
     	<resource-bundle>portlets/AnaliseDeComportamentoDeProcesso</resource-bundle>
 	</portlet> 
 	<portlet id="LimiteDeControle">
-		<description>MEDCEP - Limite de controle</description>       
+		<description>SoMeSPC - Limite de controle</description>       
 		<portlet-name>LimiteDeControle</portlet-name>
-		<display-name>MEDCEP - Limite de controle</display-name> 
+		<display-name>SoMeSPC - Limite de controle</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -240,9 +240,9 @@
     	<resource-bundle>portlets/LimiteDeControle</resource-bundle>
 	</portlet> 
 	<portlet id="ValorDeEscalaAlfanumerico">
-		<description>MEDCEP - Valor de escala alfanumerico</description>       
+		<description>SoMeSPC - Valor de escala alfanumerico</description>       
 		<portlet-name>ValorDeEscalaAlfanumerico</portlet-name>
-		<display-name>MEDCEP - Valor de escala alfanumerico</display-name> 
+		<display-name>SoMeSPC - Valor de escala alfanumerico</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -261,9 +261,9 @@
     	<resource-bundle>portlets/ValorDeEscalaAlfanumerico</resource-bundle>
 	</portlet> 
 	<portlet id="AtividadeDeProjeto">
-		<description>MEDCEP - Atividade de projeto</description>       
+		<description>SoMeSPC - Atividade de projeto</description>       
 		<portlet-name>AtividadeDeProjeto</portlet-name>
-		<display-name>MEDCEP - Atividade de projeto</display-name> 
+		<display-name>SoMeSPC - Atividade de projeto</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -282,9 +282,9 @@
     	<resource-bundle>portlets/AtividadeDeProjeto</resource-bundle>
 	</portlet> 
 	<portlet id="Medida">
-		<description>MEDCEP - Medida</description>       
+		<description>SoMeSPC - Medida</description>       
 		<portlet-name>Medida</portlet-name>
-		<display-name>MEDCEP - Medida</display-name> 
+		<display-name>SoMeSPC - Medida</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -303,9 +303,9 @@
     	<resource-bundle>portlets/Medida</resource-bundle>
 	</portlet> 
 	<portlet id="Equipe">
-		<description>MEDCEP - Equipe</description>       
+		<description>SoMeSPC - Equipe</description>       
 		<portlet-name>Equipe</portlet-name>
-		<display-name>MEDCEP - Equipe</display-name> 
+		<display-name>SoMeSPC - Equipe</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -324,9 +324,9 @@
     	<resource-bundle>portlets/Equipe</resource-bundle>
 	</portlet> 
 	<portlet id="ProcedimentoDeMedicao">
-		<description>MEDCEP - Procedimento de medicao</description>       
+		<description>SoMeSPC - Procedimento de medicao</description>       
 		<portlet-name>ProcedimentoDeMedicao</portlet-name>
-		<display-name>MEDCEP - Procedimento de medicao</display-name> 
+		<display-name>SoMeSPC - Procedimento de medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -345,9 +345,9 @@
     	<resource-bundle>portlets/ProcedimentoDeMedicao</resource-bundle>
 	</portlet> 
 	<portlet id="MedidaPlanoDeMedicao">
-		<description>MEDCEP - Medida plano de medicao</description>       
+		<description>SoMeSPC - Medida plano de medicao</description>       
 		<portlet-name>MedidaPlanoDeMedicao</portlet-name>
-		<display-name>MEDCEP - Medida plano de medicao</display-name> 
+		<display-name>SoMeSPC - Medida plano de medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -366,9 +366,9 @@
     	<resource-bundle>portlets/MedidaPlanoDeMedicao</resource-bundle>
 	</portlet> 
 	<portlet id="DesempenhoDeProcessoEspecificado">
-		<description>MEDCEP - Desempenho de processo especificado</description>       
+		<description>SoMeSPC - Desempenho de processo especificado</description>       
 		<portlet-name>DesempenhoDeProcessoEspecificado</portlet-name>
-		<display-name>MEDCEP - Desempenho de processo especificado</display-name> 
+		<display-name>SoMeSPC - Desempenho de processo especificado</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -387,9 +387,9 @@
     	<resource-bundle>portlets/DesempenhoDeProcessoEspecificado</resource-bundle>
 	</portlet> 
 	<portlet id="ValorDeEscala">
-		<description>MEDCEP - Valor de escala</description>       
+		<description>SoMeSPC - Valor de escala</description>       
 		<portlet-name>ValorDeEscala</portlet-name>
-		<display-name>MEDCEP - Valor de escala</display-name> 
+		<display-name>SoMeSPC - Valor de escala</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -408,9 +408,9 @@
     	<resource-bundle>portlets/ValorDeEscala</resource-bundle>
 	</portlet> 
 	<portlet id="ObjetivoDeMedicao">
-		<description>MEDCEP - Objetivo de medicao</description>       
+		<description>SoMeSPC - Objetivo de medicao</description>       
 		<portlet-name>ObjetivoDeMedicao</portlet-name>
-		<display-name>MEDCEP - Objetivo de medicao</display-name> 
+		<display-name>SoMeSPC - Objetivo de medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -429,9 +429,9 @@
     	<resource-bundle>portlets/ObjetivoDeMedicao</resource-bundle>
 	</portlet> 
 	<portlet id="ElementoMensuravel">
-		<description>MEDCEP - Elemento mensuravel</description>       
+		<description>SoMeSPC - Elemento mensuravel</description>       
 		<portlet-name>ElementoMensuravel</portlet-name>
-		<display-name>MEDCEP - Elemento mensuravel</display-name> 
+		<display-name>SoMeSPC - Elemento mensuravel</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -450,9 +450,9 @@
     	<resource-bundle>portlets/ElementoMensuravel</resource-bundle>
 	</portlet> 
 	<portlet id="ValorMedido">
-		<description>MEDCEP - Valor medido</description>       
+		<description>SoMeSPC - Valor medido</description>       
 		<portlet-name>ValorMedido</portlet-name>
-		<display-name>MEDCEP - Valor medido</display-name> 
+		<display-name>SoMeSPC - Valor medido</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -471,9 +471,9 @@
     	<resource-bundle>portlets/ValorMedido</resource-bundle>
 	</portlet> 
 	<portlet id="PlanoDeMedicao">
-		<description>MEDCEP - Plano de medicao</description>       
+		<description>SoMeSPC - Plano de medicao</description>       
 		<portlet-name>PlanoDeMedicao</portlet-name>
-		<display-name>MEDCEP - Plano de medicao</display-name> 
+		<display-name>SoMeSPC - Plano de medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -492,9 +492,9 @@
     	<resource-bundle>portlets/PlanoDeMedicao</resource-bundle>
 	</portlet> 
 	<portlet id="Periodicidade">
-		<description>MEDCEP - Periodicidade</description>       
+		<description>SoMeSPC - Periodicidade</description>       
 		<portlet-name>Periodicidade</portlet-name>
-		<display-name>MEDCEP - Periodicidade</display-name> 
+		<display-name>SoMeSPC - Periodicidade</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -513,9 +513,9 @@
     	<resource-bundle>portlets/Periodicidade</resource-bundle>
 	</portlet> 
 	<portlet id="PlanoDeMedicaoDaOrganizacao">
-		<description>MEDCEP - Plano de medicao da organizacao</description>       
+		<description>SoMeSPC - Plano de medicao da organizacao</description>       
 		<portlet-name>PlanoDeMedicaoDaOrganizacao</portlet-name>
-		<display-name>MEDCEP - Plano de medicao da organizacao</display-name> 
+		<display-name>SoMeSPC - Plano de medicao da organizacao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -534,9 +534,9 @@
     	<resource-bundle>portlets/PlanoDeMedicaoDaOrganizacao</resource-bundle>
 	</portlet> 
 	<portlet id="AlocacaoEquipe">
-		<description>MEDCEP - Alocacao equipe</description>       
+		<description>SoMeSPC - Alocacao equipe</description>       
 		<portlet-name>AlocacaoEquipe</portlet-name>
-		<display-name>MEDCEP - Alocacao equipe</display-name> 
+		<display-name>SoMeSPC - Alocacao equipe</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -555,9 +555,9 @@
     	<resource-bundle>portlets/AlocacaoEquipe</resource-bundle>
 	</portlet> 
 	<portlet id="CapacidadeDeProcesso">
-		<description>MEDCEP - Capacidade de processo</description>       
+		<description>SoMeSPC - Capacidade de processo</description>       
 		<portlet-name>CapacidadeDeProcesso</portlet-name>
-		<display-name>MEDCEP - Capacidade de processo</display-name> 
+		<display-name>SoMeSPC - Capacidade de processo</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -576,9 +576,9 @@
     	<resource-bundle>portlets/CapacidadeDeProcesso</resource-bundle>
 	</portlet> 
 	<portlet id="ValorDeEscalaNumerico">
-		<description>MEDCEP - Valor de escala numerico</description>       
+		<description>SoMeSPC - Valor de escala numerico</description>       
 		<portlet-name>ValorDeEscalaNumerico</portlet-name>
-		<display-name>MEDCEP - Valor de escala numerico</display-name> 
+		<display-name>SoMeSPC - Valor de escala numerico</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -597,9 +597,9 @@
     	<resource-bundle>portlets/ValorDeEscalaNumerico</resource-bundle>
 	</portlet> 
 	<portlet id="DefinicaoOperacionalDeMedida">
-		<description>MEDCEP - Definicao operacional de medida</description>       
+		<description>SoMeSPC - Definicao operacional de medida</description>       
 		<portlet-name>DefinicaoOperacionalDeMedida</portlet-name>
-		<display-name>MEDCEP - Definicao operacional de medida</display-name> 
+		<display-name>SoMeSPC - Definicao operacional de medida</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -618,9 +618,9 @@
     	<resource-bundle>portlets/DefinicaoOperacionalDeMedida</resource-bundle>
 	</portlet> 
 	<portlet id="MetodoAnalitico">
-		<description>MEDCEP - Metodo analitico</description>       
+		<description>SoMeSPC - Metodo analitico</description>       
 		<portlet-name>MetodoAnalitico</portlet-name>
-		<display-name>MEDCEP - Metodo analitico</display-name> 
+		<display-name>SoMeSPC - Metodo analitico</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -639,9 +639,9 @@
     	<resource-bundle>portlets/MetodoAnalitico</resource-bundle>
 	</portlet> 
 	<portlet id="ObjetivoDeSoftware">
-		<description>MEDCEP - Objetivo de software</description>       
+		<description>SoMeSPC - Objetivo de software</description>       
 		<portlet-name>ObjetivoDeSoftware</portlet-name>
-		<display-name>MEDCEP - Objetivo de software</display-name> 
+		<display-name>SoMeSPC - Objetivo de software</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -660,9 +660,9 @@
     	<resource-bundle>portlets/ObjetivoDeSoftware</resource-bundle>
 	</portlet> 
 	<portlet id="ObjetivoEstrategico">
-		<description>MEDCEP - Objetivo estrategico</description>       
+		<description>SoMeSPC - Objetivo estrategico</description>       
 		<portlet-name>ObjetivoEstrategico</portlet-name>
-		<display-name>MEDCEP - Objetivo estrategico</display-name> 
+		<display-name>SoMeSPC - Objetivo estrategico</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -681,9 +681,9 @@
     	<resource-bundle>portlets/ObjetivoEstrategico</resource-bundle>
 	</portlet> 
 	<portlet id="Objetivo">
-		<description>MEDCEP - Objetivo</description>       
+		<description>SoMeSPC - Objetivo</description>       
 		<portlet-name>Objetivo</portlet-name>
-		<display-name>MEDCEP - Objetivo</display-name> 
+		<display-name>SoMeSPC - Objetivo</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -702,9 +702,9 @@
     	<resource-bundle>portlets/Objetivo</resource-bundle>
 	</portlet> 
 	<portlet id="ContextoDeMedicao">
-		<description>MEDCEP - Contexto de medicao</description>       
+		<description>SoMeSPC - Contexto de medicao</description>       
 		<portlet-name>ContextoDeMedicao</portlet-name>
-		<display-name>MEDCEP - Contexto de medicao</display-name> 
+		<display-name>SoMeSPC - Contexto de medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -723,9 +723,9 @@
     	<resource-bundle>portlets/ContextoDeMedicao</resource-bundle>
 	</portlet> 
 	<portlet id="Escala">
-		<description>MEDCEP - Escala</description>       
+		<description>SoMeSPC - Escala</description>       
 		<portlet-name>Escala</portlet-name>
-		<display-name>MEDCEP - Escala</display-name> 
+		<display-name>SoMeSPC - Escala</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -744,9 +744,9 @@
     	<resource-bundle>portlets/Escala</resource-bundle>
 	</portlet> 
 	<portlet id="ProcessoPadrao">
-		<description>MEDCEP - Processo padrao</description>       
+		<description>SoMeSPC - Processo padrao</description>       
 		<portlet-name>ProcessoPadrao</portlet-name>
-		<display-name>MEDCEP - Processo padrao</display-name> 
+		<display-name>SoMeSPC - Processo padrao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -765,9 +765,9 @@
     	<resource-bundle>portlets/ProcessoPadrao</resource-bundle>
 	</portlet> 
 	<portlet id="NecessidadeDeInformacao">
-		<description>MEDCEP - Necessidade de informacao</description>       
+		<description>SoMeSPC - Necessidade de informacao</description>       
 		<portlet-name>NecessidadeDeInformacao</portlet-name>
-		<display-name>MEDCEP - Necessidade de informacao</display-name> 
+		<display-name>SoMeSPC - Necessidade de informacao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -786,9 +786,9 @@
     	<resource-bundle>portlets/NecessidadeDeInformacao</resource-bundle>
 	</portlet> 
 	<portlet id="TipoDeEntidadeMensuravel">
-		<description>MEDCEP - Tipo de entidade mensuravel</description>       
+		<description>SoMeSPC - Tipo de entidade mensuravel</description>       
 		<portlet-name>TipoDeEntidadeMensuravel</portlet-name>
-		<display-name>MEDCEP - Tipo de entidade mensuravel</display-name> 
+		<display-name>SoMeSPC - Tipo de entidade mensuravel</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -807,9 +807,9 @@
     	<resource-bundle>portlets/TipoDeEntidadeMensuravel</resource-bundle>
 	</portlet> 
 	<portlet id="ContextoDeBaselineDeDesempenhoDeProcesso">
-		<description>MEDCEP - Contexto de baseline de desempenho de processo</description>       
+		<description>SoMeSPC - Contexto de baseline de desempenho de processo</description>       
 		<portlet-name>ContextoDeBaselineDeDesempenhoDeProcesso</portlet-name>
-		<display-name>MEDCEP - Contexto de baseline de desempenho de processo</display-name> 
+		<display-name>SoMeSPC - Contexto de baseline de desempenho de processo</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -828,9 +828,9 @@
     	<resource-bundle>portlets/ContextoDeBaselineDeDesempenhoDeProcesso</resource-bundle>
 	</portlet> 
 	<portlet id="ProcessoDeProjeto">
-		<description>MEDCEP - Processo de projeto</description>       
+		<description>SoMeSPC - Processo de projeto</description>       
 		<portlet-name>ProcessoDeProjeto</portlet-name>
-		<display-name>MEDCEP - Processo de projeto</display-name> 
+		<display-name>SoMeSPC - Processo de projeto</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -849,9 +849,9 @@
     	<resource-bundle>portlets/ProcessoDeProjeto</resource-bundle>
 	</portlet> 
 	<portlet id="ProcedimentoDeAnaliseDeMedicao">
-		<description>MEDCEP - Procedimento de analise de medicao</description>       
+		<description>SoMeSPC - Procedimento de analise de medicao</description>       
 		<portlet-name>ProcedimentoDeAnaliseDeMedicao</portlet-name>
-		<display-name>MEDCEP - Procedimento de analise de medicao</display-name> 
+		<display-name>SoMeSPC - Procedimento de analise de medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -870,9 +870,9 @@
     	<resource-bundle>portlets/ProcedimentoDeAnaliseDeMedicao</resource-bundle>
 	</portlet> 
 	<portlet id="EntidadeMensuravel">
-		<description>MEDCEP - Entidade mensuravel</description>       
+		<description>SoMeSPC - Entidade mensuravel</description>       
 		<portlet-name>EntidadeMensuravel</portlet-name>
-		<display-name>MEDCEP - Entidade mensuravel</display-name> 
+		<display-name>SoMeSPC - Entidade mensuravel</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -891,9 +891,9 @@
     	<resource-bundle>portlets/EntidadeMensuravel</resource-bundle>
 	</portlet> 
 	<portlet id="BaselineDeDesempenhoDeProcesso">
-		<description>MEDCEP - Baseline de desempenho de processo</description>       
+		<description>SoMeSPC - Baseline de desempenho de processo</description>       
 		<portlet-name>BaselineDeDesempenhoDeProcesso</portlet-name>
-		<display-name>MEDCEP - Baseline de desempenho de processo</display-name> 
+		<display-name>SoMeSPC - Baseline de desempenho de processo</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -912,9 +912,9 @@
     	<resource-bundle>portlets/BaselineDeDesempenhoDeProcesso</resource-bundle>
 	</portlet> 
 	<portlet id="ProcessoInstanciado">
-		<description>MEDCEP - Processo instanciado</description>       
+		<description>SoMeSPC - Processo instanciado</description>       
 		<portlet-name>ProcessoInstanciado</portlet-name>
-		<display-name>MEDCEP - Processo instanciado</display-name> 
+		<display-name>SoMeSPC - Processo instanciado</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -933,9 +933,9 @@
     	<resource-bundle>portlets/ProcessoInstanciado</resource-bundle>
 	</portlet> 
 	<portlet id="Artefato">
-		<description>MEDCEP - Artefato</description>       
+		<description>SoMeSPC - Artefato</description>       
 		<portlet-name>Artefato</portlet-name>
-		<display-name>MEDCEP - Artefato</display-name> 
+		<display-name>SoMeSPC - Artefato</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -954,9 +954,9 @@
     	<resource-bundle>portlets/Artefato</resource-bundle>
 	</portlet> 
 	<portlet id="TipoObjetivoDeMedicao">
-		<description>MEDCEP - Tipo objetivo de medicao</description>       
+		<description>SoMeSPC - Tipo objetivo de medicao</description>       
 		<portlet-name>TipoObjetivoDeMedicao</portlet-name>
-		<display-name>MEDCEP - Tipo objetivo de medicao</display-name> 
+		<display-name>SoMeSPC - Tipo objetivo de medicao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -975,9 +975,9 @@
     	<resource-bundle>portlets/TipoObjetivoDeMedicao</resource-bundle>
 	</portlet> 
 	<portlet id="PapelRecursoHumano">
-		<description>MEDCEP - Papel recurso humano</description>       
+		<description>SoMeSPC - Papel recurso humano</description>       
 		<portlet-name>PapelRecursoHumano</portlet-name>
-		<display-name>MEDCEP - Papel recurso humano</display-name> 
+		<display-name>SoMeSPC - Papel recurso humano</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -996,9 +996,9 @@
     	<resource-bundle>portlets/PapelRecursoHumano</resource-bundle>
 	</portlet> 
 	<portlet id="ValorAlfanumerico">
-		<description>MEDCEP - Valor alfanumerico</description>       
+		<description>SoMeSPC - Valor alfanumerico</description>       
 		<portlet-name>ValorAlfanumerico</portlet-name>
-		<display-name>MEDCEP - Valor alfanumerico</display-name> 
+		<display-name>SoMeSPC - Valor alfanumerico</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -1017,9 +1017,9 @@
     	<resource-bundle>portlets/ValorAlfanumerico</resource-bundle>
 	</portlet> 
 	<portlet id="TipoMedida">
-		<description>MEDCEP - Tipo medida</description>       
+		<description>SoMeSPC - Tipo medida</description>       
 		<portlet-name>TipoMedida</portlet-name>
-		<display-name>MEDCEP - Tipo medida</display-name> 
+		<display-name>SoMeSPC - Tipo medida</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -1038,9 +1038,9 @@
     	<resource-bundle>portlets/TipoMedida</resource-bundle>
 	</portlet> 
 	<portlet id="UnidadeDeMedida">
-		<description>MEDCEP - Unidade de medida</description>       
+		<description>SoMeSPC - Unidade de medida</description>       
 		<portlet-name>UnidadeDeMedida</portlet-name>
-		<display-name>MEDCEP - Unidade de medida</display-name> 
+		<display-name>SoMeSPC - Unidade de medida</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -1059,9 +1059,9 @@
     	<resource-bundle>portlets/UnidadeDeMedida</resource-bundle>
 	</portlet> 
 	<portlet id="AtividadePadrao">
-		<description>MEDCEP - Atividade padrao</description>       
+		<description>SoMeSPC - Atividade padrao</description>       
 		<portlet-name>AtividadePadrao</portlet-name>
-		<display-name>MEDCEP - Atividade padrao</display-name> 
+		<display-name>SoMeSPC - Atividade padrao</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -1080,9 +1080,9 @@
     	<resource-bundle>portlets/AtividadePadrao</resource-bundle>
 	</portlet> 
 	<portlet id="TipoEscala">
-		<description>MEDCEP - Tipo escala</description>       
+		<description>SoMeSPC - Tipo escala</description>       
 		<portlet-name>TipoEscala</portlet-name>
-		<display-name>MEDCEP - Tipo escala</display-name> 
+		<display-name>SoMeSPC - Tipo escala</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -1101,9 +1101,9 @@
     	<resource-bundle>portlets/TipoEscala</resource-bundle>
 	</portlet> 
 	<portlet id="RecursoHumano">
-		<description>MEDCEP - Recurso humano</description>       
+		<description>SoMeSPC - Recurso humano</description>       
 		<portlet-name>RecursoHumano</portlet-name>
-		<display-name>MEDCEP - Recurso humano</display-name> 
+		<display-name>SoMeSPC - Recurso humano</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>
@@ -1122,9 +1122,9 @@
     	<resource-bundle>portlets/RecursoHumano</resource-bundle>
 	</portlet> 
 	<portlet id="AtividadeInstanciada">
-		<description>MEDCEP - Atividade instanciada</description>       
+		<description>SoMeSPC - Atividade instanciada</description>       
 		<portlet-name>AtividadeInstanciada</portlet-name>
-		<display-name>MEDCEP - Atividade instanciada</display-name> 
+		<display-name>SoMeSPC - Atividade instanciada</display-name> 
 		<portlet-class>org.openxava.web.portlets.XavaPortlet</portlet-class>
 		<init-param>
 			<name>Application</name>

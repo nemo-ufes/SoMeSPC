@@ -1,5 +1,5 @@
 /*
- * MedCEP - A powerful tool for measure
+ * SoMeSPC - powerful tool for measurement
  * 
  * Copyright (C) 2013 Ciro Xavier Maretto
  * Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca
@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>.
  */
-package org.medcep.integracao.sonarqube.test;
+package org.SoMeSPC.integracao.sonarqube.test;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,9 +25,9 @@ import static org.junit.Assert.assertNotNull;
 import java.util.*;
 
 import org.junit.*;
-import org.medcep.inicializacao.*;
-import org.medcep.integracao.sonarqube.*;
-import org.medcep.integracao.sonarqube.model.*;
+import org.SoMeSPC.inicializacao.*;
+import org.SoMeSPC.integracao.sonarqube.*;
+import org.SoMeSPC.integracao.sonarqube.model.*;
 
 import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.json.*;
@@ -40,7 +40,7 @@ public class SonarQubeIntegratorTest
     @Before
     public void init() throws Exception
     {
-	MedCEPStarter.inicializarMedCEP();
+	SoMeSPCStarter.inicializarSoMeSPC();
 	integrator = new SonarQubeIntegrator("http://ledszeppellin.sr.ifes.edu.br:9000/");
     }
 

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE controllers SYSTEM "dtds/controllers.dtd">
+<controllers>
+
+	<controller name="Typical">
+		<extends controller="Navigation" />
+		<extends controller="CRUD" />
+		<!-- <extends controller="ExtendedPrint"/> -->
+		<action name="save" mode="detail" by-default="if-possible"
+			class="org.openxava.actions.SaveAction" image="images/save.gif"
+			keystroke="Control S">
+			<set property="resetAfter" value="false" />
+			<set property="refreshAfter" value="true" />
+		</action>
+	</controller>
+
+
+
+	<controller name="TreeView">
+		<action name="new" mode="list" image="create_new.gif"
+			class="org.somespc.actions.NewTreeViewItemPlanoMedicaoAction">
+		</action>
+		<action name="remove" class="org.openxava.actions.RemoveTreeViewNodeAction">
+		</action>
+		<action name="save" class="org.openxava.actions.SaveElementInTreeViewAction"
+			mode="detail">
+		</action>
+		<action name="removeSelected" confirm="true" image="delete.gif"
+			class="org.openxava.actions.RemoveSelectedTreeViewNodeAction">
+		</action>
+		<action name="up" mode="list" image="level-up.gif"
+			class="org.openxava.actions.TreeViewMoveNodeAction">
+			<set property="actionType" value="UP" />
+		</action>
+		<action name="down" mode="list" image="level-down.gif"
+			class="org.openxava.actions.TreeViewMoveNodeAction">
+			<set property="actionType" value="DOWN" />
+		</action>
+		<action name="left" mode="list" image="level-left.gif" hidden="true"
+			class="org.openxava.actions.TreeViewMoveNodeAction">
+			<set property="actionType" value="LEFT" />
+		</action>
+		<action name="right" mode="list" image="level-right.gif"
+			hidden="true" class="org.openxava.actions.TreeViewMoveNodeAction">
+			<set property="actionType" value="RIGHT" />
+		</action>
+		<action name="expand"
+			class="org.openxava.actions.TreeViewExpandCollapseAction" mode="ALL">
+			<set value="true" property="expanded" />
+		</action>
+		<action name="collapse"
+			class="org.openxava.actions.TreeViewExpandCollapseAction" mode="ALL">
+			<set value="false" property="expanded" />
+		</action>
+	</controller>
+
+	<controller name="Reference">
+		<action name="search" class="org.somespc.actions.ReferenceSearch2Action"
+			image="search.gif" />
+		<action name="createNew"
+			class="org.openxava.actions.CreateNewFromReferenceAction" image="create_new.gif" />
+		<action name="modify" class="org.openxava.actions.ModifyFromReferenceAction"
+			image="edit.gif" />
+	</controller>
+
+	<!-- tentativa de sobrescrever o comportamento de change section no CEP -->
+	<controller name="Sections">
+		<action name="change" class="org.openxava.actions.ChangeSectionAction"
+			keystroke="Control 1..9" />
+		<!-- <action name="change" class="org.somespc.actions.OnChangeSectionCEPAction" 
+			keystroke="Control 1..9"/> -->
+	</controller>
+
+	<!-- DEFINITIVOS -->
+	<!-- ======================================================================================================== -->
+
+	<controller name="MedidaPlanoDeMedicao">
+		<extends controller="Typical" />
+		<action name="searchMedidaPlanoMedicao"
+			class="org.somespc.actions.SearchMedidaForMedidaPlanoMedicaoAction"
+			hidden="true" image="images/search.gif" />
+		<action name="searchDefinicaoOperacionalMedidaForMedidaPlanoMedicao"
+			class="org.somespc.actions.SearchDefinicaoOperacionalMedidaForMedidaPlanoMedicaoAction"
+			hidden="true" image="images/search.gif" />
+	</controller>
+
+	<controller name="ProcessoDeProjeto">
+		<extends controller="Typical" />
+		<action name="add" class="org.somespc.actions.GoAddProcessoDeProjetoAction"
+			hidden="true" image="images/create_new.gif" />
+		<action name="adicionar" class="org.somespc.actions.GoAddProcessoDeProjetoActionSimple"
+			hidden="true" image="images/search_add.gif" />
+	</controller>
+	
+	<controller name="ProcessoPadrao">
+		<extends controller="Typical" />
+		<action name="add" class="org.somespc.actions.GoAddProcessoPadraoAction"
+			hidden="true" image="images/create_new.gif" />
+		<action name="adicionar" class="org.somespc.actions.GoAddProcessoPadraoActionSimple"
+			hidden="true" image="images/search_add.gif" />
+	</controller>
+	
+	<controller name="AtividadePadrao">
+		<extends controller="Typical" />
+		<action name="add" class="org.somespc.actions.GoAddAtividadePadraoAction"
+			hidden="true" image="images/search_add.gif" />
+	</controller>
+	
+	<controller name="AtividadeProjeto">
+		<extends controller="Typical" />
+		<action name="add" class="org.somespc.actions.GoAddAtividadeProjetoAction"
+			hidden="true" image="images/search_add.gif" />
+	</controller>
+
+	<controller name="ProcessoInstanciado">
+		<extends controller="Typical" />
+		<action name="add"
+			class="org.somespc.actions.GoAddAtividadeInstanciadaAction" hidden="true"
+			image="images/create_new.gif" />
+	</controller>
+
+	<controller name="AnaliseDeMedicao">
+		<extends controller="Typical" />
+		<!-- Não é mais usada pois se considera que a def usada é a mesma da medida 
+			do plano medicao -->
+		<action name="searchDefinicaoOperacional"
+			class="org.somespc.actions.SearchDefinicaoOperacionalForMedidaPlanoMedicaoAction"
+			hidden="true" image="images/search.gif" />
+		<action name="addMedicao" class="org.somespc.actions.GoAddMedicaoToAnaliseAction"
+			hidden="true" image="images/create_new.gif" />
+		<action name="generateExcel" mode="list"
+			class="org.somespc.actions.GenerateReportAction" image="excel.gif"
+			keystroke="Control Alt X">
+			<set property="type" value="csv" />
+		</action>
+	</controller>
+
+	<controller name="AnaliseDeComportamentoDeProcesso">
+		<extends controller="Typical" />
+		<action name="searchMedida" class="org.somespc.actions.SearchMedidaAction"
+			hidden="true" image="images/search.gif" />
+		<action name="searchAnaliseDeMedicao"
+			class="org.somespc.actions.SearchAnaliseDeMedicaoForCEPAction" hidden="true"
+			image="images/search.gif" />
+		<action name="SearchWhereProcessoPadraoEMedidaForCEP"
+			class="org.somespc.actions.SearchWhereProcessoPadraoEMedidaForCEPAction"
+			hidden="true" image="images/search.gif" />
+	</controller>
+
+	<controller name="AlocacaoEquipe">
+		<extends controller="Typical" />
+		<action name="searchRecursoHumano"
+			class="org.somespc.actions.SearchRecursoHumanoForAlocacaoAction"
+			hidden="true" image="images/search.gif" />
+	</controller>
+
+	<controller name="CapacidadeDeProcesso">
+		<extends controller="Typical" />
+		<action name="calcular" class="org.somespc.actions.CalcularCapacidadeAction" />
+	</controller>
+
+	<controller name="Medida">
+		<extends controller="Typical" />
+		<action name="searchElementoMensuravelForMedida"
+			class="org.somespc.actions.SearchElementoMensuravelForMedidaAction"
+			hidden="true" image="images/search.gif" />
+		<action name="searchEntidadeMensuravelForMedida"
+			class="org.somespc.actions.SearchEntidadeMensuravelForMedidaAction"
+			hidden="true" image="images/search.gif" />
+	</controller>
+
+
+	<controller name="ObjetivoDeSoftware">
+		<extends controller="Typical" />
+	</controller>
+
+	<controller name="ObjetivoDeMedicao">
+		<extends controller="Typical" />
+	</controller>
+
+	<controller name="EntidadeMensuravel">
+		<extends controller="Typical" />
+		<action name="AddElementoMensuravel" class="org.somespc.actions.GoAddElementoMensuravelAction"
+			hidden="true" image="images/create_new.gif" />
+	</controller>
+
+	<controller name="NecessidadeDeInformacao">
+		<extends controller="Typical" />
+		<action name="addObjetivoDeMedicao" class="org.somespc.actions.GoAddObjetivoMedicaoAction"
+			hidden="true" image="images/create_new.gif" />
+		<action name="addNecessidadeDeInformacao" class="org.somespc.actions.GoAddNecessidadeDeInformacao"
+			hidden="true" image="images/search_add.gif" />
+	</controller>
+
+	<controller name="Medicao">
+		<extends controller="Typical" />
+		<action name="searchEntidadeMensuravel"
+			class="org.somespc.actions.SearchEntidadeMensuravelActionForMedicao"
+			hidden="true" image="images/search.gif" />
+			<action name="searchMomentoReal"
+			class="org.somespc.actions.SearchMomentoRealForMedicao"
+			hidden="true" image="images/search.gif" />
+	</controller>
+
+</controllers>

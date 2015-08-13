@@ -1,5 +1,5 @@
 /*
- * MedCEP - A powerful tool for measure
+ * SoMeSPC - powerful tool for measurement
  * 
  * Copyright (C) 2013 Ciro Xavier Maretto
  * Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca
@@ -17,10 +17,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>.
  */
-package org.medcep.integracao.taiga.test;
+package org.SoMeSPC.integracao.taiga.test;
 
 import org.junit.*;
-import org.medcep.integracao.agendador.*;
+import org.SoMeSPC.integracao.agendador.*;
 import org.quartz.*;
 
 public class AgendadorTest

@@ -25,22 +25,22 @@
 	<classpathentry kind="lib" path="libs/xstream-hibernate/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="libs/xstream-hibernate/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="libs/xstream-hibernate/slf4j-api-1.6.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/MedCEP"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/postgresql-9.4-1201.jdbc4.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/quartz-2.2.1.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/quartz-jobs-2.2.1.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/slf4j-api-1.6.6.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/slf4j-api.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/slf4j-jdk14.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/slf4j-log4j12-1.6.6.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/mysql-connector-java-5.1.35-bin.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/c3p0-0.9.5.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/mchange-commons-java-0.2.9.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/hibernate3.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/hibernate-classic-validator.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/hibernate-validator.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/javassist.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/javax.annotation-api-1.2.jar"/>
-	<classpathentry kind="lib" path="/MedCEP/web/WEB-INF/lib/jpa2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/SoMeSPC"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/postgresql-9.4-1201.jdbc4.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/quartz-2.2.1.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/quartz-jobs-2.2.1.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/slf4j-api-1.6.6.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/slf4j-jdk14.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/slf4j-log4j12-1.6.6.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/mysql-connector-java-5.1.35-bin.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/c3p0-0.9.5.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/mchange-commons-java-0.2.9.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/hibernate-classic-validator.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/hibernate-validator.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/javassist.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/javax.annotation-api-1.2.jar"/>
+	<classpathentry kind="lib" path="/SoMeSPC/web/WEB-INF/lib/jpa2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

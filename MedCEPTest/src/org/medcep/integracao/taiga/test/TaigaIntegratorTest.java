@@ -1,5 +1,5 @@
 /*
- * MedCEP - A powerful tool for measure
+ * SoMeSPC - powerful tool for measurement
  * 
  * Copyright (C) 2013 Ciro Xavier Maretto
  * Copyright (C) 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca
@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>.
  */
-package org.medcep.integracao.taiga.test;
+package org.SoMeSPC.integracao.taiga.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -27,14 +27,14 @@ import static org.junit.Assert.assertTrue;
 import java.util.*;
 
 import org.junit.*;
-import org.medcep.inicializacao.*;
-import org.medcep.integracao.taiga.*;
-import org.medcep.integracao.taiga.model.*;
-import org.medcep.integracao.taiga.model.Projeto;
-import org.medcep.model.entidades_e_medidas.*;
-import org.medcep.model.organizacao_de_software.*;
-import org.medcep.model.plano_de_medicao.*;
-import org.medcep.model.processo_de_software.*;
+import org.SoMeSPC.inicializacao.*;
+import org.SoMeSPC.integracao.taiga.*;
+import org.SoMeSPC.integracao.taiga.model.*;
+import org.SoMeSPC.integracao.taiga.model.Projeto;
+import org.SoMeSPC.model.entidades_e_medidas.*;
+import org.SoMeSPC.model.organizacao_de_software.*;
+import org.SoMeSPC.model.plano_de_medicao.*;
+import org.SoMeSPC.model.processo_de_software.*;
 
 import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.json.*;
@@ -47,7 +47,7 @@ public class TaigaIntegratorTest
     @Before
     public void init() throws Exception
     {
-	MedCEPStarter.inicializarMedCEP();
+	SoMeSPCStarter.inicializarSoMeSPC();
 	integrator = new TaigaIntegrator("https://api.taiga.io/", "vinnysoft", "teste123");
     }
 
@@ -222,7 +222,7 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarRecursoHumanoMedCEP() throws Exception
+    public void testCriarRecursoHumanoSoMeSPC() throws Exception
     {
 	Membro membro = integrator.obterMembroTaiga(4);
 
@@ -231,7 +231,7 @@ public class TaigaIntegratorTest
 
 	dump(membro);
 
-	RecursoHumano recurso = integrator.criarRecursoHumanoMedCEP(membro);
+	RecursoHumano recurso = integrator.criarRecursoHumanoSoMeSPC(membro);
 
 	assertNotNull(recurso);
 
@@ -239,7 +239,7 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarPapelRecursoHumanoMedCEP() throws Exception
+    public void testCriarPapelRecursoHumanoSoMeSPC() throws Exception
     {
 	Membro membro = integrator.obterMembroTaiga(4);
 
@@ -248,7 +248,7 @@ public class TaigaIntegratorTest
 
 	dump(membro);
 
-	PapelRecursoHumano papel = integrator.criarPapelRecursoHumanoMedCEP(membro);
+	PapelRecursoHumano papel = integrator.criarPapelRecursoHumanoSoMeSPC(membro);
 
 	assertNotNull(papel);
 
@@ -256,7 +256,7 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarEquipeMedCEP() throws Exception
+    public void testCriarEquipeSoMeSPC() throws Exception
     {
 	Projeto sincap = integrator.obterProjetoTaiga("paflopes-sincap");
 
@@ -266,7 +266,7 @@ public class TaigaIntegratorTest
 
 	dump(sincap);
 
-	Equipe equipe = integrator.criarEquipeMedCEP("Equipe " + sincap.getNome(), sincap.getMembros());
+	Equipe equipe = integrator.criarEquipeSoMeSPC("Equipe " + sincap.getNome(), sincap.getMembros());
 
 	assertNotNull(equipe);
 
@@ -274,7 +274,7 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarProjetoMedCEP() throws Exception
+    public void testCriarProjetoSoMeSPC() throws Exception
     {
 	Projeto sincap = integrator.obterProjetoTaiga("paflopes-sincap");
 
@@ -283,7 +283,7 @@ public class TaigaIntegratorTest
 
 	dump(sincap);
 
-	org.medcep.model.organizacao_de_software.Projeto projeto = integrator.criarProjetoMedCEP(sincap);
+	org.SoMeSPC.model.organizacao_de_software.Projeto projeto = integrator.criarProjetoSoMeSPC(sincap);
 
 	assertNotNull(projeto);
 	assertNotEquals(projeto.getId(), "");
@@ -292,12 +292,12 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarMedidasMedCEP() throws Exception
+    public void testCriarMedidasSoMeSPC() throws Exception
     {
 
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
 
-	List<Medida> medidas = integrator.criarMedidasMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
+	List<Medida> medidas = integrator.criarMedidasSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
 
 	assertNotNull(medidas);
 	assertNotEquals(medidas.size(), 0);
@@ -307,9 +307,9 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarTiposArtefatosScrumMedCEP() throws Exception
+    public void testCriarTiposArtefatosScrumSoMeSPC() throws Exception
     {
-	List<TipoDeArtefato> tiposDeArtefato = integrator.criarTiposArtefatosScrumMedCEP();
+	List<TipoDeArtefato> tiposDeArtefato = integrator.criarTiposArtefatosScrumSoMeSPC();
 
 	assertNotNull(tiposDeArtefato);
 	assertNotEquals(tiposDeArtefato.size(), 0);
@@ -319,15 +319,15 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarAtividadesPadraoScrumMedCEP() throws Exception
+    public void testCriarAtividadesPadraoScrumSoMeSPC() throws Exception
     {
-	integrator.criarAtividadesPadraoScrumMedCEP();
+	integrator.criarAtividadesPadraoScrumSoMeSPC();
     }
 
     @Test
-    public void testCriarProcessoPadraoScrumMedCEP() throws Exception
+    public void testCriarProcessoPadraoScrumSoMeSPC() throws Exception
     {
-	ProcessoPadrao scrum = integrator.criarProcessoPadraoScrumMedCEP();
+	ProcessoPadrao scrum = integrator.criarProcessoPadraoScrumSoMeSPC();
 
 	assertNotNull(scrum);
 
@@ -335,11 +335,11 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarEstoriasProductBacklogComoArtefatosMedCEP() throws Exception
+    public void testCriarEstoriasProductBacklogComoArtefatosSoMeSPC() throws Exception
     {
 	List<Estoria> estorias = integrator.obterEstoriasDoProjectBacklogTaiga("paflopes-sincap");
 	boolean saoEstoriasDeProductBacklog = true;
-	List<Artefato> artefatos = integrator.criarEstoriasComoArtefatosMedCEP(estorias, saoEstoriasDeProductBacklog);
+	List<Artefato> artefatos = integrator.criarEstoriasComoArtefatosSoMeSPC(estorias, saoEstoriasDeProductBacklog);
 
 	assertNotNull(artefatos);
 
@@ -347,7 +347,7 @@ public class TaigaIntegratorTest
     }
 
     @Test
-    public void testCriarEstoriasSprintBacklogComoArtefatosMedCEP() throws Exception
+    public void testCriarEstoriasSprintBacklogComoArtefatosSoMeSPC() throws Exception
     {
 
 	List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga("paflopes-sincap");
@@ -360,43 +360,43 @@ public class TaigaIntegratorTest
 	}
 
 	boolean saoEstoriasDeProductBacklog = false;
-	List<Artefato> artefatos = integrator.criarEstoriasComoArtefatosMedCEP(estoriasDasSprints, saoEstoriasDeProductBacklog);
+	List<Artefato> artefatos = integrator.criarEstoriasComoArtefatosSoMeSPC(estoriasDasSprints, saoEstoriasDeProductBacklog);
 
 	assertNotNull(artefatos);
     }
 
     @Test
-    public void testCriarAtividadesProjetoMedCEP() throws Exception
+    public void testCriarAtividadesProjetoSoMeSPC() throws Exception
     {
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 
-	List<AtividadeProjeto> atividades = integrator.criarAtividadesProjetoScrumMedCEP(projeto);
+	List<AtividadeProjeto> atividades = integrator.criarAtividadesProjetoScrumSoMeSPC(projeto);
 
 	assertNotNull(atividades);
     }
 
     @Test
-    public void testCriarProcessoProjetoScrumMedCEP() throws Exception
+    public void testCriarProcessoProjetoScrumSoMeSPC() throws Exception
     {
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 
-	ProcessoProjeto processo = integrator.criarProcessoProjetoScrumMedCEP(projeto);
+	ProcessoProjeto processo = integrator.criarProcessoProjetoScrumSoMeSPC(projeto);
 
 	assertNotNull(processo);
     }
 
     @Test
-    public void testCriarPlanoMedicaoOrganizacaoMedCEP() throws Exception
+    public void testCriarPlanoMedicaoOrganizacaoSoMeSPC() throws Exception
     {
 
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-	PlanoDeMedicaoDaOrganizacao plano = integrator.criarPlanoMedicaoOrganizacaoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
+	PlanoDeMedicaoDaOrganizacao plano = integrator.criarPlanoMedicaoOrganizacaoSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
 
 	assertNotNull(plano);
     }
 
     @Test
-    public void testCriarPlanoMedicaoProjetoMedCEP() throws Exception
+    public void testCriarPlanoMedicaoProjetoSoMeSPC() throws Exception
     {
 	//Projeto projeto = integrator.obterProjetoTaiga("paulossjunior-lifebox");
 	Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
@@ -413,7 +413,7 @@ public class TaigaIntegratorTest
 	}
 
 	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-	integrator.criarPlanoMedicaoProjetoMedCEP(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), porHora, projeto);
+	integrator.criarPlanoMedicaoProjetoSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), porHora, projeto);
     }
 
     private void dump(Object object)
