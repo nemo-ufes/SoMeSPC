@@ -1,7 +1,7 @@
 # SoMeSPC - A powerful tool for measurement
 
 <img src="https://github.com/nemo-ufes/MedCEP/blob/master/SoMeSPC/web/naviox/images/logo.png" alt="Logo SoMeSPC" width="140px" height="120px"/> 
-<img align="right" src="https://github.com/nemo-ufes/MedCEP/blob/master/SoMeSPC/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img align="right" src="https://github.com/vinnysoft/nemo-ufes/blob/master/SoMeSPC/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
+<img align="right" src="https://github.com/nemo-ufes/MedCEP/blob/master/SoMeSPC/web/naviox/images/nemo.jpg" alt="Logo NEMO" width="140px" height="120px"/> <img align="right" src="https://github.com/vinnysoft/nemo-ufes/MedCEP/blob/master/SoMeSPC/web/naviox/images/ufes.png" alt="Logo UFES" width="140px" height="120px"/>
 
 **Copyright &copy; 2013 Ciro Xavier Maretto** <br/>
 **Copyright &copy; 2015 Henrique Néspoli Castro, Vinícius Soares Fonseca** 
