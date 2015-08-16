@@ -46,7 +46,7 @@ public class ElementoMensuravel
      @Hidden
     private Integer id;
 
-    @Column(length = 255)
+    @Column(length = 355)
     @Required
     private String nome;
 

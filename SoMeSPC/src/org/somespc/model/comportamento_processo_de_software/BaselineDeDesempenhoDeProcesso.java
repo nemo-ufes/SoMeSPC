@@ -69,7 +69,7 @@ public class BaselineDeDesempenhoDeProcesso
     private Date data;
 
     @Required
-    @Column(length = 255, unique = true)
+    @Column(length = 355, unique = true)
     private String nome;
 
     public String getNome()

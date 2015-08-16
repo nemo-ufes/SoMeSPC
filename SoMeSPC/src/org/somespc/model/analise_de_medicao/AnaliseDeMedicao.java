@@ -58,7 +58,7 @@ public class AnaliseDeMedicao
     @Id
     @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="ANALISE_MEDICAO_ID", valueColumnName="ID_TABLE_VALUE")
     @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
-     @Hidden
+    @Hidden
     private Integer id;
 
     @Stereotype("TEXT_AREA")

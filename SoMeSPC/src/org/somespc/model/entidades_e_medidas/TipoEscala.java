@@ -31,7 +31,7 @@ public class TipoEscala
     @Id
     @TableGenerator(name="TABLE_GENERATOR", table="ID_TABLE", pkColumnName="ID_TABLE_NAME", pkColumnValue="TIPO_ESCALA_ID", valueColumnName="ID_TABLE_VALUE")
     @GeneratedValue(strategy = GenerationType.TABLE, generator="TABLE_GENERATOR")
-     @Hidden
+    @Hidden
     private Integer id;
 
     public Integer getId()
@@ -44,7 +44,7 @@ public class TipoEscala
 	this.id = id;
     }
 
-    @Column(length = 255, unique = true)
+    @Column(length = 355, unique = true)
     @Required
     private String nome;
 
