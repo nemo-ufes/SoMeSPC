@@ -11,7 +11,7 @@ MetaApplication metaApplication = MetaApplications.getMetaApplication(applicatio
 %>
 
 <div>
-<img src="../naviox/images/logo.png" height="180px" width="200px" class="feature-image"/>
+<img src="../naviox/images/new_logo.png" height="180px" width="200px" class="feature-image"/>
 <img src="../naviox/images/nemo.jpg" height="120px" width="140px" class="feature-image"/>
 <img src="../naviox/images/ufes.png" height="120px" width="140px" class="feature-image"/>
 </div>
