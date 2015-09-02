@@ -21,6 +21,7 @@ package org.somespc.model.objetivos;
 
 import java.util.*;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -88,13 +89,13 @@ public class ObjetivoDeMedicao extends Objetivo
 	this.objetivoEstrategico = objetivoEstrategico;
     }
     
-	@PreCreate
-	@PreUpdate
+    @PostConstruct
+    @PostPersist
 	/*Caso um ObjetivoDeSoftware seja adicionado, todos os objetos do tipo ObjetivoEstrategico
 	assossiados aquele ObjetivoDeSoftware são incluidos na lista.*/
 	public void ajustaObjetivos() {
 		if (objetivoDeSoftware != null){
-			System.out.println("Entrou @preCreate");
+			System.out.println("Entrou @PostCreate");
 			if(objetivoEstrategico == null){
 				objetivoEstrategico = new ArrayList<ObjetivoEstrategico>();
 			}

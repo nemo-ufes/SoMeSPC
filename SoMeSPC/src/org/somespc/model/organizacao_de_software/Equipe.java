@@ -50,7 +50,7 @@ public class Equipe
 	this.id = id;
     }
 
-    @Column(length = 355, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 

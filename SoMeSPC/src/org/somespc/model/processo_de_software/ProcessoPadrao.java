@@ -32,7 +32,7 @@ import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
-	@View(members = "nome, versao;  descricao; atividadePadrao; subprocesso; capacidadeDeProcesso; "),
+	@View(members = "nome, versao;  descricao; tipoDeProcessoPadrao; atividadePadrao; subprocesso; capacidadeDeProcesso; "),
 	@View(name = "Simple", members = "nome"),
 	@View(name = "SimpleNoFrame", members = "nome")
 })

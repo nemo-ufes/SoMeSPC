@@ -32,7 +32,7 @@ import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
-	@View(members = "nome; descricao; baseadoEm; projeto; atividadeProjeto; subprocesso;"),
+	@View(members = "nome; descricao; tipoDeProcessoProjeto; baseadoEm; projeto; atividadeProjeto; subprocesso;"),
 	@View(name = "Simple", members = "nome"),
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")

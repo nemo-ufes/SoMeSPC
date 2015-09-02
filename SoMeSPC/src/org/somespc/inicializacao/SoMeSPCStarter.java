@@ -283,8 +283,8 @@ public class SoMeSPCStarter extends HttpServlet
 	    TipoDeEntidadeMensuravel tipoRecursoHumano = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoPapelRecursoHumano = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoAlocacao = new TipoDeEntidadeMensuravel();
-	    //TipoDeEntidadeMensuravel tipoTipoPSProjeto = new TipoDeEntidadeMensuravel();
-	    //TipoDeEntidadeMensuravel tipoTipoPSPadrao = new TipoDeEntidadeMensuravel();
+	    TipoDeEntidadeMensuravel tipoTipoPSProjeto = new TipoDeEntidadeMensuravel();
+	    TipoDeEntidadeMensuravel tipoTipoPSPadrao = new TipoDeEntidadeMensuravel();
 
 	    tipoProjeto.setNome("Projeto");
 	    tipoProjeto.setDescricao("Representa um novo Projeto de software.");
@@ -322,11 +322,11 @@ public class SoMeSPCStarter extends HttpServlet
 	    tipoAlocacao.setNome("Alocação de Recurso Humano");
 	    tipoAlocacao.setDescricao("Alocação de um Recurso Humano para desempenhar um Papel em uma Equipe.");
 	    
-	    //tipoTipoPSProjeto.setNome("Tipo de Processo de Projeto");
-	    //tipoTipoPSProjeto.setDescricao("Tipo de Processo Projeto para especificação mais detalhada do processo a ser realizado.");
+	    tipoTipoPSProjeto.setNome("Tipo de Processo de Projeto");
+	    tipoTipoPSProjeto.setDescricao("Tipo de Processo Projeto. Especificação mais detalhada do processo a ser realizado.");
 
-	    //tipoTipoPSPadrao.setNome("Tipo de Processo de Padrao");
-	    //tipoTipoPSPadrao.setDescricao("Tipo de Processo Padao para especificação mais detalhada do processo a ser realizado.");
+	    tipoTipoPSPadrao.setNome("Tipo de Processo Padrao");
+	    tipoTipoPSPadrao.setDescricao("Tipo de Processo Padao. Especificação mais detalhada do processo a ser realizado.");
 	    
 	    //Adiciona elementos mensuraveis.
 	    //Obtem o ElementoMensuravel Desempenho.
@@ -382,8 +382,8 @@ public class SoMeSPCStarter extends HttpServlet
 	    tiposParaPersistir.add(tipoRecursoHumano);
 	    tiposParaPersistir.add(tipoPapelRecursoHumano);
 	    tiposParaPersistir.add(tipoAlocacao);
-	    //tiposParaPersistir.add(tipoTipoPSProjeto);
-	    //tiposParaPersistir.add(tipoTipoPSPadrao);
+	    tiposParaPersistir.add(tipoTipoPSProjeto);
+	    tiposParaPersistir.add(tipoTipoPSPadrao);
 
 	    for (TipoDeEntidadeMensuravel tipo : tiposParaPersistir)
 	    {

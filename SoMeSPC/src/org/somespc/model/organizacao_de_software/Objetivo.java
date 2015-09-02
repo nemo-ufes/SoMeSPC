@@ -39,7 +39,7 @@ import org.openxava.annotations.*;
 public class Objetivo extends TreeItemPlanoMedicaoBase
 {
 
-    @Column(length = 355, unique = true)
+    @Column(length = 255, unique = true)
     @Required
     private String nome;
 
