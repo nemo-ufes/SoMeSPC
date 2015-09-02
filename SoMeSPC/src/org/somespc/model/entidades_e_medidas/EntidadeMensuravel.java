@@ -81,7 +81,7 @@ public class EntidadeMensuravel
      * "${id} = ${this.tipoDeEntidadeMensuravel.id}"
      * )
      */
-    @NewAction("EntidadeMensuravel.AddElementoMensuravel")
+    @NewAction("EntidadeMensuravel.addElementoMensuravel")
     @ListProperties("nome")
     private Collection<ElementoMensuravel> elementoMensuravel;
 

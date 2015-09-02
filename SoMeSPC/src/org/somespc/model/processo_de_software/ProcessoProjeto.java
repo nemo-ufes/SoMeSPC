@@ -44,7 +44,7 @@ import org.openxava.jpa.XPersistence;
 public class ProcessoProjeto extends EntidadeMensuravel
 {
 
-    @ManyToOne
+	@ManyToOne
     @Required
     @ReferenceView("Simple")
     private ProcessoPadrao baseadoEm;
@@ -52,6 +52,19 @@ public class ProcessoProjeto extends EntidadeMensuravel
     @OneToOne
     @ReferenceView("Simple")
     private Projeto projeto;
+    
+    @ManyToOne
+    @Required
+    @ReferenceView("Simple")
+    private TipoDeProcessoProjeto tipoDeProcessoProjeto;
+    
+    public TipoDeProcessoProjeto getTipoDeProcessoProjeto() {
+		return tipoDeProcessoProjeto;
+	}
+
+	public void setTipoDeProcessoProjeto(TipoDeProcessoProjeto tipoDeProcessoProjeto) {
+		this.tipoDeProcessoProjeto = tipoDeProcessoProjeto;
+	}
     
     @JoinTable(name = "ProcessoProjeto_dependeDe_ProcessoProjeto",
 	    joinColumns = {

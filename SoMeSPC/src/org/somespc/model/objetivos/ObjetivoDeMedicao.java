@@ -88,31 +88,27 @@ public class ObjetivoDeMedicao extends Objetivo
 	this.objetivoEstrategico = objetivoEstrategico;
     }
     
-//  @PreCreate
-//  @PreUpdate
-//  public void ajustaObjetivoEstrategico()
-//  {
-//	if (elementoMensuravel == null)
-//	    elementoMensuravel = new ArrayList<ElementoMensuravel>();
-//
-//	if (tipoDeEntidadeMensuravel != null && tipoDeEntidadeMensuravel.getElementoMensuravel() != null)
-//	{
-//	    boolean add;
-//	    for (ElementoMensuravel elemTipo : tipoDeEntidadeMensuravel.getElementoMensuravel())
-//	    {
-//		add = true;
-//		for (ElementoMensuravel elem : elementoMensuravel)
-//		{
-//		    if (elem.getNome().compareTo(elemTipo.getNome()) == 0)
-//		    {
-//			add = false;
-//			break;
-//		    }
-//		}
-//		if (add)
-//		    elementoMensuravel.add(elemTipo);
-//	    }//elemTipo
-//	}
-//  }//ajusta
+	@PreCreate
+	@PreUpdate
+	/*Caso um ObjetivoDeSoftware seja adicionado, todos os objetos do tipo ObjetivoEstrategico
+	assossiados aquele ObjetivoDeSoftware são incluidos na lista.*/
+	public void ajustaObjetivos() {
+		if (objetivoDeSoftware != null){
+			System.out.println("Entrou @preCreate");
+			if(objetivoEstrategico == null){
+				objetivoEstrategico = new ArrayList<ObjetivoEstrategico>();
+			}
+			
+			for (ObjetivoDeSoftware obj_software : objetivoDeSoftware) {
+				System.out.println("primeiro for");
+				for (ObjetivoEstrategico obj_estrategico : obj_software.getObjetivoEstrategico()) {
+					System.out.println("segundo for");
+					System.out.println(obj_estrategico.getNome());
+					objetivoEstrategico.add(obj_estrategico);
+					System.out.println(obj_estrategico.getNome());
+				}
+			}
+		}
+	}
 
 }

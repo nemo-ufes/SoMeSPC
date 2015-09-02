@@ -168,6 +168,9 @@
 		<action name="searchEntidadeMensuravelForMedida"
 			class="org.somespc.actions.SearchEntidadeMensuravelForMedidaAction"
 			hidden="true" image="images/search.gif" />
+		<action name="addTipoDeEntidadeMensuravel"
+			class="org.somespc.actions.GoAddTipoDeEntidadeMensuravelAction"
+			hidden="true" image="images/create_new.gif" />
 	</controller>
 
 
@@ -181,7 +184,7 @@
 
 	<controller name="EntidadeMensuravel">
 		<extends controller="Typical" />
-		<action name="AddElementoMensuravel" class="org.somespc.actions.GoAddElementoMensuravelAction"
+		<action name="addElementoMensuravel" class="org.somespc.actions.GoAddElementoMensuravelAction"
 			hidden="true" image="images/create_new.gif" />
 	</controller>
 

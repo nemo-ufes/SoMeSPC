@@ -84,6 +84,7 @@ public class Medida extends TreeItemPlanoMedicaoBase
     @DescriptionsList(descriptionProperties = "nome", order = "${nome} asc")
     private TipoMedida tipoMedida;
 
+    @NewAction("Medida.addTipoDeEntidadeMensuravel")
     @ManyToMany
     @JoinTable(
 	    name = "medida_tipoDeEntidadeMensuravel"

@@ -56,8 +56,22 @@ public class ProcessoPadrao extends EntidadeMensuravel
 
     @OneToMany(mappedBy = "baseadoEm")
     private Collection<ProcessoProjeto> processoProjeto;
+    
+    @ManyToOne
+    @Required
+    @ReferenceView("Simple")
+    private TipoDeProcessoPadrao tipoDeProcessoPadrao;
+    
+    
+    public TipoDeProcessoPadrao getTipoDeProcessoPadrao() {
+		return tipoDeProcessoPadrao;
+	}
 
-    @ManyToMany
+	public void setTipoDeProcessoPadrao(TipoDeProcessoPadrao tipoDeProcessoPadrao) {
+		this.tipoDeProcessoPadrao = tipoDeProcessoPadrao;
+	}
+
+	@ManyToMany
     @JoinTable(name = "ProcessoPadrao_dependeDe_ProcessoPadrao",
 	    joinColumns = {
 		    @JoinColumn(name = "processo1", referencedColumnName = "id", nullable = false)
