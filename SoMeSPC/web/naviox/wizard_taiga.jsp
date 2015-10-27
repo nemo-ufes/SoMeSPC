@@ -37,8 +37,8 @@ input {
 <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-resource.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-filter.js'></script>
 <title>Novo Plano de Medição Integrado - SoMeSPC</title>
-<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body ng-app="SoMeSPCWizardApp" ng-controller="TaigaController" <%=NaviOXStyle.getBodyClass(request)%>
@@ -130,7 +130,7 @@ input {
 							</form>
 						</fieldset>
 
-						<h2>Medidas</h2>
+						<h2>Objetivos</h2>
 						<fieldset style="overflow: scroll;">
 							<label for="selectPeriodicidades">Periodicidade da coleta:</label>
 							<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected"
@@ -139,16 +139,32 @@ input {
 							<br />
 							<div class="row">
 								<p>
-									<b>Medidas:</b>
+									<b>Objetivos:</b>
 								</p>
 								<br />
-								<div id="medidas" class="row bg-wizard" ng-repeat="(index, medida) in medidas">
-									<div class="col-md-12">
-										<label class="checkbox" for="{{medida}}">
-											<input id="{{medida}}" type="checkbox" ng-checked="medidas_selected.indexOf(medida) > -1"
-												ng-click="toggleSelectionMedida(medida)" />
-											<span style="vertical-align: middle !important; padding-top: 5px !important;">
-												<b>{{medida}}</b>
+								<p>
+									<i>{{itens[0].nome_ObjetivoEstrategico}}</i>
+								</p>
+								<br />
+								<div id="itens" class="row bg-wizard" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">
+									<label>
+										<span style="padding-bottom: 10px !important; ">
+												<br/>
+												{{obj}}
+												<br/>
+										</span>
+									</label>
+									<div class="col-md-12" ng-repeat="i in item">
+										<label class="checkbox" for="{{i.nome_Medida}}">
+											<span style="vertical-align: super !important;">
+												<br/>
+												{{i.nome_NecessidadeDeInformacao}}
+												<br/>
+											</span>
+											<input id="{{i.nome_Medida}}" type="checkbox" ng-checked="itens_selected.indexOf(i) > -1"
+												ng-click="toggleSelectionMedida(i)" />
+											<span style="vertical-align: bottom !important;">
+												{{i.nome_Medida}}
 											</span>
 										</label>
 									</div>
@@ -177,8 +193,8 @@ input {
 								<b>Medida(s):</b>
 								<br />
 							<ul style="font-size: 16px; margin-left: 20px;">
-								<span ng-repeat="medida in medidas_selected">
-									<li style="margin-bottom: 5px;">{{medida}}</li>
+								<span ng-repeat="medida in itens_selected">
+									<li style="margin-bottom: 5px;">{{medida.nome_Medida}}</li>
 								</span>
 							</ul>
 							</p>
@@ -284,8 +300,8 @@ input {
 									}
 								} else if (newIndex === 3) {
 									if (scope.periodicidade_selected === undefined
-											|| scope.medidas_selected === undefined
-											|| scope.medidas_selected.length === 0) {
+											|| scope.itens_selected === undefined
+											|| scope.itens_selected.length === 0) {
 										return false;
 									} else {
 										return true;

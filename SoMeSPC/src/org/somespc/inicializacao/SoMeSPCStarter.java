@@ -9,6 +9,8 @@ import javax.servlet.http.*;
 import org.hibernate.exception.*;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.*;
+import org.somespc.model.processo_de_software.TipoDeProcessoPadrao;
+import org.somespc.model.processo_de_software.TipoDeProcessoProjeto;
 import org.openxava.jpa.*;
 import org.quartz.*;
 
@@ -70,6 +72,8 @@ public class SoMeSPCStarter extends HttpServlet
 	inicializarEscalas();
 	inicializarUnidadesMedida();
 	inicializarAgendador();
+	inicializarTipoDeProcessoPadrao();
+	inicializarTipoDeProcessoProjeto();
     }   
     
     /**
@@ -750,5 +754,170 @@ public class SoMeSPCStarter extends HttpServlet
 	}
 
     }
+    
+    private static void inicializarTipoDeProcessoPadrao() throws Exception
+    {
+	//Configura as periodicidades.	
+	EntityManager manager = XPersistence.createManager();
+
+	try
+	{
+	    String query2 = "SELECT t FROM TipoDeProcessoPadrao t WHERE t.nome='Processo Padrão de Desenvolvimento de Software'";
+	    TypedQuery<TipoDeProcessoPadrao> typedQuery2 = manager.createQuery(query2, TipoDeProcessoPadrao.class);
+	    @SuppressWarnings("unused")
+	    TipoDeProcessoPadrao teste = typedQuery2.getSingleResult();
+	}
+	catch (Exception e)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    manager.close();
+	    manager = XPersistence.createManager();
+	    
+	    String query3 = "SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Tipo de Processo Padrão'";
+	    TypedQuery<TipoDeEntidadeMensuravel> typedQuery3 = manager.createQuery(query3, TipoDeEntidadeMensuravel.class);
+	    TipoDeEntidadeMensuravel tipoEntidade = typedQuery3.getSingleResult();	    
+
+	    TipoDeProcessoPadrao desenvolvimentoDeSoftware = new TipoDeProcessoPadrao();
+	    TipoDeProcessoPadrao testes = new TipoDeProcessoPadrao();
+	    TipoDeProcessoPadrao gerenciaDeRequisitos = new TipoDeProcessoPadrao();
+
+	    desenvolvimentoDeSoftware.setNome("Processo Padrão de Desenvolvimento de Software");
+	    desenvolvimentoDeSoftware.setDescricao("Tipo para Processo Padrão de Desenvolvimento de Software.");
+	    desenvolvimentoDeSoftware.setTipoDeEntidadeMensuravel(tipoEntidade);
+	    
+	    testes.setNome("Processo Padrão de Testes");
+	    testes.setDescricao("Tipo para Processo Padrão de Testes.");
+	    testes.setTipoDeEntidadeMensuravel(tipoEntidade);
+	    
+	    gerenciaDeRequisitos.setNome("Processo Padrão de Gerência de Requisitos");
+	    gerenciaDeRequisitos.setDescricao("Tipo de processo Padrão de Gerência de Requisitos.");
+	    gerenciaDeRequisitos.setTipoDeEntidadeMensuravel(tipoEntidade);
+
+	    //Persiste.
+	    List<TipoDeProcessoPadrao> processos = new ArrayList<TipoDeProcessoPadrao>();
+	    processos.add(desenvolvimentoDeSoftware);
+	    processos.add(gerenciaDeRequisitos);
+	    processos.add(desenvolvimentoDeSoftware);
+
+	    for (TipoDeProcessoPadrao p : processos)
+	    {
+		try
+		{
+		    if (!manager.isOpen())
+			manager = XPersistence.createManager();
+
+		    manager.getTransaction().begin();
+		    manager.persist(p);
+		    manager.getTransaction().commit();
+		}
+		catch (Exception ex)
+		{
+		    if (manager.getTransaction().isActive())
+			manager.getTransaction().rollback();
+
+		    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+		    {
+			System.out.println(String.format("O Tipo de Processo Padrão %s já existe.", p.getNome()));
+		    }
+		    else
+		    {
+			throw ex;
+		    }
+		}
+		finally
+		{
+		    if (manager.isOpen())
+			manager.close();
+		}
+	    }
+	}
+	finally
+	{
+	    if (manager.isOpen())
+		manager.close();
+	}
+
+    }
+    
+    private static void inicializarTipoDeProcessoProjeto() throws Exception
+    {
+	//Configura as periodicidades.	
+	EntityManager manager = XPersistence.createManager();
+
+	try
+	{
+	    String query2 = "SELECT t FROM TipoDeProcessoProjeto t WHERE t.nome='Processo Projeto de Desenvolvimento de Software'";
+	    TypedQuery<TipoDeProcessoProjeto> typedQuery2 = manager.createQuery(query2, TipoDeProcessoProjeto.class);
+	    @SuppressWarnings("unused")
+	    TipoDeProcessoProjeto teste = typedQuery2.getSingleResult();
+	}
+	catch (Exception e)
+	{
+	    if (manager.getTransaction().isActive())
+		manager.getTransaction().rollback();
+
+	    manager.close();
+	    manager = XPersistence.createManager();
+	    
+	    String query3 = "SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Tipo de Processo de Projeto'";
+	    TypedQuery<TipoDeEntidadeMensuravel> typedQuery3 = manager.createQuery(query3, TipoDeEntidadeMensuravel.class);
+	    TipoDeEntidadeMensuravel tipoEntidade = typedQuery3.getSingleResult();	    
+
+	    TipoDeProcessoProjeto desenvolvimentoDeSoftware = new TipoDeProcessoProjeto();
+
+	    desenvolvimentoDeSoftware.setNome("Processo Projeto de Desenvolvimento de Software");
+	    desenvolvimentoDeSoftware.setDescricao("Tipo para Processo Projeto de Desenvolvimento de Software.");
+	    desenvolvimentoDeSoftware.setTipoDeEntidadeMensuravel(tipoEntidade);
+
+	    //Persiste.
+	    List<TipoDeProcessoProjeto> processos = new ArrayList<TipoDeProcessoProjeto>();
+	    processos.add(desenvolvimentoDeSoftware);
+
+	    for (TipoDeProcessoProjeto p : processos)
+	    {
+		try
+		{
+		    if (!manager.isOpen())
+			manager = XPersistence.createManager();
+
+		    manager.getTransaction().begin();
+		    manager.persist(p);
+		    manager.getTransaction().commit();
+		}
+		catch (Exception ex)
+		{
+		    if (manager.getTransaction().isActive())
+			manager.getTransaction().rollback();
+
+		    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+		    {
+			System.out.println(String.format("O Tipo de Processo de Projeto %s já existe.", p.getNome()));
+		    }
+		    else
+		    {
+			throw ex;
+		    }
+		}
+		finally
+		{
+		    if (manager.isOpen())
+			manager.close();
+		}
+	    }
+	}
+	finally
+	{
+	    if (manager.isOpen())
+		manager.close();
+	}
+
+    }
+    
+    
+    
 
 }

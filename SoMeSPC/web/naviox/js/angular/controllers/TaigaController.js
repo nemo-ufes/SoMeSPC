@@ -9,11 +9,11 @@ app.controller('TaigaController', function($scope, $resource,
 		usuario : '',
 		senha : ''
 	};
-
-	// Objeto Lista de Medidas - GET através da Web Service do Taiga, usando
+	
+	// Objeto Lista de Itens - GET através da Web Service do Taiga, usando
 	// $Resource do Angular JS
-	$scope.medidas = TaigaIntegrator.query({
-		entidade : 'Medidas'
+	$scope.itens = TaigaIntegrator.query({
+		entidade : 'ItensPlanoDeMedicao'
 	});
 
 	// Objeto Lista de Periodicidades - GET através da Web Service do Taiga,
@@ -26,7 +26,7 @@ app.controller('TaigaController', function($scope, $resource,
 	$scope.projetos;
 	$scope.projetosSelecionados = [];
 	$scope.periodicidade_selected;
-	$scope.medidas_selected = [];
+	$scope.itens_selected = [];
 
 	$scope.toggleLoading = function toggleLoading(){
 		$scope.loading = !$scope.loading;
@@ -42,13 +42,15 @@ app.controller('TaigaController', function($scope, $resource,
 		}
 	};
 	
-	$scope.toggleSelectionMedida = function toggleSelectionMedida(medida) {
-		var idx = $scope.medidas_selected.indexOf(medida);
-
+	$scope.toggleSelectionMedida = function toggleSelectionMedida(item) {
+		console.log(item);
+		
+		var idx = $scope.itens_selected.indexOf(item);
+		
 		if (idx > -1) {
-			$scope.medidas_selected.splice(idx, 1);
+			$scope.itens_selected.splice(idx, 1);
 		} else {
-			$scope.medidas_selected.push(medida);
+			$scope.itens_selected.push(item);
 		}
 	};
 
@@ -63,25 +65,55 @@ app.controller('TaigaController', function($scope, $resource,
 
 		$scope.entry.apelido_Projetos = [];
 		$scope.entry.nome_Periodicidade = $scope.periodicidade_selected.nome;
-		$scope.entry.nome_Medidas = [];
+		$scope.entry.nome_Itens = [];
 		
 		for (idx in $scope.projetosSelecionados) {
 			$scope.entry.apelido_Projetos.push($scope.projetosSelecionados[idx].apelido);
 		}
 		
-		for (idx in $scope.medidas_selected) {
-			$scope.entry.nome_Medidas.push($scope.medidas_selected[idx]);
+		for (idx in $scope.itens_selected) {
+			$scope.entry.nome_Itens.push($scope.itens_selected[idx]);
 		}
 		
+		console.log($scope.entry.nome_Itens);
+		
 		$scope.entry.taiga_Login = $scope.login;
+		console.log($scope.entry);
 		$scope.entry.$save(function sucesso(plano){
 			$scope.toggleLoading();
+			console.log(plano);
 			return retorno(plano);
 		}, function erro(err){
 			$scope.toggleLoading();
+			console.log(err);
 			return retorno(err);			
 		});
 	}
+	
+//	$scope.post_planoTeste = function(retorno) {
+//		
+//		$scope.toggleLoading();
+//		$scope.entry = new TaigaIntegratorPlanoTeste(); 
+//
+//		$scope.entry.apelido_Projetos = [];
+//		$scope.entry.nome_Periodicidade = $scope.periodicidade_selected.nome;
+//		
+//		for (idx in $scope.projetosSelecionados) {
+//			$scope.entry.apelido_Projetos.push($scope.projetosSelecionados[idx].apelido);
+//		}
+//		
+//		$scope.entry.taiga_Login = $scope.login;
+//		console.log($scope.entry);
+//		$scope.entry.$save(function sucesso(plano){
+//			$scope.toggleLoading();
+//			console.log(plano);
+//			return retorno(plano);
+//		}, function erro(err){
+//			$scope.toggleLoading();
+//			console.log(err);
+//			return retorno(err);			
+//		});
+//	}
 
 	$scope.post_projeto = function(retorno) {
 		$scope.toggleLoading();

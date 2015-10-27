@@ -75,7 +75,7 @@ public class TipoDeProcessoProjeto extends EntidadeMensuravel
     {
 	if(tipoDeEntidadeMensuravel != null){
     	
-    	String nomeEntidade = "Tipo de Processo Projeto";
+    	String nomeEntidade = "Tipo de Processo de Projeto";
     	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
     	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
     	

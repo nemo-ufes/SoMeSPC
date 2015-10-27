@@ -22,7 +22,7 @@ p, label {
 .checkbox input[type="checkbox"] {
 	position: relative !important;
 	width: 30px;
-	margin-left: 0px !important;
+	margin-left: 40px !important;
 }
 
 .form-control {
@@ -155,7 +155,7 @@ p, label {
 	float: left;
 	position: absolute;
 	width: 95%;
-	height: 95%;
+	height: 90%;
 	padding: 2.5%;
 }
 

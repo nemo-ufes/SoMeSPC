@@ -21,3 +21,9 @@ app.factory('TaigaIntegratorPlano', function($resource, $location) {
 	var host = $location.protocol() + "://" + $location.host() + ":" + $location.port();
 	  return $resource(host +'/SoMeSPC/api/TaigaIntegrator/Plano');
 	});
+
+//TaigaIntegratorPlanoTeste - Serviço para enviar dados pela URL da Web Service
+//app.factory('TaigaIntegratorPlanoTeste', function($resource, $location) {
+//	var host = $location.protocol() + "://" + $location.host() + ":" + $location.port();
+//	  return $resource(host +'/SoMeSPC/api/TaigaIntegrator/Plano_Teste');
+//	});

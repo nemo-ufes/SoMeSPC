@@ -1,1 +1,1 @@
-var app = angular.module('SoMeSPCWizardApp',['ngResource']);
+var app = angular.module('SoMeSPCWizardApp',['ngResource','angular.filter']);

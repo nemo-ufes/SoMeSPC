@@ -180,6 +180,9 @@
 
 	<controller name="ObjetivoDeMedicao">
 		<extends controller="Typical" />
+		<action name="createObjetivoEstrategico"
+			class="org.somespc.actions.CreateObjetivoEstrategicoAction"
+			hidden="true" image="images/create_new.gif" />
 	</controller>
 
 	<controller name="EntidadeMensuravel">
