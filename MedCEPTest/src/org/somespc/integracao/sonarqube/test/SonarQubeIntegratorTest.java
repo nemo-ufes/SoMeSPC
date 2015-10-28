@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/lgpl.html>.
  */
-package org.SoMeSPC.integracao.sonarqube.test;
+package org.somespc.integracao.sonarqube.test;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
