@@ -27,74 +27,94 @@ import java.util.*;
 import org.junit.*;
 import org.somespc.inicializacao.SoMeSPCStarter;
 import org.somespc.integracao.sonarqube.SonarQubeIntegrator;
+import org.somespc.integracao.sonarqube.model.Medida;
 import org.somespc.integracao.sonarqube.model.Metrica;
 import org.somespc.integracao.sonarqube.model.Recurso;
 import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.json.*;
 
-public class SonarQubeIntegratorTest
-{
+public class SonarQubeIntegratorTest {
 
-    private SonarQubeIntegrator integrator;
+	private SonarQubeIntegrator integrator;
 
-    @Before
-    public void init() throws Exception
-    {
-	SoMeSPCStarter.inicializarSoMeSPC();
-	integrator = new SonarQubeIntegrator("http://ledszeppellin.sr.ifes.edu.br:9000/");
-    }
+	@Before
+	public void init() throws Exception {
+		SoMeSPCStarter.inicializarSoMeSPC();
+		integrator = new SonarQubeIntegrator("http://localhost:9000/");
+	}
 
-    @Test
-    public void testObterProjetos()
-    {
-	List<Recurso> projetos = integrator.obterProjetos();
+	@Test
+	public void testObterProjetos() {
+		List<Recurso> projetos = integrator.obterProjetos();
 
-	assertNotNull(projetos);
-	assertNotEquals(projetos.size(), 0);
+		assertNotNull(projetos);
+		assertNotEquals(projetos.size(), 0);
 
-	dump(projetos);
-    }
+		dump(projetos);
+	}
+	
+	@Test
+	public void obterMetricas_ncloc_complexity_Projeto(){
+		
+		Recurso recurso = integrator.obterRecurso("SoMeSPC");
+		Metrica ncloc = new Metrica();
+		ncloc.setChave("ncloc");
+				
+		Metrica complexity = new Metrica();
+		complexity.setChave("complexity");
+		
+		ArrayList<Metrica> metricas = new ArrayList<Metrica>();
+		metricas.add(ncloc);
+		metricas.add(complexity);
+		
+		List<Medida> medidas = integrator.obterMedidasDoRecurso(metricas, recurso);
+		
+		assertNotNull(medidas);
+		
+		System.out.println("Medidas: ");
+		dump(medidas);
+	}
+	
+	@Ignore
+	@Test
+	public void testObterRecursosDoProjeto() {
+		List<Recurso> recursos = integrator.obterRecursosDoProjeto("SoMeSPC");
 
-    @Test
-    public void testObterRecursosDoProjeto()
-    {
-	List<Recurso> recursos = integrator.obterRecursosDoProjeto("br.ifes.leds.sincap:SincapEntities");
+		assertNotNull(recursos);
+		assertNotEquals(recursos.size(), 0);
 
-	assertNotNull(recursos);
-	assertNotEquals(recursos.size(), 0);
+		dump(recursos);
+	}
 
-	dump(recursos);
-    }
+	@Ignore
+	@Test
+	public void testObterMetricas() {
+		List<Metrica> metricas = integrator.obterMetricas();
 
-    @Test
-    public void testObterMetricas()
-    {
-	List<Metrica> metricas = integrator.obterMetricas();
+		assertNotNull(metricas);
+		assertNotEquals(metricas.size(), 0);
 
-	assertNotNull(metricas);
-	assertNotEquals(metricas.size(), 0);
+		dump(metricas);
+	}
 
-	dump(metricas);
-    }
+	@Ignore
+	@Test
+	public void testObterMedidasDoRecurso() {
+		List<Metrica> metricas = integrator.obterMetricas();
+		Recurso recurso = integrator.obterRecurso("SoMeSPC");
 
-    @Test
-    public void testObterMedidasDoRecurso()
-    {
-	List<Metrica> metricas = integrator.obterMetricas();
-	Recurso recurso = integrator.obterRecurso("br.ifes.leds.sincap:SincapEntities");
+		List<org.somespc.integracao.sonarqube.model.Medida> medidas = integrator.obterMedidasDoRecurso(metricas,
+				recurso);
 
-	List<org.somespc.integracao.sonarqube.model.Medida> medidas = integrator.obterMedidasDoRecurso(metricas, recurso);
+		assertNotNull(medidas);
+		assertNotEquals(medidas.size(), 0);
 
-	assertNotNull(medidas);
-	assertNotEquals(medidas.size(), 0);
+		dump(medidas);
+	}
 
-	dump(medidas);
-    }
-
-    private void dump(Object object)
-    {
-	XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
-	System.out.println(xstream.toXML(object));
-    }
+	private void dump(Object object) {
+		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
+		System.out.println(xstream.toXML(object));
+	}
 
 }
