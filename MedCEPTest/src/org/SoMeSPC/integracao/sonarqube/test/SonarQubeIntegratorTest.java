@@ -25,10 +25,10 @@ import static org.junit.Assert.assertNotNull;
 import java.util.*;
 
 import org.junit.*;
-import org.SoMeSPC.inicializacao.*;
-import org.SoMeSPC.integracao.sonarqube.*;
-import org.SoMeSPC.integracao.sonarqube.model.*;
-
+import org.somespc.inicializacao.SoMeSPCStarter;
+import org.somespc.integracao.sonarqube.SonarQubeIntegrator;
+import org.somespc.integracao.sonarqube.model.Metrica;
+import org.somespc.integracao.sonarqube.model.Recurso;
 import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.json.*;
 
@@ -83,7 +83,7 @@ public class SonarQubeIntegratorTest
 	List<Metrica> metricas = integrator.obterMetricas();
 	Recurso recurso = integrator.obterRecurso("br.ifes.leds.sincap:SincapEntities");
 
-	List<Medida> medidas = integrator.obterMedidasDoRecurso(metricas, recurso);
+	List<org.somespc.integracao.sonarqube.model.Medida> medidas = integrator.obterMedidasDoRecurso(metricas, recurso);
 
 	assertNotNull(medidas);
 	assertNotEquals(medidas.size(), 0);

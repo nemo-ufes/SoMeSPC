@@ -20,8 +20,8 @@
 package org.SoMeSPC.integracao.taiga.test;
 
 import org.junit.*;
-import org.SoMeSPC.integracao.agendador.*;
 import org.quartz.*;
+import org.somespc.integracao.agendador.MedicaoJob;
 
 public class AgendadorTest
 {
