@@ -2813,116 +2813,7 @@ public class TaigaIntegrator
 	return plano;
     }
 
-    /**
-     * Cria uma medição.
-     * 
-     * @throws Exception
-     */
-    public synchronized void criarMedicaoSoMeSPC(PlanoDeMedicaoDoProjeto plano, Timestamp data, String nomeMedida, String entidadeMedida,
-	    String valorMedido, String momento) throws Exception
-    {
-	EntityManager manager = XPersistence.createManager();
-	Medicao medicao = new Medicao();
 
-	medicao.setData(data);
-	medicao.setPlanoDeMedicao(plano);
-
-	for (MedidaPlanoDeMedicao med : plano.getMedidaPlanoDeMedicao())
-	{
-	    if (med.getMedida().getNome().equalsIgnoreCase(nomeMedida))
-	    {
-		medicao.setMedidaPlanoDeMedicao(med);
-	    }
-	}
-
-	String queryEntidade = String.format("SELECT p FROM EntidadeMensuravel p WHERE p.nome='%s'", entidadeMedida);
-	TypedQuery<EntidadeMensuravel> typedQueryEntidade = manager.createQuery(queryEntidade, EntidadeMensuravel.class);
-	medicao.setEntidadeMensuravel(typedQueryEntidade.getSingleResult());
-
-//	String queryMomento = String.format("SELECT p FROM EntidadeMensuravel p WHERE p.nome='%s'", momento);
-//	TypedQuery<EntidadeMensuravel> typedQueryMomento = manager.createQuery(queryMomento, EntidadeMensuravel.class);
-//	medicao.setMomentoRealDaMedicao(typedQueryMomento.getSingleResult());
-
-	ValorNumerico valor = new ValorNumerico();
-	valor.setValorNumerico(Float.parseFloat(valorMedido));
-	valor.setValorMedido(valorMedido);
-
-	medicao.setValorMedido(valor);
-
-	RecursoHumano medicaoJob = new RecursoHumano();
-	medicaoJob.setNome("Medição Job");
-
-	//Persiste o job como RH.	
-	try
-	{
-	    if (!manager.isOpen())
-		manager = XPersistence.createManager();
-
-	    String query = String.format("SELECT p FROM RecursoHumano p WHERE p.nome='%s'", medicaoJob.getNome());
-	    TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
-
-	    medicaoJob = typedQuery.getSingleResult();
-	}
-	catch (Exception ex)
-	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    manager.close();
-	    manager = XPersistence.createManager();
-
-	    manager.getTransaction().begin();
-	    manager.persist(medicaoJob);
-	    manager.getTransaction().commit();
-	}
-	finally
-	{
-	    manager.close();
-	}
-
-	medicao.setExecutorDaMedicao(medicaoJob);
-
-	ContextoDeMedicao contexto = new ContextoDeMedicao();
-	contexto.setDescricao("Medição automática feita pelo Job de Medição.");
-
-	//Persiste o contexto.	
-	try
-	{
-	    if (!manager.isOpen())
-		manager = XPersistence.createManager();
-
-	    String query = String.format("SELECT p FROM ContextoDeMedicao p WHERE p.descricao='%s'", contexto.getDescricao());
-	    TypedQuery<ContextoDeMedicao> typedQuery = manager.createQuery(query, ContextoDeMedicao.class);
-
-	    contexto = typedQuery.getSingleResult();
-	}
-	catch (Exception ex)
-	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    manager.close();
-	    manager = XPersistence.createManager();
-
-	    manager.getTransaction().begin();
-	    manager.persist(contexto);
-	    manager.getTransaction().commit();
-	}
-	finally
-	{
-	    manager.close();
-	}
-
-	medicao.setContextoDeMedicao(contexto);
-
-	if (!manager.isOpen())
-	    manager = XPersistence.createManager();
-
-	manager.getTransaction().begin();
-	manager.persist(medicao);
-	manager.getTransaction().commit();
-
-    }
 
     /**
      * Agenda as medições de acordo com as medidas e definições operacionais de medida do plano.
@@ -3024,7 +2915,7 @@ public class TaigaIntegrator
 		//Cria um job para cada medida de um projeto.
 		if (!existeJob)
 		{
-		    job = JobBuilder.newJob(MedicaoJob.class)
+		    job = JobBuilder.newJob(TaigaMedicaoJob.class)
 			    .withIdentity(nomeJob, nomeGrupo)
 			    .build();
 
@@ -3082,7 +2973,7 @@ public class TaigaIntegrator
 
 		    if (!existeJob)
 		    {
-			job = JobBuilder.newJob(MedicaoJob.class)
+			job = JobBuilder.newJob(TaigaMedicaoJob.class)
 				.withIdentity(nomeJob, nomeGrupo)
 				.build();
 
@@ -3145,7 +3036,7 @@ public class TaigaIntegrator
 
 			if (!existeJob)
 			{
-			    job = JobBuilder.newJob(MedicaoJob.class)
+			    job = JobBuilder.newJob(TaigaMedicaoJob.class)
 				    .withIdentity(nomeJob, nomeGrupo)
 				    .build();
 
@@ -3181,139 +3072,4 @@ public class TaigaIntegrator
 	}
     }
 
-//	public PlanoDeMedicao criarPlanoMedicaoProjetoSoMeSPCTeste(Periodicidade periodicidadeSelecionada,Projeto projeto) throws Exception {
-//		 	System.out.println("CHEGUEI AQUI 1");
-//	    	
-//		    PlanoDeMedicaoDoProjeto plano = new PlanoDeMedicaoDoProjeto();
-//			EntityManager manager = XPersistence.createManager();
-//
-//			PlanoDeMedicaoDaOrganizacao planoOrganizacao = new PlanoDeMedicaoDaOrganizacao();
-//			//Verifica se o plano da organização está criado.
-//			try
-//			{
-//			    String queryPO = "SELECT p FROM PlanoDeMedicaoDaOrganizacao p WHERE p.nome='Plano de Medição da Organização (Wizard)'";
-//			    TypedQuery<PlanoDeMedicaoDaOrganizacao> typedQueryPO = manager.createQuery(queryPO, PlanoDeMedicaoDaOrganizacao.class);
-//			    planoOrganizacao = typedQueryPO.getSingleResult();
-//			}
-//			catch (Exception ex)
-//			{
-//			    if (manager.getTransaction().isActive())
-//				manager.getTransaction().rollback();
-//
-//			    manager.close();
-//			    manager = XPersistence.createManager();
-//
-//			    //Se não existir, cria o plano da organização com todas as medidas.
-//			    MedidasTaiga[] todasMedidas = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-//			    planoOrganizacao = this.criarPlanoMedicaoOrganizacaoSoMeSPC(new ArrayList<MedidasTaiga>(new ArrayList<MedidasTaiga>(Arrays.asList(todasMedidas))));
-//			}
-//
-//			org.somespc.model.organizacao_de_software.Projeto proj = new org.somespc.model.organizacao_de_software.Projeto();
-//			//Verifica se o projeto está criado.
-//			try
-//			{
-//			    String queryProjeto = String.format("SELECT p FROM Projeto p WHERE p.nome='%s'", projeto.getNome());
-//			    TypedQuery<org.somespc.model.organizacao_de_software.Projeto> typedQueryProjeto = manager.createQuery(queryProjeto, org.somespc.model.organizacao_de_software.Projeto.class);
-//			    proj = typedQueryProjeto.getSingleResult();
-//			}
-//			catch (Exception ex)
-//			{
-//			    if (manager.getTransaction().isActive())
-//				manager.getTransaction().rollback();
-//
-//			    manager.close();
-//			    manager = XPersistence.createManager();
-//
-//			    proj = this.criarProjetoSoMeSPC(projeto);
-//			}
-//
-//			this.criarProcessoProjetoScrumSoMeSPC(projeto);
-//
-//			Calendar cal = Calendar.getInstance();
-//			plano.setData(cal.getTime());
-//
-//			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//			String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
-//
-//			plano.setNome("Plano de Medição do Projeto " + projeto.getNome() + " (Wizard) - " + dataHora);
-//			plano.setVersao("1");
-//			plano.setDescricao("Plano de Medição da Organização criado via Wizard em " + dataHora);
-//			plano.setPlanoDeMedicaoDaOrganizacao(planoOrganizacao);
-//			plano.setProjeto(proj);
-//
-//			RecursoHumano wizard = new RecursoHumano();
-//			wizard.setNome("Wizard SoMeSPC");
-//
-//			//Persiste o Wizard como RH.	
-//			try
-//			{
-//			    if (!manager.isOpen())
-//				manager = XPersistence.createManager();
-//
-//			    manager.getTransaction().begin();
-//			    manager.persist(wizard);
-//			    manager.getTransaction().commit();
-//			}
-//			catch (Exception ex)
-//			{
-//			    if (manager.getTransaction().isActive())
-//				manager.getTransaction().rollback();
-//
-//			    manager.close();
-//			    manager = XPersistence.createManager();
-//
-//			    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-//				    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-//			    {
-//				String query = String.format("SELECT p FROM RecursoHumano p WHERE p.nome='%s'", wizard.getNome());
-//				TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
-//
-//				wizard = typedQuery.getSingleResult();
-//			    }
-//			    else
-//			    {
-//				throw ex;
-//			    }
-//			}
-//			finally
-//			{
-//			    manager.close();
-//			}
-//
-//			plano.setRecursoHumano(new ArrayList<RecursoHumano>(Arrays.asList(wizard)));
-//
-//			
-//			System.out.println("ONDE DEVERIA ESTAR OS ITENS DO PLANO DE MEDIÇÃO");
-//			
-//			//Finalmente... Persiste o plano.
-//			try
-//			{
-//			    if (!manager.isOpen())
-//				manager = XPersistence.createManager();
-//
-//			    manager.getTransaction().begin();
-//
-//			    manager.persist(plano);
-//
-//			    manager.getTransaction().commit();
-//			}
-//			catch (Exception ex)
-//			{
-//			    if (manager.getTransaction().isActive())
-//				manager.getTransaction().rollback();
-//
-//			    throw ex;
-//
-//			}
-//			finally
-//			{
-//			    manager.close();
-//			}
-//
-//			//Após criar o plano, agenda as medições.
-//			//this.agendarMedicoesPlanoMedicaoProjeto(plano, projeto);
-//
-//			return plano;
-//	}
-//
 }

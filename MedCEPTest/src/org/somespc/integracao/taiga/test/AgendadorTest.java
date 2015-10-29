@@ -21,7 +21,7 @@ package org.somespc.integracao.taiga.test;
 
 import org.junit.*;
 import org.quartz.*;
-import org.somespc.integracao.agendador.MedicaoJob;
+import org.somespc.integracao.agendador.TaigaMedicaoJob;
 
 public class AgendadorTest
 {
@@ -54,7 +54,7 @@ public class AgendadorTest
 
 	    if (!existeJob)
 	    {
-		job = JobBuilder.newJob(MedicaoJob.class)
+		job = JobBuilder.newJob(TaigaMedicaoJob.class)
 			.withIdentity(nomeJob, nomeGrupo)
 			.build();
 
