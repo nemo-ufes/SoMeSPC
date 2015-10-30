@@ -275,6 +275,11 @@ public class SoMeSPCStarter extends HttpServlet
 	    manager.close();
 	    manager = XPersistence.createManager();
 
+
+	    //FAZEERRR!!! TEM TAMANHO - TEM DURACAO
+	    TipoDeEntidadeMensuravel tipoSprint = new TipoDeEntidadeMensuravel();
+	    
+	    
 	    TipoDeEntidadeMensuravel tipoProjeto = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoPSPadrao = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoAPadrao = new TipoDeEntidadeMensuravel();

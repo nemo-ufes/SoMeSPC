@@ -981,91 +981,130 @@ public class TaigaIntegrator
 
 	    switch (medidaTaiga)
 	    {
-		case PONTOS_ALOCADOS_PROJETO:
-		    medida.setMnemonico("TAIGA-PA");
+		case PONTOS_ESTORIA_PLANEJADOS_PROJETO:
+		    medida.setMnemonico("PEPP");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
-		case PONTOS_ALOCADOS_POR_PAPEL_PROJETO:
-		    medida.setMnemonico("TAIGA-PAP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacaoEquipe)));
-		    break;
-		case PONTOS_DEFINIDOS_PROJETO:
-		    medida.setMnemonico("TAIGA-PD");
+		case PONTOS_ESTORIA_ALOCADOS_PROJETO:
+		    medida.setMnemonico("PEAP");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
-		case PONTOS_DEFINIDOS_POR_PAPEL_PROJETO:
-		    medida.setMnemonico("TAIGA-PDP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacaoEquipe)));
-		    break;
-		case PONTOS_FECHADOS_PROJETO:
-		    medida.setMnemonico("TAIGA-PF");
+		case PONTOS_ESTORIA_CONCLUIDOS_PROJETO_CONCLUSAO:
+		    medida.setMnemonico("PECP");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
-		case PONTOS_FECHADOS_POR_PAPEL_PROJETO:
-		    medida.setMnemonico("TAIGA-PFP");
+		case TAXA_CONCLUSAO_PONTOS_ESTORIA_PROJETO:
+		    medida.setMnemonico("TCPEP");
 		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacaoEquipe)));
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
-		case TOTAL_SPRINTS_PROJETO:
-		    medida.setMnemonico("TAIGA-TM");
+		case NUMERO_SPRINTS_PLANEJADAS_PROJETO:
+		    medida.setMnemonico("NSPP");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
-		case TOTAL_PONTOS_PROJETO:
-		    medida.setMnemonico("TAIGA-TP");
+		case NUMERO_SPRINTS_REALIZADA_PROJETO:
+		    medida.setMnemonico("NSRP");
 		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
+		    break;
+		case TAXA_CONCLUSAO_SPRINTS_PROJETO:
+		    medida.setMnemonico("TCSP");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
+		    break;
+		case NUMERO_ESTORIAS_PLANEJADAS_SPRINT:
+		    medida.setMnemonico("NEPS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case NUMERO_ESTORIAS_CONCLUIDAS_SPRINT:
+		    medida.setMnemonico("NECS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case TAXA_CONCLUSAO_ESTORIAS_SPRINT:
+		    medida.setMnemonico("TCES");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case PONTOS_ESTORIAS_PLANEJADOS_SPRINT:
+		    medida.setMnemonico("PEPS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case PONTOS_ESTORIAS_CONCLUIDAS_SPRINT:
+		    medida.setMnemonico("PECS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case TAXA_CONCLUSAO_PONTOS_ESTORIAS_SPRINT:
+		    medida.setMnemonico("TCPES");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case NUMERO_TAREFAS_PLANEJADAS_SPRINT:
+		    medida.setMnemonico("NTPS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case NUMERO_TAREFAS_CONCLUIDAS_SPRINT:
+		    medida.setMnemonico("NTCS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case TAXA_CONCLUSAO_TAREFAS_SPRINT:
+		    medida.setMnemonico("TCTS");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
+		    break;
+		case NUMERO_SPRINTS_REALIZADAS_PROJETO:
+		    medida.setMnemonico("NSRP");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
+		    break;
+		case NUMERO_ESTORIAS_CONCLUIDAS_PROJETO:
+		    medida.setMnemonico("NECP");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
+		    break;
+		case MEDIA_ESTORIAS_CONCLUIDAS_SPRINT_PROJETO:
+		    medida.setMnemonico("MECSP");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
+		    break;
+		case PONTOS_ESTORIA_CONCLUIDOS_PROJETO_DESEMPENHO:
+		    medida.setMnemonico("PECP");
+		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
 		case VELOCIDADE_PROJETO:
-		    medida.setMnemonico("TAIGA-VEL");
+		    medida.setMnemonico("VEP");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
-		case DOSES_IOCAINE_SPRINT:
-		    medida.setMnemonico("TAIGA-IOC");
+		case NUMERO_IOCAINE_SPRINT:
+		    medida.setMnemonico("NDIS");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
-		case ESTORIAS_COMPLETADAS_SPRINT:
-		    medida.setMnemonico("TAIGA-ECS");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
-		    break;
-		case PONTOS_COMPLETADOS_SPRINT:
-		    medida.setMnemonico("TAIGA-PCS");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
-		    break;
-		case TAREFAS_COMPLETADAS_SPRINT:
-		    medida.setMnemonico("TAIGA-TCS");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
-		    break;
-		case TOTAL_ESTORIAS_SPRINT:
-		    medida.setMnemonico("TAIGA-TES");
+		case NUMERO_TAREFAS_REALIZADAS_SPRINT:
+		    medida.setMnemonico("NTRS");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
-		case TOTAL_PONTOS_SPRINT:
-		    medida.setNome("Total de Pontos da Sprint");
-		    medida.setMnemonico("TAIGA-TPS");
+		case TAXA_IOCAINE_SPRINT:
+		    medida.setMnemonico("TDIS");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
-		case TOTAL_TAREFAS_SPRINT:
-		    medida.setMnemonico("TAIGA-TTS");
+		case VELOCIDADE_EQUIPE_PROJETO:
+		    medida.setMnemonico("VEP");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
-		    break;
-		case PONTOS_ESTORIA:
-		    medida.setMnemonico("TAIGA-PES");
-		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoArtefato)));
 		    break;
 		default:
 		    System.out.println(String.format("Medida %s inexistente no Taiga.", medidaTaiga.toString()));
@@ -2504,7 +2543,7 @@ public class TaigaIntegrator
 	    manager = XPersistence.createManager();
 
 	    //Se não existir, cria o plano da organização com todas as medidas.
-	    MedidasTaiga[] todasMedidas = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+	    MedidasTaiga[] todasMedidas = MedidasTaiga.PONTOS_ESTORIA_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
 	    planoOrganizacao = this.criarPlanoMedicaoOrganizacaoSoMeSPC(new ArrayList<MedidasTaiga>(new ArrayList<MedidasTaiga>(Arrays.asList(todasMedidas))));
 	}
 
