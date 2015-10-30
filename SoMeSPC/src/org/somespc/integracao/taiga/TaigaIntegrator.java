@@ -19,40 +19,65 @@
  */
 package org.somespc.integracao.taiga;
 
-import java.sql.*;
-import java.text.*;
-import java.util.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
-import javax.persistence.*;
-import javax.ws.rs.client.*;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.*;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.hibernate.exception.*;
-import org.hibernate.validator.*;
-import org.somespc.integracao.agendador.*;
-import org.somespc.integracao.taiga.model.*;
+import org.hibernate.exception.ConstraintViolationException;
+import org.openxava.jpa.XPersistence;
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerFactory;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.somespc.integracao.SoMeSPCIntegrator;
+import org.somespc.integracao.agendador.TaigaMedicaoJob;
+import org.somespc.integracao.taiga.model.AuthInfo;
+import org.somespc.integracao.taiga.model.EstadoProjeto;
+import org.somespc.integracao.taiga.model.EstadoSprint;
+import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Projeto;
+import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
-import org.somespc.model.definicao_operacional_de_medida.ProcedimentoDeAnaliseDeMedicao;
-import org.somespc.model.definicao_operacional_de_medida.ProcedimentoDeMedicao;
-import org.somespc.model.entidades_e_medidas.*;
-import org.somespc.model.medicao.ContextoDeMedicao;
-import org.somespc.model.medicao.Medicao;
-import org.somespc.model.medicao.ValorNumerico;
+import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
+import org.somespc.model.entidades_e_medidas.Escala;
+import org.somespc.model.entidades_e_medidas.Medida;
+import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
+import org.somespc.model.entidades_e_medidas.TipoMedida;
+import org.somespc.model.entidades_e_medidas.UnidadeDeMedida;
 import org.somespc.model.objetivos.NecessidadeDeInformacao;
 import org.somespc.model.objetivos.ObjetivoDeMedicao;
 import org.somespc.model.objetivos.ObjetivoEstrategico;
-import org.somespc.model.organizacao_de_software.*;
-import org.somespc.model.plano_de_medicao.*;
-import org.somespc.model.processo_de_software.*;
-import org.somespc.util.json.*;
+import org.somespc.model.organizacao_de_software.AlocacaoEquipe;
+import org.somespc.model.organizacao_de_software.Equipe;
+import org.somespc.model.organizacao_de_software.Objetivo;
+import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
+import org.somespc.model.organizacao_de_software.RecursoHumano;
+import org.somespc.model.plano_de_medicao.MedidaPlanoDeMedicao;
+import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDaOrganizacao;
+import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
+import org.somespc.model.plano_de_medicao.TreeItemPlanoMedicao;
+import org.somespc.util.json.JSONObject;
 import org.somespc.webservices.rest.dto.ItemPlanoDeMedicaoDTO;
-import org.openxava.jpa.*;
-import org.quartz.*;
 
 /**
  * Classe para integração do Taiga com a SoMeSPC.
@@ -145,64 +170,6 @@ public class TaigaIntegrator
     }
 
     /**
-     * Obtem os dados do projeto Taiga.
-     * 
-     * @param apelidoProjeto
-     *            - Apelido (slug) do projeto a ser buscado.
-     * @return Json do projeto Taiga
-     */
-    public String obterProjetoTaigaJson(String apelidoProjeto)
-    {
-	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
-
-	Response response = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
-	}
-
-	JSONObject json = new JSONObject(response.readEntity(String.class));
-	int idProjeto = json.getInt("project");
-
-	//Busca informações do projeto.
-	target = client.target(this.urlTaiga).path("projects/" + idProjeto);
-
-	Response projetoResponse = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	JSONObject projetoJson = new JSONObject(projetoResponse.readEntity(String.class));
-
-	return projetoJson.toString();
-    }
-
-    /**
-     * Obtem os dados de Sprints do Taiga em JSON.
-     * 
-     * @return Json das Sprints Taiga
-     */
-    public String obterSprintsTaigaJson()
-    {
-	//Busca informações de milestones.
-	WebTarget target = client.target(this.urlTaiga).path("milestones");
-
-	Response milestoneResponse = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	JSONArray milestoneJson = new JSONArray(milestoneResponse.readEntity(String.class));
-
-	return milestoneJson.toString();
-    }
-
-    /**
      * Obtem as Sprints de um determinado projeto Taiga.
      * 
      * @param apelidoProjeto
@@ -278,44 +245,6 @@ public class TaigaIntegrator
     }
 
     /**
-     * Obtem demais dados de andamento do projeto Taiga.
-     * 
-     * @param apelidoProjeto
-     *            - Apelido (slug) do projeto a ser buscado.
-     * @return Json de dados do andamento do projeto Taiga
-     */
-    public String obterEstadoProjetoTaigaJson(String apelidoProjeto)
-    {
-	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
-
-	Response response = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
-	}
-
-	JSONObject json = new JSONObject(response.readEntity(String.class));
-	int idProjeto = json.getInt("project");
-
-	//Busca informações do projeto.
-	target = client.target(this.urlTaiga).path(String.format("projects/%d/stats", idProjeto));
-
-	Response projetoResponse = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	JSONObject projetoJson = new JSONObject(projetoResponse.readEntity(String.class));
-
-	return projetoJson.toString();
-    }
-
-    /**
      * Obtem o estado de um projeto Taiga.
      * 
      * @param apelidoProjeto
@@ -350,163 +279,7 @@ public class TaigaIntegrator
 
 	return estado;
     }
-
-    /**
-     * Obtem as estorias do Project Backlog de um Projeto Taiga.
-     * 
-     * @param apelidoProjeto
-     *            - Apelido (slug) do projeto.
-     * @return JSON com as estórias do Project Backlog.
-     */
-    public String obterEstoriasDoProjectBacklogTaigaJson(String apelidoProjeto)
-    {
-
-	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
-
-	Response response = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
-	}
-
-	JSONObject json = new JSONObject(response.readEntity(String.class));
-	int idProjeto = json.getInt("project");
-
-	//Busca informações do projeto.
-	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone__isnull", true);
-
-	Response estoriasResponse = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	JSONArray estorias = new JSONArray(estoriasResponse.readEntity(String.class));
-
-	return estorias.toString();
-    }
-
-    /**
-     * Obtem as estorias do Project Backlog de um Projeto Taiga.
-     * 
-     * @param apelidoProjeto
-     *            - Apelido (slug) do projeto.
-     * @return List<Estoria> com as estórias do Project Backlog.
-     */
-    public List<Estoria> obterEstoriasDoProjectBacklogTaiga(String apelidoProjeto)
-    {
-	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
-
-	Response response = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
-	}
-
-	JSONObject json = new JSONObject(response.readEntity(String.class));
-	int idProjeto = json.getInt("project");
-
-	//Busca informações do projeto.
-	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone__isnull", true);
-
-	List<Estoria> estorias = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get(new GenericType<List<Estoria>>() {
-		});
-
-	return estorias;
-    }
-
-    /**
-     * Obtem as estorias do Project Backlog de uma Sprint Taiga.
-     * 
-     * @param apelidoProjeto
-     *            - Apelido (slug) do projeto.
-     * @param apelidoSprint
-     *            - Apelido (slug) da Sprint
-     * @return JSON com as estórias da Sprint Backlog.
-     */
-    public String obterEstoriasDaSprintBacklogTaigaJson(String apelidoProjeto, String apelidoSprint)
-    {
-
-	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase()).queryParam("milestone", apelidoSprint.toLowerCase());
-
-	Response response = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
-	}
-
-	JSONObject json = new JSONObject(response.readEntity(String.class));
-	int idProjeto = json.getInt("project");
-	int idSprint = json.getInt("milestone");
-
-	//Busca informações do projeto.
-	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone", idSprint);
-
-	Response estoriasResponse = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	JSONArray estorias = new JSONArray(estoriasResponse.readEntity(String.class));
-
-	return estorias.toString();
-    }
-
-    /**
-     * Obtem as estorias do Project Backlog de um Projeto Taiga.
-     * 
-     * @param apelidoProjeto
-     *            - Apelido (slug) do projeto.
-     * @return List<Estoria> com as estórias do Project Backlog.
-     */
-    public List<Estoria> obterEstoriasDaSprintBacklogTaiga(String apelidoProjeto, String apelidoSprint)
-    {
-	//Resolve o ID do projeto.
-	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase()).queryParam("milestone", apelidoSprint.toLowerCase());
-
-	Response response = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	if (response.getStatus() != Status.OK.getStatusCode())
-	{
-	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
-	}
-
-	JSONObject json = new JSONObject(response.readEntity(String.class));
-	int idProjeto = json.getInt("project");
-	int idSprint = json.getInt("milestone");
-
-	//Busca informações do projeto.
-	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone", idSprint);
-
-	List<Estoria> estorias = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get(new GenericType<List<Estoria>>() {
-		});
-
-	return estorias;
-    }
-
+     
     /**
      * Obtem todos os projetos.
      * 
@@ -555,63 +328,6 @@ public class TaigaIntegrator
     }
 
     /**
-     * Obtem os dados do Membro pelo ID.
-     * 
-     * @param idMembro
-     *            - ID do membro a ser buscado.
-     * @return Membro
-     */
-    public List<Membro> obterMembrosDoProjetoTaiga(int idProjeto)
-    {
-	//Busca informações do membro.
-	WebTarget target = client.target(this.urlTaiga).path("memberships").queryParam("project", idProjeto);
-
-	List<Membro> membros = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get(new GenericType<List<Membro>>() {
-		});
-
-	return membros;
-    }
-    
-    /**
-     * Obtem os dados de Sprints do Taiga em JSON.
-     * 
-     * @return Json das Sprints Taiga
-     */
-    public String obterMembrosDoProjetoTaigaJson(int idProjeto)
-    {
-	//Busca informações do membro.
-	WebTarget target = client.target(this.urlTaiga).path("memberships").queryParam("project", idProjeto);
-
-	Response membrosResponse = target
-		.request(MediaType.APPLICATION_JSON_TYPE)
-		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
-		.get();
-
-	JSONArray membrosJson = new JSONArray(membrosResponse.readEntity(String.class));
-
-	return membrosJson.toString();
-    }
-
-    /**
-     * Obtem as periodicidades cadastradas.
-     * 
-     * @return
-     */
-    public List<Periodicidade> obterPeriodicidades()
-    {
-	EntityManager manager = XPersistence.createManager();
-
-	TypedQuery<Periodicidade> query = manager.createQuery("FROM Periodicidade", Periodicidade.class);
-	List<Periodicidade> result = query.getResultList();
-
-	manager.close();
-	return result;
-    }
-
-    /**
      * Cadastra um RecursoHumano na SoMeSPC a partir de um Membro do Taiga.
      * Se já existir, retorna o RecursoHumano existente.
      * 
@@ -620,39 +336,13 @@ public class TaigaIntegrator
      * @return RecursoHumano criado/existente.
      * @throws Exception
      */
-    public RecursoHumano criarRecursoHumanoSoMeSPC(Membro membro) throws Exception
-    {
+	public RecursoHumano criarRecursoHumanoSoMeSPC(Membro membro) throws Exception {
 
-	EntityManager manager = XPersistence.createManager();
-	RecursoHumano recursoHumano = new RecursoHumano();
-	recursoHumano.setNome(membro.getNome());
+		RecursoHumano recursoHumano = new RecursoHumano();
+		recursoHumano.setNome(membro.getNome());
 
-	try
-	{
-	    String query = String.format("SELECT r FROM RecursoHumano r WHERE r.nome='%s'", membro.getNome());
-	    TypedQuery<RecursoHumano> typedQuery = manager.createQuery(query, RecursoHumano.class);
-	    recursoHumano = typedQuery.getSingleResult();
+		return SoMeSPCIntegrator.criarRecursoHumano(recursoHumano);
 	}
-	catch (Exception ex)
-	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    if (!manager.isOpen())
-		manager = XPersistence.createManager();
-
-	    manager.getTransaction().begin();
-	    manager.persist(recursoHumano);
-	    manager.getTransaction().commit();
-
-	}
-	finally
-	{
-	    manager.close();
-	}
-
-	return recursoHumano;
-    }
 
     /**
      * Cadastra um Papel de Recurso Humano na SoMeSPC a partir de um Membro do Taiga.
@@ -663,38 +353,12 @@ public class TaigaIntegrator
      * @return Papel criado/existente.
      * @throws Exception
      */
-    public PapelRecursoHumano criarPapelRecursoHumanoSoMeSPC(Membro membro) throws Exception
-    {
-	EntityManager manager = XPersistence.createManager();
-	PapelRecursoHumano papel = new PapelRecursoHumano();
-	papel.setNome(membro.getPapel());
+	public PapelRecursoHumano criarPapelRecursoHumanoSoMeSPC(Membro membro) throws Exception {
+		PapelRecursoHumano papel = new PapelRecursoHumano();
+		papel.setNome(membro.getPapel());
 
-	try
-	{
-	    String query = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='%s'", membro.getPapel());
-	    TypedQuery<PapelRecursoHumano> typedQuery = manager.createQuery(query, PapelRecursoHumano.class);
-	    papel = typedQuery.getSingleResult();
+		return SoMeSPCIntegrator.criarPapelRecursoHumanoSoMeSPC(papel);
 	}
-	catch (Exception ex)
-	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    if (!manager.isOpen())
-		manager = XPersistence.createManager();
-
-	    manager.getTransaction().begin();
-	    manager.persist(papel);
-	    manager.getTransaction().commit();
-
-	}
-	finally
-	{
-	    manager.close();
-	}
-
-	return papel;
-    }
 
     /**
      * Cria uma Equipe na SoMeSPC baseado nos Membros do projeto Taiga.
@@ -782,61 +446,6 @@ public class TaigaIntegrator
     }
 
     /**
-     * Adiciona um membro na equipe.
-     * 
-     * @param equipe
-     * @param membro
-     * @return
-     * @throws Exception
-     */
-    public Equipe adicionarMembroEmEquipeSoMeSPC(Equipe equipe, Membro membro) throws Exception
-    {
-	EntityManager manager = XPersistence.createManager();
-
-	//Verifica se o membro já está na equipe.
-	for (AlocacaoEquipe aloc : equipe.getAlocacaoEquipe())
-	{
-	    if (aloc.getRecursoHumano().getNome().equalsIgnoreCase(membro.getNome())
-		    && aloc.getPapelRecursoHumano().getNome().equalsIgnoreCase(membro.getPapel()))
-	    {
-		return equipe;
-	    }
-	}
-
-	String equipeQuery = String.format("SELECT e FROM Equipe e WHERE e.nome='%s'", equipe.getNome());
-	TypedQuery<Equipe> equipeTypedQuery = manager.createQuery(equipeQuery, Equipe.class);
-	Equipe equipeExistente = equipeTypedQuery.getSingleResult();
-
-	String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Alocação de Recurso Humano'");
-	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = manager.createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoAlocacaco = tipoEntidadeTypedQuery.getSingleResult();
-
-	AlocacaoEquipe alocacao = new AlocacaoEquipe();
-	alocacao.setEquipe(equipeExistente);
-
-	//Insere o Recurso Humano na Equipe e na Alocacao. 
-	//Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
-	RecursoHumano rec = this.criarRecursoHumanoSoMeSPC(membro);
-
-	alocacao.setRecursoHumano(rec);
-	alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoSoMeSPC(membro));
-	alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
-
-	try
-	{
-	    manager.getTransaction().begin();
-	    manager.persist(alocacao);
-	    manager.getTransaction().commit();
-	}
-	finally
-	{
-	    manager.close();
-	}
-
-	return equipe;
-    }
-
-    /**
      * Cria um Projeto na SoMeSPC baseado em um Projeto Taiga.
      * Se já existir, retorna o Projeto SoMeSPC existente.
      * 
@@ -848,7 +457,7 @@ public class TaigaIntegrator
     public org.somespc.model.organizacao_de_software.Projeto criarProjetoSoMeSPC(Projeto projeto) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
-	Equipe equipe = this.criarEquipeSoMeSPC("Equipe " + projeto.getNome(), projeto.getMembros());
+	Equipe equipe = this.criarEquipeSoMeSPC("Equipe " + projeto.getNome(), projeto.getEquipe());
 	List<Equipe> equipes = new ArrayList<Equipe>();
 	equipes.add(equipe);
 
@@ -908,15 +517,8 @@ public class TaigaIntegrator
     public List<Medida> criarMedidasSoMeSPC(List<MedidasTaiga> medidasTaiga) throws Exception
     {
 
-	this.criarAtividadesPadraoScrumSoMeSPC();
-
 	EntityManager manager = XPersistence.createManager();
 	List<Medida> medidasCadastradas = new ArrayList<Medida>();
-
-	//Obtem o tipo de medida base.
-	String query = "SELECT mb FROM AtividadePadrao mb WHERE mb.nome='Sprint'";
-	TypedQuery<AtividadePadrao> typedQuery = manager.createQuery(query, AtividadePadrao.class);
-	AtividadePadrao sprint = typedQuery.getSingleResult();
 
 	//Obtem o tipo de medida base.
 	String query1 = "SELECT mb FROM TipoMedida mb WHERE mb.nome='Medida Base'";
@@ -1078,142 +680,12 @@ public class TaigaIntegrator
 
 	    DefinicaoOperacionalDeMedida definicao = new DefinicaoOperacionalDeMedida();
 
-	    definicao.setNome("Definição operacional padrão Taiga-SoMeSPC para " + medida.getNome());
+	    definicao.setNome("Definição operacional da medida do Taiga - " + medida.getNome());
 	    Calendar cal = Calendar.getInstance();
 	    definicao.setData(cal.getTime());
 	    definicao.setDescricao("Definição operacional criada automaticamente.");
 	    definicao.setMedida(medida);
-	    definicao.setMomentoDeMedicao(sprint);
-	    definicao.setMomentoDeAnaliseDeMedicao(sprint);
-
-	    PapelRecursoHumano papel = new PapelRecursoHumano();
-
-	    if (primeiroLoop)
-	    {
-		papel.setNome("Taiga Integrator");
-
-		try
-		{
-		    if (!manager.isOpen())
-			manager = XPersistence.createManager();
-
-		    manager.getTransaction().begin();
-		    manager.persist(papel);
-		    manager.getTransaction().commit();
-		}
-		catch (Exception ex)
-		{
-		    if (manager.getTransaction().isActive())
-			manager.getTransaction().rollback();
-
-		    manager = XPersistence.createManager();
-
-		    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		    {
-
-			String queryPapel = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='Taiga Integrator'");
-			TypedQuery<PapelRecursoHumano> typedQueryPapel = manager.createQuery(queryPapel, PapelRecursoHumano.class);
-
-			papel = typedQueryPapel.getSingleResult();
-		    }
-		    else
-		    {
-			throw ex;
-		    }
-		}
-		finally
-		{
-		    manager.close();
-		}
-	    }
-	    else
-	    {
-		if (!manager.isOpen())
-		    manager = XPersistence.createManager();
-
-		String queryPapel = String.format("SELECT p FROM PapelRecursoHumano p WHERE p.nome='Taiga Integrator'");
-		TypedQuery<PapelRecursoHumano> typedQueryPapel = manager.createQuery(queryPapel, PapelRecursoHumano.class);
-
-		papel = typedQueryPapel.getSingleResult();
-
-		manager.close();
-	    }
-
-	    definicao.setResponsavelPelaAnaliseDeMedicao(papel);
-	    definicao.setResponsavelPelaMedicao(papel);
-
-	    ProcedimentoDeMedicao procedimentoMedicao = new ProcedimentoDeMedicao();
-	    ProcedimentoDeAnaliseDeMedicao procedimentoAnalise = new ProcedimentoDeAnaliseDeMedicao();
-
-	    if (primeiroLoop)
-	    {
-		procedimentoMedicao.setNome("Medição automática feita via Taiga Integrator");
-		procedimentoMedicao.setDescricao("Medição automática feita via Taiga Integrator.");
-
-		procedimentoAnalise.setNome("Análise de Medição automática feita via Taiga Integrator");
-		procedimentoAnalise.setDescricao("Análise de Medição automática feita via Taiga Integrator.");
-
-		try
-		{
-		    if (!manager.isOpen())
-			manager = XPersistence.createManager();
-
-		    manager.getTransaction().begin();
-		    manager.persist(procedimentoMedicao);
-		    manager.persist(procedimentoAnalise);
-		    manager.getTransaction().commit();
-		}
-		catch (Exception ex)
-		{
-		    if (manager.getTransaction().isActive())
-			manager.getTransaction().rollback();
-
-		    manager = XPersistence.createManager();
-
-		    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		    {
-
-			String queryProcedimentoMedicao = String.format("SELECT p FROM ProcedimentoDeMedicao p WHERE p.nome='Medição automática feita via Taiga Integrator'");
-			TypedQuery<ProcedimentoDeMedicao> typedQueryProcedimentoMedicao = manager.createQuery(queryProcedimentoMedicao, ProcedimentoDeMedicao.class);
-
-			String queryProcedimentoAnalise = String.format("SELECT p FROM ProcedimentoDeAnaliseDeMedicao p WHERE p.nome='Análise de Medição automática feita via Taiga Integrator'");
-			TypedQuery<ProcedimentoDeAnaliseDeMedicao> typedQueryProcedimentoAnalise = manager.createQuery(queryProcedimentoAnalise, ProcedimentoDeAnaliseDeMedicao.class);
-
-			procedimentoMedicao = typedQueryProcedimentoMedicao.getSingleResult();
-			procedimentoAnalise = typedQueryProcedimentoAnalise.getSingleResult();
-		    }
-		    else
-		    {
-			throw ex;
-		    }
-		}
-		finally
-		{
-		    manager.close();
-		}
-	    }
-	    else
-	    {
-		if (!manager.isOpen())
-		    manager = XPersistence.createManager();
-
-		String queryProcedimentoMedicao = String.format("SELECT p FROM ProcedimentoDeMedicao p WHERE p.nome='Medição automática feita via Taiga Integrator'");
-		TypedQuery<ProcedimentoDeMedicao> typedQueryProcedimentoMedicao = manager.createQuery(queryProcedimentoMedicao, ProcedimentoDeMedicao.class);
-
-		String queryProcedimentoAnalise = String.format("SELECT p FROM ProcedimentoDeAnaliseDeMedicao p WHERE p.nome='Análise de Medição automática feita via Taiga Integrator'");
-		TypedQuery<ProcedimentoDeAnaliseDeMedicao> typedQueryProcedimentoAnalise = manager.createQuery(queryProcedimentoAnalise, ProcedimentoDeAnaliseDeMedicao.class);
-
-		procedimentoMedicao = typedQueryProcedimentoMedicao.getSingleResult();
-		procedimentoAnalise = typedQueryProcedimentoAnalise.getSingleResult();
-
-		manager.close();
-	    }
-
-	    definicao.setProcedimentoDeAnaliseDeMedicao(procedimentoAnalise);
-	    definicao.setProcedimentoDeMedicao(procedimentoMedicao);
-
+	  
 	    try
 	    {
 		if (!manager.isOpen())
@@ -1257,903 +729,7 @@ public class TaigaIntegrator
 
 	return medidasCadastradas;
     }
-
-    /**
-     * Cria os tipos de artefatos do Scrum.
-     * 
-     * @throws Exception
-     */
-    public List<TipoDeArtefato> criarTiposArtefatosScrumSoMeSPC() throws Exception
-    {
-
-	EntityManager manager = XPersistence.createManager();
-
-	//Instancia os tipos de artefatos.
-	TipoDeArtefato estoriaPB = new TipoDeArtefato();
-	TipoDeArtefato estoriaSB = new TipoDeArtefato();
-	TipoDeArtefato codigoFonte = new TipoDeArtefato();
-	TipoDeArtefato documentacao = new TipoDeArtefato();
-	TipoDeArtefato releaseSoftware = new TipoDeArtefato();
-
-	//Obtem o tipo de Entidade Mensurável Tipo de Artefato.
-	String queryTipoArtefato = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Tipo de Artefato'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQueryTipoArtefato = manager.createQuery(queryTipoArtefato, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoDeArtefato = typedQueryTipoArtefato.getSingleResult();
-
-	//Obtem o ElementoMensuravel Tamanho.
-	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
-	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Duração.
-	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
-	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
-
-	estoriaPB.setNome("Estória de Product Backlog");
-	estoriaPB.setDescricao("Estória de Product Backlog do Scrum.");
-	estoriaPB.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, duracao)));
-
-	estoriaSB.setNome("Estória de Sprint Backlog");
-	estoriaSB.setDescricao("Estória de Sprint Backlog do Scrum.");
-	estoriaSB.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, duracao)));
-
-	codigoFonte.setNome("Código Fonte");
-	codigoFonte.setDescricao("Código fonte de um software.");
-	codigoFonte.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
-
-	documentacao.setNome("Documentação");
-	documentacao.setDescricao("Documentação de software. Inclui modelos, diagramas, relatórios, etc.");
-	documentacao.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
-
-	releaseSoftware.setNome("Release de Software");
-	releaseSoftware.setDescricao("Incremento de software pronto para implantação.");
-	releaseSoftware.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
-
-	List<TipoDeArtefato> tiposDeArtefatoParaPersistir = new ArrayList<TipoDeArtefato>();
-
-	tiposDeArtefatoParaPersistir.add(estoriaPB);
-	tiposDeArtefatoParaPersistir.add(estoriaSB);
-	tiposDeArtefatoParaPersistir.add(codigoFonte);
-	tiposDeArtefatoParaPersistir.add(documentacao);
-	tiposDeArtefatoParaPersistir.add(releaseSoftware);
-
-	List<TipoDeArtefato> tiposDeArtefato = new ArrayList<TipoDeArtefato>();
-
-	//Persiste.
-	for (TipoDeArtefato tipo : tiposDeArtefatoParaPersistir)
-	{
-
-	    tipo.setTipoDeEntidadeMensuravel(tipoDeArtefato);
-
-	    try
-	    {
-		if (!manager.isOpen())
-		    manager = XPersistence.createManager();
-
-		manager.getTransaction().begin();
-		manager.persist(tipo);
-		manager.getTransaction().commit();
-		tiposDeArtefato.add(tipo);
-	    }
-
-	    catch (Exception ex)
-	    {
-		if (manager.getTransaction().isActive())
-		    manager.getTransaction().rollback();
-
-		manager.close();
-		manager = XPersistence.createManager();
-
-		if (ex.getCause() instanceof InvalidStateException)
-		{
-		    for (InvalidValue invalidValue : ((InvalidStateException) ex.getCause()).getInvalidValues())
-		    {
-			System.out.println("Instance of bean class: " + invalidValue.getBeanClass().getSimpleName() +
-				" has an invalid property: " + invalidValue.getPropertyName() +
-				" with message: " + invalidValue.getMessage());
-		    }
-		}
-
-		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		{
-
-		    System.out.println(String.format("O Tipo de Artefato %s já existe.", tipo.getNome()));
-
-		    String query = String.format("SELECT t FROM TipoDeArtefato t WHERE t.nome='%s'", tipo.getNome());
-		    TypedQuery<TipoDeArtefato> typedQuery = manager.createQuery(query, TipoDeArtefato.class);
-
-		    TipoDeArtefato tipoExistente = typedQuery.getSingleResult();
-		    tiposDeArtefato.add(tipoExistente);
-		}
-		else
-		{
-		    throw ex;
-		}
-	    }
-	    finally
-	    {
-		manager.close();
-	    }
-	}
-
-	return tiposDeArtefato;
-    }
-
-    /**
-     * Cria as atividades Reunião de Planejamento da Sprint, Sprint e Reunião de Revisão da Sprint.
-     * 
-     * @return - List<AtividadeParao> com as atividades criadas.
-     * @throws Exception
-     */
-    public void criarAtividadesPadraoScrumSoMeSPC() throws Exception
-    {
-	EntityManager manager = XPersistence.createManager();
-
-	//Instancia os tipos de artefatos.
-	AtividadePadrao reuniaoPS = new AtividadePadrao();
-	AtividadePadrao sprint = new AtividadePadrao();
-	AtividadePadrao reuniaoRS = new AtividadePadrao();
-
-	//Cria os artefatos Scrum.
-	List<TipoDeArtefato> tiposCriados = this.criarTiposArtefatosScrumSoMeSPC();
-
-	List<String> nomes = new ArrayList<String>();
-
-	for (TipoDeArtefato tipo : tiposCriados)
-	{
-	    nomes.add(tipo.getNome());
-	}
-
-	String queryTiposArtefatoScrum = "SELECT e FROM TipoDeArtefato e WHERE e.nome IN :nomes ";
-	TypedQuery<TipoDeArtefato> typedQueryTAS = manager.createQuery(queryTiposArtefatoScrum, TipoDeArtefato.class).setParameter("nomes", nomes);
-	List<TipoDeArtefato> tiposArtefatos = typedQueryTAS.getResultList();
-
-	//Obtem o tipo de Entidade Mensurável AtividadePadrao.
-	String queryAtividadePadrao = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Atividade Padrão'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQueryAP = manager.createQuery(queryAtividadePadrao, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel atividadePadrao = typedQueryAP.getSingleResult();
-
-	//Obtem o ElementoMensuravel Tamanho.
-	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
-	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Desempenho.
-	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
-	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Duração.
-	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
-	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
-
-	//Preenche a Reunião de Planejamento da Sprint.
-	reuniaoPS.setNome("Reunião de Planejamento da Sprint");
-	reuniaoPS.setDescricao("Reunião de Planejamento da Sprint do Scrum.");
-
-	List<TipoDeArtefato> artefatosRequeridosReuniaoPS = new ArrayList<TipoDeArtefato>();
-	loop_requeridos: for (TipoDeArtefato tipo : tiposArtefatos)
-	{
-	    if (tipo.getNome().equalsIgnoreCase("Estória de Product Backlog"))
-	    {
-		artefatosRequeridosReuniaoPS.add(tipo);
-		break loop_requeridos;
-	    }
-	}
-
-	List<TipoDeArtefato> artefatosProduzidosReuniaoPS = new ArrayList<TipoDeArtefato>();
-	loop_produzidos: for (TipoDeArtefato tipo : tiposArtefatos)
-	{
-	    if (tipo.getNome().equalsIgnoreCase("Estória de Sprint Backlog"))
-	    {
-		artefatosProduzidosReuniaoPS.add(tipo);
-		break loop_produzidos;
-	    }
-	}
-
-	reuniaoPS.setRequerTipoDeArtefato(artefatosRequeridosReuniaoPS);
-	reuniaoPS.setProduzTipoDeArtefato(artefatosProduzidosReuniaoPS);
-	reuniaoPS.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(duracao)));
-
-	//Preenche a Sprint
-	sprint.setNome("Sprint");
-	sprint.setDescricao("Sprint do Scrum.");
-
-	List<TipoDeArtefato> artefatosRequeridosSprint = new ArrayList<TipoDeArtefato>();
-	loop_requeridos: for (TipoDeArtefato tipo : tiposArtefatos)
-	{
-	    if (tipo.getNome().equalsIgnoreCase("Estória de Sprint Backlog"))
-	    {
-		artefatosRequeridosSprint.add(tipo);
-		break loop_requeridos;
-	    }
-	}
-
-	List<TipoDeArtefato> artefatosProduzidosSprint = new ArrayList<TipoDeArtefato>();
-	for (TipoDeArtefato tipo : tiposArtefatos)
-	{
-	    if (tipo.getNome().equalsIgnoreCase("Código Fonte")
-		    || tipo.getNome().equalsIgnoreCase("Documentação"))
-	    {
-		artefatosProduzidosSprint.add(tipo);
-	    }
-	}
-
-	sprint.setRequerTipoDeArtefato(artefatosRequeridosSprint);
-	sprint.setProduzTipoDeArtefato(artefatosProduzidosSprint);
-	sprint.setDependeDe(new ArrayList<AtividadePadrao>(Arrays.asList(reuniaoPS)));
-	sprint.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, desempenho, duracao)));
-
-	//Preenche a Reunião de Revisão da Sprint
-	reuniaoRS.setNome("Reunião de Revisão da Sprint");
-	reuniaoRS.setDescricao("Reunião de Revisão da Sprint do Scrum.");
-
-	List<TipoDeArtefato> artefatosRequeridosReuniaoRS = new ArrayList<TipoDeArtefato>();
-	for (TipoDeArtefato tipo : tiposArtefatos)
-	{
-	    if (tipo.getNome().equalsIgnoreCase("Estória de Sprint Backlog")
-		    || tipo.getNome().equalsIgnoreCase("Código Fonte")
-		    || tipo.getNome().equalsIgnoreCase("Documentação"))
-	    {
-		artefatosRequeridosReuniaoRS.add(tipo);
-	    }
-	}
-
-	List<TipoDeArtefato> artefatosProduzidosReuniaoRS = new ArrayList<TipoDeArtefato>();
-	loop_produzidos: for (TipoDeArtefato tipo : tiposArtefatos)
-	{
-	    if (tipo.getNome().equalsIgnoreCase("Release de Software"))
-	    {
-		artefatosProduzidosReuniaoRS.add(tipo);
-		break loop_produzidos;
-	    }
-	}
-
-	reuniaoRS.setRequerTipoDeArtefato(artefatosRequeridosReuniaoRS);
-	reuniaoRS.setProduzTipoDeArtefato(artefatosProduzidosReuniaoRS);
-	reuniaoRS.setDependeDe(new ArrayList<AtividadePadrao>(Arrays.asList(sprint)));
-	reuniaoRS.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(duracao)));
-
-	List<AtividadePadrao> atividadesParaPersistir = new ArrayList<AtividadePadrao>();
-
-	atividadesParaPersistir.add(reuniaoPS);
-	atividadesParaPersistir.add(sprint);
-	atividadesParaPersistir.add(reuniaoRS);
-
-	//Persiste.	
-	try
-	{
-	    manager.getTransaction().begin();
-
-	    for (AtividadePadrao atividade : atividadesParaPersistir)
-	    {
-		atividade.setTipoDeEntidadeMensuravel(atividadePadrao);
-		manager.persist(atividade);
-	    }
-
-	    manager.getTransaction().commit();
-	}
-	catch (Exception ex)
-	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-	    {
-		System.out.println("A Atividades Padrão do Scrum já existem.");
-	    }
-	    else
-	    {
-		throw ex;
-	    }
-	}
-	finally
-	{
-	    manager.close();
-	}
-
-    }
-
-    /**
-     * Cria o processo Scrum na SoMeSPC.
-     * 
-     * @return ProcessoPadrao Scrum criado.
-     * @throws Exception
-     */
-    public ProcessoPadrao criarProcessoPadraoScrumSoMeSPC() throws Exception
-    {
-	EntityManager manager = XPersistence.createManager();
-
-	this.criarAtividadesPadraoScrumSoMeSPC();
-
-	ProcessoPadrao scrum = new ProcessoPadrao();
-
-	scrum.setNome("Scrum");
-	scrum.setVersao("1.0");
-	scrum.setDescricao("A framework to support teams in complex product development. "
-		+ "Scrum consists of Scrum Teams and their associated roles, events, artifacts,"
-		+ " and rules, as defined in the Scrum GuideTM (https://www.scrum.org/Resources/Scrum-Glossary).");
-
-	//Obtem o tipo de Entidade Mensurável AtividadePadrao.
-	String queryProcessoPadrao = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Processo de Software Padrão'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQueryProcessoPadrao = manager.createQuery(queryProcessoPadrao, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel processoPadrao = typedQueryProcessoPadrao.getSingleResult();
-
-	//Obtem as atividades Scrum.
-	String queryAtividade1 = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Planejamento da Sprint'";
-	TypedQuery<AtividadePadrao> typedQueryAtividade1 = manager.createQuery(queryAtividade1, AtividadePadrao.class);
-	AtividadePadrao atividade1 = typedQueryAtividade1.getSingleResult();
-
-	String queryAtividade2 = "SELECT e FROM AtividadePadrao e WHERE e.nome='Sprint'";
-	TypedQuery<AtividadePadrao> typedQueryAtividade2 = manager.createQuery(queryAtividade2, AtividadePadrao.class);
-	AtividadePadrao atividade2 = typedQueryAtividade2.getSingleResult();
-
-	String queryAtividade3 = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Revisão da Sprint'";
-	TypedQuery<AtividadePadrao> typedQueryAtividade3 = manager.createQuery(queryAtividade3, AtividadePadrao.class);
-	AtividadePadrao atividade3 = typedQueryAtividade3.getSingleResult();
-
-	//Obtem o ElementoMensuravel Tamanho.
-	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
-	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Desempenho.
-	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
-	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Duração.
-	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
-	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
-	
-	//Obtem o Tipo de Processo Padrao.
-	String queryTipoProcessoPadrao = "SELECT e FROM TipoDeProcessoPadrao e WHERE e.nome='Processo Padrão de Desenvolvimento de Software'";
-	TypedQuery<TipoDeProcessoPadrao> typedQueryTipoProcessoPadrao = manager.createQuery(queryTipoProcessoPadrao, TipoDeProcessoPadrao.class);
-	TipoDeProcessoPadrao tipoProcessoPadrao = typedQueryTipoProcessoPadrao.getSingleResult();
-
-
-	scrum.setTipoDeEntidadeMensuravel(processoPadrao);
-	scrum.setAtividadePadrao(new ArrayList<AtividadePadrao>(Arrays.asList(atividade1, atividade2, atividade3)));
-	scrum.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, desempenho, duracao)));
-	scrum.setTipoDeProcessoPadrao(tipoProcessoPadrao);
-
-	//Persiste.	
-	try
-	{
-	    manager.getTransaction().begin();
-	    manager.persist(scrum);
-	    manager.getTransaction().commit();
-	}
-	catch (Exception ex)
-	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    if (ex.getCause() instanceof InvalidStateException)
-	    {
-		for (InvalidValue invalidValue : ((InvalidStateException) ex.getCause()).getInvalidValues())
-		{
-		    System.out.println("Instance of bean class: " + invalidValue.getBeanClass().getSimpleName() +
-			    " has an invalid property: " + invalidValue.getPropertyName() +
-			    " with message: " + invalidValue.getMessage());
-		}
-	    }
-
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-	    {
-		System.out.println("O Processo Padrão Scrum já existe.");
-
-		String query = String.format("SELECT p FROM ProcessoPadrao p WHERE p.nome='%s'", scrum.getNome());
-		TypedQuery<ProcessoPadrao> typedQuery = manager.createQuery(query, ProcessoPadrao.class);
-
-		scrum = typedQuery.getSingleResult();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
-	}
-	finally
-	{
-	    manager.close();
-	}
-
-	return scrum;
-    }
-
-    /**
-     * Cria as atividades de projeto Reunião de Planejamento da Sprint, Sprints e Reunião de Revisão da Sprint para o projeto infomado.
-     * 
-     * @param projeto
-     *            - Projeto Taiga para criação das atividades de projeto.
-     * @throws Exception
-     */
-    public List<AtividadeProjeto> criarAtividadesProjetoScrumSoMeSPC(Projeto projeto) throws Exception
-    {
-
-	EntityManager manager = XPersistence.createManager();
-
-	//Cria as atividades padrão.
-	this.criarAtividadesPadraoScrumSoMeSPC();
-
-	//Cria as reuniões de planejamento.
-	String queryAtividadePadrao = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Planejamento da Sprint'";
-	TypedQuery<AtividadePadrao> typedQueryAP = manager.createQuery(queryAtividadePadrao, AtividadePadrao.class);
-	AtividadePadrao reuniaoPS = typedQueryAP.getSingleResult();
-
-	String queryAPSprint = "SELECT e FROM AtividadePadrao e WHERE e.nome='Sprint'";
-	TypedQuery<AtividadePadrao> typedQueryAPSprint = manager.createQuery(queryAPSprint, AtividadePadrao.class);
-	AtividadePadrao atividadeSprint = typedQueryAPSprint.getSingleResult();
-
-	String queryReuniaoRS = "SELECT e FROM AtividadePadrao e WHERE e.nome='Reunião de Revisão da Sprint'";
-	TypedQuery<AtividadePadrao> typedQueryReuniaoRS = manager.createQuery(queryReuniaoRS, AtividadePadrao.class);
-	AtividadePadrao reuniaoRS = typedQueryReuniaoRS.getSingleResult();
-
-	String tipoEntidadeAPQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Atividade de Projeto'");
-	TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeAPTypedQuery = manager.createQuery(tipoEntidadeAPQuery, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoEntidadeAP = tipoEntidadeAPTypedQuery.getSingleResult();
-
-	String query1 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Artefato'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery1 = manager.createQuery(query1, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoArtefato = typedQuery1.getSingleResult();
-
-	String query2 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Código Fonte'";
-	TypedQuery<TipoDeArtefato> typedQuery2 = manager.createQuery(query2, TipoDeArtefato.class);
-	TipoDeArtefato tipoCodigoFonte = typedQuery2.getSingleResult();
-
-	String query3 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Documentação'";
-	TypedQuery<TipoDeArtefato> typedQuery3 = manager.createQuery(query3, TipoDeArtefato.class);
-	TipoDeArtefato tipoDocumentacao = typedQuery3.getSingleResult();
-
-	String query4 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Release de Software'";
-	TypedQuery<TipoDeArtefato> typedQuery4 = manager.createQuery(query4, TipoDeArtefato.class);
-	TipoDeArtefato tipoRelease = typedQuery4.getSingleResult();
-
-	//Obtem o ElementoMensuravel Tamanho.
-	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
-	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Desempenho.
-	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
-	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Duração.
-	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
-	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
-
-	List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
-	List<AtividadeProjeto> atividadesProjeto = new ArrayList<AtividadeProjeto>();
-
-	for (Sprint sprint : sprints)
-	{
-	    //Preenche a Reunião de Planejamento da Sprint do projeto.
-	    AtividadeProjeto reuniaoPSProjeto = new AtividadeProjeto();
-	    reuniaoPSProjeto.setNome(String.format("Reunião de Planejamento da Sprint - %s do Projeto %s", sprint.getNome(), projeto.getNome()));
-	    reuniaoPSProjeto.setDescricao(String.format("Reunião de Planejamento da Sprint - %s do Projeto %s.", sprint.getNome(), projeto.getNome()));
-	    reuniaoPSProjeto.setBaseadoEm(reuniaoPS);
-	    reuniaoPSProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
-	    reuniaoPSProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(duracao)));
-
-	    //Obtem as estórias do PB.
-	    List<Estoria> estoriasPB = this.obterEstoriasDoProjectBacklogTaiga(projeto.getApelido());
-	    boolean saoEstoriasDeProductBacklog = true;
-	    List<Artefato> artEstoriasPB = this.criarEstoriasComoArtefatosSoMeSPC(estoriasPB, saoEstoriasDeProductBacklog);
-
-	    reuniaoPSProjeto.setRequer(artEstoriasPB);
-
-	    //Obtem as estórias da SB.
-	    List<Estoria> estoriasSB = this.obterEstoriasDaSprintBacklogTaiga(projeto.getApelido(), sprint.getApelido());
-	    saoEstoriasDeProductBacklog = false;
-	    List<Artefato> artEstoriasSB = this.criarEstoriasComoArtefatosSoMeSPC(estoriasSB, saoEstoriasDeProductBacklog);
-
-	    reuniaoPSProjeto.setProduz(artEstoriasSB);
-
-	    //Preenche a Sprint
-	    AtividadeProjeto sprintProjeto = new AtividadeProjeto();
-
-	    sprintProjeto.setNome(sprint.getNome() + " do Projeto " + projeto.getNome());
-	    sprintProjeto.setDescricao(sprint.getNome() + " do Projeto " + projeto.getNome());
-	    sprintProjeto.setBaseadoEm(atividadeSprint);
-	    sprintProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
-	    sprintProjeto.setDependeDe(new ArrayList<AtividadeProjeto>(Arrays.asList(reuniaoPSProjeto)));
-	    sprintProjeto.setRequer(artEstoriasSB);
-	    sprintProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, desempenho, duracao)));
-
-	    Artefato codigoFonteProjeto = new Artefato();
-	    codigoFonteProjeto.setNome("Código fonte do Projeto " + projeto.getNome());
-	    codigoFonteProjeto.setDescricao("Código fonte do Projeto " + projeto.getNome() + " criado durante a Sprint - " + sprint.getNome());
-	    codigoFonteProjeto.setTipoDeEntidadeMensuravel(tipoArtefato);
-	    codigoFonteProjeto.setTipoDeArtefato(tipoCodigoFonte);
-	    codigoFonteProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
-
-	    //Persiste.	
-	    try
-	    {
-		if (!manager.isOpen())
-		    manager = XPersistence.createManager();
-
-		manager.getTransaction().begin();
-		manager.persist(codigoFonteProjeto);
-		manager.getTransaction().commit();
-	    }
-	    catch (Exception ex)
-	    {
-		if (manager.getTransaction().isActive())
-		    manager.getTransaction().rollback();
-
-		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		{
-		    String query = String.format("SELECT a FROM Artefato a WHERE a.nome='%s'", codigoFonteProjeto.getNome());
-		    TypedQuery<Artefato> typedQuery = manager.createQuery(query, Artefato.class);
-
-		    codigoFonteProjeto = typedQuery.getSingleResult();
-		}
-		else
-		{
-		    throw ex;
-		}
-	    }
-	    finally
-	    {
-		manager.close();
-	    }
-
-	    if (!manager.isOpen())
-		manager = XPersistence.createManager();
-
-	    Artefato documentacaoProjeto = new Artefato();
-	    documentacaoProjeto.setNome("Documentação do Projeto " + projeto.getNome());
-	    documentacaoProjeto.setDescricao("Documentação do Projeto " + projeto.getNome() + " criada durante a Sprint - " + sprint.getNome());
-	    documentacaoProjeto.setTipoDeEntidadeMensuravel(manager.find(TipoDeEntidadeMensuravel.class, tipoArtefato.getId()));
-	    documentacaoProjeto.setTipoDeArtefato(manager.find(TipoDeArtefato.class, tipoDocumentacao.getId()));
-	    documentacaoProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
-
-	    //Persiste.	
-	    try
-	    {
-		if (!manager.isOpen())
-		    manager = XPersistence.createManager();
-
-		manager.getTransaction().begin();
-		manager.persist(documentacaoProjeto);
-		manager.getTransaction().commit();
-	    }
-	    catch (Exception ex)
-	    {
-		if (manager.getTransaction().isActive())
-		    manager.getTransaction().rollback();
-
-		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		{
-		    String query = String.format("SELECT a FROM Artefato a WHERE a.nome='%s'", documentacaoProjeto.getNome());
-		    TypedQuery<Artefato> typedQuery = manager.createQuery(query, Artefato.class);
-
-		    documentacaoProjeto = typedQuery.getSingleResult();
-		}
-		else
-		{
-		    throw ex;
-		}
-	    }
-	    finally
-	    {
-		manager.close();
-	    }
-
-	    sprintProjeto.setProduz(new ArrayList<Artefato>(Arrays.asList(codigoFonteProjeto, documentacaoProjeto)));
-
-	    //Preenche a Reunião de Revisão da Sprint do Projeto
-	    AtividadeProjeto reuniaoRSProjeto = new AtividadeProjeto();
-
-	    reuniaoRSProjeto.setNome("Reunião de Revisão da Sprint - " + sprint.getNome() + " do Projeto " + projeto.getNome());
-	    reuniaoRSProjeto.setDescricao("Reunião de Revisão da Sprint - " + sprint.getNome() + " do Projeto " + projeto.getNome());
-	    reuniaoRSProjeto.setBaseadoEm(reuniaoRS);
-	    reuniaoRSProjeto.setTipoDeEntidadeMensuravel(tipoEntidadeAP);
-	    reuniaoRSProjeto.setDependeDe(new ArrayList<AtividadeProjeto>(Arrays.asList(sprintProjeto)));
-
-	    List<Artefato> artefatosRequeridosReuniaoRS = new ArrayList<Artefato>();
-	    artefatosRequeridosReuniaoRS.addAll(artEstoriasSB);
-	    artefatosRequeridosReuniaoRS.addAll(new ArrayList<Artefato>(Arrays.asList(codigoFonteProjeto, documentacaoProjeto)));
-
-	    reuniaoRSProjeto.setRequer(artefatosRequeridosReuniaoRS);
-	    reuniaoRSProjeto.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(duracao)));
-
-	    Artefato releaseSoftware = new Artefato();
-	    releaseSoftware.setNome("Release do Projeto " + projeto.getNome());
-	    releaseSoftware.setDescricao("Release do Projeto " + projeto.getNome() + " criado após a Sprint - " + sprint.getNome());
-	    releaseSoftware.setTipoDeEntidadeMensuravel(tipoArtefato);
-	    releaseSoftware.setTipoDeArtefato(tipoRelease);
-	    releaseSoftware.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho)));
-
-	    //Persiste.	
-	    try
-	    {
-		if (!manager.isOpen())
-		    manager = XPersistence.createManager();
-
-		manager.getTransaction().begin();
-		manager.persist(releaseSoftware);
-		manager.getTransaction().commit();
-	    }
-	    catch (Exception ex)
-	    {
-		if (manager.getTransaction().isActive())
-		    manager.getTransaction().rollback();
-
-		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		{
-		    String query = String.format("SELECT a FROM Artefato a WHERE a.nome='%s'", releaseSoftware.getNome());
-		    TypedQuery<Artefato> typedQuery = manager.createQuery(query, Artefato.class);
-
-		    releaseSoftware = typedQuery.getSingleResult();
-		}
-		else
-		{
-		    throw ex;
-		}
-	    }
-	    finally
-	    {
-		manager.close();
-	    }
-
-	    reuniaoRSProjeto.setProduz(new ArrayList<Artefato>(Arrays.asList(releaseSoftware)));
-
-	    List<AtividadeProjeto> atividadesParaPersistir = new ArrayList<AtividadeProjeto>();
-	    atividadesParaPersistir.add(reuniaoPSProjeto);
-	    atividadesParaPersistir.add(sprintProjeto);
-	    atividadesParaPersistir.add(reuniaoRSProjeto);
-
-	    for (AtividadeProjeto atividadeProjeto : atividadesParaPersistir)
-	    {
-		//Persiste.	
-		try
-		{
-		    if (!manager.isOpen())
-			manager = XPersistence.createManager();
-
-		    manager.getTransaction().begin();
-		    manager.persist(atividadeProjeto);
-		    manager.getTransaction().commit();
-
-		    atividadesProjeto.add(atividadeProjeto);
-		}
-		catch (Exception ex)
-		{
-		    if (manager.getTransaction().isActive())
-			manager.getTransaction().rollback();
-
-		    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		    {
-			System.out.println(String.format("A Atividade de Projeto %s já existe.", atividadeProjeto.getNome()));
-
-			String query = String.format("SELECT a FROM AtividadeProjeto a WHERE a.nome='%s'", atividadeProjeto.getNome());
-			TypedQuery<AtividadeProjeto> typedQuery = manager.createQuery(query, AtividadeProjeto.class);
-
-			atividadesProjeto.add(typedQuery.getSingleResult());
-		    }
-		    else
-		    {
-			throw ex;
-		    }
-		}
-		finally
-		{
-		    manager.close();
-		}
-	    }
-
-	}
-
-	return atividadesProjeto;
-
-    }
-
-    /**
-     * Cria um Processo de Projeto baseado em Scrum para o projeto informado.
-     * 
-     * @param projeto
-     *            - Projeto para criar o processo de projeto baseado em Scrum.
-     * @throws Exception
-     */
-    public ProcessoProjeto criarProcessoProjetoScrumSoMeSPC(Projeto projeto) throws Exception
-    {
-	EntityManager manager = XPersistence.createManager();
-	ProcessoProjeto scrum = new ProcessoProjeto();
-
-	ProcessoPadrao processoScrum = this.criarProcessoPadraoScrumSoMeSPC();
-
-	scrum.setNome("Processo de Software Scrum do Projeto " + projeto.getNome());
-	scrum.setDescricao("Processo de Software Scrum do Projeto" + projeto.getNome());
-
-	//Obtem as atividades de projeto 
-	List<AtividadeProjeto> atividades = this.criarAtividadesProjetoScrumSoMeSPC(projeto);
-
-	//Obtem o ElementoMensuravel Tamanho.
-	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
-	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Desempenho.
-	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
-	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Duração.
-	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
-	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
-
-	String query1 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Processo de Software em Projeto'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery1 = manager.createQuery(query1, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoPP = typedQuery1.getSingleResult();
-
-	String query2 = "SELECT e FROM Projeto e WHERE e.nome='" + projeto.getNome() + "'";
-	TypedQuery<org.somespc.model.organizacao_de_software.Projeto> typedQuery2 = manager.createQuery(query2, org.somespc.model.organizacao_de_software.Projeto.class);
-	org.somespc.model.organizacao_de_software.Projeto proj = typedQuery2.getSingleResult();
-	
-	String queryTipoProcessoProjeto = "SELECT e FROM TipoDeProcessoProjeto e WHERE e.nome='Processo Projeto de Desenvolvimento de Software'";
-	TypedQuery<TipoDeProcessoProjeto> typedQueryTipoProcessoProjeto = manager.createQuery(queryTipoProcessoProjeto, TipoDeProcessoProjeto.class);
-	TipoDeProcessoProjeto tipoProcessoProjeto = typedQueryTipoProcessoProjeto.getSingleResult();
-
-	scrum.setBaseadoEm(processoScrum);
-	scrum.setTipoDeEntidadeMensuravel(tipoPP);
-	scrum.setAtividadeProjeto(atividades);
-	scrum.setProjeto(proj);
-	scrum.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, desempenho, duracao)));
-	scrum.setTipoDeProcessoProjeto(tipoProcessoProjeto);
-
-	//Persiste.	
-	try
-	{
-	    manager.getTransaction().begin();
-	    manager.persist(scrum);
-	    manager.getTransaction().commit();
-	}
-	catch (Exception ex)
-	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-		    (ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-	    {
-		System.out.println(String.format("O Processo de Projeto %s já existe.", scrum.getNome()));
-
-		String query = String.format("SELECT p FROM ProcessoProjeto p WHERE p.nome='%s'", scrum.getNome());
-		TypedQuery<ProcessoProjeto> typedQuery = manager.createQuery(query, ProcessoProjeto.class);
-
-		scrum = typedQuery.getSingleResult();
-	    }
-	    else
-	    {
-		throw ex;
-	    }
-	}
-	finally
-	{
-	    manager.close();
-	}
-
-	return scrum;
-    }
-
-    /**
-     * Cria as estórias do Product Backlog como artefatos.
-     * 
-     * @param estorias
-     *            - Estórias do Product Backlog.
-     * @return List<Artefato> artefatos criados.
-     * @throws Exception
-     */
-    public List<Artefato> criarEstoriasComoArtefatosSoMeSPC(List<Estoria> estorias, boolean saoEstoriasDeProductBacklog) throws Exception
-    {
-
-	this.criarTiposArtefatosScrumSoMeSPC();
-
-	EntityManager manager = XPersistence.createManager();
-
-	String query1 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Artefato'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery1 = manager.createQuery(query1, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoArtefato = typedQuery1.getSingleResult();
-
-	TipoDeArtefato tipoEstoria;
-
-	if (saoEstoriasDeProductBacklog)
-	{
-	    String query2 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Estória de Product Backlog'";
-	    TypedQuery<TipoDeArtefato> typedQuery2 = manager.createQuery(query2, TipoDeArtefato.class);
-	    tipoEstoria = typedQuery2.getSingleResult();
-	}
-	else
-	{
-	    String query2 = "SELECT e FROM TipoDeArtefato e WHERE e.nome='Estória de Sprint Backlog'";
-	    TypedQuery<TipoDeArtefato> typedQuery2 = manager.createQuery(query2, TipoDeArtefato.class);
-	    tipoEstoria = typedQuery2.getSingleResult();
-	}
-
-	//Obtem o ElementoMensuravel Tamanho.
-	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
-	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
-
-	//Obtem o ElementoMensuravel Duração.
-	String queryDuracao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duração'";
-	TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
-	ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
-
-	List<Artefato> artefatosCriados = new ArrayList<Artefato>();
-
-	for (Estoria estoria : estorias)
-	{
-	    Artefato artefato = new Artefato();
-	    artefato.setNome(estoria.getTitulo());
-	    artefato.setTipoDeEntidadeMensuravel(tipoArtefato);
-	    artefato.setTipoDeArtefato(tipoEstoria);
-	    artefato.setElementoMensuravel(new ArrayList<ElementoMensuravel>(Arrays.asList(tamanho, duracao)));
-
-	    if (estoria.getDescricao().isEmpty() || estoria.getDescricao().equals(""))
-		artefato.setDescricao(estoria.getTitulo());
-	    else
-		artefato.setDescricao(estoria.getDescricao());
-
-	    //Persiste.	
-	    try
-	    {
-		if (!manager.isOpen())
-		    manager = XPersistence.createManager();
-
-		manager.getTransaction().begin();
-		manager.persist(artefato);
-		manager.getTransaction().commit();
-	    }
-	    catch (Exception ex)
-	    {
-		if (manager.getTransaction().isActive())
-		    manager.getTransaction().rollback();
-
-		manager.close();
-		manager = XPersistence.createManager();
-
-		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		{
-		    System.out.println(String.format("O Artefato %s já existe.", artefato.getNome()));
-
-		    String query = String.format("SELECT a FROM Artefato a WHERE a.nome='%s'", artefato.getNome());
-		    TypedQuery<Artefato> typedQuery = manager.createQuery(query, Artefato.class);
-
-		    artefato = typedQuery.getSingleResult();
-		}
-		else
-		{
-		    throw ex;
-		}
-	    }
-	    finally
-	    {
-		manager.close();
-	    }
-
-	    artefatosCriados.add(artefato);
-	}
-
-	return artefatosCriados;
-    }
-
+      
     /**
      * Cria o plano de medição da organização com as medidas informadas.
      * 
@@ -2527,8 +1103,6 @@ public class TaigaIntegrator
 	    proj = this.criarProjetoSoMeSPC(projeto);
 	}
 
-	this.criarProcessoProjetoScrumSoMeSPC(projeto);
-
 	Calendar cal = Calendar.getInstance();
 	plano.setData(cal.getTime());
 
@@ -2813,263 +1387,150 @@ public class TaigaIntegrator
 	return plano;
     }
 
-
-
-    /**
-     * Agenda as medições de acordo com as medidas e definições operacionais de medida do plano.
-     * 
-     * @param plano
-     * @throws Exception
-     */
-    public synchronized void agendarMedicoesPlanoMedicaoProjeto(PlanoDeMedicaoDoProjeto plano, Projeto projeto) throws Exception
-    {
 	/**
-	 * Inicia os agendamentos.
+	 * Agenda as medições de acordo com as medidas e definições operacionais de
+	 * medida do plano.
+	 * 
+	 * @param plano
+	 * @throws Exception
 	 */
-	SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
-	Scheduler sched = schedFact.getScheduler();
+	public synchronized void agendarMedicoesPlanoMedicaoProjeto(PlanoDeMedicaoDoProjeto plano, Projeto projeto)
+			throws Exception {
+		/**
+		 * Inicia os agendamentos.
+		 */
+		SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+		Scheduler sched = schedFact.getScheduler();
 
-	if (!sched.isStarted())
-	    sched.start();
+		if (!sched.isStarted())
+			sched.start();
 
-	//Cria um agendamento de medição para cada medida e entidade medida. 
-	for (MedidaPlanoDeMedicao medida : plano.getMedidaPlanoDeMedicao())
-	{
-	    JobDetail job = null;
-	    Trigger trigger = null;
-	    String nomeJob = "Job do plano " + plano.getNome();
+		// Cria um agendamento de medição para cada medida e entidade medida.
+		for (MedidaPlanoDeMedicao medida : plano.getMedidaPlanoDeMedicao()) {
+			JobDetail job = null;
+			Trigger trigger = null;
+			String nomeJob = "Job do plano " + plano.getNome();
 
-	    //Converte a periodicidade em horas.
-	    String period = medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome();
-	    int horas = 0;
+			// Converte a periodicidade em horas.
+			String period = medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome();
+			int horas = 0;
 
-	    if (period.equalsIgnoreCase("Por Hora"))
-	    {
-		horas = 1;
-	    }
-	    else if (period.equalsIgnoreCase("Diária"))
-	    {
-		horas = 24;
-	    }
-	    else if (period.equalsIgnoreCase("Semanal"))
-	    {
-		horas = 24 * 7;
-	    }
-	    else if (period.equalsIgnoreCase("Quinzenal"))
-	    {
-		horas = 24 * 15;
-	    }
-	    else if (period.equalsIgnoreCase("Mensal"))
-	    {
-		horas = 24 * 30; //TODO: mes de 30 dias apenas...
-	    }
-	    else if (period.equalsIgnoreCase("Trimestral"))
-	    {
-		horas = 24 * 30 * 3; //TODO: mes de 30 dias apenas...
-	    }
-	    else if (period.equalsIgnoreCase("Semestral"))
-	    {
-		horas = 24 * 30 * 6; //TODO: mes de 30 dias apenas...
-	    }
-	    else if (period.equalsIgnoreCase("Anual"))
-	    {
-		horas = 24 * 30 * 12; //TODO: mes de 30 dias apenas...
-	    }
-	    else
-	    {
-		String mensagem = String.format("Periodicidade %s inexistente no Taiga.", period);
-		System.out.println(mensagem);
-		throw new Exception(mensagem);
-	    }
+			if (period.equalsIgnoreCase("Por Hora")) {
+				horas = 1;
+			} else if (period.equalsIgnoreCase("Diária")) {
+				horas = 24;
+			} else if (period.equalsIgnoreCase("Semanal")) {
+				horas = 24 * 7;
+			} else if (period.equalsIgnoreCase("Quinzenal")) {
+				horas = 24 * 15;
+			} else if (period.equalsIgnoreCase("Mensal")) {
+				horas = 24 * 30; // TODO: mes de 30 dias apenas...
+			} else if (period.equalsIgnoreCase("Trimestral")) {
+				horas = 24 * 30 * 3; // TODO: mes de 30 dias apenas...
+			} else if (period.equalsIgnoreCase("Semestral")) {
+				horas = 24 * 30 * 6; // TODO: mes de 30 dias apenas...
+			} else if (period.equalsIgnoreCase("Anual")) {
+				horas = 24 * 30 * 12; // TODO: mes de 30 dias apenas...
+			} else {
+				String mensagem = String.format("Periodicidade %s inexistente no Taiga.", period);
+				System.out.println(mensagem);
+				throw new Exception(mensagem);
+			}
 
-	    JobDataMap map = new JobDataMap();
+			JobDataMap map = new JobDataMap();
 
-	    map.put("urlTaiga", this.urlTaiga.replace("/api/v1/", ""));
-	    map.put("usuarioTaiga", authInfo.getUsername());
-	    map.put("senhaTaiga", authInfo.getPassword());
-	    map.put("apelidoProjeto", projeto.getApelido());
-	    map.put("nomePlano", plano.getNome());
-	    map.put("nomeMedida", medida.getMedida().getNome());
+			map.put("urlTaiga", this.urlTaiga.replace("/api/v1/", ""));
+			map.put("usuarioTaiga", authInfo.getUsername());
+			map.put("senhaTaiga", authInfo.getPassword());
+			map.put("apelidoProjeto", projeto.getApelido());
+			map.put("nomePlano", plano.getNome());
+			map.put("nomeMedida", medida.getMedida().getNome());
 
-	    //Espera um segundo para cadastrar cada job, para evitar erros.
-	    Thread.sleep(1000);
-
-	    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-	    String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
-
-	    if (medida.getMedida().getNome().contains("Projeto"))
-	    {
-
-		String nomeGrupo = projeto.getNome();
-		String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
-			medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
-			medida.getMedida().getNome(),
-			medida.getMedida().getMnemonico(),
-			dataHora);
-
-		map.put("entidadeMedida", plano.getProjeto().getNome());
-		map.put("momento", plano.getProjeto().getNome());
-
-		boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
-
-		//Cria um job para cada medida de um projeto.
-		if (!existeJob)
-		{
-		    job = JobBuilder.newJob(TaigaMedicaoJob.class)
-			    .withIdentity(nomeJob, nomeGrupo)
-			    .build();
-
-		    trigger = TriggerBuilder.newTrigger().forJob(job)
-			    .withIdentity(nomeTrigger, nomeGrupo)
-			    .usingJobData(map)
-			    .startNow()
-			    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-				    .withIntervalInHours(horas)
-				    .repeatForever())
-			    .build();
-
-		    sched.scheduleJob(job, trigger);
-		}
-		else
-		{
-		    job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
-
-		    trigger = TriggerBuilder.newTrigger().forJob(job)
-			    .withIdentity(nomeTrigger, nomeGrupo)
-			    .usingJobData(map)
-			    .startNow()
-			    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-				    .withIntervalInHours(horas)
-				    .repeatForever())
-			    .build();
-
-		    sched.scheduleJob(trigger);
-		}
-
-	    }
-	    else if (medida.getMedida().getNome().contains("Sprint"))
-	    {
-
-		//Cria um agendamento para cada medida de cada sprint.
-		List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
-
-		for (Sprint sprint : sprints)
-		{
-		    //Espera um segundo para cadastrar cada job, para evitar erros.
-		    Thread.sleep(1000);
-
-		    String nomeGrupo = sprint.getNome();
-		    String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
-			    medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
-			    medida.getMedida().getNome(),
-			    medida.getMedida().getMnemonico(),
-			    dataHora);
-
-		    map.put("apelidoSprint", sprint.getApelido());
-		    map.put("entidadeMedida", sprint.getNome() + " do Projeto " + projeto.getNome());
-		    map.put("momento", sprint.getNome() + " do Projeto " + projeto.getNome());
-
-		    boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
-
-		    if (!existeJob)
-		    {
-			job = JobBuilder.newJob(TaigaMedicaoJob.class)
-				.withIdentity(nomeJob, nomeGrupo)
-				.build();
-
-			trigger = TriggerBuilder.newTrigger().forJob(job)
-				.withIdentity(nomeTrigger, nomeGrupo)
-				.usingJobData(map)
-				.startNow()
-				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-					.withIntervalInHours(horas)
-					.repeatForever())
-				.build();
-
-			sched.scheduleJob(job, trigger);
-		    }
-		    else
-		    {
-			job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
-
-			trigger = TriggerBuilder.newTrigger().forJob(job)
-				.withIdentity(nomeTrigger, nomeGrupo)
-				.usingJobData(map)
-				.startNow()
-				.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-					.withIntervalInHours(horas)
-					.repeatForever())
-				.build();
-
-			sched.scheduleJob(trigger);
-		    }
-		}
-
-	    }
-	    else if (medida.getMedida().getNome().contains("Estória"))
-	    {
-		//Cria um agendamento para cada medida de cada estoria de cada sprint.
-		List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
-
-		for (Sprint sprint : sprints)
-		{
-		    map.put("apelidoSprint", sprint.getApelido());
-
-		    List<Estoria> estorias = this.obterEstoriasDaSprintBacklogTaiga(projeto.getApelido(), sprint.getApelido());
-
-		    for (Estoria estoria : estorias)
-		    {
-			//Espera um segundo para cadastrar cada job, para evitar erros.
+			// Espera um segundo para cadastrar cada job, para evitar erros.
 			Thread.sleep(1000);
 
-			String nomeGrupo = String.format("Estória (%s)", estoria.getTitulo());
-			String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
-				medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
-				medida.getMedida().getNome(),
-				medida.getMedida().getMnemonico(),
-				dataHora);
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
 
-			map.put("entidadeMedida", estoria.getTitulo());
-			map.put("momento", estoria.getTitulo());
+			if (medida.getMedida().getNome().contains("Projeto")) {
 
-			boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+				String nomeGrupo = projeto.getNome();
+				String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
+						medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
+						medida.getMedida().getNome(), medida.getMedida().getMnemonico(), dataHora);
 
-			if (!existeJob)
-			{
-			    job = JobBuilder.newJob(TaigaMedicaoJob.class)
-				    .withIdentity(nomeJob, nomeGrupo)
-				    .build();
+				map.put("entidadeMedida", plano.getProjeto().getNome());
+				map.put("momento", plano.getProjeto().getNome());
 
-			    trigger = TriggerBuilder.newTrigger().forJob(job)
-				    .withIdentity(nomeTrigger, nomeGrupo)
-				    .usingJobData(map)
-				    .startNow()
-				    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-					    .withIntervalInHours(horas)
-					    .repeatForever())
-				    .build();
+				boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
 
-			    sched.scheduleJob(job, trigger);
+				// Cria um job para cada medida de um projeto.
+				if (!existeJob) {
+					job = JobBuilder.newJob(TaigaMedicaoJob.class).withIdentity(nomeJob, nomeGrupo).build();
+
+					trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo)
+							.usingJobData(map).startNow()
+							.withSchedule(
+									SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
+							.build();
+
+					sched.scheduleJob(job, trigger);
+				} else {
+					job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
+
+					trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo)
+							.usingJobData(map).startNow()
+							.withSchedule(
+									SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
+							.build();
+
+					sched.scheduleJob(trigger);
+				}
+
+			} else if (medida.getMedida().getNome().contains("Sprint")) {
+
+				// Cria um agendamento para cada medida de cada sprint.
+				List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
+
+				for (Sprint sprint : sprints) {
+					// Espera um segundo para cadastrar cada job, para evitar
+					// erros.
+					Thread.sleep(1000);
+
+					String nomeGrupo = sprint.getNome();
+					String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
+							medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
+							medida.getMedida().getNome(), medida.getMedida().getMnemonico(), dataHora);
+
+					map.put("apelidoSprint", sprint.getApelido());
+					map.put("entidadeMedida", sprint.getNome() + " do Projeto " + projeto.getNome());
+					map.put("momento", sprint.getNome() + " do Projeto " + projeto.getNome());
+
+					boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+
+					if (!existeJob) {
+						job = JobBuilder.newJob(TaigaMedicaoJob.class).withIdentity(nomeJob, nomeGrupo).build();
+
+						trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo)
+								.usingJobData(map).startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule()
+										.withIntervalInHours(horas).repeatForever())
+								.build();
+
+						sched.scheduleJob(job, trigger);
+					} else {
+						job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
+
+						trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo)
+								.usingJobData(map).startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule()
+										.withIntervalInHours(horas).repeatForever())
+								.build();
+
+						sched.scheduleJob(trigger);
+					}
+				}
+
 			}
-			else
-			{
-			    job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
-
-			    trigger = TriggerBuilder.newTrigger().forJob(job)
-				    .withIdentity(nomeTrigger, nomeGrupo)
-				    .usingJobData(map)
-				    .startNow()
-				    .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-					    .withIntervalInHours(horas)
-					    .repeatForever())
-				    .build();
-
-			    sched.scheduleJob(trigger);
-			}
-		    }
 		}
-	    }
 	}
-    }
 
 }

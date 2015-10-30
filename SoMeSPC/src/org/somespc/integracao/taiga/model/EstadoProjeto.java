@@ -1,8 +1,7 @@
 package org.somespc.integracao.taiga.model;
 
-import java.util.*;
-
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Mede dados do projeto Taiga.
@@ -13,146 +12,50 @@ import javax.xml.bind.annotation.*;
  *
  */
 @XmlRootElement
-public class EstadoProjeto
-{
+public class EstadoProjeto {
 
-    @XmlElement(name = "name")
-    private String nomeProjeto;
+	@XmlElement(name = "speed")
+	private float velocidade;
 
-    //Andamento do Projeto
-    @XmlElement(name = "assigned_points")
-    private float pontosAlocados;
+	@XmlElement(name = "closed_points")
+	private float pontosFechados;
 
-    //Andamento do Projeto
-    @XmlElement(name = "closed_points_per_role")
-    private Map<String, Float> pontosFechadosPorPapel;
+	@XmlElement(name = "total_milestones")
+	private int totalMilestones;
 
-    //Andamento do Projeto
-    @XmlElement(name = "speed")
-    private float velocidade;
+	@XmlElement(name = "total_points")
+	private float totalPontos;
 
-    //Andamento do Projeto
-    @XmlElement(name = "defined_points")
-    private float pontosDefinidos;
+	public float getVelocidade() {
+		return velocidade;
+	}
 
-    //Andamento do Projeto
-    @XmlElement(name = "closed_points")
-    private float pontosFechados;
+	public void setVelocidade(float velocidade) {
+		this.velocidade = velocidade;
+	}
 
-    //Andamento do Projeto
-    @XmlElement(name = "defined_points_per_role")
-    private Map<String, Float> pontosDefinidosPorPapel;
+	public float getPontosFechados() {
+		return pontosFechados;
+	}
 
-    //Tamanho do Projeto
-    @XmlElement(name = "total_milestones")
-    private int totalSprints;
+	public void setPontosFechados(float pontosFechados) {
+		this.pontosFechados = pontosFechados;
+	}
 
-    //Andamento do Projeto
-    @XmlElement(name = "assigned_points_per_role")
-    private Map<String, Float> pontosAlocadosPorPapel;
+	public float getTotalPontos() {
+		return totalPontos;
+	}
 
-    //Tamanho do Projeto
-    @XmlElement(name = "total_points")
-    private float totalPontos;
+	public void setTotalPontos(float totalPontos) {
+		this.totalPontos = totalPontos;
+	}
 
-    public float getPontosAlocados()
-    {
-	return pontosAlocados;
-    }
+	public int getTotalMilestones() {
+		return totalMilestones;
+	}
 
-    public void setPontosAlocados(float pontosAlocados)
-    {
-	this.pontosAlocados = pontosAlocados;
-    }
-
-    public float getVelocidade()
-    {
-	return velocidade;
-    }
-
-    public void setVelocidade(float velocidade)
-    {
-	this.velocidade = velocidade;
-    }
-
-    public float getPontosDefinidos()
-    {
-	return pontosDefinidos;
-    }
-
-    public void setPontosDefinidos(float pontosDefinidos)
-    {
-	this.pontosDefinidos = pontosDefinidos;
-    }
-
-    public float getPontosFechados()
-    {
-	return pontosFechados;
-    }
-
-    public void setPontosFechados(float pontosFechados)
-    {
-	this.pontosFechados = pontosFechados;
-    }
-
-    public float getTotalPontos()
-    {
-	return totalPontos;
-    }
-
-    public void setTotalPontos(float totalPontos)
-    {
-	this.totalPontos = totalPontos;
-    }
-
-    public Map<String, Float> getPontosFechadosPorPapel()
-    {
-	return pontosFechadosPorPapel;
-    }
-
-    public void setPontosFechadosPorPapel(Map<String, Float> pontosFechadosPorPapel)
-    {
-	this.pontosFechadosPorPapel = pontosFechadosPorPapel;
-    }
-
-    public Map<String, Float> getPontosDefinidosPorPapel()
-    {
-	return pontosDefinidosPorPapel;
-    }
-
-    public void setPontosDefinidosPorPapel(Map<String, Float> pontosDefinidosPorPapel)
-    {
-	this.pontosDefinidosPorPapel = pontosDefinidosPorPapel;
-    }
-
-    public Map<String, Float> getPontosAlocadosPorPapel()
-    {
-	return pontosAlocadosPorPapel;
-    }
-
-    public void setPontosAlocadosPorPapel(Map<String, Float> pontosAlocadosPorPapel)
-    {
-	this.pontosAlocadosPorPapel = pontosAlocadosPorPapel;
-    }
-
-    public String getNomeProjeto()
-    {
-	return nomeProjeto;
-    }
-
-    public void setNomeProjeto(String nomeProjeto)
-    {
-	this.nomeProjeto = nomeProjeto;
-    }
-
-    public int getTotalSprints()
-    {
-	return totalSprints;
-    }
-
-    public void setTotalSprints(int totalSprints)
-    {
-	this.totalSprints = totalSprints;
-    }
+	public void setTotalMilestones(int totalMilestones) {
+		this.totalMilestones = totalMilestones;
+	}
 
 }

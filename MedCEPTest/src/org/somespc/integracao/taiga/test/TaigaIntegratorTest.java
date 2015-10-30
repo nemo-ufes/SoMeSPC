@@ -28,6 +28,7 @@ import java.util.*;
 
 import org.junit.*;
 import org.somespc.inicializacao.SoMeSPCStarter;
+import org.somespc.integracao.SoMeSPCIntegrator;
 import org.somespc.integracao.taiga.MedidasTaiga;
 import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
@@ -75,27 +76,8 @@ public class TaigaIntegratorTest {
 		Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 
 		assertNotNull(projeto);
-		assertNotEquals(projeto.getId(), 0);
-
+		
 		dump(projeto);
-	}
-
-	@Test
-	public void testObterProjetoJson() {
-		String projeto = integrator.obterProjetoTaigaJson("vinnysoft-points-per-role");
-
-		assertNotNull(projeto);
-
-		System.out.println(projeto);
-	}
-
-	@Test
-	public void testObterSprintsTaigaJson() {
-		String sprints = integrator.obterSprintsTaigaJson();
-
-		assertNotNull(sprints);
-
-		System.out.println(sprints);
 	}
 
 	@Test
@@ -117,57 +99,12 @@ public class TaigaIntegratorTest {
 	}
 
 	@Test
-	public void testObterEstadoProjetoTaigaJson() {
-		String projeto = integrator.obterEstadoProjetoTaigaJson("vinnysoft-points-per-role");
-
-		assertNotNull(projeto);
-
-		System.out.println(projeto);
-	}
-
-	@Test
 	public void testObterEstadoProjetoTaiga() {
 		EstadoProjeto estado = integrator.obterEstadoProjetoTaiga("paflopes-sincap");
 
 		assertNotNull(estado);
 
 		dump(estado);
-	}
-
-	@Test
-	public void testObterEstoriasDoProjectBacklogTaigaJson() {
-		String estorias = integrator.obterEstoriasDoProjectBacklogTaigaJson("paflopes-sincap");
-
-		assertNotNull(estorias);
-
-		System.out.println(estorias);
-	}
-
-	@Test
-	public void testObterEstoriasDoProjectBacklogTaiga() {
-		List<Estoria> estorias = integrator.obterEstoriasDoProjectBacklogTaiga("paflopes-sincap");
-
-		assertNotNull(estorias);
-
-		dump(estorias);
-	}
-
-	@Test
-	public void testObterEstoriasDaSprintBacklogTaigaJson() {
-		String estorias = integrator.obterEstoriasDaSprintBacklogTaigaJson("paflopes-sincap", "sprint-19");
-
-		assertNotNull(estorias);
-
-		System.out.println(estorias);
-	}
-
-	@Test
-	public void testObterEstoriasDaSprintBacklogTaiga() {
-		List<Estoria> estorias = integrator.obterEstoriasDaSprintBacklogTaiga("paflopes-sincap", "sprint-19");
-
-		assertNotNull(estorias);
-
-		dump(estorias);
 	}
 
 	@Test
@@ -190,32 +127,7 @@ public class TaigaIntegratorTest {
 		dump(membro);
 	}
 
-	@Test
-	public void testObterMembros() {
-
-		Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
-
-		List<Membro> membro = integrator.obterMembrosDoProjetoTaiga(projeto.getId());
-
-		assertNotNull(membro);
-		assertNotEquals(membro.size(), 0);
-
-		dump(membro);
-	}
-
-	@Test
-	public void testObterMembrosDoProjetoTaigaJson() {
-
-		Projeto projeto = integrator.obterProjetoTaiga("vinnysoft-points-per-role");
-
-		String membros = integrator.obterMembrosDoProjetoTaigaJson(projeto.getId());
-
-		assertNotNull(membros);
-
-		System.out.println(membros);
-	}
-
-	@Test
+		@Test
 	public void testCriarRecursoHumanoSoMeSPC() throws Exception {
 		Membro membro = integrator.obterMembroTaiga(4);
 
@@ -252,12 +164,11 @@ public class TaigaIntegratorTest {
 		Projeto sincap = integrator.obterProjetoTaiga("paflopes-sincap");
 
 		assertNotNull(sincap);
-		assertNotEquals(sincap.getId(), 0);
-		assertNotNull(sincap.getMembros());
+		assertNotNull(sincap.getEquipe());
 
 		dump(sincap);
 
-		Equipe equipe = integrator.criarEquipeSoMeSPC("Equipe " + sincap.getNome(), sincap.getMembros());
+		Equipe equipe = integrator.criarEquipeSoMeSPC("Equipe " + sincap.getNome(), sincap.getEquipe());
 
 		assertNotNull(equipe);
 
@@ -269,7 +180,6 @@ public class TaigaIntegratorTest {
 		Projeto sincap = integrator.obterProjetoTaiga("paflopes-sincap");
 
 		assertNotNull(sincap);
-		assertNotEquals(sincap.getId(), 0);
 
 		dump(sincap);
 
@@ -296,79 +206,6 @@ public class TaigaIntegratorTest {
 	}
 
 	@Test
-	public void testCriarTiposArtefatosScrumSoMeSPC() throws Exception {
-		List<TipoDeArtefato> tiposDeArtefato = integrator.criarTiposArtefatosScrumSoMeSPC();
-
-		assertNotNull(tiposDeArtefato);
-		assertNotEquals(tiposDeArtefato.size(), 0);
-		assertEquals(tiposDeArtefato.size(), 5);
-
-		dump(tiposDeArtefato);
-	}
-
-	@Test
-	public void testCriarAtividadesPadraoScrumSoMeSPC() throws Exception {
-		integrator.criarAtividadesPadraoScrumSoMeSPC();
-	}
-
-	@Test
-	public void testCriarProcessoPadraoScrumSoMeSPC() throws Exception {
-		ProcessoPadrao scrum = integrator.criarProcessoPadraoScrumSoMeSPC();
-
-		assertNotNull(scrum);
-
-		dump(scrum);
-	}
-
-	@Test
-	public void testCriarEstoriasProductBacklogComoArtefatosSoMeSPC() throws Exception {
-		List<Estoria> estorias = integrator.obterEstoriasDoProjectBacklogTaiga("paflopes-sincap");
-		boolean saoEstoriasDeProductBacklog = true;
-		List<Artefato> artefatos = integrator.criarEstoriasComoArtefatosSoMeSPC(estorias, saoEstoriasDeProductBacklog);
-
-		assertNotNull(artefatos);
-
-		dump(artefatos);
-	}
-
-	@Test
-	public void testCriarEstoriasSprintBacklogComoArtefatosSoMeSPC() throws Exception {
-
-		List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga("paflopes-sincap");
-		List<Estoria> estoriasDasSprints = new ArrayList<Estoria>();
-
-		for (Sprint sprint : sprints) {
-			List<Estoria> estorias = integrator.obterEstoriasDaSprintBacklogTaiga("paflopes-sincap",
-					sprint.getApelido());
-			estoriasDasSprints.addAll(estorias);
-		}
-
-		boolean saoEstoriasDeProductBacklog = false;
-		List<Artefato> artefatos = integrator.criarEstoriasComoArtefatosSoMeSPC(estoriasDasSprints,
-				saoEstoriasDeProductBacklog);
-
-		assertNotNull(artefatos);
-	}
-
-	@Test
-	public void testCriarAtividadesProjetoSoMeSPC() throws Exception {
-		Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
-
-		List<AtividadeProjeto> atividades = integrator.criarAtividadesProjetoScrumSoMeSPC(projeto);
-
-		assertNotNull(atividades);
-	}
-
-	@Test
-	public void testCriarProcessoProjetoScrumSoMeSPC() throws Exception {
-		Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
-
-		ProcessoProjeto processo = integrator.criarProcessoProjetoScrumSoMeSPC(projeto);
-
-		assertNotNull(processo);
-	}
-
-	@Test
 	public void testCriarPlanoMedicaoOrganizacaoSoMeSPC() throws Exception {
 
 		MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
@@ -384,7 +221,7 @@ public class TaigaIntegratorTest {
 		// integrator.obterProjetoTaiga("paulossjunior-lifebox");
 		Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 
-		List<Periodicidade> periodicidades = integrator.obterPeriodicidades();
+		List<Periodicidade> periodicidades = SoMeSPCIntegrator.obterPeriodicidades();
 		Periodicidade porHora = null;
 		for (Periodicidade periodicidade : periodicidades) {
 			if (periodicidade.getNome().equalsIgnoreCase("Por Hora")) {

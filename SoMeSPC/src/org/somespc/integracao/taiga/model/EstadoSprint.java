@@ -1,8 +1,10 @@
 package org.somespc.integracao.taiga.model;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class EstadoSprint
@@ -11,7 +13,7 @@ public class EstadoSprint
     private String nome;
 
     @XmlElement(name = "completed_points")
-    private List<Integer> pontosCompletados;
+    private List<Float> pontosCompletados;
 
     @XmlElement(name = "total_userstories")
     private int totalEstorias;
@@ -22,14 +24,14 @@ public class EstadoSprint
     @XmlElement(name = "total_tasks")
     private int totalTarefas;
 
-    @XmlElement(name = "completed_tasks")
+    @XmlElement(name = "completed_tasks")	
     private int tarefasCompletadas;
 
     @XmlElement(name = "iocaine_doses")
     private int dosesIocaine;
 
     @XmlElement(name = "total_points")
-    private Map<String, Integer> totalPontos;
+    private Map<String, Float> totalPontos;
 
     public String getNome()
     {
@@ -41,12 +43,12 @@ public class EstadoSprint
 	this.nome = nome;
     }
 
-    public List<Integer> getPontosCompletados()
+    public List<Float> getPontosCompletados()
     {
 	return pontosCompletados;
     }
 
-    public void setPontosCompletados(List<Integer> pontosCompletados)
+    public void setPontosCompletados(List<Float> pontosCompletados)
     {
 	this.pontosCompletados = pontosCompletados;
     }
@@ -101,12 +103,12 @@ public class EstadoSprint
 	this.dosesIocaine = dosesIocaine;
     }
 
-    public Map<String, Integer> getTotalPontos()
+    public Map<String, Float> getTotalPontos()
     {
 	return totalPontos;
     }
 
-    public void setTotalPontos(Map<String, Integer> totalPontos)
+    public void setTotalPontos(Map<String, Float> totalPontos)
     {
 	this.totalPontos = totalPontos;
     }

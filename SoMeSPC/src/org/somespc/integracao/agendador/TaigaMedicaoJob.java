@@ -46,11 +46,6 @@ public class TaigaMedicaoJob implements Job {
 				valorMedido = String.valueOf(estado.getTotalPontos());
 				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
-			} else if (nomeMedida.equalsIgnoreCase("Pontos de Estória Alocados no Projeto")) {
-
-				valorMedido = String.valueOf(estado.getPontosAlocados());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
-
 			} else if (nomeMedida.equalsIgnoreCase("Pontos de Estória Concluídos no Projeto")) {
 
 				valorMedido = String.valueOf(estado.getPontosFechados());
@@ -62,7 +57,7 @@ public class TaigaMedicaoJob implements Job {
 
 			} else if (nomeMedida.equalsIgnoreCase("Número de Sprints Planejadas para o Projeto")) {
 
-				valorMedido = String.valueOf(estado.getTotalSprints());
+				valorMedido = String.valueOf(estado.getTotalMilestones());
 				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Sprints Realizadas no Projeto")) {
@@ -97,7 +92,7 @@ public class TaigaMedicaoJob implements Job {
 				
 			} else if (nomeMedida.equalsIgnoreCase("Pontos de Estória Concluídos na Sprint")) {
 
-				//TODO	Milestone detail - closed_points
+				//TODO	Milestone detail - completed_points
 				
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estórias na Sprint")) {
 
@@ -123,7 +118,7 @@ public class TaigaMedicaoJob implements Job {
 
 			} else if (nomeMedida.equalsIgnoreCase("Número de Estórias Concluídas para o Projeto")) {
 
-				//TODO	Iterar em Milestones -> completed_userstories
+				//TODO	Milestones -> completed_userstories
 				
 			} else if (nomeMedida.equalsIgnoreCase("Média de Estórias Concluídas por Sprint do Projeto")) {
 

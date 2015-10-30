@@ -618,31 +618,10 @@ public class SoMeSPCStarter extends HttpServlet
 	    escalaPercentual.setNome("Escala formada pelos números inteiros positivos");
 	    escalaPercentual.setTipoEscala(tipoRacional);
 
-	    //Comentado pois é inviavel cadastrar todos os valores de escala
-	    
-//	    List<ValorDeEscala> valoresPercentuais = new ArrayList<ValorDeEscala>();
-//	    ValorDeEscala valorPercentual = new ValorDeEscala();
-//	    valorPercentual.setNumerico(true);
-//	    valorPercentual.setValor("Números racionais de 0 a 100");
-//	    valoresPercentuais.add(valorPercentual);
-
-//	    List<Escala> escalasPercentuais = new ArrayList<Escala>();
-//	    escalaPercentual.setValorDeEscala(valoresPercentuais);
-//	    escalasPercentuais.add(escalaPercentual);
-
 	    Escala escalaNumerosRacionais = new Escala();
 	    escalaNumerosRacionais.setNome("Escala formada pelos números reais");
 	    escalaNumerosRacionais.setTipoEscala(tipoRacional);
 
-//	    List<ValorDeEscala> valoresRacionais = new ArrayList<ValorDeEscala>();
-//	    ValorDeEscala valorRacional = new ValorDeEscala();
-//	    valorRacional.setNumerico(true);
-//	    valorRacional.setValor("Números racionais");
-//	    valoresRacionais.add(valorRacional);
-
-//	    List<Escala> escalasRacionais = new ArrayList<Escala>();
-//	    escalaNumerosRacionais.setValorDeEscala(valoresRacionais);
-//	    escalasRacionais.add(escalaNumerosRacionais);
 
 	    try
 	    {
@@ -652,8 +631,6 @@ public class SoMeSPCStarter extends HttpServlet
 		manager.getTransaction().begin();
 		manager.persist(escalaPercentual);
 		manager.persist(escalaNumerosRacionais);
-//		manager.persist(valorPercentual);
-//		manager.persist(valorRacional);
 		manager.getTransaction().commit();
 	    }
 	    catch (Exception ex)
