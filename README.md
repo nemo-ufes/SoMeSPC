@@ -15,7 +15,7 @@ Ferramenta para Medição de Software e Controle Estatístico de Processos.
 - Java 7 JDK (x64) - [Download] (http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk7-downloads-1880260.html)
 - IDE Eclipse Luna for EE Developers (x64) SR2 - [Download] (https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/luna/SR2/eclipse-jee-luna-SR2-win32-x86_64.zip)
 - MySQL 5.6.24 - [Download] (https://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-community-5.6.24.0.msi)
-- Apache Tomcat 7.0.59 (x64) - [Download] (http://mirrors.koehn.com/apache/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
+- Apache Tomcat 7.0.59 (x64) - [Download] (http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59-windows-x64.zip)
 
 ###Instruções para configuração da SoMeSPC
 1. Instalar o Java 7 JDK.

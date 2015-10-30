@@ -3,7 +3,7 @@ package org.somespc.integracao.taiga.model;
 import javax.xml.bind.annotation.*;
 
 /**
- * Papel do Taiga.
+ * Usuario + Papel do Taiga.
  * @author Vinicius
  *
  */

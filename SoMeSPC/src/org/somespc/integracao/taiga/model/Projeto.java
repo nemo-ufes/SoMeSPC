@@ -1,11 +1,13 @@
 package org.somespc.integracao.taiga.model;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.somespc.integracao.util.*;
+import org.somespc.integracao.util.TaigaDateAdapter;
 
 /**
  * Projeto do Taiga.
@@ -14,84 +16,62 @@ import org.somespc.integracao.util.*;
  *
  */
 @XmlRootElement
-public class Projeto
-{
-    private int id;
+public class Projeto {
 
-    @XmlElement(name = "name")
-    private String nome;
+	@XmlElement(name = "name")
+	private String nome;
 
-    @XmlElement(name = "slug")
-    private String apelido;
+	@XmlElement(name = "slug")
+	private String apelido;
 
-    @XmlElement(name = "description")
-    private String descricao;
+	@XmlElement(name = "description")
+	private String descricao;
 
-    @XmlElement(name = "memberships")
-    private List<Membro> membros;
+	@XmlElement(name = "memberships")
+	private List<Membro> equipe;
 
-    @XmlElement(name = "created_date")
-    @XmlJavaTypeAdapter(TaigaDateAdapter.class)
-    private Date dataCriacao;
+	@XmlElement(name = "created_date")
+	@XmlJavaTypeAdapter(TaigaDateAdapter.class)
+	private Date dataCriacao;
 
-    public int getId()
-    {
-	return id;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setId(int id)
-    {
-	this.id = id;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public String getNome()
-    {
-	return nome;
-    }
+	public String getApelido() {
+		return apelido;
+	}
 
-    public void setNome(String nome)
-    {
-	this.nome = nome;
-    }
+	public void setApelido(String apelido) {
+		this.apelido = apelido;
+	}
 
-    public String getDescricao()
-    {
-	return descricao;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public void setDescricao(String descricao)
-    {
-	this.descricao = descricao;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
-    public List<Membro> getMembros()
-    {
-	return membros;
-    }
+	public List<Membro> getEquipe() {
+		return equipe;
+	}
 
-    public void setMembros(List<Membro> membros)
-    {
-	this.membros = membros;
-    }
+	public void setEquipe(List<Membro> equipe) {
+		this.equipe = equipe;
+	}
 
-    public Date getDataCriacao()
-    {
-	return dataCriacao;
-    }
+	public Date getDataCriacao() {
+		return dataCriacao;
+	}
 
-    public void setDataCriacao(Date dataCriacao)
-    {
-	this.dataCriacao = dataCriacao;
-    }
-
-    public String getApelido()
-    {
-	return apelido;
-    }
-
-    public void setApelido(String apelido)
-    {
-	this.apelido = apelido;
-    }
+	public void setDataCriacao(Date dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
 
 }

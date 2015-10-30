@@ -25,6 +25,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 
+import org.somespc.integracao.SoMeSPCIntegrator;
 import org.somespc.integracao.taiga.*;
 import org.somespc.integracao.taiga.model.*;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
@@ -150,7 +151,7 @@ public class TaigaIntegratorResource
 	TaigaIntegrator integrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),
 		planoDto.getTaigaLogin().getUsuario(), planoDto.getTaigaLogin().getSenha());
 
-	List<Periodicidade> periodicidades = integrator.obterPeriodicidades();
+	List<Periodicidade> periodicidades = SoMeSPCIntegrator.obterPeriodicidades();
 	
 	List<ItemPlanoDeMedicaoDTO> itens = planoDto.getItensPlanoDeMedicao();
 	
