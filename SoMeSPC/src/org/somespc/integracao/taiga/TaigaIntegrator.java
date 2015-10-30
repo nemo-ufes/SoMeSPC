@@ -573,8 +573,6 @@ public class TaigaIntegrator
 
 	manager.close();
 
-	boolean primeiroLoop = true;
-
 	//Define a medida de acordo com a lista informada.
 	for (MedidasTaiga medidaTaiga : medidasTaiga)
 	{
@@ -724,7 +722,6 @@ public class TaigaIntegrator
 	    }
 
 	    medidasCadastradas.add(medida);
-	    primeiroLoop = false;
 	}
 
 	return medidasCadastradas;

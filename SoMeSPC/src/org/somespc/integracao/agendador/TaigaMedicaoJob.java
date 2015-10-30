@@ -118,11 +118,11 @@ public class TaigaMedicaoJob implements Job {
 
 			} else if (nomeMedida.equalsIgnoreCase("Número de Estórias Concluídas para o Projeto")) {
 
-				//TODO	Milestones -> completed_userstories
+				//TODO	EstadoSprint.completed_userstories
 				
 			} else if (nomeMedida.equalsIgnoreCase("Média de Estórias Concluídas por Sprint do Projeto")) {
 
-				//TODO	Estorias Concluidas / Sprints Concluidas
+				//TODO	(Soma de EstadoSprint.completed_userstories) / (Soma de EstadoSprint.isClosed = true)
 
 			} else if (nomeMedida.equalsIgnoreCase("Velocidade da Equipe no Projeto")) {
 
@@ -131,11 +131,11 @@ public class TaigaMedicaoJob implements Job {
 
 			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine na Sprint")) {
 
-				//TODO Iterar Tasks is_closed = true && is_iocaine = true
+				//TODO EstadoSprint -> iocaine_doses
 
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Doses de Iocaine na Sprint")) {
 
-				//TODO Iocaines concluidas / Tasks concluidas
+				//TODO EstadoSprint -> iocaine_doses / completed_userstories
 
 			} else {
 				throw new Exception(String.format("Medida %s não encontrada.", nomeMedida));
