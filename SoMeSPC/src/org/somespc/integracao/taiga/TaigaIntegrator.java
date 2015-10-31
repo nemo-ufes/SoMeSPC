@@ -19,6 +19,8 @@
  */
 package org.somespc.integracao.taiga;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -37,7 +39,18 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.openxava.jpa.XPersistence;
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
 import org.somespc.integracao.SoMeSPCIntegrator;
+import org.somespc.integracao.jobs.TaigaMedicaoJob;
 import org.somespc.integracao.taiga.model.AuthInfo;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
@@ -58,6 +71,7 @@ import org.somespc.model.organizacao_de_software.Equipe;
 import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
 import org.somespc.model.organizacao_de_software.RecursoHumano;
 import org.somespc.model.plano_de_medicao.ItemPlanoMedicao;
+import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 import org.somespc.util.json.JSONObject;
 import org.somespc.webservices.rest.dto.TaigaLoginDTO;
 
@@ -711,12 +725,93 @@ public class TaigaIntegrator
 	return medidasCadastradas;
     }
    
-    public synchronized void agendarTaigaMedicaoJob(ItemPlanoMedicao item, Periodicidade periodicidade, TaigaLoginDTO login){
-    	
-    	
-    	
-    	
-    }
+	public synchronized void agendarTaigaMedicaoJob(PlanoDeMedicaoDoProjeto plano, String apelidoProjeto, 
+			ItemPlanoMedicao item, Periodicidade periodicidade, TaigaLoginDTO login) throws Exception {
+
+		// Inicia o scheduler.
+		SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+		Scheduler sched = schedFact.getScheduler();
+
+		if (!sched.isStarted())
+			sched.start();
+
+		String nomeMedida = item.getNome();
+
+		// Se o item não é uma medida, pula para o próximo item.
+		if (!nomeMedida.startsWith("ME - ")) {
+			throw new Exception("O item do plano não é uma medida: " + nomeMedida);
+		}
+
+		JobDetail job = null;
+		Trigger trigger = null;
+		String nomeJob = "Job do " + plano.getNome();
+
+		// Converte a periodicidade em horas.
+		String period = periodicidade.getNome();
+		int horas = 0;
+
+		if (period.equalsIgnoreCase("Por Hora")) {
+			horas = 1;
+		} else if (period.equalsIgnoreCase("Diária")) {
+			horas = 24;
+		} else if (period.equalsIgnoreCase("Semanal")) {
+			horas = 24 * 7;
+		} else if (period.equalsIgnoreCase("Quinzenal")) {
+			horas = 24 * 15;
+		} else if (period.equalsIgnoreCase("Mensal")) {
+			horas = 24 * 30; // mes de 30 dias apenas...
+		} else if (period.equalsIgnoreCase("Trimestral")) {
+			horas = 24 * 30 * 3; // mes de 30 dias apenas...
+		} else if (period.equalsIgnoreCase("Semestral")) {
+			horas = 24 * 30 * 6; // mes de 30 dias apenas...
+		} else if (period.equalsIgnoreCase("Anual")) {
+			horas = 24 * 30 * 12; // mes de 30 dias apenas...
+		} else {
+			String mensagem = String.format("Periodicidade %s inexistente.", period);
+			System.out.println(mensagem);
+			throw new Exception(mensagem);
+		}
+
+		JobDataMap map = new JobDataMap();
+
+		map.put("urlTaiga", login.getUrl());
+		map.put("usuarioTaiga", login.getUsuario());
+		map.put("senhaTaiga", login.getSenha());
+		map.put("apelidoProjeto", apelidoProjeto);
+		map.put("nomePlano", plano.getNome());
+		map.put("nomeMedida", nomeMedida);
+		map.put("entidadeMedida", plano.getProjeto().getNome());
+
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
+
+		String nomeGrupo = plano.getProjeto().getNome();
+		String nomeTrigger = String.format("Medição %s da medida %s - criado em %s",
+				periodicidade.getNome(), nomeMedida, dataHora);
+
+		boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+	
+		//Se o job existir, apenas agenda. Senão, cria o job e agenda sua execução.
+		if (!existeJob) {
+			job = JobBuilder.newJob(TaigaMedicaoJob.class).withIdentity(nomeJob, nomeGrupo).build();
+
+			trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo).usingJobData(map)
+					.startNow()
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
+					.build();
+
+			sched.scheduleJob(job, trigger);
+		} else {
+			job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
+
+			trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo).usingJobData(map)
+					.startNow()
+					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
+					.build();
+
+			sched.scheduleJob(trigger);
+		}
+	}
 
 
 }

@@ -82,7 +82,7 @@ public class TaigaIntegratorTest {
 
 	@Test
 	public void testObterSprintsDoProjetoTaiga() {
-		List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga("paflopes-sincap");
+		List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga("almereyda-jon30");
 
 		assertNotNull(sprints);
 
@@ -91,7 +91,8 @@ public class TaigaIntegratorTest {
 
 	@Test
 	public void testObterEstadoSprintTaiga() {
-		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("paflopes-sincap", "sprint-19");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("almereyda-jon30", "instantiation-delayed");
+		//EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("almereyda-jon30", "einladungen-fortsetzung-besorgungen-und-feinschliff");
 
 		assertNotNull(estadoSprint);
 

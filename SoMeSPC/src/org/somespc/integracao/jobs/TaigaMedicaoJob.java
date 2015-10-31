@@ -50,196 +50,245 @@ public class TaigaMedicaoJob extends MedicaoJob {
 			if (nomeMedida.equalsIgnoreCase("Pontos de Estória Planejados para o Projeto")) {
 
 				valorMedido = String.valueOf(estado.getTotalPontos());
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Pontos de Estória Concluídos no Projeto")) {
 
 				valorMedido = String.valueOf(estado.getPontosFechados());
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estória no Projeto")) {
 
-				float valor = estado.getPontosFechados() / estado.getTotalPontos();				
+				float valor = estado.getPontosFechados() / estado.getTotalPontos();
 				valorMedido = String.valueOf(valor);
-				
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+
 			} else if (nomeMedida.equalsIgnoreCase("Número de Sprints Planejadas para o Projeto")) {
 
 				valorMedido = String.valueOf(estado.getTotalMilestones());
-				
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+
 			} else if (nomeMedida.equalsIgnoreCase("Número de Sprints Realizadas no Projeto")) {
-				
+
 				int sprintsConcluidas = 0;
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
-				
-				for(Sprint sprint : sprints){
+
+				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
-					if (estadoSprint.isConcluida()){
+					if (estadoSprint.isConcluida()) {
 						sprintsConcluidas++;
 					}
 				}
-								
-				valorMedido = String.valueOf(sprintsConcluidas);	
-				
+
+				valorMedido = String.valueOf(sprintsConcluidas);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Sprints no Projeto")) {
 
 				int sprintsConcluidas = 0;
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
-				
-				for(Sprint sprint : sprints){
+
+				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
-					if (estadoSprint.isConcluida()){
+					if (estadoSprint.isConcluida()) {
 						sprintsConcluidas++;
 					}
 				}
-								
+
 				int sprintsPlanejadas = estado.getTotalMilestones();
-				
-				float taxaConclusaoSprints = sprintsConcluidas / sprintsPlanejadas; 
+
+				float taxaConclusaoSprints = sprintsConcluidas / sprintsPlanejadas;
 
 				valorMedido = String.valueOf(taxaConclusaoSprints);
-				
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+
 			} else if (nomeMedida.equalsIgnoreCase("Número de Estórias Planejadas para a Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-				valorMedido = String.valueOf(estadoSprint.getTotalEstorias());
-				
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					valorMedido = String.valueOf(estadoSprint.getTotalEstorias());
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}
+
 			} else if (nomeMedida.equalsIgnoreCase("Número de Estórias Concluídas na Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-				valorMedido = String.valueOf(estadoSprint.getEstoriasCompletadas());
-				
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					valorMedido = String.valueOf(estadoSprint.getEstoriasCompletadas());
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}	
+
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Estórias na Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-				
-				float taxaConclusaoEstorias = estadoSprint.getEstoriasCompletadas() / estadoSprint.getTotalEstorias();
-				valorMedido = String.valueOf(taxaConclusaoEstorias);
-				
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					float taxaConclusaoEstorias = estadoSprint.getEstoriasCompletadas() / estadoSprint.getTotalEstorias();
+					valorMedido = String.valueOf(taxaConclusaoEstorias);
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}			
+
 			} else if (nomeMedida.equalsIgnoreCase("Pontos de Estória Planejados para a Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);	
-				
-				Map<String, Float> map = estadoSprint.getTotalPontos();
-				
-				float totalPontos = 0f;				
-				for (Float ponto : map.values()){
-					totalPontos += ponto;
-				}
-				
-				valorMedido = String.valueOf(totalPontos);
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					Map<String, Float> map = estadoSprint.getTotalPontos();
+
+					float totalPontos = 0f;
+					for (Float ponto : map.values()) {
+						totalPontos += ponto;
+					}
+
+					valorMedido = String.valueOf(totalPontos);
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}	
 				
 			} else if (nomeMedida.equalsIgnoreCase("Pontos de Estória Concluídos na Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);			
-				
-				float totalPontosCompletados = 0f;				
-				for (Float ponto : estadoSprint.getPontosCompletados()){
-					totalPontosCompletados += ponto;
-				}
-				
-				valorMedido = String.valueOf(totalPontosCompletados);
-				
-				
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+		
+					float totalPontosCompletados = 0f;
+					for (Float ponto : estadoSprint.getPontosCompletados()) {
+						totalPontosCompletados += ponto;
+					}
+
+					valorMedido = String.valueOf(totalPontosCompletados);
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}	
+
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estórias na Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);	
-				Map<String, Float> map = estadoSprint.getTotalPontos();
-				
-				float totalPontos = 0f;				
-				for (Float ponto : map.values()){
-					totalPontos += ponto;
-				}
-				
-				float totalPontosCompletados = 0f;				
-				for (Float ponto : estadoSprint.getPontosCompletados()){
-					totalPontosCompletados += ponto;
-				}				
-				
-				float taxaConclusaoEstorias = totalPontos / totalPontosCompletados;
-				valorMedido = String.valueOf(taxaConclusaoEstorias);				
-				
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+		
+					Map<String, Float> map = estadoSprint.getTotalPontos();
+
+					float totalPontos = 0f;
+					for (Float ponto : map.values()) {
+						totalPontos += ponto;
+					}
+
+					float totalPontosCompletados = 0f;
+					for (Float ponto : estadoSprint.getPontosCompletados()) {
+						totalPontosCompletados += ponto;
+					}
+
+					float taxaConclusaoEstorias = totalPontos / totalPontosCompletados;
+					valorMedido = String.valueOf(taxaConclusaoEstorias);
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}	
+								
 			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Planejadas para a Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-				valorMedido = String.valueOf(estadoSprint.getTotalTarefas());
-				
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					valorMedido = String.valueOf(estadoSprint.getTotalTarefas());
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}									
+
 			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Concluídas na Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-				valorMedido = String.valueOf(estadoSprint.getTarefasCompletadas());
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					valorMedido = String.valueOf(estadoSprint.getTarefasCompletadas());
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}	
 				
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Tarefas na Sprint")) {
-			
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-				float taxaConclusaoTarefas = estadoSprint.getTarefasCompletadas() / estadoSprint.getTotalTarefas();
-				valorMedido = String.valueOf(taxaConclusaoTarefas);
 
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					float taxaConclusaoTarefas = estadoSprint.getTarefasCompletadas() / estadoSprint.getTotalTarefas();
+					valorMedido = String.valueOf(taxaConclusaoTarefas);
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}	
+				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Estórias Concluídas para o Projeto")) {
 
 				int estoriasConcluidasProjeto = 0;
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
-				
-				for(Sprint sprint : sprints){
+
+				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					estoriasConcluidasProjeto += estadoSprint.getEstoriasCompletadas();
 				}
-				
+
 				valorMedido = String.valueOf(estoriasConcluidasProjeto);
-				
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+
 			} else if (nomeMedida.equalsIgnoreCase("Média de Estórias Concluídas por Sprint do Projeto")) {
 
 				int estoriasConcluidasProjeto = 0;
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
-				
-				for(Sprint sprint : sprints){
+
+				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					estoriasConcluidasProjeto += estadoSprint.getEstoriasCompletadas();
 				}
-				
+
 				int sprintsConcluidas = 0;
-				for(Sprint sprint : sprints){
+				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
-					if (estadoSprint.isConcluida()){
+					if (estadoSprint.isConcluida()) {
 						sprintsConcluidas++;
 					}
 				}
-				
+
 				float mediaEstoriasConcluidas = estoriasConcluidasProjeto / sprintsConcluidas;
 				valorMedido = String.valueOf(mediaEstoriasConcluidas);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Velocidade da Equipe no Projeto")) {
 
 				valorMedido = String.valueOf(estado.getVelocidade());
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine na Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-				valorMedido = String.valueOf(estadoSprint.getDosesIocaine());				
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					valorMedido = String.valueOf(estadoSprint.getDosesIocaine());
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}								
 
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Doses de Iocaine na Sprint")) {
 
-				String apelidoSprint = dataMap.getString("apelidoSprint");
-				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
-				
-				float taxaDosesIocaine = estadoSprint.getDosesIocaine() / estadoSprint.getEstoriasCompletadas();
-				
-				valorMedido = String.valueOf(taxaDosesIocaine);
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+				for (Sprint sprint : sprints) {
+					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
+					float taxaDosesIocaine = estadoSprint.getDosesIocaine() / estadoSprint.getEstoriasCompletadas();
+					valorMedido = String.valueOf(taxaDosesIocaine);
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
+				}						
+			
 			} else {
 				throw new Exception(String.format("Medida %s não encontrada.", nomeMedida));
 			}
-			
-			SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
-			
+
 			System.out.println(String.format("Job %s (%s) executado com sucesso.",
 					context.getTrigger().getKey().getName(), context.getTrigger().getKey().getGroup()));
+
 		} catch (Exception ex) {
 			System.err.println(
 					String.format("Erro ao executar o job %s (%s): %s ", context.getTrigger().getKey().getName(),
@@ -250,6 +299,5 @@ public class TaigaMedicaoJob extends MedicaoJob {
 			manager.close();
 		}
 	}
-
 
 }

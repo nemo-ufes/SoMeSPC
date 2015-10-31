@@ -162,7 +162,7 @@ public class SoMeSPCIntegrator {
 
 
 	public static synchronized PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoTaigaSoMeSPC(List<ItemPlanoDeMedicaoDTO> itemPlanoDeMedicaoDTO, 
-			Periodicidade periodicidadeMedicao, TaigaLoginDTO taigaLogin, Projeto projeto) throws Exception {
+			Periodicidade periodicidade, TaigaLoginDTO taigaLogin, Projeto projeto) throws Exception {
     	    	   	
     PlanoDeMedicaoDoProjeto plano = new PlanoDeMedicaoDoProjeto();
 	EntityManager manager = XPersistence.createManager();
@@ -201,6 +201,7 @@ public class SoMeSPCIntegrator {
 	boolean primeiraExecucao = true;
 	
 	Map<Integer, String> idNomeitemMap = new HashMap<Integer, String>();
+	int idItemParaAgendarJob = 0;
 	
 	//Criação os objetos necessários para criação do Plano de Medição do Projeto - SoMeSPC
 	for(ItemPlanoDeMedicaoDTO item: itemPlanoDeMedicaoDTO){
@@ -332,8 +333,7 @@ public class SoMeSPCIntegrator {
 	    String queryDefMedida = "SELECT p FROM DefinicaoOperacionalDeMedida p WHERE p.nome='Definição operacional da medida do Taiga - " + item.getMedida() + "'";
 	    TypedQuery<DefinicaoOperacionalDeMedida> typedQueryDefMedida = manager.createQuery(queryDefMedida, DefinicaoOperacionalDeMedida.class);
 	    DefinicaoOperacionalDeMedida defMed = typedQueryDefMedida.getSingleResult();
-	    defMed.setPeriodicidadeDeMedicao(periodicidadeMedicao);
-
+	    
 	    //Obtem as Medidas como MedidaPlanoDeMedicao
 	    MedidaPlanoDeMedicao medidaPlano = new MedidaPlanoDeMedicao();
 	    medidaPlano.setMedida(med);
@@ -434,7 +434,8 @@ public class SoMeSPCIntegrator {
 		    
 		    //Persiste Medida
 		    manager.persist(medidaTree);
-		    
+		    		    
+		    //Persiste o Plano
 		    if (primeiraExecucao){
 		    	plano.setPlanoTree(new HashSet<ItemPlanoMedicao>());	
 		    	plano.setMedidaPlanoDeMedicao(new HashSet<MedidaPlanoDeMedicao>());
@@ -464,6 +465,8 @@ public class SoMeSPCIntegrator {
 		    if (!idNomeitemMap.containsKey(idObjEstrategicoTree))
 		    	idNomeitemMap.put(idObjEstrategicoTree, objEstrategicoTree.getNome());			    
 		    			    
+		    idItemParaAgendarJob = medidaTree.getId();
+		    
 		}
 		catch (Exception ex)
 		{
@@ -477,10 +480,21 @@ public class SoMeSPCIntegrator {
 		}    
 		
 		primeiraExecucao = false;
+	
+		//Aguarda 1s antes de agendar cada job para evitar problemas de concorrência.
+		Thread.sleep(1000);
+		
+		ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, idItemParaAgendarJob);
+		
+		if (item.getNomeFerramentaColetora().equalsIgnoreCase("Taiga")){
+			//taigaIntegrator.agendarTaigaMedicaoJob(plano, projeto.getApelido(), medida, periodicidade, taigaLogin); 
+		} else if (item.getNomeFerramentaColetora().equalsIgnoreCase("SonarQube")){
+			//Agendar job do sonar
+		} else {
+			System.err.println("Ferramenta desconhecida para agendamento de jobs: " + item.getNomeFerramentaColetora());
+		}
+		
 	}	
-
-	//Após criar o plano, agenda as medições.
-	//SoMeSPCIntegrator.agendarMedicoesPlanoMedicaoProjeto(plano, taigaLogin, projeto, sonar);
 
 	return plano;
     }
