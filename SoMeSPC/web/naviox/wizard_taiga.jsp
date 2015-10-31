@@ -325,7 +325,11 @@ input {
 								else {
 									scope
 											.post_plano(function retorno(result) {
-												alert("Plano(s) de Medição criado com sucesso!");
+												if (!result){
+													alert("Ocorreu um erro ao criar o(s) Plano(s) de Medição!");
+												} else {
+													alert("Plano(s) de Medição criado com sucesso!");	
+												}												
 											});
 								}
 							}

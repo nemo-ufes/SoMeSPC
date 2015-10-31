@@ -355,7 +355,7 @@ public class SoMeSPCIntegrator {
 	    TypedQuery<Medida> typedQueryMedida = manager.createQuery(queryMedida, Medida.class);
 	    Medida med = typedQueryMedida.getSingleResult();
 
-	    String queryDefMedida = "SELECT p FROM DefinicaoOperacionalDeMedida p WHERE p.nome='Definição operacional padrão Taiga-SoMeSPC para " + item.getMedida() + "'";
+	    String queryDefMedida = "SELECT p FROM DefinicaoOperacionalDeMedida p WHERE p.nome='Definição operacional da medida do Taiga - " + item.getMedida() + "'";
 	    TypedQuery<DefinicaoOperacionalDeMedida> typedQueryDefMedida = manager.createQuery(queryDefMedida, DefinicaoOperacionalDeMedida.class);
 	    DefinicaoOperacionalDeMedida defMed = typedQueryDefMedida.getSingleResult();
 	    defMed.setPeriodicidadeDeMedicao(periodicidadeMedicao);
@@ -399,69 +399,68 @@ public class SoMeSPCIntegrator {
 		}
 	    }
 
-		//Persiste o Objetivo Estratégico e Objetivo de Medição (tree e tree base também).
-		manager.getTransaction().begin();
-		manager.persist(objEstrategicoTree);
-		Integer idObjEstrategicoTree = objEstrategicoTree.getId();
-		objMedicaoTree.setPath("/" + idObjEstrategicoTree);
-		manager.persist(objMedicaoTree);
-		Integer idObjMedicaoTree = objMedicaoTree.getId();
-		
-		//ItemTree de Necessidade de Informação
-		TreeItemPlanoMedicao necessidadeTree = new TreeItemPlanoMedicao();
-	    necessidadeTree.setNome(necessidade.getNome());
-	    necessidadeTree.setPath("/" + idObjEstrategicoTree + "/" + idObjMedicaoTree);
-	    necessidadeTree.setItem(necessidade);
-	    necessidadeTree.setPlanoDeMedicaoContainer(plano);
-	    necessidadeTree.setFerramentaColetora(ferramenta);
-		
-	    //Persiste NI
-	    manager.persist(necessidadeTree);
-	    Integer idNecessidadeTree = necessidadeTree.getId();
 	    
-	    //ItemTree de Medida
-	    TreeItemPlanoMedicao medidaTree = new TreeItemPlanoMedicao();
-	    medidaTree.setNome(med.getNome());
-	    medidaTree.setPath("/" + objEstrategicoTree.getId() + "/" + objMedicaoTree.getId() + "/" + idNecessidadeTree);
-	    medidaTree.setItem(med);
-	    medidaTree.setPlanoDeMedicaoContainer(plano);
-	    medidaTree.setFerramentaColetora(ferramenta);
-	    
-	    //Persiste Medida
-	    manager.persist(medidaTree);
-	    manager.getTransaction().commit();    
-	    
-	    plano.getPlanoTree().add(medidaTree);
-	    plano.getPlanoTree().add(necessidadeTree);
-	    plano.getPlanoTree().add(objMedicaoTree);
-	    plano.getPlanoTree().add(objEstrategicoTree);
+	    //Finalmente... Persiste o plano.
+		try
+		{
+		    if (!manager.isOpen())
+			manager = XPersistence.createManager();
 
-	}
+		    manager.getTransaction().begin();
 
-	//Finalmente... Persiste o plano.
-	try
-	{
-	    if (!manager.isOpen())
-		manager = XPersistence.createManager();
+		    //Persiste o Objetivo Estratégico e Objetivo de Medição (tree e tree base também).
+			manager.persist(objEstrategicoTree);
+			Integer idObjEstrategicoTree = objEstrategicoTree.getId();
+			objMedicaoTree.setPath("/" + idObjEstrategicoTree);
+			manager.persist(objMedicaoTree);
+			Integer idObjMedicaoTree = objMedicaoTree.getId();
+			
+			//ItemTree de Necessidade de Informação
+			TreeItemPlanoMedicao necessidadeTree = new TreeItemPlanoMedicao();
+		    necessidadeTree.setNome(necessidade.getNome());
+		    necessidadeTree.setPath("/" + idObjEstrategicoTree + "/" + idObjMedicaoTree);
+		    necessidadeTree.setItem(necessidade);
+		    necessidadeTree.setPlanoDeMedicaoContainer(plano);
+		    necessidadeTree.setFerramentaColetora(ferramenta);
+			
+		    //Persiste NI
+		    manager.persist(necessidadeTree);
+		    Integer idNecessidadeTree = necessidadeTree.getId();
+		    
+		    //ItemTree de Medida
+		    TreeItemPlanoMedicao medidaTree = new TreeItemPlanoMedicao();
+		    medidaTree.setNome(med.getNome());
+		    medidaTree.setPath("/" + objEstrategicoTree.getId() + "/" + objMedicaoTree.getId() + "/" + idNecessidadeTree);
+		    medidaTree.setItem(med);
+		    medidaTree.setPlanoDeMedicaoContainer(plano);
+		    medidaTree.setFerramentaColetora(ferramenta);
+		    
+		    //Persiste Medida
+		    manager.persist(medidaTree);
+		    
+		    plano.setPlanoTree(new ArrayList<TreeItemPlanoMedicao>());
+		    plano.getPlanoTree().add(medidaTree);
+		    plano.getPlanoTree().add(necessidadeTree);
+		    plano.getPlanoTree().add(objMedicaoTree);
+		    plano.getPlanoTree().add(objEstrategicoTree);
+		    
+		    manager.persist(plano);
+		    manager.getTransaction().commit();
+		}
+		catch (Exception ex)
+		{
+		    if (manager.getTransaction().isActive())
+			manager.getTransaction().rollback();
 
-	    manager.getTransaction().begin();
+		    throw ex;
 
-	    manager.persist(plano);
+		}
+		finally
+		{
+		    manager.close();
+		}    
 
-	    manager.getTransaction().commit();
-	}
-	catch (Exception ex)
-	{
-	    if (manager.getTransaction().isActive())
-		manager.getTransaction().rollback();
-
-	    throw ex;
-
-	}
-	finally
-	{
-	    manager.close();
-	}
+	}	
 
 	//Após criar o plano, agenda as medições.
 	//SoMeSPCIntegrator.agendarMedicoesPlanoMedicaoProjeto(plano, taigaLogin, projeto, sonar);

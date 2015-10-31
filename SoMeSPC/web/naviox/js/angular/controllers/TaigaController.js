@@ -83,11 +83,11 @@ app.controller('TaigaController', function($scope, $resource,
 		$scope.entry.$save(function sucesso(plano) {
 			$scope.toggleLoading();
 			console.log(plano);
-			return retorno(plano);
+			return retorno(true);
 		}, function erro(err) {
 			$scope.toggleLoading();
 			console.log(err);
-			return retorno(err);
+			return retorno(false);
 		});
 	}
 
