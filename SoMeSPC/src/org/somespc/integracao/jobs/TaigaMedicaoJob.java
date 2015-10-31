@@ -34,7 +34,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 			String senhaTaiga = dataMap.getString("senhaTaiga");
 			String apelidoProjeto = dataMap.getString("apelidoProjeto");
 			String nomePlano = dataMap.getString("nomePlano");
-			String nomeMedida = dataMap.getString("nomeMedida");
+			String nomeMedida = dataMap.getString("nomeMedida").replace("ME - " , "");
 			String entidadeMedida = dataMap.getString("entidadeMedida");
 
 			String query = String.format("SELECT p FROM PlanoDeMedicaoDoProjeto p WHERE p.nome='%s'", nomePlano);
@@ -232,8 +232,8 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				}
 
 				valorMedido = String.valueOf(estoriasConcluidasProjeto);
-				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
-
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);		
+				
 			} else if (nomeMedida.equalsIgnoreCase("Média de Estórias Concluídas por Sprint do Projeto")) {
 
 				int estoriasConcluidasProjeto = 0;
@@ -243,18 +243,11 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					estoriasConcluidasProjeto += estadoSprint.getEstoriasCompletadas();
 				}
+				
+				float mediaEstoriasConcluidasPorSprint = estoriasConcluidasProjeto / estado.getTotalMilestones();
 
-				int sprintsConcluidas = 0;
-				for (Sprint sprint : sprints) {
-					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
-					if (estadoSprint.isConcluida()) {
-						sprintsConcluidas++;
-					}
-				}
-
-				float mediaEstoriasConcluidas = estoriasConcluidasProjeto / sprintsConcluidas;
-				valorMedido = String.valueOf(mediaEstoriasConcluidas);
-				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				valorMedido = String.valueOf(mediaEstoriasConcluidasPorSprint);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);		
 
 			} else if (nomeMedida.equalsIgnoreCase("Velocidade da Equipe no Projeto")) {
 

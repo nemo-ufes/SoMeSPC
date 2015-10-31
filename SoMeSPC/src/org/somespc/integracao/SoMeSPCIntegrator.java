@@ -467,6 +467,19 @@ public class SoMeSPCIntegrator {
 		    			    
 		    idItemParaAgendarJob = medidaTree.getId();
 		    
+		   //Aguarda 1s antes de agendar cada job para evitar problemas de concorrência.
+			Thread.sleep(1000);
+			
+			ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, idItemParaAgendarJob);
+			
+			if (item.getNomeFerramentaColetora().equalsIgnoreCase("Taiga")){
+				taigaIntegrator.agendarTaigaMedicaoJob(plano, projeto.getApelido(), medida, periodicidade, taigaLogin); 
+			} else if (item.getNomeFerramentaColetora().equalsIgnoreCase("SonarQube")){
+				//Agendar job do sonar
+			} else {
+				System.err.println("Ferramenta desconhecida para agendamento de jobs: " + item.getNomeFerramentaColetora());
+			}
+		    
 		}
 		catch (Exception ex)
 		{
@@ -480,20 +493,7 @@ public class SoMeSPCIntegrator {
 		}    
 		
 		primeiraExecucao = false;
-	
-		//Aguarda 1s antes de agendar cada job para evitar problemas de concorrência.
-		Thread.sleep(1000);
-		
-		ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, idItemParaAgendarJob);
-		
-		if (item.getNomeFerramentaColetora().equalsIgnoreCase("Taiga")){
-			//taigaIntegrator.agendarTaigaMedicaoJob(plano, projeto.getApelido(), medida, periodicidade, taigaLogin); 
-		} else if (item.getNomeFerramentaColetora().equalsIgnoreCase("SonarQube")){
-			//Agendar job do sonar
-		} else {
-			System.err.println("Ferramenta desconhecida para agendamento de jobs: " + item.getNomeFerramentaColetora());
-		}
-		
+			
 	}	
 
 	return plano;
