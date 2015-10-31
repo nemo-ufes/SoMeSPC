@@ -22,6 +22,7 @@ package org.somespc.integracao.sonarqube.model;
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Medida
 {
     @XmlElement(name = "key")
