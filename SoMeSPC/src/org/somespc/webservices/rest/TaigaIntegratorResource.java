@@ -137,9 +137,9 @@ public class TaigaIntegratorResource
     itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "NI – Quantas doses de Iocaine ocorreram na sprint", "ME – Número de Doses de Iocaine na Sprint (NDIS)", "Taiga"));
     itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "NI – Qual a taxa de doses de Iocainena sprint?", "ME – Taxa de Doses de Iocaine na Sprint (TDIS)", "Taiga"));
 	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual a velocidade da equipe no projeto?", "ME – Velocidade da Equipe no Projeto (VEP)", "Taiga"));
-	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual a complexidade ciclomática média por método?", "ME – Média da Complexidade Ciclomática por Método (MCCM)", "SonarQube"));
-	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual a taxa de duplicação de código?", "ME – Taxa de Duplicação de Código (TDC)", "SonarQube"));
-	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual o percentual da dívida técnica?", "ME – Percentual da Dívida Técnica (PDT)", "SonarQube"));
+	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "NI – Qual a complexidade ciclomática média por método?", "ME – Média da Complexidade Ciclomática por Método (MCCM)", "SonarQube"));
+	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "NI – Qual a taxa de duplicação de código?", "ME – Taxa de Duplicação de Código (TDC)", "SonarQube"));
+	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "NI – Qual o percentual da dívida técnica?", "ME – Percentual da Dívida Técnica (PDT)", "SonarQube"));
 
 	return Response.ok().entity(itensPlanoDeMedicao).build();
     }
