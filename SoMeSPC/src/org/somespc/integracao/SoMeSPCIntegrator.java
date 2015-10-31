@@ -387,37 +387,25 @@ public class SoMeSPCIntegrator {
 	    {
 		if (!manager.isOpen())
 		    manager = XPersistence.createManager();
-
-		manager.getTransaction().begin();
-		manager.persist(defMed);
-		manager.persist(medidaPlano);
-		manager.getTransaction().commit();
+	
+			manager.getTransaction().begin();
+			manager.persist(defMed);
+			manager.persist(medidaPlano);
+			manager.getTransaction().commit();
 
 	    }
 	    catch (Exception ex)
 	    {
-		if (manager.getTransaction().isActive())
-		    manager.getTransaction().rollback();
+	    	if (manager.getTransaction().isActive())
+	    		manager.getTransaction().rollback();
 
-		manager.close();
-		manager = XPersistence.createManager();
-
-		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
-			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
-		{
-		    String query = String.format("SELECT mp FROM MedidaPlanoDeMedicao mp WHERE mp.medida.nome='%s' AND mp.definicaoOperacionalDeMedida.nome='%s'",
-			    medidaPlano.getMedida().getNome(), medidaPlano.getDefinicaoOperacionalDeMedida().getNome());
-		    TypedQuery<MedidaPlanoDeMedicao> typedQuery = manager.createQuery(query, MedidaPlanoDeMedicao.class);
-		    medidaPlano = typedQuery.getSingleResult();
-		}
-		else
-		{
-		    throw ex;
-		}
+			manager.close();
+			manager = XPersistence.createManager();
 	    }
 
-	    
-	    //Finalmente... Persiste o plano.
+	    medidaPlano.setPlanoDeMedicao(plano);
+		
+		//Finalmente... Persiste o plano.
 		try
 		{
 		    if (!manager.isOpen())
@@ -428,7 +416,6 @@ public class SoMeSPCIntegrator {
 		    //Persiste o Objetivo Estratégico e Objetivo de Medição (tree e tree base também).
 			//Se contem o objetivo estrategico, busca a chave do map. Senão, persiste.
 		    if (idNomeitemMap.containsValue("OE - " + objEstrategicoTree.getNome())){
-		    	System.out.println("Objetivo estrategico existente: " + objEstrategicoTree.getNome());
 		    	
 		    	int chave = 0;
 		    	for(Entry<Integer,String> entry : idNomeitemMap.entrySet()){
@@ -441,7 +428,6 @@ public class SoMeSPCIntegrator {
 		    	objEstrategicoTree = manager.find(TreeItemPlanoMedicao.class, chave);
 		    	
 		    } else {
-		    	System.out.println("Objetivo estrategico não encontrado: " + objEstrategicoTree.getNome());
 		    	manager.persist(objEstrategicoTree);		    	
 		    }		 
 		    
@@ -449,7 +435,6 @@ public class SoMeSPCIntegrator {
 		    		     
 			//Se contem o objetivo de medicao, busca do banco. Senão, persiste.
 		    if (idNomeitemMap.containsValue("OM - " + objMedicaoTree.getNome())){		    	
-		    	System.out.println("Objetivo de medição existente: " + objMedicaoTree.getNome());
 		    	
 		    	int chave = 0;
 		    	for(Entry<Integer,String> entry : idNomeitemMap.entrySet()){
@@ -462,7 +447,6 @@ public class SoMeSPCIntegrator {
 		    	objMedicaoTree = manager.find(TreeItemPlanoMedicao.class, chave);
 		    	
 		    } else {
-		    	System.out.println("Objetivo de medição não encontrado: " + objMedicaoTree.getNome());
 				objMedicaoTree.setPath("/" + idObjEstrategicoTree);
 		    	manager.persist(objMedicaoTree);					    	
 		    }				
@@ -494,7 +478,11 @@ public class SoMeSPCIntegrator {
 		    
 		    if (primeiraExecucao){
 		    	plano.setPlanoTree(new HashSet<TreeItemPlanoMedicao>());	
+		    	plano.setMedidaPlanoDeMedicao(new HashSet<MedidaPlanoDeMedicao>());
 		    } 
+		    
+		    plano.getMedidaPlanoDeMedicao().add(medidaPlano);
+		    manager.persist(medidaPlano);
 		    
 		    plano.getPlanoTree().add(medidaTree);
 		    plano.getPlanoTree().add(necessidadeTree);
