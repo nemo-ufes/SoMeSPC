@@ -33,7 +33,7 @@ import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
 import org.somespc.model.organizacao_de_software.RecursoHumano;
 import org.somespc.model.plano_de_medicao.MedidaPlanoDeMedicao;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
-import org.somespc.model.plano_de_medicao.TreeItemPlanoMedicao;
+import org.somespc.model.plano_de_medicao.ItemPlanoMedicao;
 import org.somespc.webservices.rest.dto.ItemPlanoDeMedicaoDTO;
 import org.somespc.webservices.rest.dto.TaigaLoginDTO;
 
@@ -242,7 +242,7 @@ public class SoMeSPCIntegrator {
 		}
 		
 		//TreeItem do Objetivo Estrategico
-		TreeItemPlanoMedicao objEstrategicoTree = new TreeItemPlanoMedicao();
+		ItemPlanoMedicao objEstrategicoTree = new ItemPlanoMedicao();
 		objEstrategicoTree.setNome(objEstrategico.getNome());
 		objEstrategicoTree.setItem(objEstrategico);
 		objEstrategicoTree.setPlanoDeMedicaoContainer(plano);
@@ -277,7 +277,7 @@ public class SoMeSPCIntegrator {
 		}
 		
 		//TreeItem do Objetivo de Medição 
-		TreeItemPlanoMedicao objMedicaoTree = new TreeItemPlanoMedicao();
+		ItemPlanoMedicao objMedicaoTree = new ItemPlanoMedicao();
 		objMedicaoTree.setNome(objMedicao.getNome());
 		objMedicaoTree.setItem(objMedicao);
 		objMedicaoTree.setPlanoDeMedicaoContainer(plano);		
@@ -382,7 +382,7 @@ public class SoMeSPCIntegrator {
 		    		}
 		    	}	     
 		    	
-		    	objEstrategicoTree = manager.find(TreeItemPlanoMedicao.class, chave);
+		    	objEstrategicoTree = manager.find(ItemPlanoMedicao.class, chave);
 		    	
 		    } else {
 		    	objEstrategicoTree.setDefinicaoOperacionalDeMedida(defMed);
@@ -402,7 +402,7 @@ public class SoMeSPCIntegrator {
 		    		}
 		    	}	  		    	
 		    	
-		    	objMedicaoTree = manager.find(TreeItemPlanoMedicao.class, chave);
+		    	objMedicaoTree = manager.find(ItemPlanoMedicao.class, chave);
 		    	
 		    } else {
 		    	objMedicaoTree.setDefinicaoOperacionalDeMedida(defMed);
@@ -413,7 +413,7 @@ public class SoMeSPCIntegrator {
 		    int idObjMedicaoTree = objMedicaoTree.getId();
 		    
 			//ItemTree de Necessidade de Informação
-			TreeItemPlanoMedicao necessidadeTree = new TreeItemPlanoMedicao();
+			ItemPlanoMedicao necessidadeTree = new ItemPlanoMedicao();
 		    necessidadeTree.setNome(necessidade.getNome());
 		    necessidadeTree.setPath("/" + idObjEstrategicoTree + "/" + idObjMedicaoTree);
 		    necessidadeTree.setItem(necessidade);
@@ -425,7 +425,7 @@ public class SoMeSPCIntegrator {
 		    Integer idNecessidadeTree = necessidadeTree.getId();
 		    
 		    //ItemTree de Medida
-		    TreeItemPlanoMedicao medidaTree = new TreeItemPlanoMedicao();
+		    ItemPlanoMedicao medidaTree = new ItemPlanoMedicao();
 		    medidaTree.setNome(med.getNome());
 		    medidaTree.setPath("/" + idObjEstrategicoTree + "/" + idObjMedicaoTree + "/" + idNecessidadeTree);
 		    medidaTree.setItem(med);
@@ -436,7 +436,7 @@ public class SoMeSPCIntegrator {
 		    manager.persist(medidaTree);
 		    
 		    if (primeiraExecucao){
-		    	plano.setPlanoTree(new HashSet<TreeItemPlanoMedicao>());	
+		    	plano.setPlanoTree(new HashSet<ItemPlanoMedicao>());	
 		    	plano.setMedidaPlanoDeMedicao(new HashSet<MedidaPlanoDeMedicao>());
 		    } 
 		    
@@ -485,6 +485,7 @@ public class SoMeSPCIntegrator {
 	return plano;
     }
 	
+			
 	/**
 	 * Agenda as medições de acordo com as medidas e definições operacionais de
 	 * medida do plano.

@@ -33,11 +33,11 @@ import org.openxava.annotations.*;
 	@View(name = "Simple", members = "nome;")
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
-public class TreeItemPlanoMedicaoBase
+public class ItemPlanoMedicaoBase
 {
 
     @Id
-    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "TREE_ITEM_PLANO_MED_BASE_ID", valueColumnName = "ID_TABLE_VALUE")
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "ITEM_PLANO_MED_BASE_ID", valueColumnName = "ID_TABLE_VALUE")
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
     @Hidden
     private Integer id;

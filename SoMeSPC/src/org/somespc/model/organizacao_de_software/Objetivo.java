@@ -36,7 +36,7 @@ import org.openxava.annotations.*;
 	@View(name = "Simple", members = "nome")
 })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
-public class Objetivo extends TreeItemPlanoMedicaoBase
+public class Objetivo extends ItemPlanoMedicaoBase
 {
 
     @Column(length = 255, unique = true)

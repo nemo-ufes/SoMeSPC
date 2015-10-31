@@ -62,7 +62,7 @@ import org.openxava.annotations.*;
 		@PropertyValue(name = "tipoMedida"),
 		@PropertyValue(name = "elementoMensuravel")
 	})
-public class Medida extends TreeItemPlanoMedicaoBase
+public class Medida extends ItemPlanoMedicaoBase
 {
 
     @Column(length = 255, unique = true)

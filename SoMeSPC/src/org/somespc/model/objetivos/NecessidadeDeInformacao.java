@@ -25,7 +25,7 @@ import javax.persistence.*;
 
 import org.somespc.model.entidades_e_medidas.*;
 import org.somespc.model.organizacao_de_software.*;
-import org.somespc.model.plano_de_medicao.TreeItemPlanoMedicaoBase;
+import org.somespc.model.plano_de_medicao.ItemPlanoMedicaoBase;
 import org.openxava.annotations.*;
 
 @Entity
@@ -40,7 +40,7 @@ import org.openxava.annotations.*;
 @Tabs({
 	@Tab(properties = "nome", defaultOrder = "${nome} asc")
 })
-public class NecessidadeDeInformacao extends TreeItemPlanoMedicaoBase
+public class NecessidadeDeInformacao extends ItemPlanoMedicaoBase
 {
 
     @Column(length = 255, unique = true)

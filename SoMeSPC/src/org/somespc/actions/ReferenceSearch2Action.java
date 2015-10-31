@@ -45,9 +45,9 @@ public class ReferenceSearch2Action extends ReferenceSearchAction
 	    //Se tem algum item selecionado
 	    if (NewTreeViewItemPlanoMedicaoAction.TreeItemSelectObject != null)
 	    {
-		TreeItemPlanoMedicao pti = (TreeItemPlanoMedicao) NewTreeViewItemPlanoMedicaoAction.TreeItemSelectObject;
+		ItemPlanoMedicao pti = (ItemPlanoMedicao) NewTreeViewItemPlanoMedicaoAction.TreeItemSelectObject;
 
-		TreeItemPlanoMedicaoBase pt = pti.getItem();
+		ItemPlanoMedicaoBase pt = pti.getItem();
 
 		if (pt instanceof ObjetivoEstrategico)
 		{

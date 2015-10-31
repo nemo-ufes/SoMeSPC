@@ -139,13 +139,13 @@ public class DefinicaoOperacionalDeMedida
     private ProcedimentoDeAnaliseDeMedicao procedimentoDeAnaliseDeMedicao;
     
 	@OneToMany(mappedBy = "definicaoOperacionalDeMedida", cascade = CascadeType.MERGE)
-	private Collection<TreeItemPlanoMedicao> treeItemPlanoMedicao;
+	private Collection<ItemPlanoMedicao> treeItemPlanoMedicao;
 	
-    public Collection<TreeItemPlanoMedicao> getTreeItemPlanoMedicao() {
+    public Collection<ItemPlanoMedicao> getTreeItemPlanoMedicao() {
 		return treeItemPlanoMedicao;
 	}
 
-	public void setTreeItemPlanoMedicao(Collection<TreeItemPlanoMedicao> treeItemPlanoMedicao) {
+	public void setTreeItemPlanoMedicao(Collection<ItemPlanoMedicao> treeItemPlanoMedicao) {
 		this.treeItemPlanoMedicao = treeItemPlanoMedicao;
 	}
 

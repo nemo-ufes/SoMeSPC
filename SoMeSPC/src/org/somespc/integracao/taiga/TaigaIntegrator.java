@@ -46,6 +46,7 @@ import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
+import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
 import org.somespc.model.entidades_e_medidas.Escala;
 import org.somespc.model.entidades_e_medidas.Medida;
@@ -56,7 +57,9 @@ import org.somespc.model.organizacao_de_software.AlocacaoEquipe;
 import org.somespc.model.organizacao_de_software.Equipe;
 import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
 import org.somespc.model.organizacao_de_software.RecursoHumano;
+import org.somespc.model.plano_de_medicao.ItemPlanoMedicao;
 import org.somespc.util.json.JSONObject;
+import org.somespc.webservices.rest.dto.TaigaLoginDTO;
 
 /**
  * Classe para integração do Taiga com a SoMeSPC.
@@ -708,7 +711,12 @@ public class TaigaIntegrator
 	return medidasCadastradas;
     }
    
-   
+    public synchronized void agendarTaigaMedicaoJob(ItemPlanoMedicao item, Periodicidade periodicidade, TaigaLoginDTO login){
+    	
+    	
+    	
+    	
+    }
 
 
 }

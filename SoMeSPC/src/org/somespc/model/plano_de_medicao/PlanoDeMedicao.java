@@ -19,16 +19,38 @@
  */
 package org.somespc.model.plano_de_medicao;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.TableGenerator;
 
-import org.somespc.model.objetivos.NecessidadeDeInformacao;
-import org.somespc.model.objetivos.ObjetivoDeMedicao;
-import org.somespc.model.objetivos.ObjetivoDeSoftware;
-import org.somespc.model.objetivos.ObjetivoEstrategico;
-import org.somespc.model.organizacao_de_software.*;
-import org.openxava.annotations.*;
+import org.openxava.annotations.CollectionView;
+import org.openxava.annotations.Editor;
+import org.openxava.annotations.Hidden;
+import org.openxava.annotations.ListProperties;
+import org.openxava.annotations.Required;
+import org.openxava.annotations.Stereotype;
+import org.openxava.annotations.Tab;
+import org.openxava.annotations.Tabs;
+import org.openxava.annotations.View;
+import org.openxava.annotations.Views;
+import org.somespc.model.organizacao_de_software.RecursoHumano;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -81,46 +103,17 @@ public class PlanoDeMedicao {
 	@ListProperties("nome")
 	private Collection<RecursoHumano> recursoHumano;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "planoDeMedicao_objetivoDeMedicao", joinColumns = {
-			@JoinColumn(name = "planoDeMedicao_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "objetivoDeMedicao_id") })
-	@ListProperties("nome")
-	private Set<ObjetivoDeMedicao> objetivoDeMedicao;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "planoDeMedicao_objetivoEstrategico", joinColumns = {
-			@JoinColumn(name = "planoDeMedicao_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "objetivoEstrategico_id") })
-	@ListProperties("nome")
-	private Set<ObjetivoEstrategico> objetivoEstrategico;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "planoDeMedicao_objetivoDeSoftware", joinColumns = {
-			@JoinColumn(name = "planoDeMedicao_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "objetivoDeSoftware_id") })
-	@ListProperties("nome")
-	private Set<ObjetivoDeSoftware> objetivoDeSoftware;
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "planoDeMedicao_necessidadeDeInformacao", joinColumns = {
-			@JoinColumn(name = "planoDeMedicao_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "necessidadeDeInformacao_id") })
-	@ListProperties("nome")
-	private Set<NecessidadeDeInformacao> necessidadeDeInformacao;
-
 	@OneToMany(mappedBy = "planoDeMedicaoContainer", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@Editor("TreeView")
 	@ListProperties("nome")
 	@OrderBy("path")
-	private Set<TreeItemPlanoMedicao> planoTree;
+	private Set<ItemPlanoMedicao> planoTree;
 
-	public Set<TreeItemPlanoMedicao> getPlanoTree() {
-		ajustes();
+	public Set<ItemPlanoMedicao> getPlanoTree() {
 		return planoTree;
 	}
 
-	public void setPlanoTree(Set<TreeItemPlanoMedicao> planoTree) {
+	public void setPlanoTree(Set<ItemPlanoMedicao> planoTree) {
 		this.planoTree = planoTree;
 	}
 
@@ -169,37 +162,6 @@ public class PlanoDeMedicao {
 		this.recursoHumano = recursoHumano;
 	}
 
-	public Set<ObjetivoDeMedicao> getObjetivoDeMedicao() {
-		return objetivoDeMedicao;
-	}
-
-	public void setObjetivoDeMedicao(Set<ObjetivoDeMedicao> objetivoDeMedicao) {
-		this.objetivoDeMedicao = objetivoDeMedicao;
-	}
-
-	public Set<ObjetivoEstrategico> getObjetivoEstrategico() {
-		return objetivoEstrategico;
-	}
-
-	public void setObjetivoEstrategico(Set<ObjetivoEstrategico> objetivoEstrategico) {
-		this.objetivoEstrategico = objetivoEstrategico;
-	}
-
-	public Set<ObjetivoDeSoftware> getObjetivoDeSoftware() {
-		return objetivoDeSoftware;
-	}
-
-	public void setObjetivoDeSoftware(Set<ObjetivoDeSoftware> objetivoDeSoftware) {
-		this.objetivoDeSoftware = objetivoDeSoftware;
-	}
-
-	public Set<NecessidadeDeInformacao> getNecessidadeDeInformacao() {
-		return necessidadeDeInformacao;
-	}
-
-	public void setNecessidadeDeInformacao(Set<NecessidadeDeInformacao> necessidadeDeInformacao) {
-		this.necessidadeDeInformacao = necessidadeDeInformacao;
-	}
 
 	public Set<MedidaPlanoDeMedicao> getMedidaPlanoDeMedicao() {
 		return medidaPlanoDeMedicao;
@@ -208,47 +170,4 @@ public class PlanoDeMedicao {
 	public void setMedidaPlanoDeMedicao(HashSet<MedidaPlanoDeMedicao> medidaPlanoDeMedicao) {
 		this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
 	}
-
-	@PreCreate
-	@PreUpdate
-	@PrePersist
-	public void ajustes() {
-
-		if (objetivoEstrategico == null)
-			objetivoEstrategico = new HashSet<ObjetivoEstrategico>();
-		if (objetivoDeSoftware == null)
-			objetivoDeSoftware = new HashSet<ObjetivoDeSoftware>();
-		if (objetivoDeMedicao == null)
-			objetivoDeMedicao = new HashSet<ObjetivoDeMedicao>();
-		if (necessidadeDeInformacao == null)
-			necessidadeDeInformacao = new HashSet<NecessidadeDeInformacao>();
-
-		// Transpoe os objets da tree view para listas separadas
-		if (objetivoEstrategico != null)
-			objetivoEstrategico.clear();
-		if (objetivoDeSoftware != null)
-			objetivoDeSoftware.clear();
-		if (objetivoDeMedicao != null)
-			objetivoDeMedicao.clear();
-		if (necessidadeDeInformacao != null)
-			necessidadeDeInformacao.clear();
-
-		if (planoTree != null) {
-			for (TreeItemPlanoMedicao itemTree : planoTree) {
-				TreeItemPlanoMedicaoBase item = itemTree.getItem();
-
-				if (item instanceof ObjetivoEstrategico) {
-					objetivoEstrategico.add((ObjetivoEstrategico) item);
-				} else if (item instanceof ObjetivoDeSoftware) {
-					objetivoDeSoftware.add((ObjetivoDeSoftware) item);
-				} else if (item instanceof ObjetivoDeMedicao) {
-					objetivoDeMedicao.add((ObjetivoDeMedicao) item);
-				} else if (item instanceof NecessidadeDeInformacao) {
-					necessidadeDeInformacao.add((NecessidadeDeInformacao) item);
-				}
-			}
-		}
-
-	}// ajustes
-
 }
