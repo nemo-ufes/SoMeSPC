@@ -40,9 +40,11 @@ import javax.ws.rs.core.Response.Status;
 import org.hibernate.exception.ConstraintViolationException;
 import org.openxava.jpa.XPersistence;
 import org.somespc.integracao.SoMeSPCIntegrator;
+import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.integracao.taiga.model.AuthInfo;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
+import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.integracao.taiga.model.Sprint;
@@ -529,20 +531,10 @@ public class TaigaIntegrator
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery5 = manager.createQuery(query5, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoProjeto = typedQuery5.getSingleResult();
 
-	//Obtem o tipo de Entidade Mensurável Recurso Humano.
-	String query6 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Alocação de Recurso Humano'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery6 = manager.createQuery(query6, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoAlocacaoEquipe = typedQuery6.getSingleResult();
-
-	//Obtem o tipo de Entidade Mensurável Atividade Padrão.
-	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Atividade Padrão'";
+	//Obtem o tipo de Entidade Mensurável Sprint.
+	String query7 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Sprint'";
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery7 = manager.createQuery(query7, TipoDeEntidadeMensuravel.class);
 	TipoDeEntidadeMensuravel tipoAtividadePadrao = typedQuery7.getSingleResult();
-
-	//Obtem o tipo de Entidade Mensurável Tipo de Artefatoo.
-	String query8 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Tipo de Artefato'";
-	TypedQuery<TipoDeEntidadeMensuravel> typedQuery8 = manager.createQuery(query8, TipoDeEntidadeMensuravel.class);
-	TipoDeEntidadeMensuravel tipoArtefato = typedQuery8.getSingleResult();
 
 	//Obtem o ElementoMensuravel Desempenho.
 	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
@@ -575,12 +567,7 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
-		case PONTOS_ESTORIA_ALOCADOS_PROJETO:
-		    medida.setMnemonico("PEAP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
-		    break;
-		case PONTOS_ESTORIA_CONCLUIDOS_PROJETO_CONCLUSAO:
+		case PONTOS_ESTORIA_CONCLUIDOS_PROJETO:
 		    medida.setMnemonico("PECP");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
@@ -595,7 +582,7 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;
-		case NUMERO_SPRINTS_REALIZADA_PROJETO:
+		case NUMERO_SPRINTS_REALIZADAS_PROJETO:
 		    medida.setMnemonico("NSRP");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
@@ -650,11 +637,6 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
-		case NUMERO_SPRINTS_REALIZADAS_PROJETO:
-		    medida.setMnemonico("NSRP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
-		    break;
 		case NUMERO_ESTORIAS_CONCLUIDAS_PROJETO:
 		    medida.setMnemonico("NECP");
 		    medida.setElementoMensuravel(desempenho);
@@ -664,24 +646,9 @@ public class TaigaIntegrator
 		    medida.setMnemonico("MECSP");
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
-		    break;
-		case PONTOS_ESTORIA_CONCLUIDOS_PROJETO_DESEMPENHO:
-		    medida.setMnemonico("PECP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
-		    break;
-		case VELOCIDADE_PROJETO:
-		    medida.setMnemonico("VEP");
-		    medida.setElementoMensuravel(desempenho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
-		    break;
+		    break;	
 		case NUMERO_IOCAINE_SPRINT:
 		    medida.setMnemonico("NDIS");
-		    medida.setElementoMensuravel(tamanho);
-		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
-		    break;
-		case NUMERO_TAREFAS_REALIZADAS_SPRINT:
-		    medida.setMnemonico("NTRS");
 		    medida.setElementoMensuravel(tamanho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAtividadePadrao)));
 		    break;
@@ -764,7 +731,7 @@ public class TaigaIntegrator
      *            - Projeto a ser incluído no Plano de Medição do Projeto.
      * @throws Exception
      */
-    public synchronized PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoSoMeSPC(List<ItemPlanoDeMedicaoDTO> itemPlanoDeMedicaoDTO, Periodicidade periodicidadeMedicao, Projeto projeto) throws Exception
+    public synchronized PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoSoMeSPC(List<ItemPlanoDeMedicaoDTO> itemPlanoDeMedicaoDTO, Periodicidade periodicidadeMedicao, Projeto projeto, Recurso recurso) throws Exception
     {
     System.out.println("CHEGUEI AQUI 1");
     	

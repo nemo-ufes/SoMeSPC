@@ -19,19 +19,27 @@
  */
 package org.somespc.webservices.rest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.somespc.integracao.SoMeSPCIntegrator;
-import org.somespc.integracao.taiga.*;
-import org.somespc.integracao.taiga.model.*;
+import org.somespc.integracao.taiga.TaigaIntegrator;
+import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
-import org.somespc.model.plano_de_medicao.*;
-import org.somespc.util.json.*;
-import org.somespc.webservices.rest.dto.*;
+import org.somespc.model.plano_de_medicao.PlanoDeMedicao;
+import org.somespc.util.json.JSONObject;
+import org.somespc.webservices.rest.dto.ItemPlanoDeMedicaoDTO;
+import org.somespc.webservices.rest.dto.PlanoDTO;
+import org.somespc.webservices.rest.dto.TaigaLoginDTO;
 
 @Path("TaigaIntegrator")
 public class TaigaIntegratorResource
@@ -128,7 +136,7 @@ public class TaigaIntegratorResource
     itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "NI – Qual o número médio de pontos de estórias concluídos por sprint no projeto? ", "ME – Média de Pontos de Estórias Concluídos por Sprint do Projeto (MPECSP)", "Taiga"));
     itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "NI – Quantas doses de Iocaine ocorreram na sprint", "ME – Número de Doses de Iocaine na Sprint (NDIS)", "Taiga"));
     itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "NI – Qual a taxa de doses de Iocainena sprint?", "ME – Taxa de Doses de Iocaine na Sprint (TDIS)", "Taiga"));
-	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual a velocidade do projeto?", "ME – Velocidade do Projeto (VP)", "Taiga"));
+	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual a velocidade da equipe no projeto?", "ME – Velocidade da Equipe no Projeto (VEP)", "Taiga"));
 	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual a complexidade ciclomática média por método?", "ME – Média da Complexidade Ciclomática por Método (MCCM)", "SonarQube"));
 	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual a taxa de duplicação de código?", "ME – Taxa de Duplicação de Código (TDC)", "SonarQube"));
 	itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI – Qual o percentual da dívida técnica?", "ME – Percentual da Dívida Técnica (PDT)", "SonarQube"));
@@ -176,7 +184,7 @@ public class TaigaIntegratorResource
 	{
 	    String apelido = planoDto.getApelidosProjetos().get(i);
 	    Projeto projeto = integrator.obterProjetoTaiga(apelido);
-	    PlanoDeMedicao plano = integrator.criarPlanoMedicaoProjetoSoMeSPC(planoDto.getItensPlanoDeMedicao(), periodicidadeSelecionada, projeto);
+	    PlanoDeMedicao plano = integrator.criarPlanoMedicaoProjetoSoMeSPC(planoDto.getItensPlanoDeMedicao(), periodicidadeSelecionada, projeto, null);
 
 	    json.append("Plano " + (i+1), plano.getNome());
 	}
