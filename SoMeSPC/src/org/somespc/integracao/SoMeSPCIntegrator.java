@@ -25,6 +25,7 @@ import org.somespc.integracao.agendador.TaigaMedicaoJob;
 import org.somespc.integracao.model.FerramentaColetora;
 import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.integracao.taiga.TaigaIntegrator;
+import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
@@ -172,10 +173,10 @@ public class SoMeSPCIntegrator {
 
 	public static synchronized PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoTaigaSoMeSPC(List<ItemPlanoDeMedicaoDTO> itemPlanoDeMedicaoDTO, 
 			Periodicidade periodicidadeMedicao, TaigaLoginDTO taigaLogin, Projeto projeto) throws Exception {
-    	
-    	   	
+    	    	   	
     PlanoDeMedicaoDoProjeto plano = new PlanoDeMedicaoDoProjeto();
 	EntityManager manager = XPersistence.createManager();
+    TaigaIntegrator taigaIntegrator = new TaigaIntegrator(taigaLogin.getUrl(), taigaLogin.getUsuario(), taigaLogin.getSenha());	  
 	
 	org.somespc.model.organizacao_de_software.Projeto proj = new org.somespc.model.organizacao_de_software.Projeto();
 	//Verifica se o projeto está criado.
@@ -192,8 +193,7 @@ public class SoMeSPCIntegrator {
 
 	    manager.close();
 	    manager = XPersistence.createManager();
-
-	    TaigaIntegrator taigaIntegrator = new TaigaIntegrator(taigaLogin.getUrl(), taigaLogin.getUsuario(), taigaLogin.getSenha());	    
+  
 	    proj = taigaIntegrator.criarProjetoSoMeSPC(projeto);
 	}
 
@@ -348,6 +348,9 @@ public class SoMeSPCIntegrator {
 			}
 		}	    
 	    
+		MedidasTaiga medidaTaiga = MedidasTaiga.get(item.getMedida());		
+		taigaIntegrator.criarMedidasSoMeSPC(Arrays.asList(medidaTaiga));
+				
 	    String queryMedida = String.format("SELECT p FROM Medida p WHERE p.nome='%s'", item.getMedida());
 	    TypedQuery<Medida> typedQueryMedida = manager.createQuery(queryMedida, Medida.class);
 	    Medida med = typedQueryMedida.getSingleResult();

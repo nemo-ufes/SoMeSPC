@@ -275,11 +275,7 @@ public class SoMeSPCStarter extends HttpServlet
 	    manager.close();
 	    manager = XPersistence.createManager();
 
-
-	    //FAZEERRR!!! TEM TAMANHO - TEM DURACAO
-	    TipoDeEntidadeMensuravel tipoSprint = new TipoDeEntidadeMensuravel();
-	    
-	    
+	    TipoDeEntidadeMensuravel tipoSprint = new TipoDeEntidadeMensuravel();    
 	    TipoDeEntidadeMensuravel tipoProjeto = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoPSPadrao = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoAPadrao = new TipoDeEntidadeMensuravel();
@@ -295,6 +291,9 @@ public class SoMeSPCStarter extends HttpServlet
 	    TipoDeEntidadeMensuravel tipoTipoPSProjeto = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoTipoPSPadrao = new TipoDeEntidadeMensuravel();
 
+	    tipoSprint.setNome("Sprint");
+	    tipoSprint.setDescricao("Representa uma Sprint do Scrum.");
+	    
 	    tipoProjeto.setNome("Projeto");
 	    tipoProjeto.setDescricao("Representa um novo Projeto de software.");
 
@@ -353,6 +352,11 @@ public class SoMeSPCStarter extends HttpServlet
 	    TypedQuery<ElementoMensuravel> typedQueryDuracao = manager.createQuery(queryDuracao, ElementoMensuravel.class);
 	    ElementoMensuravel duracao = typedQueryDuracao.getSingleResult();
 
+	    List<ElementoMensuravel> elementosSprint = new ArrayList<ElementoMensuravel>();
+	    elementosSprint.add(duracao);
+	    elementosSprint.add(tamanho);
+	    tipoSprint.setElementoMensuravel(elementosSprint);
+	    
 	    List<ElementoMensuravel> elementosProjeto = new ArrayList<ElementoMensuravel>();
 	    elementosProjeto.add(desempenho);
 	    elementosProjeto.add(tamanho);
@@ -377,8 +381,10 @@ public class SoMeSPCStarter extends HttpServlet
 	    elementosAlocacao.add(desempenho);
 	    elementosAlocacao.add(duracao);
 	    tipoAlocacao.setElementoMensuravel(elementosAlocacao);
+
 	    //Persiste.
 	    List<TipoDeEntidadeMensuravel> tiposParaPersistir = new ArrayList<TipoDeEntidadeMensuravel>();
+	    tiposParaPersistir.add(tipoSprint);
 	    tiposParaPersistir.add(tipoProjeto);
 	    tiposParaPersistir.add(tipoPSPadrao);
 	    tiposParaPersistir.add(tipoAPadrao);
