@@ -28,42 +28,50 @@ public enum MedidasTaiga
 			
 		    PONTOS_ESTORIA_PLANEJADOS_PROJETO("ME - Pontos de Estória Planejados para o Projeto"),
 		    PONTOS_ESTORIA_CONCLUIDOS_PROJETO("ME - Pontos de Estória Concluídos no Projeto"),
-		    TAXA_CONCLUSAO_PONTOS_ESTORIA_PROJETO("ME – Taxa de Conclusão de Pontos de Estória no Projeto"),
+		    TAXA_CONCLUSAO_PONTOS_ESTORIA_PROJETO("ME - Taxa de Conclusão de Pontos de Estória no Projeto"),
 		    
-	//OM – Monitorar a realização de sprints nos projetos TAMANHO
+	//OM - Monitorar a realização de sprints nos projetos TAMANHO
 		    
 		   	NUMERO_SPRINTS_PLANEJADAS_PROJETO("ME - Número de Sprints Planejadas para o Projeto"),
 		   	NUMERO_SPRINTS_REALIZADAS_PROJETO("ME - Número de Sprints Realizadas no Projeto"),
 		   	TAXA_CONCLUSAO_SPRINTS_PROJETO("ME - Taxa de Conclusão de Sprints no Projeto"),
 		   	
-    //OM – Monitorar desempenho na sprint - DESEMPENHO
+    //OM - Monitorar desempenho na sprint - DESEMPENHO
     		
     		NUMERO_ESTORIAS_PLANEJADAS_SPRINT("ME - Número de Estórias Planejadas para a Sprint"),
     		NUMERO_ESTORIAS_CONCLUIDAS_SPRINT("ME - Número de Estórias Concluídas na Sprint"),
     		TAXA_CONCLUSAO_ESTORIAS_SPRINT("ME - Taxa de Conclusão de Estórias na Sprint"),
     		PONTOS_ESTORIAS_PLANEJADOS_SPRINT("ME - Pontos de Estória Planejados para a Sprint"),
-    		PONTOS_ESTORIAS_CONCLUIDAS_SPRINT("ME – Pontos de Estória Concluídos na Sprint"),
+    		PONTOS_ESTORIAS_CONCLUIDAS_SPRINT("ME - Pontos de Estória Concluídos na Sprint"),
     		TAXA_CONCLUSAO_PONTOS_ESTORIAS_SPRINT("ME - Taxa de Conclusão de Pontos de Estórias na Sprint"),
     		NUMERO_TAREFAS_PLANEJADAS_SPRINT("ME - Número de Tarefas Planejadas para a Sprint"),
     		NUMERO_TAREFAS_CONCLUIDAS_SPRINT("ME - Número de Tarefas Concluídas na Sprint"),
     		TAXA_CONCLUSAO_TAREFAS_SPRINT("ME - Taxa de Conclusão de Tarefas na Sprint"),
  
-    //OM – Monitorar desempenho no projeto - DESEMPENHO
+    //OM - Monitorar desempenho no projeto - DESEMPENHO
    	     	
     		NUMERO_ESTORIAS_CONCLUIDAS_PROJETO("ME - Número de Estórias Concluídas para o Projeto"),
     		MEDIA_ESTORIAS_CONCLUIDAS_SPRINT_PROJETO("ME - Média de Estórias Concluídas por Sprint do Projeto"),
 	
-	//OM – Monitorar quantidade de doses de locaine nas sprints -TAMANHO
+	//OM - Monitorar quantidade de doses de locaine nas sprints -TAMANHO
 
 			NUMERO_IOCAINE_SPRINT("ME - Número de Doses de Iocaine na Sprint"),		
 			TAXA_IOCAINE_SPRINT("ME - Taxa de Doses de Iocaine na Sprint"),
 
-	//OM – Monitorar velocidade da equipe no projeto - DESEMPENHO
+	//OM - Monitorar velocidade da equipe no projeto - DESEMPENHO
 	
 			VELOCIDADE_EQUIPE_PROJETO("ME - Velocidade da Equipe no Projeto");
 
 	private final String name;
+	private final String descricao;
+	private static final Map<String, MedidasTaiga> lookup = new HashMap<String, MedidasTaiga>();
 
+	static {
+		for (MedidasTaiga d : MedidasTaiga.values()){
+			lookup.put(d.getDescricao(), d);
+		}			
+	}
+	
 	private MedidasTaiga(String s) {
 		name = s;
 		this.descricao = s;
@@ -75,14 +83,6 @@ public enum MedidasTaiga
 
 	public String toString() {
 		return name;
-	}
-
-	private final String descricao;
-	private static final Map<String, MedidasTaiga> lookup = new HashMap<String, MedidasTaiga>();
-
-	static {
-		for (MedidasTaiga d : MedidasTaiga.values())
-			lookup.put(d.getDescricao(), d);
 	}
 
 	public String getDescricao() {

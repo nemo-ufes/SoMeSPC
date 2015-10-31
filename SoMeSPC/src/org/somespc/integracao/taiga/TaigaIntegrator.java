@@ -19,8 +19,6 @@
  */
 package org.somespc.integracao.taiga;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -40,7 +38,6 @@ import javax.ws.rs.core.Response.Status;
 import org.hibernate.exception.ConstraintViolationException;
 import org.openxava.jpa.XPersistence;
 import org.somespc.integracao.SoMeSPCIntegrator;
-import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.integracao.taiga.model.AuthInfo;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
@@ -49,26 +46,17 @@ import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
-import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
 import org.somespc.model.entidades_e_medidas.Escala;
 import org.somespc.model.entidades_e_medidas.Medida;
 import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
 import org.somespc.model.entidades_e_medidas.TipoMedida;
 import org.somespc.model.entidades_e_medidas.UnidadeDeMedida;
-import org.somespc.model.objetivos.NecessidadeDeInformacao;
-import org.somespc.model.objetivos.ObjetivoDeMedicao;
-import org.somespc.model.objetivos.ObjetivoEstrategico;
 import org.somespc.model.organizacao_de_software.AlocacaoEquipe;
 import org.somespc.model.organizacao_de_software.Equipe;
-import org.somespc.model.organizacao_de_software.Objetivo;
 import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
 import org.somespc.model.organizacao_de_software.RecursoHumano;
-import org.somespc.model.plano_de_medicao.MedidaPlanoDeMedicao;
-import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
-import org.somespc.model.plano_de_medicao.TreeItemPlanoMedicao;
 import org.somespc.util.json.JSONObject;
-import org.somespc.webservices.rest.dto.ItemPlanoDeMedicaoDTO;
 
 /**
  * Classe para integração do Taiga com a SoMeSPC.

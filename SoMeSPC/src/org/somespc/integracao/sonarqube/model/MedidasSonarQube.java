@@ -26,13 +26,21 @@ public enum MedidasSonarQube
 {
     //OM - Monitorar a qualidade do código fonte produzido
 	
-    MEDIA_COMPLEXIDADE_CICLOMATICA_MEDIA("ME – Média da Complexidade Ciclomática por Método"),
-    TAXA_DUPLICACAO_CODIGO("ME – Taxa de Duplicação de Código"),
-    PERCENTUAL_DIVIDA_TECNICA("ME – Percentual da Dívida Técnica");
+    MEDIA_COMPLEXIDADE_CICLOMATICA_MEDIA("ME - Média da Complexidade Ciclomática por Método"),
+    TAXA_DUPLICACAO_CODIGO("ME - Taxa de Duplicação de Código"),
+    PERCENTUAL_DIVIDA_TECNICA("ME - Percentual da Dívida Técnica");
 	
 	private final String name;
-
-	private MedidasSonarQube(String s) {
+	private final String descricao;
+	private static final Map<String, MedidasSonarQube> lookup = new HashMap<String, MedidasSonarQube>();
+	
+	static {
+		for (MedidasSonarQube d : MedidasSonarQube.values()){
+			lookup.put(d.getDescricao(), d);
+		}			
+	}
+	
+	private MedidasSonarQube(String s) {		
 		name = s;
 		this.descricao = s;
 	}
@@ -43,14 +51,6 @@ public enum MedidasSonarQube
 
 	public String toString() {
 		return name;
-	}
-
-	private final String descricao;
-	private static final Map<String, MedidasSonarQube> lookup = new HashMap<String, MedidasSonarQube>();
-
-	static {
-		for (MedidasSonarQube d : MedidasSonarQube.values())
-			lookup.put(d.getDescricao(), d);
 	}
 
 	public String getDescricao() {
