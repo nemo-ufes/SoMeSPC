@@ -7,110 +7,104 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class EstadoSprint
-{
-    @XmlElement(name = "name")
-    private String nome;
+public class EstadoSprint {
+	@XmlElement(name = "name")
+	private String nome;
 
-    @XmlElement(name = "completed_points")
-    private List<Float> pontosCompletados;
+	@XmlElement(name = "total_userstories")
+	private int totalEstorias;
 
-    @XmlElement(name = "total_userstories")
-    private int totalEstorias;
+	@XmlElement(name = "completed_userstories")
+	private int estoriasCompletadas;
 
-    @XmlElement(name = "completed_userstories")
-    private int estoriasCompletadas;
+	@XmlElement(name = "total_tasks")
+	private int totalTarefas;
 
-    @XmlElement(name = "total_tasks")
-    private int totalTarefas;
+	@XmlElement(name = "completed_tasks")
+	private int tarefasCompletadas;
 
-    @XmlElement(name = "completed_tasks")	
-    private int tarefasCompletadas;
+	@XmlElement(name = "completed_points")
+	private List<Float> pontosCompletados;
 
-    @XmlElement(name = "iocaine_doses")
-    private int dosesIocaine;
+	@XmlElement(name = "total_points")
+	private Map<String, Float> totalPontos;
 
-    @XmlElement(name = "total_points")
-    private Map<String, Float> totalPontos;
+	@XmlElement(name = "iocaine_doses")
+	private int dosesIocaine;
 
-    public String getNome()
-    {
-	return nome;
-    }
+	@XmlElement(name = "is_closed")
+	private boolean concluida;
 
-    public void setNome(String nome)
-    {
-	this.nome = nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public List<Float> getPontosCompletados()
-    {
-	return pontosCompletados;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    public void setPontosCompletados(List<Float> pontosCompletados)
-    {
-	this.pontosCompletados = pontosCompletados;
-    }
+	public List<Float> getPontosCompletados() {
+		return pontosCompletados;
+	}
 
-    public int getTotalEstorias()
-    {
-	return totalEstorias;
-    }
+	public void setPontosCompletados(List<Float> pontosCompletados) {
+		this.pontosCompletados = pontosCompletados;
+	}
 
-    public void setTotalEstorias(int totalEstorias)
-    {
-	this.totalEstorias = totalEstorias;
-    }
+	public int getTotalEstorias() {
+		return totalEstorias;
+	}
 
-    public int getEstoriasCompletadas()
-    {
-	return estoriasCompletadas;
-    }
+	public void setTotalEstorias(int totalEstorias) {
+		this.totalEstorias = totalEstorias;
+	}
 
-    public void setEstoriasCompletadas(int estoriasCompletadas)
-    {
-	this.estoriasCompletadas = estoriasCompletadas;
-    }
+	public int getEstoriasCompletadas() {
+		return estoriasCompletadas;
+	}
 
-    public int getTotalTarefas()
-    {
-	return totalTarefas;
-    }
+	public void setEstoriasCompletadas(int estoriasCompletadas) {
+		this.estoriasCompletadas = estoriasCompletadas;
+	}
 
-    public void setTotalTarefas(int totalTarefas)
-    {
-	this.totalTarefas = totalTarefas;
-    }
+	public int getTotalTarefas() {
+		return totalTarefas;
+	}
 
-    public int getTarefasCompletadas()
-    {
-	return tarefasCompletadas;
-    }
+	public void setTotalTarefas(int totalTarefas) {
+		this.totalTarefas = totalTarefas;
+	}
 
-    public void setTarefasCompletadas(int tarefasCompletadas)
-    {
-	this.tarefasCompletadas = tarefasCompletadas;
-    }
+	public int getTarefasCompletadas() {
+		return tarefasCompletadas;
+	}
 
-    public int getDosesIocaine()
-    {
-	return dosesIocaine;
-    }
+	public void setTarefasCompletadas(int tarefasCompletadas) {
+		this.tarefasCompletadas = tarefasCompletadas;
+	}
 
-    public void setDosesIocaine(int dosesIocaine)
-    {
-	this.dosesIocaine = dosesIocaine;
-    }
+	public int getDosesIocaine() {
+		return dosesIocaine;
+	}
 
-    public Map<String, Float> getTotalPontos()
-    {
-	return totalPontos;
-    }
+	public void setDosesIocaine(int dosesIocaine) {
+		this.dosesIocaine = dosesIocaine;
+	}
 
-    public void setTotalPontos(Map<String, Float> totalPontos)
-    {
-	this.totalPontos = totalPontos;
-    }
+	public Map<String, Float> getTotalPontos() {
+		return totalPontos;
+	}
+
+	public void setTotalPontos(Map<String, Float> totalPontos) {
+		this.totalPontos = totalPontos;
+	}
+
+	public boolean isConcluida() {
+		return concluida;
+	}
+
+	public void setConcluida(boolean concluida) {
+		this.concluida = concluida;
+	}
 
 }
