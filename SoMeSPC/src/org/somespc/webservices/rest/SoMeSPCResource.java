@@ -28,6 +28,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -39,15 +40,21 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.openxava.jpa.XPersistence;
+import org.somespc.integracao.SoMeSPCIntegrator;
+import org.somespc.integracao.taiga.TaigaIntegrator;
+import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
 import org.somespc.model.entidades_e_medidas.Medida;
 import org.somespc.model.medicao.Medicao;
+import org.somespc.model.plano_de_medicao.PlanoDeMedicao;
+import org.somespc.util.json.JSONObject;
 import org.somespc.webservices.rest.dto.EntidadeMensuravelDTO;
 import org.somespc.webservices.rest.dto.ItemPlanoDeMedicaoDTO;
 import org.somespc.webservices.rest.dto.MedicaoDTO;
 import org.somespc.webservices.rest.dto.MedidaDTO;
 import org.somespc.webservices.rest.dto.PeriodicidadeDTO;
+import org.somespc.webservices.rest.dto.PlanoDTO;
 
 /**
  * API REST para os recursos da SoMeSPC
@@ -108,7 +115,6 @@ public class SoMeSPCResource {
 
 		return Response.ok().entity(itensPlanoDeMedicao).build();
 	}
-
 	
 	/**
 	 * Obtem as periodicidades.
@@ -145,6 +151,54 @@ public class SoMeSPCResource {
 		return response;
 	}
 
+	/**
+	 * Cria plano projeto.
+	 * 
+	 * @param planoDto
+	 *            - Recebe um objeto que contém todas as entidades pertencentes
+	 *            ao plano de medição para a persistencia do mesmo.
+	 * @throws Exception
+	 */
+	@Path("/Plano")
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public synchronized Response criarPlanoMedicao(PlanoDTO planoDto) throws Exception {
+
+		TaigaIntegrator integrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),
+				planoDto.getTaigaLogin().getUsuario(), planoDto.getTaigaLogin().getSenha());
+
+		List<Periodicidade> periodicidades = SoMeSPCIntegrator.obterPeriodicidades();
+
+		List<ItemPlanoDeMedicaoDTO> itens = planoDto.getItensPlanoDeMedicao();
+
+		for (ItemPlanoDeMedicaoDTO item : itens) {
+
+			System.out.println(item.getMedida() + item.getNomeNecessidadeDeInformacao()
+					+ item.getNomeObjetivoDeMedicao() + item.getNomeObjetivoEstrategico());
+		}
+
+		Periodicidade periodicidadeSelecionada = null;
+
+		for (Periodicidade periodicidade : periodicidades) {
+			if (periodicidade.getNome().equalsIgnoreCase(planoDto.getNomePeriodicidade()))
+				periodicidadeSelecionada = periodicidade;
+		}
+
+		JSONObject json = new JSONObject();
+
+		for (int i = 0; i < planoDto.getProjetosTaiga().size(); i++) {
+			String apelido = planoDto.getProjetosTaiga().get(i);
+			Projeto projeto = integrator.obterProjetoTaiga(apelido);
+			PlanoDeMedicao plano = integrator.criarPlanoMedicaoProjetoSoMeSPC(planoDto.getItensPlanoDeMedicao(),
+					periodicidadeSelecionada, projeto, null);
+
+			json.append("Plano " + (i + 1), plano.getNome());
+		}
+
+		return Response.ok().entity(json).build();
+	}
+	
 	@Path("Medicao/Pagina")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")

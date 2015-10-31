@@ -16,14 +16,8 @@ app.factory('TaigaIntegratorProjeto', function($resource, $location) {
 	  return $resource(host +'/SoMeSPC/api/TaigaIntegrator/Projetos', {},{save: { method: 'POST', isArray: true}});
 	});
 
-//TaigaIntegratorPlano - Serviço para enviar dados pela URL da Web Service
-app.factory('TaigaIntegratorPlano', function($resource, $location) {
+//SoMeSPCResourcePlano - Serviço para enviar dados pela URL da Web Service
+app.factory('SoMeSPCResourcePlano', function($resource, $location) {
 	var host = $location.protocol() + "://" + $location.host() + ":" + $location.port();
-	  return $resource(host +'/SoMeSPC/api/TaigaIntegrator/Plano');
+	  return $resource(host +'/SoMeSPC/api/Plano');
 	});
-
-//TaigaIntegratorPlanoTeste - Serviço para enviar dados pela URL da Web Service
-//app.factory('TaigaIntegratorPlanoTeste', function($resource, $location) {
-//	var host = $location.protocol() + "://" + $location.host() + ":" + $location.port();
-//	  return $resource(host +'/SoMeSPC/api/TaigaIntegrator/Plano_Teste');
-//	});
