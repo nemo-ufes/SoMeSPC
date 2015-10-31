@@ -21,7 +21,7 @@ package org.somespc.integracao.taiga.test;
 
 import org.junit.*;
 import org.quartz.*;
-import org.somespc.integracao.agendador.TaigaMedicaoJob;
+import org.somespc.integracao.jobs.TaigaMedicaoJob;
 
 public class AgendadorTest
 {

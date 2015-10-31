@@ -205,7 +205,7 @@ public class PlanoDeMedicao {
 		return medidaPlanoDeMedicao;
 	}
 
-	public void setMedidaPlanoDeMedicao(Set<MedidaPlanoDeMedicao> medidaPlanoDeMedicao) {
+	public void setMedidaPlanoDeMedicao(HashSet<MedidaPlanoDeMedicao> medidaPlanoDeMedicao) {
 		this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
 	}
 

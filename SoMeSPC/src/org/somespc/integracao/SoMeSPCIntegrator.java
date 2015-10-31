@@ -16,22 +16,9 @@ import javax.persistence.TypedQuery;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.openxava.jpa.XPersistence;
-import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerFactory;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.somespc.integracao.agendador.TaigaMedicaoJob;
-import org.somespc.integracao.model.FerramentaColetora;
-import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Projeto;
-import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
@@ -48,7 +35,6 @@ import org.somespc.model.plano_de_medicao.MedidaPlanoDeMedicao;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 import org.somespc.model.plano_de_medicao.TreeItemPlanoMedicao;
 import org.somespc.webservices.rest.dto.ItemPlanoDeMedicaoDTO;
-import org.somespc.webservices.rest.dto.SonarLoginDTO;
 import org.somespc.webservices.rest.dto.TaigaLoginDTO;
 
 public class SoMeSPCIntegrator {
@@ -227,34 +213,7 @@ public class SoMeSPCIntegrator {
 			TypedQuery<PlanoDeMedicaoDoProjeto> typedQuery = manager.createQuery(query, PlanoDeMedicaoDoProjeto.class);
 			plano = typedQuery.getSingleResult();
 		}
-		
-		//Criando a ferramenta coletora do item
-		FerramentaColetora ferramenta = new FerramentaColetora();
-		ferramenta.setNome(item.getNomeFerramentaColetora());
-	
-		try
-		{
-		    if (!manager.isOpen())
-			manager = XPersistence.createManager();
-
-		    manager.getTransaction().begin();
-		    manager.persist(ferramenta);
-		    manager.getTransaction().commit();
-
-		}
-		catch (Exception ex)
-		{
-		    if (manager.getTransaction().isActive())
-			manager.getTransaction().rollback();
-
-		    manager.close();
-		    manager = XPersistence.createManager();
-
-		    String query = "SELECT p FROM FerramentaColetora p WHERE p.nome='" + item.getNomeFerramentaColetora() + "'" ;
-		    TypedQuery<FerramentaColetora> typedQuery = manager.createQuery(query, FerramentaColetora.class);
-		    ferramenta = typedQuery.getSingleResult();
-		}
-		
+				
 		//Criando Objetivo Estrategico do Plano
 		ObjetivoEstrategico objEstrategico = new ObjetivoEstrategico();
 		objEstrategico.setNome(item.getNomeObjetivoEstrategico());
@@ -287,7 +246,6 @@ public class SoMeSPCIntegrator {
 		objEstrategicoTree.setNome(objEstrategico.getNome());
 		objEstrategicoTree.setItem(objEstrategico);
 		objEstrategicoTree.setPlanoDeMedicaoContainer(plano);
-		objEstrategicoTree.setFerramentaColetora(ferramenta);
 		
 		//Criando o Objetivo de Medição do Plano
 		ObjetivoDeMedicao objMedicao = new ObjetivoDeMedicao();
@@ -323,7 +281,6 @@ public class SoMeSPCIntegrator {
 		objMedicaoTree.setNome(objMedicao.getNome());
 		objMedicaoTree.setItem(objMedicao);
 		objMedicaoTree.setPlanoDeMedicaoContainer(plano);		
-		objMedicaoTree.setFerramentaColetora(ferramenta);
 				
 		//Criando a Necessidade de Informação do Plano
 		NecessidadeDeInformacao necessidade = new NecessidadeDeInformacao();
@@ -428,6 +385,7 @@ public class SoMeSPCIntegrator {
 		    	objEstrategicoTree = manager.find(TreeItemPlanoMedicao.class, chave);
 		    	
 		    } else {
+		    	objEstrategicoTree.setDefinicaoOperacionalDeMedida(defMed);
 		    	manager.persist(objEstrategicoTree);		    	
 		    }		 
 		    
@@ -447,6 +405,7 @@ public class SoMeSPCIntegrator {
 		    	objMedicaoTree = manager.find(TreeItemPlanoMedicao.class, chave);
 		    	
 		    } else {
+		    	objMedicaoTree.setDefinicaoOperacionalDeMedida(defMed);
 				objMedicaoTree.setPath("/" + idObjEstrategicoTree);
 		    	manager.persist(objMedicaoTree);					    	
 		    }				
@@ -459,8 +418,8 @@ public class SoMeSPCIntegrator {
 		    necessidadeTree.setPath("/" + idObjEstrategicoTree + "/" + idObjMedicaoTree);
 		    necessidadeTree.setItem(necessidade);
 		    necessidadeTree.setPlanoDeMedicaoContainer(plano);
-		    necessidadeTree.setFerramentaColetora(ferramenta);
-			
+			necessidadeTree.setDefinicaoOperacionalDeMedida(defMed);
+		    
 		    //Persiste NI
 		    manager.persist(necessidadeTree);
 		    Integer idNecessidadeTree = necessidadeTree.getId();
@@ -471,7 +430,7 @@ public class SoMeSPCIntegrator {
 		    medidaTree.setPath("/" + idObjEstrategicoTree + "/" + idObjMedicaoTree + "/" + idNecessidadeTree);
 		    medidaTree.setItem(med);
 		    medidaTree.setPlanoDeMedicaoContainer(plano);
-		    medidaTree.setFerramentaColetora(ferramenta);
+		    medidaTree.setDefinicaoOperacionalDeMedida(defMed);
 		    
 		    //Persiste Medida
 		    manager.persist(medidaTree);
@@ -526,9 +485,6 @@ public class SoMeSPCIntegrator {
 	return plano;
     }
 	
-	
-	
-	
 	/**
 	 * Agenda as medições de acordo com as medidas e definições operacionais de
 	 * medida do plano.
@@ -536,25 +492,40 @@ public class SoMeSPCIntegrator {
 	 * @param plano
 	 * @throws Exception
 	 */
+	/*
 	public static synchronized void agendarMedicoesPlanoMedicaoProjeto(PlanoDeMedicaoDoProjeto plano,
 			TaigaLoginDTO taigaDto, Projeto projetoTaiga, SonarLoginDTO sonarDto, Recurso projetoSonar)
 					throws Exception {
-		/**
-		 * Inicia os agendamentos.
-		 */
+		
+		// Inicia os agendamentos.		 
 		SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 		Scheduler sched = schedFact.getScheduler();
 
 		if (!sched.isStarted())
 			sched.start();
 
-		// Cria um agendamento de medição para cada medida e entidade medida.
-		for (MedidaPlanoDeMedicao medida : plano.getMedidaPlanoDeMedicao()) {
+		// Cria um agendamento de medição para cada item do plano
+		
+		for (TreeItemPlanoMedicao item : plano.getPlanoTree()) {
+			
+			String nome = item.getNome();
+			
+			//Se o item não é uma medida, pula para o próximo item.
+			if (!nome.startsWith("ME - ")) {
+				continue;
+			}			
+			
 			JobDetail job = null;
 			Trigger trigger = null;
 			String nomeJob = "Job do plano " + plano.getNome();
-
+			
+			
+			//Busca a periodicidade da medida
+			
+			
 			// Converte a periodicidade em horas.
+			
+			
 			String period = medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome();
 			int horas = 0;
 
@@ -575,7 +546,7 @@ public class SoMeSPCIntegrator {
 			} else if (period.equalsIgnoreCase("Anual")) {
 				horas = 24 * 30 * 12; // mes de 30 dias apenas...
 			} else {
-				String mensagem = String.format("Periodicidade %s inexistente no Taiga.", period);
+				String mensagem = String.format("Periodicidade %s inexistente.", period);
 				System.out.println(mensagem);
 				throw new Exception(mensagem);
 			}
@@ -630,5 +601,6 @@ public class SoMeSPCIntegrator {
 			}
 		}
 	}
+	*/
 
 }

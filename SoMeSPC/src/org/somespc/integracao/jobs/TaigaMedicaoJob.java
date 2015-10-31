@@ -1,23 +1,26 @@
-package org.somespc.integracao.agendador;
+package org.somespc.integracao.jobs;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Timestamp;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
+import org.openxava.jpa.XPersistence;
+import org.quartz.DisallowConcurrentExecution;
+import org.quartz.JobDataMap;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.somespc.integracao.SoMeSPCIntegrator;
-import org.somespc.integracao.taiga.*;
-import org.somespc.integracao.taiga.model.*;
-import org.somespc.model.organizacao_de_software.*;
-import org.somespc.model.plano_de_medicao.*;
-import org.openxava.jpa.*;
-import org.quartz.*;
+import org.somespc.integracao.taiga.TaigaIntegrator;
+import org.somespc.integracao.taiga.model.EstadoProjeto;
+import org.somespc.integracao.taiga.model.EstadoSprint;
+import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 
 @DisallowConcurrentExecution
-public class TaigaMedicaoJob implements Job {
+public class TaigaMedicaoJob extends MedicaoJob {
 
 	@Override
-	public synchronized void execute(JobExecutionContext context) throws JobExecutionException {
+	public void executarMedicao(JobExecutionContext context) throws JobExecutionException {
 		EntityManager manager = XPersistence.createManager();
 
 		try {
@@ -153,4 +156,6 @@ public class TaigaMedicaoJob implements Job {
 			manager.close();
 		}
 	}
+
+
 }

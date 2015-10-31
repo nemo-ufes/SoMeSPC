@@ -137,23 +137,19 @@ public class DefinicaoOperacionalDeMedida
     @ManyToOne
     @ReferenceView("Simple")
     private ProcedimentoDeAnaliseDeMedicao procedimentoDeAnaliseDeMedicao;
+    
+	@OneToMany(mappedBy = "definicaoOperacionalDeMedida", cascade = CascadeType.MERGE)
+	private Collection<TreeItemPlanoMedicao> treeItemPlanoMedicao;
+	
+    public Collection<TreeItemPlanoMedicao> getTreeItemPlanoMedicao() {
+		return treeItemPlanoMedicao;
+	}
 
-    /*
-     * @OneToMany(mappedBy="definicaoOperacionalDeMedida")
-     * private Collection<Medicao> medicao;
-     */
+	public void setTreeItemPlanoMedicao(Collection<TreeItemPlanoMedicao> treeItemPlanoMedicao) {
+		this.treeItemPlanoMedicao = treeItemPlanoMedicao;
+	}
 
-    /*
-     * public Collection<Medicao> getMedicao() {
-     * return medicao;
-     * }
-     * 
-     * public void setMedicao(Collection<Medicao> medicao) {
-     * this.medicao = medicao;
-     * }
-     */
-
-    public String getNome()
+	public String getNome()
     {
 	return nome;
     }
@@ -213,22 +209,6 @@ public class DefinicaoOperacionalDeMedida
     {
 	this.medidaPlanoDeMedicao = medidaPlanoDeMedicao;
     }
-
-    /*
-     * @ManyToMany
-     * 
-     * @JoinTable(
-     * name="modeloPreditivo_definicaoOperacionalDeMedida"
-     * , joinColumns={
-     * 
-     * @JoinColumn(name="definicaoOperacionalDeMedida_id")
-     * }
-     * , inverseJoinColumns={
-     * 
-     * @JoinColumn(name="modeloPreditivo_id")
-     * }
-     * )
-     */
 
     public AtividadePadrao getMomentoDeMedicao()
     {
@@ -313,7 +293,5 @@ public class DefinicaoOperacionalDeMedida
     {
 	this.procedimentoDeAnaliseDeMedicao = procedimentoDeAnaliseDeMedicao;
     }
-
-    //private Collection<AnaliseDeMedicao> analiseDeMedicao;
 
 }

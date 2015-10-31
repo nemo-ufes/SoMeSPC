@@ -36,7 +36,7 @@ import org.openxava.annotations.ReferenceView;
 import org.openxava.annotations.View;
 import org.openxava.annotations.Views;
 import org.somespc.actions.NewTreeViewItemPlanoMedicaoAction;
-import org.somespc.integracao.model.FerramentaColetora;
+import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
 import org.somespc.model.entidades_e_medidas.Medida;
 import org.somespc.model.objetivos.NecessidadeDeInformacao;
 import org.somespc.model.objetivos.ObjetivoDeMedicao;
@@ -87,14 +87,14 @@ public class TreeItemPlanoMedicao {
 	}
 
 	@ManyToOne
-	private FerramentaColetora ferramentaColetora;
+	private DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida;
 
-	public FerramentaColetora getFerramentaColetora() {
-		return ferramentaColetora;
+	public DefinicaoOperacionalDeMedida getDefinicaoOperacionalDeMedida() {
+		return definicaoOperacionalDeMedida;
 	}
 
-	public void setFerramentaColetora(FerramentaColetora ferramentaColetora) {
-		this.ferramentaColetora = ferramentaColetora;
+	public void setDefinicaoOperacionalDeMedida(DefinicaoOperacionalDeMedida definicaoOperacionalDeMedida) {
+		this.definicaoOperacionalDeMedida = definicaoOperacionalDeMedida;
 	}
 
 	public void setItem(TreeItemPlanoMedicaoBase item) {
