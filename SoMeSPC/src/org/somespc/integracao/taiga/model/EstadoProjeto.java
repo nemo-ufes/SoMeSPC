@@ -15,38 +15,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class EstadoProjeto {
 
 	@XmlElement(name = "speed")
-	private float velocidade;
+	private double velocidade;
 
 	@XmlElement(name = "closed_points")
-	private float pontosFechados;
+	private double pontosFechados;
 
 	@XmlElement(name = "total_milestones")
 	private int totalMilestones;
 
 	@XmlElement(name = "total_points")
-	private float totalPontos;
+	private double totalPontos;
 
-	public float getVelocidade() {
+	public double getVelocidade() {
 		return velocidade;
 	}
 
-	public void setVelocidade(float velocidade) {
+	public void setVelocidade(double velocidade) {
 		this.velocidade = velocidade;
 	}
 
-	public float getPontosFechados() {
+	public double getPontosFechados() {
 		return pontosFechados;
 	}
 
-	public void setPontosFechados(float pontosFechados) {
+	public void setPontosFechados(double pontosFechados) {
 		this.pontosFechados = pontosFechados;
 	}
 
-	public float getTotalPontos() {
+	public double getTotalPontos() {
 		return totalPontos;
 	}
 
-	public void setTotalPontos(float totalPontos) {
+	public void setTotalPontos(double totalPontos) {
 		this.totalPontos = totalPontos;
 	}
 

@@ -60,6 +60,7 @@ import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
+import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
 import org.somespc.model.entidades_e_medidas.Escala;
 import org.somespc.model.entidades_e_medidas.Medida;
 import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
@@ -440,6 +441,13 @@ public class TaigaIntegrator
 	return equipe;
     }
 
+    public EntidadeMensuravel criarEntidadeMensuravelSprintSoMeSPC(Sprint sprint, String nomeProjeto) throws Exception{
+    	
+    	String descricao =  String.format("Sprint %s (%s) do projeto %s.", sprint.getNome(), sprint.getApelido(), nomeProjeto); 
+    	
+    	return SoMeSPCIntegrator.criarEntidadeMensuravel(sprint.getNome(), descricao, "Sprint");
+    }
+    
     /**
      * Cria um Projeto na SoMeSPC baseado em um Projeto Taiga.
      * Se já existir, retorna o Projeto SoMeSPC existente.

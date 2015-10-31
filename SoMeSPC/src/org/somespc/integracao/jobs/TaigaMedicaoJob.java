@@ -17,6 +17,7 @@ import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
 import org.somespc.integracao.taiga.model.Sprint;
+import org.somespc.model.organizacao_de_software.Projeto;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 
 @DisallowConcurrentExecution
@@ -46,6 +47,13 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 			String valorMedido = null;
 			EstadoProjeto estado = integrator.obterEstadoProjetoTaiga(apelidoProjeto);
+			org.somespc.integracao.taiga.model.Projeto projeto = integrator.obterProjetoTaiga(apelidoProjeto);
+			
+			List<Sprint> sprintsCriar = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+
+			for (Sprint sprint : sprintsCriar) {
+				integrator.criarEntidadeMensuravelSprintSoMeSPC(sprint, projeto.getNome());
+			}
 
 			if (nomeMedida.equalsIgnoreCase("Pontos de Estória Planejados para o Projeto")) {
 
@@ -61,7 +69,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 				
 				if (estado.getTotalPontos() > 0){
-					float valor = estado.getPontosFechados() / estado.getTotalPontos();
+					double valor = estado.getPontosFechados() / estado.getTotalPontos();
 					valorMedido = String.valueOf(valor);	
 				} else {
 					valorMedido = String.valueOf(0);
@@ -104,7 +112,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				int sprintsPlanejadas = estado.getTotalMilestones();
 
 				if (sprintsPlanejadas > 0){
-					float taxaConclusaoSprints = sprintsConcluidas / sprintsPlanejadas;
+					double taxaConclusaoSprints = sprintsConcluidas / sprintsPlanejadas;
 					valorMedido = String.valueOf(taxaConclusaoSprints);	
 				} else {
 					valorMedido = String.valueOf(0);
@@ -138,8 +146,14 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
-					float taxaConclusaoEstorias = estadoSprint.getEstoriasCompletadas() / estadoSprint.getTotalEstorias();
-					valorMedido = String.valueOf(taxaConclusaoEstorias);
+					
+					if (estadoSprint.getTotalEstorias() > 0){
+						double taxaConclusaoEstorias = estadoSprint.getEstoriasCompletadas() / estadoSprint.getTotalEstorias();
+						valorMedido = String.valueOf(taxaConclusaoEstorias);
+						} else {
+						valorMedido = String.valueOf(0);
+					}	
+					
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
 				}			
 
@@ -149,10 +163,10 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
-					Map<String, Float> map = estadoSprint.getTotalPontos();
+					Map<String, Double> map = estadoSprint.getTotalPontos();
 
-					float totalPontos = 0f;
-					for (Float ponto : map.values()) {
+					double totalPontos = 0f;
+					for (double ponto : map.values()) {
 						totalPontos += ponto;
 					}
 
@@ -167,8 +181,8 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 		
-					float totalPontosCompletados = 0f;
-					for (Float ponto : estadoSprint.getPontosCompletados()) {
+					double totalPontosCompletados = 0f;
+					for (double ponto : estadoSprint.getPontosCompletados()) {
 						totalPontosCompletados += ponto;
 					}
 
@@ -183,20 +197,20 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 		
-					Map<String, Float> map = estadoSprint.getTotalPontos();
+					Map<String, Double> map = estadoSprint.getTotalPontos();
 
-					float totalPontos = 0f;
-					for (Float ponto : map.values()) {
+					double totalPontos = 0f;
+					for (double ponto : map.values()) {
 						totalPontos += ponto;
 					}
 
-					float totalPontosCompletados = 0f;
-					for (Float ponto : estadoSprint.getPontosCompletados()) {
+					double totalPontosCompletados = 0f;
+					for (double ponto : estadoSprint.getPontosCompletados()) {
 						totalPontosCompletados += ponto;
 					}
 
 					if (totalPontosCompletados > 0){
-						float taxaConclusaoEstorias = totalPontos / totalPontosCompletados;
+						double taxaConclusaoEstorias = totalPontos / totalPontosCompletados;
 						valorMedido = String.valueOf(taxaConclusaoEstorias);
 					} else {
 						valorMedido = String.valueOf(0);
@@ -233,7 +247,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					
 					if (estadoSprint.getTotalTarefas() > 0){
-						float taxaConclusaoTarefas = estadoSprint.getTarefasCompletadas() / estadoSprint.getTotalTarefas();
+						double taxaConclusaoTarefas = estadoSprint.getTarefasCompletadas() / estadoSprint.getTotalTarefas();
 						valorMedido = String.valueOf(taxaConclusaoTarefas);
 					} else {
 						valorMedido = String.valueOf(0);
@@ -266,7 +280,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				}
 				
 				if (estado.getTotalMilestones() > 0){
-					float mediaEstoriasConcluidasPorSprint = estoriasConcluidasProjeto / estado.getTotalMilestones();
+					double mediaEstoriasConcluidasPorSprint = estoriasConcluidasProjeto / estado.getTotalMilestones();
 					valorMedido = String.valueOf(mediaEstoriasConcluidasPorSprint);
 				} else {
 					valorMedido = String.valueOf(0);
@@ -297,7 +311,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					
 					if (estadoSprint.getEstoriasCompletadas() > 0){
-						float taxaDosesIocaine = estadoSprint.getDosesIocaine() / estadoSprint.getEstoriasCompletadas();
+						double taxaDosesIocaine = estadoSprint.getDosesIocaine() / estadoSprint.getEstoriasCompletadas();
 						valorMedido = String.valueOf(taxaDosesIocaine);
 					} else {
 						valorMedido = String.valueOf(0);

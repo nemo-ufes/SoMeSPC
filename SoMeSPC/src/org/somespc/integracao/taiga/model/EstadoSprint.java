@@ -24,10 +24,10 @@ public class EstadoSprint {
 	private int tarefasCompletadas;
 
 	@XmlElement(name = "completed_points")
-	private List<Float> pontosCompletados;
+	private List<Double> pontosCompletados;
 
 	@XmlElement(name = "total_points")
-	private Map<String, Float> totalPontos;
+	private Map<String, Double> totalPontos;
 
 	@XmlElement(name = "iocaine_doses")
 	private int dosesIocaine;
@@ -43,11 +43,11 @@ public class EstadoSprint {
 		this.nome = nome;
 	}
 
-	public List<Float> getPontosCompletados() {
+	public List<Double> getPontosCompletados() {
 		return pontosCompletados;
 	}
 
-	public void setPontosCompletados(List<Float> pontosCompletados) {
+	public void setPontosCompletados(List<Double> pontosCompletados) {
 		this.pontosCompletados = pontosCompletados;
 	}
 
@@ -91,11 +91,11 @@ public class EstadoSprint {
 		this.dosesIocaine = dosesIocaine;
 	}
 
-	public Map<String, Float> getTotalPontos() {
+	public Map<String, Double> getTotalPontos() {
 		return totalPontos;
 	}
 
-	public void setTotalPontos(Map<String, Float> totalPontos) {
+	public void setTotalPontos(Map<String, Double> totalPontos) {
 		this.totalPontos = totalPontos;
 	}
 

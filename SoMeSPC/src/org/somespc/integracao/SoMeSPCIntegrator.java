@@ -23,6 +23,7 @@ import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeM
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
 import org.somespc.model.entidades_e_medidas.Medida;
+import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
 import org.somespc.model.medicao.Medicao;
 import org.somespc.model.medicao.ValorNumerico;
 import org.somespc.model.objetivos.NecessidadeDeInformacao;
@@ -31,9 +32,9 @@ import org.somespc.model.objetivos.ObjetivoEstrategico;
 import org.somespc.model.organizacao_de_software.Objetivo;
 import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
 import org.somespc.model.organizacao_de_software.RecursoHumano;
+import org.somespc.model.plano_de_medicao.ItemPlanoMedicao;
 import org.somespc.model.plano_de_medicao.MedidaPlanoDeMedicao;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
-import org.somespc.model.plano_de_medicao.ItemPlanoMedicao;
 import org.somespc.webservices.rest.dto.ItemPlanoDeMedicaoDTO;
 import org.somespc.webservices.rest.dto.TaigaLoginDTO;
 
@@ -54,6 +55,43 @@ public class SoMeSPCIntegrator {
 		return result;
 	}
 
+	public static EntidadeMensuravel criarEntidadeMensuravel(String nomeEntidade, String descricao, String nomeTipoEntidade) throws Exception {
+
+		EntityManager manager = XPersistence.createManager();
+		EntidadeMensuravel entidade = null;
+		
+		try {
+			String query = String.format("SELECT r FROM EntidadeMensuravel r WHERE r.nome='%s'", nomeEntidade);
+			TypedQuery<EntidadeMensuravel> typedQuery = manager.createQuery(query, EntidadeMensuravel.class);
+			entidade = typedQuery.getSingleResult();
+		} catch (Exception ex) {
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
+
+			if (!manager.isOpen())
+				manager = XPersistence.createManager();
+
+			entidade = new EntidadeMensuravel();
+			
+			String query = String.format("SELECT r FROM TipoDeEntidadeMensuravel r WHERE r.nome='%s'", nomeTipoEntidade);
+			TypedQuery<TipoDeEntidadeMensuravel> typedQuery = manager.createQuery(query, TipoDeEntidadeMensuravel.class);
+			TipoDeEntidadeMensuravel tipo = typedQuery.getSingleResult();
+			
+			entidade.setNome(nomeEntidade);
+			entidade.setDescricao(descricao);
+			entidade.setTipoDeEntidadeMensuravel(tipo);
+			
+			manager.getTransaction().begin();
+			manager.persist(entidade);
+			manager.getTransaction().commit();
+
+		} finally {
+			manager.close();
+		}
+
+		return entidade;
+	}
+	
 	/**
 	 * Cadastra um RecursoHumano na SoMeSPC. Se já existir, retorna o
 	 * RecursoHumano existente.
