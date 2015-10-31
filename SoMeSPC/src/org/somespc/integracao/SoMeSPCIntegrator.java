@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -208,9 +209,20 @@ public class SoMeSPCIntegrator {
 	plano.setDescricao("Plano de Medição do Projeto criado via wizard em " + dataHora);
 	plano.setProjeto(proj);
 	
+	boolean primeiraExecucao = true;
+	
 	//Criação os objetos necessários para criação do Plano de Medição do Projeto - SoMeSPC
 	for(ItemPlanoDeMedicaoDTO item: itemPlanoDeMedicaoDTO){
+		
+		if (!primeiraExecucao) {	
+			if (!manager.isOpen())
+				manager = XPersistence.createManager();
 			
+			String query = "SELECT p FROM PlanoDeMedicaoDoProjeto p WHERE p.nome='" + plano.getNome() + "'";
+			TypedQuery<PlanoDeMedicaoDoProjeto> typedQuery = manager.createQuery(query, PlanoDeMedicaoDoProjeto.class);
+			plano = typedQuery.getSingleResult();
+		}
+		
 		//Criando a ferramenta coletora do item
 		FerramentaColetora ferramenta = new FerramentaColetora();
 		ferramenta.setNome(item.getNomeFerramentaColetora());
@@ -438,28 +450,34 @@ public class SoMeSPCIntegrator {
 		    //Persiste Medida
 		    manager.persist(medidaTree);
 		    
-		    plano.setPlanoTree(new ArrayList<TreeItemPlanoMedicao>());
+		    if (primeiraExecucao){
+		    	plano.setPlanoTree(new HashSet<TreeItemPlanoMedicao>());	
+		    } 
+		    		    
 		    plano.getPlanoTree().add(medidaTree);
 		    plano.getPlanoTree().add(necessidadeTree);
 		    plano.getPlanoTree().add(objMedicaoTree);
 		    plano.getPlanoTree().add(objEstrategicoTree);
 		    
-		    manager.persist(plano);
+		    if (primeiraExecucao)
+		    	manager.persist(plano);
+		    else
+		    	manager.merge(plano);
+		    		    
 		    manager.getTransaction().commit();
 		}
 		catch (Exception ex)
 		{
 		    if (manager.getTransaction().isActive())
 			manager.getTransaction().rollback();
-
 		    throw ex;
-
 		}
 		finally
 		{
 		    manager.close();
 		}    
-
+		
+		primeiraExecucao = false;
 	}	
 
 	//Após criar o plano, agenda as medições.

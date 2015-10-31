@@ -104,7 +104,7 @@ public class PlanoDeMedicao
     @ListProperties("nome")
     private Collection<RecursoHumano> recursoHumano;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
 	    name = "planoDeMedicao_objetivoDeMedicao"
 	    , joinColumns = {
@@ -114,9 +114,9 @@ public class PlanoDeMedicao
 		    @JoinColumn(name = "objetivoDeMedicao_id")
 	    })
     @ListProperties("nome")
-    private Collection<ObjetivoDeMedicao> objetivoDeMedicao;
+    private Set<ObjetivoDeMedicao> objetivoDeMedicao;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
 	    name = "planoDeMedicao_objetivoEstrategico"
 	    , joinColumns = {
@@ -126,9 +126,9 @@ public class PlanoDeMedicao
 		    @JoinColumn(name = "objetivoEstrategico_id")
 	    })
     @ListProperties("nome")
-    private Collection<ObjetivoEstrategico> objetivoEstrategico;
+    private Set<ObjetivoEstrategico> objetivoEstrategico;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
 	    name = "planoDeMedicao_objetivoDeSoftware"
 	    , joinColumns = {
@@ -138,9 +138,9 @@ public class PlanoDeMedicao
 		    @JoinColumn(name = "objetivoDeSoftware_id")
 	    })
     @ListProperties("nome")
-    private Collection<ObjetivoDeSoftware> objetivoDeSoftware;
+    private Set<ObjetivoDeSoftware> objetivoDeSoftware;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
 	    name = "planoDeMedicao_necessidadeDeInformacao"
 	    , joinColumns = {
@@ -150,24 +150,24 @@ public class PlanoDeMedicao
 		    @JoinColumn(name = "necessidadeDeInformacao_id")
 	    })
     @ListProperties("nome")
-    private Collection<NecessidadeDeInformacao> necessidadeDeInformacao;
+    private Set<NecessidadeDeInformacao> necessidadeDeInformacao;
 
-    @OneToMany(mappedBy = "planoDeMedicaoContainer", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "planoDeMedicaoContainer", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     //@OneToMany(mappedBy="planoDeMedicaoContainer")
     @Editor("TreeView")
     @ListProperties("nome")
     @OrderBy("path")
     //@NewAction("TreeContainer.addObjetivosToPlanoMedicao")
     //@NewAction("TreeContainer.NewTreeViewItem3")
-    private Collection<TreeItemPlanoMedicao> planoTree;
+    private Set<TreeItemPlanoMedicao> planoTree;
 
-    public Collection<TreeItemPlanoMedicao> getPlanoTree()
+    public Set<TreeItemPlanoMedicao> getPlanoTree()
     {
 	ajustes();
 	return planoTree;
     }
 
-    public void setPlanoTree(Collection<TreeItemPlanoMedicao> planoTree)
+    public void setPlanoTree(Set<TreeItemPlanoMedicao> planoTree)
     {
 	this.planoTree = planoTree;
     }
@@ -249,45 +249,45 @@ public class PlanoDeMedicao
 	this.recursoHumano = recursoHumano;
     }
 
-    public Collection<ObjetivoDeMedicao> getObjetivoDeMedicao()
+    public Set<ObjetivoDeMedicao> getObjetivoDeMedicao()
     {
 	return objetivoDeMedicao;
     }
 
-    public void setObjetivoDeMedicao(Collection<ObjetivoDeMedicao> objetivoDeMedicao)
+    public void setObjetivoDeMedicao(Set<ObjetivoDeMedicao> objetivoDeMedicao)
     {
 	this.objetivoDeMedicao = objetivoDeMedicao;
     }
 
-    public Collection<ObjetivoEstrategico> getObjetivoEstrategico()
+    public Set<ObjetivoEstrategico> getObjetivoEstrategico()
     {
 	return objetivoEstrategico;
     }
 
     public void setObjetivoEstrategico(
-	    Collection<ObjetivoEstrategico> objetivoEstrategico)
+    		Set<ObjetivoEstrategico> objetivoEstrategico)
     {
 	this.objetivoEstrategico = objetivoEstrategico;
     }
 
-    public Collection<ObjetivoDeSoftware> getObjetivoDeSoftware()
+    public Set<ObjetivoDeSoftware> getObjetivoDeSoftware()
     {
 	return objetivoDeSoftware;
     }
 
     public void setObjetivoDeSoftware(
-	    Collection<ObjetivoDeSoftware> objetivoDeSoftware)
+    		Set<ObjetivoDeSoftware> objetivoDeSoftware)
     {
 	this.objetivoDeSoftware = objetivoDeSoftware;
     }
 
-    public Collection<NecessidadeDeInformacao> getNecessidadeDeInformacao()
+    public Set<NecessidadeDeInformacao> getNecessidadeDeInformacao()
     {
 	return necessidadeDeInformacao;
     }
 
     public void setNecessidadeDeInformacao(
-	    Collection<NecessidadeDeInformacao> necessidadeDeInformacao)
+    		Set<NecessidadeDeInformacao> necessidadeDeInformacao)
     {
 	this.necessidadeDeInformacao = necessidadeDeInformacao;
     }
@@ -310,15 +310,15 @@ public class PlanoDeMedicao
     {
 	
 	if (objetivoEstrategico == null)
-	    objetivoEstrategico = new ArrayList<ObjetivoEstrategico>();
+	    objetivoEstrategico = new HashSet<ObjetivoEstrategico>();
 	if (objetivoDeSoftware == null)
-	    objetivoDeSoftware = new ArrayList<ObjetivoDeSoftware>();
+	    objetivoDeSoftware = new HashSet<ObjetivoDeSoftware>();
 	if (objetivoDeMedicao == null)
-	    objetivoDeMedicao = new ArrayList<ObjetivoDeMedicao>();
+	    objetivoDeMedicao = new HashSet<ObjetivoDeMedicao>();
 	if (necessidadeDeInformacao == null)
-	    necessidadeDeInformacao = new ArrayList<NecessidadeDeInformacao>();
+	    necessidadeDeInformacao = new HashSet<NecessidadeDeInformacao>();
 	
-	//Transpoe os objets da tree view para listas separadas
+	//Transpoe os objets da tree view para listas separadas	
 	if (objetivoEstrategico != null)
 	    objetivoEstrategico.clear();
 	if (objetivoDeSoftware != null)
@@ -327,7 +327,7 @@ public class PlanoDeMedicao
 	    objetivoDeMedicao.clear();
 	if (necessidadeDeInformacao != null)
 	    necessidadeDeInformacao.clear();
-
+	 
 	if (planoTree != null)
 	{
 	    for (TreeItemPlanoMedicao itemTree : planoTree)
