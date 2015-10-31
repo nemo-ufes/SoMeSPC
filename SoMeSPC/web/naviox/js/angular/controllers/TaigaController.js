@@ -10,16 +10,16 @@ app.controller('TaigaController', function($scope, $resource,
 		senha : ''
 	};
 	
-	// Objeto Lista de Itens - GET através da Web Service do Taiga, usando
+	// Objeto Lista de Itens - GET através da Web Service do SoMeSPCResource, usando
 	// $Resource do Angular JS
-	$scope.itens = TaigaIntegrator.query({
+	$scope.itens = SoMeSPCResource.query({
 		entidade : 'ItensPlanoDeMedicao'
 	});
 
-	// Objeto Lista de Periodicidades - GET através da Web Service do Taiga,
+	// Objeto Lista de Periodicidades - GET através da Web Service do SoMeSPCResource,
 	// usando $Resource do Angular JS
 	$scope.periodicidades = SoMeSPCResource.query({
-		periodicidades_med_cep : 'Periodicidade'
+		entidade : 'Periodicidade'
 	});
 
 	$scope.loading = false;

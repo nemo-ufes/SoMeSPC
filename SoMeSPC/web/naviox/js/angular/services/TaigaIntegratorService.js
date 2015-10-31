@@ -7,7 +7,7 @@ app.factory('TaigaIntegrator', function($resource, $location) {
 //SoMeSPCResouce - Serviço para retornar lista de dados pela URL da Web Service
 app.factory('SoMeSPCResource', function($resource, $location) {
 	var host = $location.protocol() + "://" + $location.host() + ":" + $location.port();
-	return $resource(host +'/SoMeSPC/api/:periodicidades_med_cep');
+	return $resource(host +'/SoMeSPC/api/:entidade');
 	});
 
 //TaigaIntegratorProjeto - Serviço para enviar dados pela URL da Web Service
