@@ -44,12 +44,12 @@ public class TaigaMedicaoJob implements Job {
 			if (nomeMedida.equalsIgnoreCase("Pontos de Estória Planejados para o Projeto")) {
 
 				valorMedido = String.valueOf(estado.getTotalPontos());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Pontos de Estória Concluídos no Projeto")) {
 
 				valorMedido = String.valueOf(estado.getPontosFechados());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estória no Projeto")) {
 
@@ -58,7 +58,7 @@ public class TaigaMedicaoJob implements Job {
 			} else if (nomeMedida.equalsIgnoreCase("Número de Sprints Planejadas para o Projeto")) {
 
 				valorMedido = String.valueOf(estado.getTotalMilestones());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Sprints Realizadas no Projeto")) {
 
@@ -73,14 +73,14 @@ public class TaigaMedicaoJob implements Job {
 				String apelidoSprint = dataMap.getString("apelidoSprint");
 				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
 				valorMedido = String.valueOf(estadoSprint.getTotalEstorias());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Estórias Concluídas na Sprint")) {
 
 				String apelidoSprint = dataMap.getString("apelidoSprint");
 				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
 				valorMedido = String.valueOf(estadoSprint.getEstoriasCompletadas());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 				
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Estórias na Sprint")) {
 
@@ -103,14 +103,14 @@ public class TaigaMedicaoJob implements Job {
 				String apelidoSprint = dataMap.getString("apelidoSprint");
 				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
 				valorMedido = String.valueOf(estadoSprint.getTotalTarefas());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Concluídas na Sprint")) {
 
 				String apelidoSprint = dataMap.getString("apelidoSprint");
 				EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, apelidoSprint);
 				valorMedido = String.valueOf(estadoSprint.getTarefasCompletadas());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 				
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Tarefas na Sprint")) {
 
@@ -127,7 +127,7 @@ public class TaigaMedicaoJob implements Job {
 			} else if (nomeMedida.equalsIgnoreCase("Velocidade da Equipe no Projeto")) {
 
 				valorMedido = String.valueOf(estado.getVelocidade());
-				SoMeSPCIntegrator.criarMedicaoSoMeSPC(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
+				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine na Sprint")) {
 

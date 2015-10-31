@@ -39,9 +39,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.openxava.jpa.XPersistence;
 import org.somespc.integracao.SoMeSPCIntegrator;
+import org.somespc.integracao.sonarqube.SonarQubeIntegrator;
+import org.somespc.integracao.sonarqube.model.MedidasSonarQube;
+import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.integracao.taiga.TaigaIntegrator;
+import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
@@ -55,6 +60,7 @@ import org.somespc.webservices.rest.dto.MedicaoDTO;
 import org.somespc.webservices.rest.dto.MedidaDTO;
 import org.somespc.webservices.rest.dto.PeriodicidadeDTO;
 import org.somespc.webservices.rest.dto.PlanoDTO;
+import org.somespc.webservices.rest.dto.SonarLoginDTO;
 
 /**
  * API REST para os recursos da SoMeSPC
@@ -165,37 +171,113 @@ public class SoMeSPCResource {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public synchronized Response criarPlanoMedicao(PlanoDTO planoDto) throws Exception {
 
-		TaigaIntegrator integrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),
-				planoDto.getTaigaLogin().getUsuario(), planoDto.getTaigaLogin().getSenha());
-
-		List<Periodicidade> periodicidades = SoMeSPCIntegrator.obterPeriodicidades();
-
-		List<ItemPlanoDeMedicaoDTO> itens = planoDto.getItensPlanoDeMedicao();
-
-		for (ItemPlanoDeMedicaoDTO item : itens) {
-
-			System.out.println(item.getMedida() + item.getNomeNecessidadeDeInformacao()
-					+ item.getNomeObjetivoDeMedicao() + item.getNomeObjetivoEstrategico());
-		}
-
+		if (planoDto.getNomePeriodicidade() == null || planoDto.getNomePeriodicidade().isEmpty())
+			throw new NullArgumentException("Periodicidade");
+		
+		if (planoDto.getItensPlanoDeMedicao() == null || planoDto.getItensPlanoDeMedicao().isEmpty())
+			throw new NullArgumentException("ItemPlanoDeMedicaoDTO");
+				
+		List<Periodicidade> periodicidades = SoMeSPCIntegrator.obterPeriodicidades();		
 		Periodicidade periodicidadeSelecionada = null;
 
 		for (Periodicidade periodicidade : periodicidades) {
 			if (periodicidade.getNome().equalsIgnoreCase(planoDto.getNomePeriodicidade()))
 				periodicidadeSelecionada = periodicidade;
 		}
+		
+		boolean contemItemsTaiga = false;
+		boolean contemItemsSonar = false;
 
+		//Verifica se existem medidas do Taiga.
+		for (ItemPlanoDeMedicaoDTO item : planoDto.getItensPlanoDeMedicao())
+		{
+			MedidasTaiga medidaTaiga = MedidasTaiga.get(item.getMedida());
+			
+			if (medidaTaiga != null)
+			{
+				contemItemsTaiga = true;
+				break;
+			}			
+		}
+		
+		//Verifica se existem medidas do SonarQube.
+		for (ItemPlanoDeMedicaoDTO item : planoDto.getItensPlanoDeMedicao())
+		{
+			MedidasSonarQube medidaSonar = MedidasSonarQube.get(item.getMedida());
+			
+			if (medidaSonar != null)
+			{
+				contemItemsSonar = true;
+				break;
+			}			
+		}
+	
 		JSONObject json = new JSONObject();
+		int i = 0;
+		
+		//Caso 1 - Apenas medidas do Taiga	
+		if (contemItemsTaiga && !contemItemsSonar) {
+			TaigaIntegrator taigaIntegrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),
+					planoDto.getTaigaLogin().getUsuario(), planoDto.getTaigaLogin().getSenha());
 
-		for (int i = 0; i < planoDto.getProjetosTaiga().size(); i++) {
-			String apelido = planoDto.getProjetosTaiga().get(i);
-			Projeto projeto = integrator.obterProjetoTaiga(apelido);
-			PlanoDeMedicao plano = integrator.criarPlanoMedicaoProjetoSoMeSPC(planoDto.getItensPlanoDeMedicao(),
-					periodicidadeSelecionada, projeto, null);
+			
+			for (String apelido : planoDto.getProjetosTaiga()) {				
+				Projeto projeto = taigaIntegrator.obterProjetoTaiga(apelido);
+				
+				PlanoDeMedicao plano = SoMeSPCIntegrator.criarPlanoMedicaoProjetoTaigaSoMeSPC(planoDto.getItensPlanoDeMedicao(),
+						periodicidadeSelecionada, planoDto.getTaigaLogin(), projeto);
+
+				json.append("Plano " + (i + 1), plano.getNome());
+				i++;
+			}
+		//Caso 2 - Apenas medidas do Sonar
+		} else if (!contemItemsTaiga && contemItemsSonar) {
+			/*
+			SonarQubeIntegrator sonarIntegrator = new SonarQubeIntegrator(planoDto.getSonarLogin().getUrl());
+			List<Recurso> projetosSonar = new ArrayList<Recurso>();
+			
+			for (String chave : planoDto.getProjetosSonar()) {
+				Recurso projetoSonar = sonarIntegrator.obterRecurso(chave);
+				projetosSonar.add(projetoSonar);
+			}
+			
+			PlanoDeMedicao plano = SoMeSPCIntegrator.criarPlanoMedicaoProjetoSoMeSPC(planoDto.getItensPlanoDeMedicao(),
+					periodicidadeSelecionada, null, planoDto.getSonarLogin(), null, projetosSonar);
 
 			json.append("Plano " + (i + 1), plano.getNome());
-		}
+			i++;
+				*/
+		//Caso 3 - medidas do Sonar e Taiga
+		} else if (contemItemsTaiga && contemItemsSonar){
+			/*
+			TaigaIntegrator taigaIntegrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),
+					planoDto.getTaigaLogin().getUsuario(), planoDto.getTaigaLogin().getSenha());
+			SonarQubeIntegrator sonarIntegrator = new SonarQubeIntegrator(planoDto.getSonarLogin().getUrl());
+			
+			//Para cada projeto do Taiga, adiciona as medidas do Taiga e Sonar.
+			for (String apelido : planoDto.getProjetosTaiga()) {	
+				
+				List<Recurso> projetosSonar = new ArrayList<Recurso>();
+				
+				for (String chave : planoDto.getProjetosSonar()) {
+					Recurso projetoSonar = sonarIntegrator.obterRecurso(chave);
+					projetosSonar.add(projetoSonar);
+				}
+				
+				Projeto projeto = taigaIntegrator.obterProjetoTaiga(apelido);
+				
+				PlanoDeMedicao plano = SoMeSPCIntegrator.criarPlanoMedicaoProjetoSoMeSPC(planoDto.getItensPlanoDeMedicao(),
+						periodicidadeSelecionada, planoDto.getTaigaLogin(), planoDto.getSonarLogin(), projeto, projetosSonar);
 
+				json.append("Plano " + (i + 1), plano.getNome());
+				i++;
+				
+			}	*/
+		//Caso 4 - Não encontrou itens de nenhuma das ferramentas
+		} else {
+			throw new Exception("Não foram informadas medidas para nenhuma das ferramentas coletoras disponíveis.");
+		}
+		
 		return Response.ok().entity(json).build();
 	}
 	
