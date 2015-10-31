@@ -19,12 +19,32 @@
  */
 package org.somespc.integracao.sonarqube;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
-import javax.ws.rs.client.*;
-import javax.ws.rs.core.*;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 
-import org.somespc.integracao.sonarqube.model.*;
+import org.hibernate.exception.ConstraintViolationException;
+import org.openxava.jpa.XPersistence;
+import org.somespc.integracao.sonarqube.model.Medida;
+import org.somespc.integracao.sonarqube.model.MedidasSonarQube;
+import org.somespc.integracao.sonarqube.model.Metrica;
+import org.somespc.integracao.sonarqube.model.Recurso;
+import org.somespc.integracao.taiga.model.MedidasTaiga;
+import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
+import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
+import org.somespc.model.entidades_e_medidas.Escala;
+import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
+import org.somespc.model.entidades_e_medidas.TipoMedida;
+import org.somespc.model.entidades_e_medidas.UnidadeDeMedida;
 
 /**
  * Classe para a integração da SoMeSPC com o SonarQube.
@@ -163,4 +183,130 @@ public class SonarQubeIntegrator {
 		return sb.toString();
 	}
 
+    /**
+     * Cria as Medidas do SonarQube no banco de dados da SoMeSPC.
+     * Não atribui valores, somente cria as definições das medidas.
+     * 
+     * @param medidasSonar
+     *            - Lista com as medidas do SonarQube a serem criadas na SoMeSPC.
+     * @return List<Medida> - Medidas criadas na SoMeSPC.
+     * @throws Exception
+     */
+    public List<org.somespc.model.entidades_e_medidas.Medida> criarMedidasSoMeSPC(List<MedidasSonarQube> medidasSonar) throws Exception
+    {
+
+	EntityManager manager = XPersistence.createManager();
+	List<org.somespc.model.entidades_e_medidas.Medida> medidasCadastradas = new ArrayList<org.somespc.model.entidades_e_medidas.Medida>();
+
+	//Obtem o tipo de medida base.
+	String query1 = "SELECT mb FROM TipoMedida mb WHERE mb.nome='Medida Base'";
+	TypedQuery<TipoMedida> typedQuery1 = manager.createQuery(query1, TipoMedida.class);
+	TipoMedida medidaBase = typedQuery1.getSingleResult();
+
+	//Obtem a escala racional.
+	String query2 = "SELECT e FROM Escala e WHERE e.nome='Escala formada pelos números reais'";
+	TypedQuery<Escala> typedQuery2 = manager.createQuery(query2, Escala.class);
+	Escala escala = typedQuery2.getSingleResult();
+
+	//Obtem o tipo de Entidade Mensurável Projeto.
+	String query5 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Projeto'";
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery5 = manager.createQuery(query5, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoProjeto = typedQuery5.getSingleResult();
+
+	//Obtem o ElementoMensuravel Desempenho.
+	String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
+	TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho, ElementoMensuravel.class);
+	ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
+
+	//Obtem o ElementoMensuravel Tamanho.
+	String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
+	TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
+	ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
+
+
+	manager.close();
+
+	//Define a medida de acordo com a lista informada.
+	for (MedidasSonarQube medidaSonar : medidasSonar)
+	{
+	    org.somespc.model.entidades_e_medidas.Medida medida = new org.somespc.model.entidades_e_medidas.Medida();
+	    medida.setNome(medidaSonar.toString());
+
+	    switch (medidaSonar)
+	    {
+		case MEDIA_COMPLEXIDADE_CICLOMATICA_MEDIA:
+		    medida.setMnemonico("MCCM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
+		    break;
+		case TAXA_DUPLICACAO_CODIGO:
+		    medida.setMnemonico("TDC");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
+		    break;
+		case PERCENTUAL_DIVIDA_TECNICA:
+		    medida.setMnemonico("PDT");
+		    medida.setElementoMensuravel(tamanho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
+		    break;
+		
+		default:
+		    System.out.println(String.format("Medida %s inexistente no SonarQube.", medidaSonar.toString()));
+	    }
+
+	    medida.setDescricao("Medida obtida pela API SonarQube conforme a documentação: http://docs.sonarqube.org/display/DEV/Web+Service+API");
+	    medida.setTipoMedida(medidaBase);
+	    medida.setEscala(escala);
+
+	    DefinicaoOperacionalDeMedida definicao = new DefinicaoOperacionalDeMedida();
+
+	    definicao.setNome("Definição operacional da medida do SonarQube - " + medida.getNome());
+	    Calendar cal = Calendar.getInstance();
+	    definicao.setData(cal.getTime());
+	    definicao.setDescricao("Definição operacional criada automaticamente.");
+	    definicao.setMedida(medida);
+	  
+	    try
+	    {
+		if (!manager.isOpen())
+		    manager = XPersistence.createManager();
+
+		manager.getTransaction().begin();
+		manager.persist(medida);
+		manager.persist(definicao);
+		manager.getTransaction().commit();
+	    }
+	    catch (Exception ex)
+	    {
+		if (manager.getTransaction().isActive())
+		    manager.getTransaction().rollback();
+
+		manager = XPersistence.createManager();
+
+		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
+			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
+		{
+		    System.out.println(String.format("A Medida %s já existe.", medida.getNome()));
+
+		    String queryMedida = String.format("SELECT m FROM Medida m WHERE m.nome='%s'", medida.getNome());
+		    TypedQuery<org.somespc.model.entidades_e_medidas.Medida> typedQueryMedida = manager.createQuery(queryMedida, org.somespc.model.entidades_e_medidas.Medida.class);
+
+		    medida = typedQueryMedida.getSingleResult();
+		}
+		else
+		{
+		    throw ex;
+		}
+	    }
+	    finally
+	    {
+		manager.close();
+	    }
+
+	    medidasCadastradas.add(medida);
+	}
+
+	return medidasCadastradas;
+    }
+	
 }
