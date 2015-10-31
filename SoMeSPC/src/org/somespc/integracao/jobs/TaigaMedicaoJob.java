@@ -59,8 +59,14 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estória no Projeto")) {
 
-				float valor = estado.getPontosFechados() / estado.getTotalPontos();
-				valorMedido = String.valueOf(valor);
+				
+				if (estado.getTotalPontos() > 0){
+					float valor = estado.getPontosFechados() / estado.getTotalPontos();
+					valorMedido = String.valueOf(valor);	
+				} else {
+					valorMedido = String.valueOf(0);
+				}
+				
 				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Número de Sprints Planejadas para o Projeto")) {
@@ -97,9 +103,13 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 				int sprintsPlanejadas = estado.getTotalMilestones();
 
-				float taxaConclusaoSprints = sprintsConcluidas / sprintsPlanejadas;
-
-				valorMedido = String.valueOf(taxaConclusaoSprints);
+				if (sprintsPlanejadas > 0){
+					float taxaConclusaoSprints = sprintsConcluidas / sprintsPlanejadas;
+					valorMedido = String.valueOf(taxaConclusaoSprints);	
+				} else {
+					valorMedido = String.valueOf(0);
+				}				
+				
 				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
 			} else if (nomeMedida.equalsIgnoreCase("Número de Estórias Planejadas para a Sprint")) {
@@ -185,8 +195,13 @@ public class TaigaMedicaoJob extends MedicaoJob {
 						totalPontosCompletados += ponto;
 					}
 
-					float taxaConclusaoEstorias = totalPontos / totalPontosCompletados;
-					valorMedido = String.valueOf(taxaConclusaoEstorias);
+					if (totalPontosCompletados > 0){
+						float taxaConclusaoEstorias = totalPontos / totalPontosCompletados;
+						valorMedido = String.valueOf(taxaConclusaoEstorias);
+					} else {
+						valorMedido = String.valueOf(0);
+					}	
+					
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
 				}	
 								
@@ -216,8 +231,14 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
-					float taxaConclusaoTarefas = estadoSprint.getTarefasCompletadas() / estadoSprint.getTotalTarefas();
-					valorMedido = String.valueOf(taxaConclusaoTarefas);
+					
+					if (estadoSprint.getTotalTarefas() > 0){
+						float taxaConclusaoTarefas = estadoSprint.getTarefasCompletadas() / estadoSprint.getTotalTarefas();
+						valorMedido = String.valueOf(taxaConclusaoTarefas);
+					} else {
+						valorMedido = String.valueOf(0);
+					}	
+					
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
 				}	
 				
@@ -244,9 +265,13 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					estoriasConcluidasProjeto += estadoSprint.getEstoriasCompletadas();
 				}
 				
-				float mediaEstoriasConcluidasPorSprint = estoriasConcluidasProjeto / estado.getTotalMilestones();
-
-				valorMedido = String.valueOf(mediaEstoriasConcluidasPorSprint);
+				if (estado.getTotalMilestones() > 0){
+					float mediaEstoriasConcluidasPorSprint = estoriasConcluidasProjeto / estado.getTotalMilestones();
+					valorMedido = String.valueOf(mediaEstoriasConcluidasPorSprint);
+				} else {
+					valorMedido = String.valueOf(0);
+				}	
+							
 				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);		
 
 			} else if (nomeMedida.equalsIgnoreCase("Velocidade da Equipe no Projeto")) {
@@ -270,8 +295,14 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 				for (Sprint sprint : sprints) {
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
-					float taxaDosesIocaine = estadoSprint.getDosesIocaine() / estadoSprint.getEstoriasCompletadas();
-					valorMedido = String.valueOf(taxaDosesIocaine);
+					
+					if (estadoSprint.getEstoriasCompletadas() > 0){
+						float taxaDosesIocaine = estadoSprint.getDosesIocaine() / estadoSprint.getEstoriasCompletadas();
+						valorMedido = String.valueOf(taxaDosesIocaine);
+					} else {
+						valorMedido = String.valueOf(0);
+					}	
+					
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, sprint.getNome(), valorMedido);
 				}						
 			
