@@ -38,13 +38,11 @@ import org.somespc.integracao.sonarqube.model.Medida;
 import org.somespc.integracao.sonarqube.model.MedidasSonarQube;
 import org.somespc.integracao.sonarqube.model.Metrica;
 import org.somespc.integracao.sonarqube.model.Recurso;
-import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
 import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
 import org.somespc.model.entidades_e_medidas.Escala;
 import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
 import org.somespc.model.entidades_e_medidas.TipoMedida;
-import org.somespc.model.entidades_e_medidas.UnidadeDeMedida;
 
 /**
  * Classe para a integração da SoMeSPC com o SonarQube.

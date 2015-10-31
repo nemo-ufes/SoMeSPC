@@ -42,9 +42,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang.NullArgumentException;
 import org.openxava.jpa.XPersistence;
 import org.somespc.integracao.SoMeSPCIntegrator;
-import org.somespc.integracao.sonarqube.SonarQubeIntegrator;
 import org.somespc.integracao.sonarqube.model.MedidasSonarQube;
-import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Projeto;
@@ -60,7 +58,6 @@ import org.somespc.webservices.rest.dto.MedicaoDTO;
 import org.somespc.webservices.rest.dto.MedidaDTO;
 import org.somespc.webservices.rest.dto.PeriodicidadeDTO;
 import org.somespc.webservices.rest.dto.PlanoDTO;
-import org.somespc.webservices.rest.dto.SonarLoginDTO;
 
 /**
  * API REST para os recursos da SoMeSPC
@@ -79,45 +76,45 @@ public class SoMeSPCResource {
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public Response obterItensPlanoDeMedicao() throws Exception {
 
-		String OE = "OE - Melhorar o gerenciamento dos projetos de software da organização";
+		String OE = "Melhorar o gerenciamento dos projetos de software da organização";
 		
-		String OM_1 = "OM - Melhorar a aderência ao planejamento de pontos de estória nos projetos";
-		String OM_2 = "OM - Melhorar a aderência ao planejamento do número de sprints dos projetos";
-		String OM_3 = "OM - Melhorar aderência ao planejamento das sprints dos projetos";
-		String OM_4 = "OM - Monitorar a produtividade das sprints dos projetos";
-		String OM_5 = "OM - Monitorar quantidade de doses de locaine nas sprints";
-		String OM_6 = "OM - Monitorar velocidade dos projetos";
-		String OM_7 = "OM - Monitorar a qualidade do código fonte produzido";
+		String OM_1 = "Melhorar a aderência ao planejamento de pontos de estória nos projetos";
+		String OM_2 = "Melhorar a aderência ao planejamento do número de sprints dos projetos";
+		String OM_3 = "Melhorar aderência ao planejamento das sprints dos projetos";
+		String OM_4 = "Monitorar a produtividade das sprints dos projetos";
+		String OM_5 = "Monitorar quantidade de doses de locaine nas sprints";
+		String OM_6 = "Monitorar velocidade dos projetos";
+		String OM_7 = "Monitorar a qualidade do código fonte produzido";
 	    	
 	    List<ItemPlanoDeMedicaoDTO> itensPlanoDeMedicao = new ArrayList<ItemPlanoDeMedicaoDTO>();
 		
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "NI - Quantos pontos de estória foram planejados para o projeto?", "ME - Pontos de Estória Planejados para o Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "NI - Quantos pontos de estória foram concluídos no projeto?", "ME - Pontos de Estória Concluídos no Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "NI - Qual a taxa de conclusão de pontos de estória no projeto?", "ME - Taxa de Conclusão de Pontos de Estória no Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "NI - Quantas sprints foram planejadas para o projeto?", "ME - Número de Sprints Planejadas para o Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "NI - Quantas sprints foram realizadas no projeto?", "ME - Número de Sprints Realizadas no Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "NI - Qual a taxa de conclusão de sprintsnoprojeto?", " ME - Taxa de Conclusão dedeSprintsno Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Quantas estórias foram planejadas para a sprint?", "ME - Número de Estórias Planejadas para a Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Quantas estórias foram concluídas na sprint?", "ME - Número de Estórias Concluídas na Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Qual a taxa de conclusão de estórias na sprint?", "ME - Taxa de Conclusão de Estórias na Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Quantos pontos de estória foram concluídos na sprint?", "ME - Pontos de Estória Concluídos na Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Qual a taxa de conclusão de pontos de estórias na sprint?", "ME - Taxa de Conclusão de Pontos de Estórias na Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Quantas tarefas foram planejados para a sprint?", "ME - Número de Tarefas Planejadas para a Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Quantas tarefas foram concluídas na sprint?", "ME - Número de Tarefas Concluídas na Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Qual a taxa de conclusão de tarefas na sprint?", "ME - Taxa de Conclusão de Tarefas na Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "NI - Quantos pontos de estória foram planejados para a sprint?", "ME - Pontos de Estória Planejados para a Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "NI - Quantas sprints foram realizadas no projeto?", "ME - Número de Sprints Realizadas no Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "NI - Quantas estórias foram concluídas para o projeto?", "ME - Número de Estórias Concluídas para o Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "NI - Qual o número médio de estórias concluídas por sprint no projeto?", "ME - Média de Estórias Concluídas por Sprint do Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "NI - Quantas estórias foram concluídas para o projeto?", "ME - Número de Estórias Concluídas para o Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "NI - Quantos pontos de estória foram concluídos no projeto?", "ME - Pontos de Estória Concluídos no Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "NI - Qual o número médio de pontos de estórias concluídos por sprint no projeto? ", "ME - Média de Pontos de Estórias Concluídos por Sprint do Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "NI - Quantas doses de Iocaine ocorreram na sprint", "ME - Número de Doses de Iocaine na Sprint", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "NI - Qual a taxa de doses de Iocainena sprint?", "ME - Taxa de Doses de Iocaine na Sprint", "Taiga"));
-		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "NI - Qual a velocidade da equipe no projeto?", "ME - Velocidade da Equipe no Projeto", "Taiga"));
-		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "NI - Qual a complexidade ciclomática média por método?", "ME - Média da Complexidade Ciclomática por Método", "SonarQube"));
-		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "NI - Qual a taxa de duplicação de código?", "ME - Taxa de Duplicação de Código", "SonarQube"));
-		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "NI - Qual o percentual da dívida técnica?", "ME - Percentual da Dívida Técnica", "SonarQube"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "Quantos pontos de estória foram planejados para o projeto?", "Pontos de Estória Planejados para o Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "Quantos pontos de estória foram concluídos no projeto?", "Pontos de Estória Concluídos no Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "Qual a taxa de conclusão de pontos de estória no projeto?", "Taxa de Conclusão de Pontos de Estória no Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "Quantas sprints foram planejadas para o projeto?", "Número de Sprints Planejadas para o Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "Quantas sprints foram realizadas no projeto?", "Número de Sprints Realizadas no Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "Qual a taxa de conclusão de sprintsnoprojeto?", " Taxa de Conclusão dedeSprintsno Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantas estórias foram planejadas para a sprint?", "Número de Estórias Planejadas para a Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantas estórias foram concluídas na sprint?", "Número de Estórias Concluídas na Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Qual a taxa de conclusão de estórias na sprint?", "Taxa de Conclusão de Estórias na Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantos pontos de estória foram concluídos na sprint?", "Pontos de Estória Concluídos na Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Qual a taxa de conclusão de pontos de estórias na sprint?", "Taxa de Conclusão de Pontos de Estórias na Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantas tarefas foram planejados para a sprint?", "Número de Tarefas Planejadas para a Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantas tarefas foram concluídas na sprint?", "Número de Tarefas Concluídas na Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Qual a taxa de conclusão de tarefas na sprint?", "Taxa de Conclusão de Tarefas na Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantos pontos de estória foram planejados para a sprint?", "Pontos de Estória Planejados para a Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Quantas sprints foram realizadas no projeto?", "Número de Sprints Realizadas no Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Quantas estórias foram concluídas para o projeto?", "Número de Estórias Concluídas para o Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Qual o número médio de estórias concluídas por sprint no projeto?", "Média de Estórias Concluídas por Sprint do Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Quantas estórias foram concluídas para o projeto?", "Número de Estórias Concluídas para o Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Quantos pontos de estória foram concluídos no projeto?", "Pontos de Estória Concluídos no Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Qual o número médio de pontos de estórias concluídos por sprint no projeto? ", "Média de Pontos de Estórias Concluídos por Sprint do Projeto", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "Quantas doses de Iocaine ocorreram na sprint", "Número de Doses de Iocaine na Sprint", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "Qual a taxa de doses de Iocainena sprint?", "Taxa de Doses de Iocaine na Sprint", "Taiga"));
+		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Qual a velocidade da equipe no projeto?", "Velocidade da Equipe no Projeto", "Taiga"));
+		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "Qual a complexidade ciclomática média por método?", "Média da Complexidade Ciclomática por Método", "SonarQube"));
+		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "Qual a taxa de duplicação de código?", "Taxa de Duplicação de Código", "SonarQube"));
+		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "Qual o percentual da dívida técnica?", "Percentual da Dívida Técnica", "SonarQube"));
 
 		return Response.ok().entity(itensPlanoDeMedicao).build();
 	}
@@ -214,10 +211,7 @@ public class SoMeSPCResource {
 	
 		JSONObject json = new JSONObject();
 		int i = 0;
-		
-		System.out.println("contemItemsSonar: " + contemItemsSonar);
-		System.out.println("contemItemsTaiga: " + contemItemsTaiga);
-		
+				
 		//Caso 1 - Apenas medidas do Taiga	
 		if (contemItemsTaiga && !contemItemsSonar) {
 			TaigaIntegrator taigaIntegrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),

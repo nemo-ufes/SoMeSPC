@@ -687,8 +687,6 @@ public class TaigaIntegrator
 		if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException) ||
 			(ex.getCause() != null && ex.getCause().getCause() != null && ex.getCause().getCause() instanceof ConstraintViolationException))
 		{
-		    System.out.println(String.format("A Medida %s já existe.", medida.getNome()));
-
 		    String queryMedida = String.format("SELECT m FROM Medida m WHERE m.nome='%s'", medida.getNome());
 		    TypedQuery<Medida> typedQueryMedida = manager.createQuery(queryMedida, Medida.class);
 

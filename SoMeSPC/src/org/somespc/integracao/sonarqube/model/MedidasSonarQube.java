@@ -26,9 +26,9 @@ public enum MedidasSonarQube
 {
     //OM - Monitorar a qualidade do código fonte produzido
 	
-    MEDIA_COMPLEXIDADE_CICLOMATICA_MEDIA("ME - Média da Complexidade Ciclomática por Método"),
-    TAXA_DUPLICACAO_CODIGO("ME - Taxa de Duplicação de Código"),
-    PERCENTUAL_DIVIDA_TECNICA("ME - Percentual da Dívida Técnica");
+    MEDIA_COMPLEXIDADE_CICLOMATICA_MEDIA("Média da Complexidade Ciclomática por Método"),
+    TAXA_DUPLICACAO_CODIGO("Taxa de Duplicação de Código"),
+    PERCENTUAL_DIVIDA_TECNICA("Percentual da Dívida Técnica");
 	
 	private final String name;
 	private final String descricao;
