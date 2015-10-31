@@ -23,30 +23,48 @@ import java.util.*;
 
 public enum MedidasTaiga
 {
-    //Medidas do Projeto
-    PONTOS_ALOCADOS_PROJETO("Pontos Alocados no Projeto"),
-    PONTOS_DEFINIDOS_PROJETO("Pontos Definidos no Projeto"),
-    PONTOS_FECHADOS_PROJETO("Pontos Fechados no Projeto"),
-    TOTAL_SPRINTS_PROJETO("Total de Sprints do Projeto"),
-    TOTAL_PONTOS_PROJETO("Total de Pontos do Projeto"),
-    VELOCIDADE_PROJETO("Velocidade do Projeto"),
+    //OM - Monitorar a conclusão de pontos de estória nos projetos - DESEMPENHO
+			
+		    PONTOS_ESTORIA_PLANEJADOS_PROJETO("ME - Pontos de Estória Planejados para o Projeto"),
+		    PONTOS_ESTORIA_ALOCADOS_PROJETO("ME - Pontos de Estória Alocados no Projeto"),
+		    PONTOS_ESTORIA_CONCLUIDOS_PROJETO_CONCLUSAO("ME - Pontos de Estória Concluídos no Projeto"),
+		    TAXA_CONCLUSAO_PONTOS_ESTORIA_PROJETO("ME – Taxa de Conclusão de Pontos de Estória no Projeto"),
+		    
+	//OM – Monitorar a realização de sprints nos projetos TAMANHO
+		    
+		   	NUMERO_SPRINTS_PLANEJADAS_PROJETO("ME - Número de Sprints Planejadas para o Projeto"),
+		   	NUMERO_SPRINTS_REALIZADA_PROJETO("ME - Número de Sprints Realizadas no Projeto"),
+		   	TAXA_CONCLUSAO_SPRINTS_PROJETO("ME - Taxa de Conclusão de Sprints no Projeto"),
+		   	
+    //OM – Monitorar desempenho na sprint - DESEMPENHO
+    		
+    		NUMERO_ESTORIAS_PLANEJADAS_SPRINT("ME - Número de Estórias Planejadas para a Sprint"),
+    		NUMERO_ESTORIAS_CONCLUIDAS_SPRINT("ME - Número de Estórias Concluídas na Sprint"),
+    		TAXA_CONCLUSAO_ESTORIAS_SPRINT("ME - Taxa de Conclusão de Estórias na Sprint"),
+    		PONTOS_ESTORIAS_PLANEJADOS_SPRINT("ME - Pontos de Estória Planejados para a Sprint"),
+    		PONTOS_ESTORIAS_CONCLUIDAS_SPRINT("ME – Pontos de Estória Concluídos na Sprint"),
+    		TAXA_CONCLUSAO_PONTOS_ESTORIAS_SPRINT("ME - Taxa de Conclusão de Pontos de Estórias na Sprint"),
+    		NUMERO_TAREFAS_PLANEJADAS_SPRINT("ME - Número de Tarefas Planejadas para a Sprint"),
+    		NUMERO_TAREFAS_CONCLUIDAS_SPRINT("ME - Número de Tarefas Concluídas na Sprint"),
+    		TAXA_CONCLUSAO_TAREFAS_SPRINT("ME - Taxa de Conclusão de Tarefas na Sprint"),
+ 
+    	    //OM – Monitorar desempenho no projeto - DESEMPENHO
+        	
+    		NUMERO_SPRINTS_REALIZADAS_PROJETO("ME - Número de Sprints Realizadas no Projeto"),
+    		NUMERO_ESTORIAS_CONCLUIDAS_PROJETO("ME - Número de Estórias Concluídas para o Projeto"),
+    		MEDIA_ESTORIAS_CONCLUIDAS_SPRINT_PROJETO("ME - Média de Estórias Concluídas por Sprint do Projeto"),
+    		PONTOS_ESTORIA_CONCLUIDOS_PROJETO_DESEMPENHO("ME - Pontos de Estória Concluídos no Projeto"),
+    		VELOCIDADE_PROJETO("ME - Velocidade da Equipe no Projeto"),
+	
+	//OM – Monitorar quantidade de doses de locaine nas sprints -TAMANHO
 
-    //Medidas do Recurso Humano na Equipe (Mede a Alocação)
-    PONTOS_ALOCADOS_POR_PAPEL_PROJETO("Pontos Alocados por Papel no Projeto"),
-    PONTOS_DEFINIDOS_POR_PAPEL_PROJETO("Pontos Definidos por Papel no Projeto"),
-    PONTOS_FECHADOS_POR_PAPEL_PROJETO("Pontos Fechados por Papel no Projeto"),
+			NUMERO_IOCAINE_SPRINT("ME - Número de Doses de Iocaine na Sprint"),		
+			NUMERO_TAREFAS_REALIZADAS_SPRINT("ME - Número de Tarefas Realizadas na Sprint"),
+			TAXA_IOCAINE_SPRINT("ME - Taxa de Doses de Iocaine na Sprint"),
 
-    //Medidas da Sprint
-    DOSES_IOCAINE_SPRINT("Doses de Iocaine da Sprint"),
-    ESTORIAS_COMPLETADAS_SPRINT("Estórias Completadas na Sprint"),
-    PONTOS_COMPLETADOS_SPRINT("Pontos Completados na Sprint"),
-    TAREFAS_COMPLETADAS_SPRINT("Tarefas Completadas na Sprint"),
-    TOTAL_ESTORIAS_SPRINT("Total de Estórias da Sprint"),
-    TOTAL_PONTOS_SPRINT("Total de Pontos da Sprint"),
-    TOTAL_TAREFAS_SPRINT("Total de Tarefas da Sprint"),
-
-    //Medidas da Estória
-    PONTOS_ESTORIA("Pontos da Estória");
+	//OM – Monitorar velocidade da equipe no projeto - DESEMPENHO
+	
+			VELOCIDADE_EQUIPE_PROJETO("ME - Velocidade da Equipe no Projeto");
 
     private final String name;
 

@@ -68,23 +68,23 @@ public class TaigaIntegratorResource
 	return response;
     }
 
-    @Path("/Medidas")
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-    public Response obterMedidas() throws Exception
-    {
-	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-
-	List<String> nomesMedidas = new ArrayList<String>();
-	for (MedidasTaiga medida : medidasTaiga)
-	{
-	    nomesMedidas.add(medida.toString());
-	}
-
-	return Response.ok().entity(nomesMedidas).build();
-    }
-    
+//    @Path("/Medidas")
+//    @GET
+//    @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+//    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+//    public Response obterMedidas() throws Exception
+//    {
+//	MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+//
+//	List<String> nomesMedidas = new ArrayList<String>();
+//	for (MedidasTaiga medida : medidasTaiga)
+//	{
+//	    nomesMedidas.add(medida.toString());
+//	}
+//
+//	return Response.ok().entity(nomesMedidas).build();
+//    }
+//    
     
     @Path("/ItensPlanoDeMedicao")
     @GET
