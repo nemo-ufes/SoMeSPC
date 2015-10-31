@@ -39,17 +39,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.openxava.jpa.XPersistence;
-import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.JobKey;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerFactory;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
 import org.somespc.integracao.SoMeSPCIntegrator;
-import org.somespc.integracao.agendador.TaigaMedicaoJob;
 import org.somespc.integracao.taiga.model.AuthInfo;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
@@ -73,7 +63,6 @@ import org.somespc.model.organizacao_de_software.Objetivo;
 import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
 import org.somespc.model.organizacao_de_software.RecursoHumano;
 import org.somespc.model.plano_de_medicao.MedidaPlanoDeMedicao;
-import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDaOrganizacao;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 import org.somespc.model.plano_de_medicao.TreeItemPlanoMedicao;
 import org.somespc.util.json.JSONObject;
@@ -1037,155 +1026,10 @@ public class TaigaIntegrator
 	}
 
 	//Após criar o plano, agenda as medições.
-	this.agendarMedicoesPlanoMedicaoProjeto(plano, projeto);
+	//SoMeSPCIntegrator.agendarMedicoesPlanoMedicaoProjeto(plano, projeto);
 
 	return plano;
     }
 
-	/**
-	 * Agenda as medições de acordo com as medidas e definições operacionais de
-	 * medida do plano.
-	 * 
-	 * @param plano
-	 * @throws Exception
-	 */
-	public synchronized void agendarMedicoesPlanoMedicaoProjeto(PlanoDeMedicaoDoProjeto plano, Projeto projeto)
-			throws Exception {
-		/**
-		 * Inicia os agendamentos.
-		 */
-		SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
-		Scheduler sched = schedFact.getScheduler();
-
-		if (!sched.isStarted())
-			sched.start();
-
-		// Cria um agendamento de medição para cada medida e entidade medida.
-		for (MedidaPlanoDeMedicao medida : plano.getMedidaPlanoDeMedicao()) {
-			JobDetail job = null;
-			Trigger trigger = null;
-			String nomeJob = "Job do plano " + plano.getNome();
-
-			// Converte a periodicidade em horas.
-			String period = medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome();
-			int horas = 0;
-
-			if (period.equalsIgnoreCase("Por Hora")) {
-				horas = 1;
-			} else if (period.equalsIgnoreCase("Diária")) {
-				horas = 24;
-			} else if (period.equalsIgnoreCase("Semanal")) {
-				horas = 24 * 7;
-			} else if (period.equalsIgnoreCase("Quinzenal")) {
-				horas = 24 * 15;
-			} else if (period.equalsIgnoreCase("Mensal")) {
-				horas = 24 * 30; // mes de 30 dias apenas...
-			} else if (period.equalsIgnoreCase("Trimestral")) {
-				horas = 24 * 30 * 3; // mes de 30 dias apenas...
-			} else if (period.equalsIgnoreCase("Semestral")) {
-				horas = 24 * 30 * 6; // mes de 30 dias apenas...
-			} else if (period.equalsIgnoreCase("Anual")) {
-				horas = 24 * 30 * 12; // mes de 30 dias apenas...
-			} else {
-				String mensagem = String.format("Periodicidade %s inexistente no Taiga.", period);
-				System.out.println(mensagem);
-				throw new Exception(mensagem);
-			}
-
-			JobDataMap map = new JobDataMap();
-
-			map.put("urlTaiga", this.urlTaiga.replace("/api/v1/", ""));
-			map.put("usuarioTaiga", authInfo.getUsername());
-			map.put("senhaTaiga", authInfo.getPassword());
-			map.put("apelidoProjeto", projeto.getApelido());
-			map.put("nomePlano", plano.getNome());
-			map.put("nomeMedida", medida.getMedida().getNome());
-
-			// Espera um segundo para cadastrar cada job, para evitar erros.
-			Thread.sleep(1000);
-
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
-
-			if (medida.getMedida().getNome().contains("Projeto")) {
-
-				String nomeGrupo = projeto.getNome();
-				String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
-						medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
-						medida.getMedida().getNome(), medida.getMedida().getMnemonico(), dataHora);
-
-				map.put("entidadeMedida", plano.getProjeto().getNome());
-				map.put("momento", plano.getProjeto().getNome());
-
-				boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
-
-				// Cria um job para cada medida de um projeto.
-				if (!existeJob) {
-					job = JobBuilder.newJob(TaigaMedicaoJob.class).withIdentity(nomeJob, nomeGrupo).build();
-
-					trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo)
-							.usingJobData(map).startNow()
-							.withSchedule(
-									SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
-							.build();
-
-					sched.scheduleJob(job, trigger);
-				} else {
-					job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
-
-					trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo)
-							.usingJobData(map).startNow()
-							.withSchedule(
-									SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
-							.build();
-
-					sched.scheduleJob(trigger);
-				}
-
-			} else if (medida.getMedida().getNome().contains("Sprint")) {
-
-				// Cria um agendamento para cada medida de cada sprint.
-				List<Sprint> sprints = this.obterSprintsDoProjetoTaiga(projeto.getApelido());
-
-				for (Sprint sprint : sprints) {
-					// Espera um segundo para cadastrar cada job, para evitar
-					// erros.
-					Thread.sleep(1000);
-
-					String nomeGrupo = sprint.getNome();
-					String nomeTrigger = String.format("Medição %s da medida %s (%s) - criado em %s",
-							medida.getDefinicaoOperacionalDeMedida().getPeriodicidadeDeMedicao().getNome(),
-							medida.getMedida().getNome(), medida.getMedida().getMnemonico(), dataHora);
-
-					map.put("apelidoSprint", sprint.getApelido());
-					map.put("entidadeMedida", sprint.getNome() + " do Projeto " + projeto.getNome());
-					map.put("momento", sprint.getNome() + " do Projeto " + projeto.getNome());
-
-					boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
-
-					if (!existeJob) {
-						job = JobBuilder.newJob(TaigaMedicaoJob.class).withIdentity(nomeJob, nomeGrupo).build();
-
-						trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo)
-								.usingJobData(map).startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule()
-										.withIntervalInHours(horas).repeatForever())
-								.build();
-
-						sched.scheduleJob(job, trigger);
-					} else {
-						job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
-
-						trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo)
-								.usingJobData(map).startNow().withSchedule(SimpleScheduleBuilder.simpleSchedule()
-										.withIntervalInHours(horas).repeatForever())
-								.build();
-
-						sched.scheduleJob(trigger);
-					}
-				}
-
-			}
-		}
-	}
 
 }
