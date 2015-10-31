@@ -9,62 +9,71 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ItemPlanoDeMedicaoDTO {
 
-	    
-		public ItemPlanoDeMedicaoDTO(String oE, String oM, String NI, String medida) {
-			this.medida = medida;
-			this.nomeObjetivoEstrategico = oE;
-			this.nomeObjetivoDeMedicao = oM;
-			this.nomeNecessidadeDeInformacao = NI;			
-		}
-		
-		public ItemPlanoDeMedicaoDTO() {
-			// TODO Auto-generated constructor stub
-		}
-		
-		@XmlElement(name = "nome_Medida")
-	    private String medida;
-	    
-	    @XmlElement(name="nome_ObjetivoEstrategico")
-	    private String nomeObjetivoEstrategico;
-	    
-	    @XmlElement(name="nome_ObjetivoDeMedicao")
-	    private String nomeObjetivoDeMedicao;
-	    
-	    @XmlElement(name="nome_NecessidadeDeInformacao")
-	    private String nomeNecessidadeDeInformacao;
+	public ItemPlanoDeMedicaoDTO(String oE, String oM, String NI, String medida, String ferramenta) {
+		this.medida = medida;
+		this.nomeObjetivoEstrategico = oE;
+		this.nomeObjetivoDeMedicao = oM;
+		this.nomeNecessidadeDeInformacao = NI;
+		this.nomeFerramentaColetora = ferramenta;
+	}
 
-		public String getMedida() {
-			return medida;
-		}
+	public ItemPlanoDeMedicaoDTO() {
+		// TODO Auto-generated constructor stub
+	}
 
-		public void setMedida(String medida) {
-			this.medida = medida;
-		}
+	@XmlElement(name = "nome_Medida")
+	private String medida;
 
-		public String getNomeObjetivoEstrategico() {
-			return nomeObjetivoEstrategico;
-		}
+	@XmlElement(name = "nome_ObjetivoEstrategico")
+	private String nomeObjetivoEstrategico;
 
-		public void setNomeObjetivoEstrategico(String nomeObjetivoEstrategico) {
-			this.nomeObjetivoEstrategico = nomeObjetivoEstrategico;
-		}
+	@XmlElement(name = "nome_ObjetivoDeMedicao")
+	private String nomeObjetivoDeMedicao;
 
-		public String getNomeObjetivoDeMedicao() {
-			return nomeObjetivoDeMedicao;
-		}
+	@XmlElement(name = "nome_NecessidadeDeInformacao")
+	private String nomeNecessidadeDeInformacao;
 
-		public void setNomeObjetivoDeMedicao(String nomeObjetivoDeMedicao) {
-			this.nomeObjetivoDeMedicao = nomeObjetivoDeMedicao;
-		}
+	@XmlElement(name = "nome_FerramentaColetora")
+	private String nomeFerramentaColetora;
 
-		public String getNomeNecessidadeDeInformacao() {
-			return nomeNecessidadeDeInformacao;
-		}
+	public String getMedida() {
+		return medida;
+	}
 
-		public void setNomeNecessidadeDeInformacao(String nomeNecessidadeDeInformacao) {
-			this.nomeNecessidadeDeInformacao = nomeNecessidadeDeInformacao;
-		}
-	    
-	    
+	public void setMedida(String medida) {
+		this.medida = medida;
+	}
+
+	public String getNomeObjetivoEstrategico() {
+		return nomeObjetivoEstrategico;
+	}
+
+	public void setNomeObjetivoEstrategico(String nomeObjetivoEstrategico) {
+		this.nomeObjetivoEstrategico = nomeObjetivoEstrategico;
+	}
+
+	public String getNomeObjetivoDeMedicao() {
+		return nomeObjetivoDeMedicao;
+	}
+
+	public void setNomeObjetivoDeMedicao(String nomeObjetivoDeMedicao) {
+		this.nomeObjetivoDeMedicao = nomeObjetivoDeMedicao;
+	}
+
+	public String getNomeNecessidadeDeInformacao() {
+		return nomeNecessidadeDeInformacao;
+	}
+
+	public void setNomeNecessidadeDeInformacao(String nomeNecessidadeDeInformacao) {
+		this.nomeNecessidadeDeInformacao = nomeNecessidadeDeInformacao;
+	}
+
+	public String getNomeFerramentaColetora() {
+		return nomeFerramentaColetora;
+	}
+
+	public void setNomeFerramentaColetora(String nomeFerramentaColetora) {
+		this.nomeFerramentaColetora = nomeFerramentaColetora;
+	}
 
 }
