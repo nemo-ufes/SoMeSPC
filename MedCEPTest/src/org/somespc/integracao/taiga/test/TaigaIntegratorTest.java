@@ -194,25 +194,16 @@ public class TaigaIntegratorTest {
 	@Test
 	public void testCriarMedidasSoMeSPC() throws Exception {
 
-		MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-
-		List<Medida> medidas = integrator.criarMedidasSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
-
-		assertNotNull(medidas);
-		assertNotEquals(medidas.size(), 0);
-		assertTrue(medidas.size() > 0);
+//		
+//		MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+//
+//		List<Medida> medidas = integrator.criarMedidasSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
+//
+//		assertNotNull(medidas);
+//		assertNotEquals(medidas.size(), 0);
+//		assertTrue(medidas.size() > 0);
 
 		// dump(medidas);
-	}
-
-	@Test
-	public void testCriarPlanoMedicaoOrganizacaoSoMeSPC() throws Exception {
-
-		MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-		PlanoDeMedicaoDaOrganizacao plano = integrator
-				.criarPlanoMedicaoOrganizacaoSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
-
-		assertNotNull(plano);
 	}
 
 	@Test
@@ -230,7 +221,7 @@ public class TaigaIntegratorTest {
 			}
 		}
 
-		MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
+//		MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
 		//integrator.criarPlanoMedicaoProjetoSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), porHora, projeto);
 	}
 
