@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import org.openxava.jpa.XPersistence;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -18,6 +19,7 @@ import org.somespc.integracao.sonarqube.model.Metrica;
 import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 
+@DisallowConcurrentExecution
 public class SonarQubeMedicaoJob extends MedicaoJob {
 
 	@Override
