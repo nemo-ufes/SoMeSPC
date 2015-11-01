@@ -16,7 +16,7 @@ public abstract class MedicaoJob implements Job {
 		this.executarMedicao(arg0);
 	}
 
-	public abstract void executarMedicao(JobExecutionContext jec) throws JobExecutionException;
+	public abstract void executarMedicao(JobExecutionContext context) throws JobExecutionException;
 
 	public ItemPlanoMedicao getItemParaMedir() {
 		return itemParaMedir;

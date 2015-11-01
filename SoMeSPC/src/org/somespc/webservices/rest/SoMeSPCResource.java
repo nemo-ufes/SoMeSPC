@@ -42,7 +42,9 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang.NullArgumentException;
 import org.openxava.jpa.XPersistence;
 import org.somespc.integracao.SoMeSPCIntegrator;
+import org.somespc.integracao.sonarqube.SonarQubeIntegrator;
 import org.somespc.integracao.sonarqube.model.MedidasSonarQube;
+import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Projeto;
@@ -216,7 +218,6 @@ public class SoMeSPCResource {
 		if (contemItemsTaiga && !contemItemsSonar) {
 			TaigaIntegrator taigaIntegrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),
 					planoDto.getTaigaLogin().getUsuario(), planoDto.getTaigaLogin().getSenha());
-
 			
 			for (String apelido : planoDto.getProjetosTaiga()) {				
 				Projeto projeto = taigaIntegrator.obterProjetoTaiga(apelido);
@@ -229,21 +230,18 @@ public class SoMeSPCResource {
 			}
 		//Caso 2 - Apenas medidas do Sonar
 		} else if (!contemItemsTaiga && contemItemsSonar) {
-			/*
-			SonarQubeIntegrator sonarIntegrator = new SonarQubeIntegrator(planoDto.getSonarLogin().getUrl());
-			List<Recurso> projetosSonar = new ArrayList<Recurso>();
 			
+			SonarQubeIntegrator sonarIntegrator = new SonarQubeIntegrator(planoDto.getSonarLogin().getUrl());
+		
 			for (String chave : planoDto.getProjetosSonar()) {
 				Recurso projetoSonar = sonarIntegrator.obterRecurso(chave);
-				projetosSonar.add(projetoSonar);
+							
+				PlanoDeMedicao plano = SoMeSPCIntegrator.criarPlanoMedicaoProjetoSonarQubeSoMeSPC(planoDto.getItensPlanoDeMedicao(),
+						periodicidadeSelecionada, planoDto.getSonarLogin(), projetoSonar);
+	
+				json.append("Plano " + (i + 1), plano.getNome());
+				i++;
 			}
-			
-			PlanoDeMedicao plano = SoMeSPCIntegrator.criarPlanoMedicaoProjetoSoMeSPC(planoDto.getItensPlanoDeMedicao(),
-					periodicidadeSelecionada, null, planoDto.getSonarLogin(), null, projetosSonar);
-
-			json.append("Plano " + (i + 1), plano.getNome());
-			i++;
-				*/
 		//Caso 3 - medidas do Sonar e Taiga
 		} else if (contemItemsTaiga && contemItemsSonar){
 			/*

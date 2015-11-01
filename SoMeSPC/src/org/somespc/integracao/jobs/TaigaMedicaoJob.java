@@ -17,7 +17,6 @@ import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
 import org.somespc.integracao.taiga.model.Sprint;
-import org.somespc.model.organizacao_de_software.Projeto;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 
 @DisallowConcurrentExecution
@@ -150,7 +149,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					if (estadoSprint.getTotalEstorias() > 0){
 						double taxaConclusaoEstorias = estadoSprint.getEstoriasCompletadas() / estadoSprint.getTotalEstorias();
 						valorMedido = String.valueOf(taxaConclusaoEstorias);
-						} else {
+					} else {
 						valorMedido = String.valueOf(0);
 					}	
 					
