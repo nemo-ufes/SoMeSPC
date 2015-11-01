@@ -118,7 +118,7 @@ public class SoMeSPCResource {
 		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "Qual a taxa de duplicação de código?", "Taxa de Duplicação de Código", "SonarQube"));
 		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "Qual o percentual da dívida técnica?", "Percentual da Dívida Técnica", "SonarQube"));
 
-		return Response.ok().entity(itensPlanoDeMedicao).build();
+		return Response.ok().entity(itensPlanoDeMedicao).build();		
 	}
 	
 	/**
@@ -244,7 +244,7 @@ public class SoMeSPCResource {
 			}
 		//Caso 3 - medidas do Sonar e Taiga
 		} else if (contemItemsTaiga && contemItemsSonar){
-			/*
+			
 			TaigaIntegrator taigaIntegrator = new TaigaIntegrator(planoDto.getTaigaLogin().getUrl(),
 					planoDto.getTaigaLogin().getUsuario(), planoDto.getTaigaLogin().getSenha());
 			SonarQubeIntegrator sonarIntegrator = new SonarQubeIntegrator(planoDto.getSonarLogin().getUrl());
@@ -261,13 +261,13 @@ public class SoMeSPCResource {
 				
 				Projeto projeto = taigaIntegrator.obterProjetoTaiga(apelido);
 				
-				PlanoDeMedicao plano = SoMeSPCIntegrator.criarPlanoMedicaoProjetoSoMeSPC(planoDto.getItensPlanoDeMedicao(),
-						periodicidadeSelecionada, planoDto.getTaigaLogin(), planoDto.getSonarLogin(), projeto, projetosSonar);
+				PlanoDeMedicao plano = SoMeSPCIntegrator.criarPlanoMedicaoProjetoTaigaSonarQubeSoMeSPC(planoDto.getItensPlanoDeMedicao(), periodicidadeSelecionada,
+						planoDto.getTaigaLogin(), projeto, planoDto.getSonarLogin(), projetosSonar);
 
 				json.append("Plano " + (i + 1), plano.getNome());
 				i++;
 				
-			}	*/
+			}	
 		//Caso 4 - Não encontrou itens de nenhuma das ferramentas
 		} else {
 			throw new Exception("Não foram informadas medidas para nenhuma das ferramentas coletoras disponíveis.");

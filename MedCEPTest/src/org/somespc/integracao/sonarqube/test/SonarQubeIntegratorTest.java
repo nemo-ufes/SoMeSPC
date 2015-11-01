@@ -156,7 +156,7 @@ public class SonarQubeIntegratorTest {
 				
 		//dump(plano);		
 	}
-
+	
 	private void dump(Object object) {
 		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
 		System.out.println(xstream.toXML(object));

@@ -19,38 +19,26 @@
  */
 package org.somespc.integracao.taiga.test;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
-import java.util.*;
+import java.util.List;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.somespc.inicializacao.SoMeSPCStarter;
-import org.somespc.integracao.SoMeSPCIntegrator;
 import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
-import org.somespc.integracao.taiga.model.Estoria;
-import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.integracao.taiga.model.Sprint;
-import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
-import org.somespc.model.entidades_e_medidas.Medida;
 import org.somespc.model.organizacao_de_software.Equipe;
 import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
 import org.somespc.model.organizacao_de_software.RecursoHumano;
-import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDaOrganizacao;
-import org.somespc.model.processo_de_software.Artefato;
-import org.somespc.model.processo_de_software.AtividadeProjeto;
-import org.somespc.model.processo_de_software.ProcessoPadrao;
-import org.somespc.model.processo_de_software.ProcessoProjeto;
-import org.somespc.model.processo_de_software.TipoDeArtefato;
 
-import com.thoughtworks.xstream.*;
-import com.thoughtworks.xstream.io.json.*;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 
 public class TaigaIntegratorTest {
 
@@ -190,40 +178,6 @@ public class TaigaIntegratorTest {
 		assertNotEquals(projeto.getId(), "");
 
 		dump(projeto);
-	}
-
-	@Test
-	public void testCriarMedidasSoMeSPC() throws Exception {
-
-//		
-//		MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-//
-//		List<Medida> medidas = integrator.criarMedidasSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)));
-//
-//		assertNotNull(medidas);
-//		assertNotEquals(medidas.size(), 0);
-//		assertTrue(medidas.size() > 0);
-
-		// dump(medidas);
-	}
-
-	@Test
-	public void testCriarPlanoMedicaoProjetoSoMeSPC() throws Exception {
-		// Projeto projeto =
-		// integrator.obterProjetoTaiga("paulossjunior-lifebox");
-		Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
-
-		List<Periodicidade> periodicidades = SoMeSPCIntegrator.obterPeriodicidades();
-		Periodicidade porHora = null;
-		for (Periodicidade periodicidade : periodicidades) {
-			if (periodicidade.getNome().equalsIgnoreCase("Por Hora")) {
-				porHora = periodicidade;
-				break;
-			}
-		}
-
-//		MedidasTaiga[] medidasTaiga = MedidasTaiga.PONTOS_ALOCADOS_PROJETO.getDeclaringClass().getEnumConstants();
-		//integrator.criarPlanoMedicaoProjetoSoMeSPC(new ArrayList<MedidasTaiga>(Arrays.asList(medidasTaiga)), porHora, projeto);
 	}
 
 	private void dump(Object object) {
