@@ -72,6 +72,52 @@ input {
 					</h2>
 
 					<div id="SoMeSPC-wizard">
+						
+						<h2>Objetivos</h2>
+						<fieldset style="overflow: auto;">
+							<label for="selectPeriodicidades">Periodicidade da coleta:</label>
+							<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected"
+								ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
+							</select>
+							<br />
+							<div class="row">
+								<p>
+									<b>Objetivos:</b>
+								</p>
+								<br />
+								<p>
+									<i>{{itens[0].nome_ObjetivoEstrategico}}</i>
+								</p>
+								<br />
+								<div id="itens" class="row bg-wizard" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">									
+									<div class="row fonte">
+										<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
+												id="{{i.nome_ObjetivoDeMedicao}}" 
+												type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
+												ng-click="toggleSelectionItem(item)" />
+										<span class="col-md-11 objetivo-medicao">
+											<b>OM - {{obj}}</b>									
+										</span>
+									</div>
+									<div class="row fonte">
+										<div class="col-md-12" ng-repeat="i in item">
+											<span class="row">	
+												<span class="necessidade-informacao">											
+													NI - {{i.nome_NecessidadeDeInformacao}}
+												</span>												
+											</span>											
+											<span class="row">											
+												<span class="medida">												
+													<i>ME - {{i.nome_Medida}}</i>
+												</span>
+											</span>										
+										</div>
+									</div>
+								</div>
+								<br />
+								<br />
+							</div>
+						</fieldset>
 
 						<h2>Conexão</h2>
 						<fieldset>
@@ -128,50 +174,6 @@ input {
 									</div>
 								</div>
 							</form>
-						</fieldset>
-
-						<h2>Objetivos</h2>
-						<fieldset style="overflow: scroll;">
-							<label for="selectPeriodicidades">Periodicidade da coleta:</label>
-							<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected"
-								ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
-							</select>
-							<br />
-							<div class="row">
-								<p>
-									<b>Objetivos:</b>
-								</p>
-								<br />
-								<p>
-									<i>{{itens[0].nome_ObjetivoEstrategico}}</i>
-								</p>
-								<br />
-								<div id="itens" class="row bg-wizard" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">
-									<label>
-										<span style="padding-bottom: 10px !important; ">
-												<br/>
-												{{obj}}
-												<br/>
-										</span>
-									</label>
-									<div class="col-md-12" ng-repeat="i in item">
-										<label class="checkbox" for="{{i.nome_Medida}}">
-											<span style="vertical-align: super !important;">
-												<br/>
-												{{i.nome_NecessidadeDeInformacao}}
-												<br/>
-											</span>
-											<input id="{{i.nome_Medida}}" type="checkbox" ng-checked="itens_selected.indexOf(i) > -1"
-												ng-click="toggleSelectionMedida(i)" />
-											<span style="vertical-align: bottom !important;">
-												{{i.nome_Medida}}
-											</span>
-										</label>
-									</div>
-								</div>
-								<br />
-								<br />
-							</div>
 						</fieldset>
 
 						<h2>Resumo</h2>

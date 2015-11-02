@@ -27,6 +27,7 @@ app.controller('TaigaController', function($scope, $resource,
 	$scope.projetosSelecionados = [];
 	$scope.periodicidade_selected;
 	$scope.itens_selected = [];
+	$scope.objetivos_selected = [];
 
 	$scope.toggleLoading = function toggleLoading() {
 		$scope.loading = !$scope.loading;
@@ -42,18 +43,22 @@ app.controller('TaigaController', function($scope, $resource,
 		}
 	};
 
-	$scope.toggleSelectionMedida = function toggleSelectionMedida(item) {
-		console.log(item);
-
-		var idx = $scope.itens_selected.indexOf(item);
-
-		if (idx > -1) {
-			$scope.itens_selected.splice(idx, 1);
-		} else {
-			$scope.itens_selected.push(item);
-		}
+	$scope.toggleSelectionItem = function toggleSelectionItem(itemsSelecionados) {					
+		for(idxItem in itemsSelecionados) {					
+			var item = itemsSelecionados[idxItem];
+									
+			if ($scope.itens_selected.indexOf(item) > -1){
+				console.log("item " + item.nome_Medida + " removido!");
+				var idxParaRemover = $scope.itens_selected.indexOf(item);
+				$scope.itens_selected.splice(idxParaRemover, 1);
+					
+			} else {				
+				console.log("item " + item.nome_Medida + " adicionado!");
+				$scope.itens_selected.push(item);
+			}				
+		}			
 	};
-
+	
 	$scope.get_periodicidade = function(index) {
 		$scope.periodicidade_selected = $scope.periodicidades[index];
 	}
