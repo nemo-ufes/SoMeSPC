@@ -80,13 +80,13 @@ public class SoMeSPCResource {
 
 		String OE = "Melhorar o gerenciamento dos projetos de software da organização";
 		
-		String OM_1 = "Melhorar a aderência ao planejamento de pontos de estória nos projetos";
-		String OM_2 = "Melhorar a aderência ao planejamento do número de sprints dos projetos";
-		String OM_3 = "Melhorar aderência ao planejamento das sprints dos projetos";
-		String OM_4 = "Monitorar a produtividade das sprints dos projetos";
-		String OM_5 = "Monitorar quantidade de doses de locaine nas sprints";
-		String OM_6 = "Monitorar velocidade dos projetos";
-		String OM_7 = "Monitorar a qualidade do código fonte produzido";
+		String OM_1 = "Monitorar a conclusão de pontos de estória nos projetos";
+		String OM_2 = "Monitorar a realização de sprints nos projetos";
+		String OM_3 = "Monitorar desempenho na sprint";
+		String OM_4 = "Monitorar desempenho no projeto";
+		String OM_5 = "Monitorar quantidade de doses de Iocaine nas sprints";
+		String OM_6 = "Monitorar velocidade da equipe no projeto";
+		String OM_7 = "Monitorar a qualidade do código fonte produzido nos projetos";
 	    	
 	    List<ItemPlanoDeMedicaoDTO> itensPlanoDeMedicao = new ArrayList<ItemPlanoDeMedicaoDTO>();
 		
