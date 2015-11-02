@@ -48,12 +48,9 @@ app.controller('TaigaController', function($scope, $resource,
 			var item = itemsSelecionados[idxItem];
 									
 			if ($scope.itens_selected.indexOf(item) > -1){
-				console.log("item " + item.nome_Medida + " removido!");
 				var idxParaRemover = $scope.itens_selected.indexOf(item);
-				$scope.itens_selected.splice(idxParaRemover, 1);
-					
+				$scope.itens_selected.splice(idxParaRemover, 1);					
 			} else {				
-				console.log("item " + item.nome_Medida + " adicionado!");
 				$scope.itens_selected.push(item);
 			}				
 		}			
