@@ -205,6 +205,16 @@ public class TaigaIntegratorTest {
 
 		dump(projeto);
 	}
+	
+	@Test
+	public void testMedidaNTAM(){
+		
+		List<Membro> membros = integrator.obterMembrosDoProjetoTaiga("ser515asu-agiletweetviz-geekoh");
+		
+		assertNotNull(membros);
+		
+		dump(membros);
+	}
 
 	private void dump(Object object) {
 		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());

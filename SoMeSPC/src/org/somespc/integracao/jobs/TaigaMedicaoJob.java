@@ -16,7 +16,11 @@ import org.somespc.integracao.SoMeSPCIntegrator;
 import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
+import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Sprint;
+import org.somespc.integracao.taiga.model.Tarefa;
+import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
+import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 
 @DisallowConcurrentExecution
@@ -292,6 +296,42 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				valorMedido = String.valueOf(estado.getVelocidade());
 				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
+			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Atribuídas por Membro")) {
+				
+				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
+				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
+				
+				for(Membro membro : membros) {
+															
+					String nomeAlocacao = String.format("%s %s em Equipe %s", membro.getPapel(), membro.getNome(), projeto.getNome());
+			
+					int totalTarefasMembro = 0;
+					
+					for(Tarefa tarefa : tarefas){						
+						if (tarefa.getIdDono() == membro.getIdUsuario() && !tarefa.isFechada()){
+							totalTarefasMembro++;
+						}				
+					}
+					
+					valorMedido = String.valueOf(totalTarefasMembro);
+					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nomeAlocacao, valorMedido);
+
+				}
+				
+			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Concluídas por Membro")) {
+				
+			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Tarefas por Membro")) {
+				
+			} else if (nomeMedida.equalsIgnoreCase("Número de Pontos de Estória Atribuídos por Membro")) {
+				
+			} else if (nomeMedida.equalsIgnoreCase("Número de Pontos de Estória Concluídos por Membro")) {
+				
+			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estória por Membro")) {
+				
+			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine Atribuídas por Membro")) {
+				
+			} else if (nomeMedida.equalsIgnoreCase("Taxa de Doses de Iocaine por Membro")) {
+							
 			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine na Sprint")) {
 
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);

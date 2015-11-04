@@ -436,6 +436,44 @@ public class TaigaIntegrator
 
 	return membro;
     }
+    
+    /**
+     * Obtem os dados do Membro pelo ID.
+     * 
+     * @param idMembro
+     *            - ID do membro a ser buscado.
+     * @return Membro
+     */
+    public List<Membro> obterMembrosDoProjetoTaiga(String apelidoProjeto)
+    {
+    	
+    	//Resolve o ID do projeto.
+    	WebTarget projeto = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
+
+    	Response response = projeto
+    		.request(MediaType.APPLICATION_JSON_TYPE)
+    		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+    		.get();
+
+    	if (response.getStatus() != Status.OK.getStatusCode())
+    	{
+    	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+    	}
+
+    	JSONObject json = new JSONObject(response.readEntity(String.class));
+    	int idProjeto = json.getInt("project");
+    	
+		//Busca informações do membro.
+		WebTarget target = client.target(this.urlTaiga).path("memberships").queryParam("project", idProjeto);
+	
+		List<Membro> membros = target
+			.request(MediaType.APPLICATION_JSON_TYPE)
+			.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+			.get(new GenericType<List<Membro>>() {
+			});
+	
+		return membros;
+    }
 
     /**
      * Cadastra um RecursoHumano na SoMeSPC a partir de um Membro do Taiga.
