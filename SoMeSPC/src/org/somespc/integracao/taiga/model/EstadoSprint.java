@@ -7,6 +7,54 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
+class Dia {
+
+	@XmlElement(name = "day")
+	private String dia;
+	@XmlElement(name = "name")
+	private String nome;
+
+	@XmlElement(name = "open_points")
+	private String pontosAbertos;
+
+	@XmlElement(name = "optimal_points")
+	private String pontosOtimos;
+
+	public String getDia() {
+		return dia;
+	}
+
+	public void setDia(String dia) {
+		this.dia = dia;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getPontosAbertos() {
+		return pontosAbertos;
+	}
+
+	public void setPontosAbertos(String pontosAbertos) {
+		this.pontosAbertos = pontosAbertos;
+	}
+
+	public String getPontosOtimos() {
+		return pontosOtimos;
+	}
+
+	public void setPontosOtimos(String pontosOtimos) {
+		this.pontosOtimos = pontosOtimos;
+	}
+
+}
+
+@XmlRootElement
 public class EstadoSprint {
 	@XmlElement(name = "name")
 	private String nome;
@@ -34,6 +82,9 @@ public class EstadoSprint {
 
 	@XmlElement(name = "is_closed")
 	private boolean concluida;
+
+	@XmlElement(name = "days")
+	private List<Dia> dias;
 
 	public String getNome() {
 		return nome;
@@ -105,6 +156,14 @@ public class EstadoSprint {
 
 	public void setConcluida(boolean concluida) {
 		this.concluida = concluida;
+	}
+
+	public List<Dia> getDias() {
+		return dias;
+	}
+
+	public void setDias(List<Dia> dias) {
+		this.dias = dias;
 	}
 
 }

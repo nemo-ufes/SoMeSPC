@@ -30,9 +30,11 @@ import org.somespc.inicializacao.SoMeSPCStarter;
 import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
+import org.somespc.integracao.taiga.model.Estoria;
 import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.integracao.taiga.model.Sprint;
+import org.somespc.integracao.taiga.model.Tarefa;
 import org.somespc.model.organizacao_de_software.Equipe;
 import org.somespc.model.organizacao_de_software.PapelRecursoHumano;
 import org.somespc.model.organizacao_de_software.RecursoHumano;
@@ -64,13 +66,13 @@ public class TaigaIntegratorTest {
 		Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
 
 		assertNotNull(projeto);
-		
+
 		dump(projeto);
 	}
 
 	@Test
 	public void testObterSprintsDoProjetoTaiga() {
-		List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga("almereyda-jon30");
+		List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga("ser515asu-agiletweetviz-geekoh");
 
 		assertNotNull(sprints);
 
@@ -79,8 +81,13 @@ public class TaigaIntegratorTest {
 
 	@Test
 	public void testObterEstadoSprintTaiga() {
-		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("almereyda-jon30", "instantiation-delayed");
-		//EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("almereyda-jon30", "einladungen-fortsetzung-besorgungen-und-feinschliff");
+		// EstadoSprint estadoSprint =
+		// integrator.obterEstadoSprintTaiga("almereyda-jon30",
+		// "instantiation-delayed");
+		EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga("ser515asu-agiletweetviz-geekoh", "spring-3-5");
+		// EstadoSprint estadoSprint =
+		// integrator.obterEstadoSprintTaiga("almereyda-jon30",
+		// "einladungen-fortsetzung-besorgungen-und-feinschliff");
 
 		assertNotNull(estadoSprint);
 
@@ -107,6 +114,25 @@ public class TaigaIntegratorTest {
 	}
 
 	@Test
+	public void testObterEstorias() {
+		List<Estoria> estorias = integrator.obterEstoriasDoProjectBacklogTaiga("ser515asu-agiletweetviz-geekoh");
+		List<Estoria> estorias2 = integrator.obterEstoriasDaSprintBacklogTaiga("ser515asu-agiletweetviz-geekoh",  "spring-3-5");
+
+		assertNotNull(estorias);
+
+		dump(estorias2);
+	}
+	
+	@Test
+	public void testObterTarefas() {
+		List<Tarefa> tarefas = integrator.obterTarefasDoProjeto("ser515asu-agiletweetviz-geekoh");
+		
+		assertNotNull(tarefas);
+
+		dump(tarefas);
+	}
+
+	@Test
 	public void testObterMembro() {
 		Membro membro = integrator.obterMembroTaiga(8);
 
@@ -116,7 +142,7 @@ public class TaigaIntegratorTest {
 		dump(membro);
 	}
 
-		@Test
+	@Test
 	public void testCriarRecursoHumanoSoMeSPC() throws Exception {
 		Membro membro = integrator.obterMembroTaiga(4);
 
