@@ -646,12 +646,17 @@ public class TaigaIntegrator
 	String query2 = "SELECT e FROM Escala e WHERE e.nome='Escala formada pelos números reais'";
 	TypedQuery<Escala> typedQuery2 = manager.createQuery(query2, Escala.class);
 	Escala escala = typedQuery2.getSingleResult();
-
+	
 	//Obtem a unidade de medida Pontos de Estória.
 	String query3 = "SELECT u FROM UnidadeDeMedida u WHERE u.nome='Pontos de Estória'";
 	TypedQuery<UnidadeDeMedida> typedQuery3 = manager.createQuery(query3, UnidadeDeMedida.class);
 	UnidadeDeMedida unidadeMedida = typedQuery3.getSingleResult();
 
+	//Obtem o tipo de Entidade Mensurável Alocação.
+	String query4 = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Alocação de Recurso Humano'");
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery4 = manager.createQuery(query4, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoAlocacao = typedQuery4.getSingleResult();
+	
 	//Obtem o tipo de Entidade Mensurável Projeto.
 	String query5 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Projeto'";
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery5 = manager.createQuery(query5, TipoDeEntidadeMensuravel.class);
@@ -773,6 +778,46 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;	
+		case NUMERO_TAREFAS_ATRIBUIDAS_MEMBRO:
+		    medida.setMnemonico("NTAM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	 
+		case NUMERO_TAREFAS_CONCLUIDAS_MEMBRO:
+		    medida.setMnemonico("NTCM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	 
+		case TAXA_CONCLUSAO_TAREFAS_MEMBRO:
+		    medida.setMnemonico("TCTM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case NUMERO_PONTOS_ESTORIA_ATRIBUIDOS_MEMBRO:
+		    medida.setMnemonico("NPEAM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case NUMERO_PONTOS_ESTORIA_CONCLUIDOS_MEMBRO:
+		    medida.setMnemonico("NPECM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case TAXA_CONCLUSAO_PONTOS_ESTORIA_MEMBRO:
+		    medida.setMnemonico("TCPEM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case NUMERO_DOSES_IOCAINE_ATRIBUIDAS_MEMBRO:
+		    medida.setMnemonico("NDIAM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case TAXA_DOSES_IOCAINE_MEMBRO:
+		    medida.setMnemonico("TDIM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;		    		    
 		case NUMERO_IOCAINE_SPRINT:
 		    medida.setMnemonico("NDIS");
 		    medida.setElementoMensuravel(tamanho);
