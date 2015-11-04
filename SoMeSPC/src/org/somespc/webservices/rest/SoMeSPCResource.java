@@ -85,16 +85,19 @@ public class SoMeSPCResource {
 		String OM_3 = "Monitorar desempenho na sprint";
 		String OM_4 = "Monitorar desempenho no projeto";
 		String OM_5 = "Monitorar quantidade de doses de Iocaine nas sprints";
-		String OM_6 = "Monitorar a qualidade do código fonte produzido nos projetos";
+		String OM_6 = "Monitorar o desempenho dos membros da equipe no projeto";
+		String OM_7 = "Monitorar a qualidade do código fonte produzido nos projetos";
 	    	
 	    List<ItemPlanoDeMedicaoDTO> itensPlanoDeMedicao = new ArrayList<ItemPlanoDeMedicaoDTO>();
 		
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "Quantos pontos de estória foram planejados para o projeto?", "Pontos de Estória Planejados para o Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "Quantos pontos de estória foram concluídos no projeto?", "Pontos de Estória Concluídos no Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_1, "Qual a taxa de conclusão de pontos de estória no projeto?", "Taxa de Conclusão de Pontos de Estória no Projeto", "Taiga"));
+	    
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "Quantas sprints foram planejadas para o projeto?", "Número de Sprints Planejadas para o Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "Quantas sprints foram realizadas no projeto?", "Número de Sprints Realizadas no Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_2, "Qual a taxa de conclusão de sprints no projeto?", "Taxa de Conclusão de Sprints no Projeto", "Taiga"));
+	    
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantas estórias foram planejadas para a sprint?", "Número de Estórias Planejadas para a Sprint", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantas estórias foram concluídas na sprint?", "Número de Estórias Concluídas na Sprint", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Qual a taxa de conclusão de estórias na sprint?", "Taxa de Conclusão de Estórias na Sprint", "Taiga"));
@@ -104,18 +107,30 @@ public class SoMeSPCResource {
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantas tarefas foram concluídas na sprint?", "Número de Tarefas Concluídas na Sprint", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Qual a taxa de conclusão de tarefas na sprint?", "Taxa de Conclusão de Tarefas na Sprint", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_3, "Quantos pontos de estória foram planejados para a sprint?", "Pontos de Estória Planejados para a Sprint", "Taiga"));
+	    
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Quantas sprints foram realizadas no projeto?", "Número de Sprints Realizadas no Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Quantas estórias foram concluídas para o projeto?", "Número de Estórias Concluídas para o Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Quantos pontos de estória foram concluídos no projeto?", "Pontos de Estória Concluídos no Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Qual o número médio de estórias concluídas por sprint no projeto?", "Média de Estórias Concluídas por Sprint do Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Qual o número médio de pontos de estórias concluídos por sprint no projeto? ", "Velocidade da Equipe no Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Qual a velocidade da equipe no projeto?", "Velocidade da Equipe no Projeto", "Taiga"));
+	    
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "Quantas tarefas foram concluídas na sprint?", "Número de Tarefas Concluídas na Sprint", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "Quantas doses de Iocaine ocorreram na sprint", "Número de Doses de Iocaine na Sprint", "Taiga"));	    
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "Qual a taxa de doses de Iocaine na sprint?", "Taxa de Doses de Iocaine na Sprint", "Taiga"));	    
-		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Qual a complexidade ciclomática média por método?", "Média da Complexidade Ciclomática por Método", "SonarQube"));
-		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Qual a taxa de duplicação de código?", "Taxa de Duplicação de Código", "SonarQube"));
-		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Qual o percentual da dívida técnica?", "Percentual da Dívida Técnica", "SonarQube"));
+	    
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Quantas tarefas foram atribuídas ao membro?", "Número de Tarefas Atribuídas por Membro", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Quantas tarefas foram concluídas pelo membro?", "Número de Tarefas Concluídas por Membro", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Qual a taxa de conclusão de tarefas do membro", "Taxa de Conclusão de Tarefas por Membro", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Quantos pontos de estória foram atribuídos ao membro?", "Número de Pontos de Estória Atribuídos por Membro", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Quantos pontos de estória foram concluídos pelo membro?", "Número de Pontos de Estória Concluídos por Membro", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Qual a taxa de conclusão de pontos de estória do membro?", "Taxa de Conclusão de Pontos de Estória por Membro", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Quantas doses de Iocaine foram atribuídas ao membro?", "Número de Doses de Iocaine Atribuídas por Membro", "Taiga"));
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_6, "Qual a taxa de doses de Iocaine do membro?", "Taxa de Doses de Iocaine por Membro", "Taiga"));
+	    
+	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "Qual a complexidade ciclomática média por método?", "Média da Complexidade Ciclomática por Método", "SonarQube"));
+		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "Qual a taxa de duplicação de código?", "Taxa de Duplicação de Código", "SonarQube"));
+		itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_7, "Qual o percentual da dívida técnica?", "Percentual da Dívida Técnica", "SonarQube"));
 
 		return Response.ok().entity(itensPlanoDeMedicao).build();		
 	}
