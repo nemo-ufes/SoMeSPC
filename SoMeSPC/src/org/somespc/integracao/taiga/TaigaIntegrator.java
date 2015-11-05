@@ -485,10 +485,11 @@ public class TaigaIntegrator
      * @throws Exception
      */
 	public RecursoHumano criarRecursoHumanoSoMeSPC(Membro membro) throws Exception {
-
+				
 		RecursoHumano recursoHumano = new RecursoHumano();
 		recursoHumano.setNome(membro.getNome());
-
+		
+		
 		return SoMeSPCIntegrator.criarRecursoHumano(recursoHumano);
 	}
 
@@ -536,18 +537,20 @@ public class TaigaIntegrator
 
 	for (Membro membro : membrosDaEquipe)
 	{
-	    AlocacaoEquipe alocacao = new AlocacaoEquipe();
-	    alocacao.setEquipe(equipe);
-
-	    //Insere o Recurso Humano na Equipe e na Alocacao. 
-	    //Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
-	    RecursoHumano rec = this.criarRecursoHumanoSoMeSPC(membro);
-	    recursosHumanos.add(rec);
-
-	    alocacao.setRecursoHumano(rec);
-	    alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoSoMeSPC(membro));
-	    alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
-	    alocacoes.add(alocacao);
+		if (membro.getId() != 0 && membro.getNome() != null && !membro.getNome().isEmpty()) {
+		    AlocacaoEquipe alocacao = new AlocacaoEquipe();
+		    alocacao.setEquipe(equipe);
+	
+		    //Insere o Recurso Humano na Equipe e na Alocacao. 
+		    //Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
+		    RecursoHumano rec = this.criarRecursoHumanoSoMeSPC(membro);
+		    recursosHumanos.add(rec);
+	
+		    alocacao.setRecursoHumano(rec);
+		    alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoSoMeSPC(membro));
+		    alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
+		    alocacoes.add(alocacao);
+		}
 	}
 
 	equipe.setRecursoHumano(recursosHumanos);
@@ -612,6 +615,12 @@ public class TaigaIntegrator
     public org.somespc.model.organizacao_de_software.Projeto criarProjetoSoMeSPC(Projeto projeto) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
+	
+	if (projeto.getEquipe() == null || projeto.getEquipe().isEmpty()){
+		List<Membro> equipe = this.obterMembrosDoProjetoTaiga(projeto.getApelido());
+		projeto.setEquipe(equipe);
+	}
+	
 	Equipe equipe = this.criarEquipeSoMeSPC("Equipe " + projeto.getNome(), projeto.getEquipe());
 	List<Equipe> equipes = new ArrayList<Equipe>();
 	equipes.add(equipe);

@@ -122,7 +122,12 @@ public class SoMeSPCIntegrator {
 
 			if (!manager.isOpen())
 				manager = XPersistence.createManager();
-
+			
+		    String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Recurso Humano'");
+			TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = manager.createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
+			TipoDeEntidadeMensuravel tipoRh = tipoEntidadeTypedQuery.getSingleResult();
+			recursoHumano.setTipoDeEntidadeMensuravel(tipoRh);
+			
 			manager.getTransaction().begin();
 			manager.persist(recursoHumano);
 			manager.getTransaction().commit();

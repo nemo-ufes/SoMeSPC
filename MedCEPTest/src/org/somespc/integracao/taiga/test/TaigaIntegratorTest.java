@@ -63,7 +63,7 @@ public class TaigaIntegratorTest {
 
 	@Test
 	public void testObterProjeto() {
-		Projeto projeto = integrator.obterProjetoTaiga("paflopes-sincap");
+		Projeto projeto = integrator.obterProjetoTaiga("ser515asu-agiletweetviz-geekoh");
 
 		assertNotNull(projeto);
 
@@ -141,6 +141,15 @@ public class TaigaIntegratorTest {
 
 		dump(membro);
 	}
+	
+	@Test
+	public void testObterMembros() {
+		List<Membro> membros = integrator.obterMembrosDoProjetoTaiga("ser515asu-agiletweetviz-geekoh");
+
+		assertNotNull(membros);
+		
+		dump(membros);
+	}
 
 	@Test
 	public void testCriarRecursoHumanoSoMeSPC() throws Exception {
@@ -176,7 +185,7 @@ public class TaigaIntegratorTest {
 
 	@Test
 	public void testCriarEquipeSoMeSPC() throws Exception {
-		Projeto sincap = integrator.obterProjetoTaiga("paflopes-sincap");
+		Projeto sincap = integrator.obterProjetoTaiga("ser515asu-agiletweetviz-geekoh");
 
 		assertNotNull(sincap);
 		assertNotNull(sincap.getEquipe());
@@ -207,13 +216,17 @@ public class TaigaIntegratorTest {
 	}
 	
 	@Test
-	public void testMedidaNTAM(){
+	public void testMedidaNTAM() throws Exception{
 		
-		List<Membro> membros = integrator.obterMembrosDoProjetoTaiga("ser515asu-agiletweetviz-geekoh");
+		List<Membro> membros = integrator.obterMembrosDoProjetoTaiga("almereyda-jon30");
 		
 		assertNotNull(membros);
+				
+		for(Membro membro : membros) {					
+			dump(membro);
+			integrator.criarRecursoHumanoSoMeSPC(membro);
+		}
 		
-		dump(membros);
 	}
 
 	private void dump(Object object) {

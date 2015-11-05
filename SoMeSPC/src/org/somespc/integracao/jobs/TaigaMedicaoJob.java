@@ -19,8 +19,6 @@ import org.somespc.integracao.taiga.model.EstadoSprint;
 import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.integracao.taiga.model.Tarefa;
-import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
-import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 
 @DisallowConcurrentExecution
@@ -301,10 +299,8 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
 				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
 				
-				for(Membro membro : membros) {
-															
-					String nomeAlocacao = String.format("%s %s em Equipe %s", membro.getPapel(), membro.getNome(), projeto.getNome());
-			
+				for(Membro membro : membros) {		
+							
 					int totalTarefasMembro = 0;
 					
 					for(Tarefa tarefa : tarefas){						
@@ -314,8 +310,12 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					}
 					
 					valorMedido = String.valueOf(totalTarefasMembro);
-					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nomeAlocacao, valorMedido);
-
+					try {
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+					} catch (Exception ex) {
+						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
+						System.err.println(mensagem);
+					}
 				}
 				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Concluídas pelo Membro do Projeto")) {
