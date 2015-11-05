@@ -363,9 +363,13 @@ public class TaigaMedicaoJob extends MedicaoJob {
 						}				
 					}
 					
-					float taxaConclusaoTarefas = totalTarefasMembro / totalTarefasConcluidasMembro;
-					
-					valorMedido = String.valueOf(taxaConclusaoTarefas);
+					if (totalTarefasConcluidasMembro > 0){
+						float taxaConclusaoTarefas = totalTarefasMembro / totalTarefasConcluidasMembro;						
+						valorMedido = String.valueOf(taxaConclusaoTarefas);
+					} else {
+						valorMedido = String.valueOf(0);
+					}	
+										
 					try {
 						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
 					} catch (Exception ex) {
@@ -473,10 +477,13 @@ public class TaigaMedicaoJob extends MedicaoJob {
 						}	
 					}	
 					
-					double taxaConclusaoPontosMembro = pontosEstoriaMembro / pontosEstoriaConcluidosMembro;
-					
-					valorMedido = String.valueOf(taxaConclusaoPontosMembro);
-					
+					if (pontosEstoriaConcluidosMembro > 0){
+						double taxaConclusaoPontosMembro = pontosEstoriaMembro / pontosEstoriaConcluidosMembro;						
+						valorMedido = String.valueOf(taxaConclusaoPontosMembro);
+					} else {
+						valorMedido = String.valueOf(0);
+					}					
+										
 					try {
 						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
 					} catch (Exception ex) {
@@ -529,9 +536,13 @@ public class TaigaMedicaoJob extends MedicaoJob {
 							totalTarefasConcluidasMembro++;
 						}	
 					}
-										
-					float taxaDosesIocaineMembro = totalTarefasIocaineMembro / totalTarefasConcluidasMembro;
-					valorMedido = String.valueOf(taxaDosesIocaineMembro);
+					
+					if (totalTarefasConcluidasMembro > 0){
+						float taxaDosesIocaineMembro = totalTarefasIocaineMembro / totalTarefasConcluidasMembro;
+						valorMedido = String.valueOf(taxaDosesIocaineMembro);
+					} else {
+						valorMedido = String.valueOf(0);
+					}				
 					
 					try {
 						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
