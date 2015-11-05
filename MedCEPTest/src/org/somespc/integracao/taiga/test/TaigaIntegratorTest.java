@@ -131,7 +131,7 @@ public class TaigaIntegratorTest {
 
 		dump(tarefas);
 	}
-
+	
 	@Test
 	public void testObterMembro() {
 		Membro membro = integrator.obterMembroTaiga(8);
@@ -215,20 +215,6 @@ public class TaigaIntegratorTest {
 		dump(projeto);
 	}
 	
-	@Test
-	public void testMedidaNTAM() throws Exception{
-		
-		List<Membro> membros = integrator.obterMembrosDoProjetoTaiga("almereyda-jon30");
-		
-		assertNotNull(membros);
-				
-		for(Membro membro : membros) {					
-			dump(membro);
-			integrator.criarRecursoHumanoSoMeSPC(membro);
-		}
-		
-	}
-
 	private void dump(Object object) {
 		XStream xstream = new XStream(new JsonHierarchicalStreamDriver());
 		System.out.println(xstream.toXML(object));

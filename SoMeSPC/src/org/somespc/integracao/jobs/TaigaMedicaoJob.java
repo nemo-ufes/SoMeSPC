@@ -16,6 +16,7 @@ import org.somespc.integracao.SoMeSPCIntegrator;
 import org.somespc.integracao.taiga.TaigaIntegrator;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
+import org.somespc.integracao.taiga.model.Estoria;
 import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.integracao.taiga.model.Tarefa;
@@ -320,18 +321,227 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Concluídas pelo Membro do Projeto")) {
 				
+				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
+				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
+				
+				for(Membro membro : membros) {		
+							
+					int totalTarefasConcluidasMembro = 0;
+					
+					for(Tarefa tarefa : tarefas){						
+						if (tarefa.getIdDono() == membro.getIdUsuario() && tarefa.isFechada()){
+							totalTarefasConcluidasMembro++;
+						}				
+					}
+					
+					valorMedido = String.valueOf(totalTarefasConcluidasMembro);
+					try {
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+					} catch (Exception ex) {
+						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
+						System.err.println(mensagem);
+					}
+				}
+				
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Tarefas de Membro do Projeto")) {
+				
+				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
+				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
+				
+				for(Membro membro : membros) {		
+							
+					int totalTarefasConcluidasMembro = 0;
+					int totalTarefasMembro = 0;
+					
+					for(Tarefa tarefa : tarefas){					
+						if (tarefa.getIdDono() == membro.getIdUsuario() && !tarefa.isFechada()){
+							totalTarefasMembro++;
+						}
+						
+						if (tarefa.getIdDono() == membro.getIdUsuario() && tarefa.isFechada()){
+							totalTarefasConcluidasMembro++;
+						}				
+					}
+					
+					float taxaConclusaoTarefas = totalTarefasMembro / totalTarefasConcluidasMembro;
+					
+					valorMedido = String.valueOf(taxaConclusaoTarefas);
+					try {
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+					} catch (Exception ex) {
+						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
+						System.err.println(mensagem);
+					}
+				}				
 				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Pontos de Estória Atribuídos a Membro do Projeto")) {
 				
+				//Obtem todas as estórias, tanto do backlog do projeto quanto das sprints.				
+				List<Estoria> estorias = integrator.obterEstoriasDoProjectBacklogTaiga(apelidoProjeto);
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+				
+				for(Sprint sprint : sprints) {					
+					List<Estoria> estoriasSprint = integrator.obterEstoriasDaSprintBacklogTaiga(apelidoProjeto, sprint.getApelido());					
+					estorias.addAll(estoriasSprint);					
+				}
+				
+				//Calcula a quantidade de estórias do membro.
+				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
+								
+				for(Membro membro : membros){
+					
+					double pontosEstoriaMembro = 0;
+					
+					for(Estoria estoria : estorias) {
+						if (estoria.getIdDono() == membro.getIdUsuario() && !estoria.isFechada()){
+							pontosEstoriaMembro += estoria.getTotalPontos();
+						}	
+					}	
+					
+					valorMedido = String.valueOf(pontosEstoriaMembro);
+					
+					try {
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+					} catch (Exception ex) {
+						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
+						System.err.println(mensagem);
+					}
+				}						
+				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Pontos de Estória Concluídos pelo Membro do Projeto")) {
+				
+				//Obtem todas as estórias, tanto do backlog do projeto quanto das sprints.				
+				List<Estoria> estorias = integrator.obterEstoriasDoProjectBacklogTaiga(apelidoProjeto);
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+				
+				for(Sprint sprint : sprints) {					
+					List<Estoria> estoriasSprint = integrator.obterEstoriasDaSprintBacklogTaiga(apelidoProjeto, sprint.getApelido());					
+					estorias.addAll(estoriasSprint);					
+				}
+				
+				//Calcula a quantidade de estórias do membro.
+				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
+								
+				for(Membro membro : membros){
+					
+					double pontosEstoriaConcluidosMembro = 0;
+					
+					for(Estoria estoria : estorias) {
+						if (estoria.getIdDono() == membro.getIdUsuario() && estoria.isFechada()){
+							pontosEstoriaConcluidosMembro += estoria.getTotalPontos();
+						}	
+					}	
+					
+					valorMedido = String.valueOf(pontosEstoriaConcluidosMembro);
+					
+					try {
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+					} catch (Exception ex) {
+						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
+						System.err.println(mensagem);
+					}
+				}	
+				
 				
 			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estória de Membro do Projeto")) {
 				
+				//Obtem todas as estórias, tanto do backlog do projeto quanto das sprints.				
+				List<Estoria> estorias = integrator.obterEstoriasDoProjectBacklogTaiga(apelidoProjeto);
+				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
+				
+				for(Sprint sprint : sprints) {					
+					List<Estoria> estoriasSprint = integrator.obterEstoriasDaSprintBacklogTaiga(apelidoProjeto, sprint.getApelido());					
+					estorias.addAll(estoriasSprint);					
+				}
+				
+				//Calcula a quantidade de estórias do membro.
+				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
+								
+				for(Membro membro : membros){
+					
+					double pontosEstoriaMembro = 0;
+					double pontosEstoriaConcluidosMembro = 0;
+					
+					for(Estoria estoria : estorias) {
+						
+						if (estoria.getIdDono() == membro.getIdUsuario() && !estoria.isFechada()){							
+							pontosEstoriaMembro += estoria.getTotalPontos();
+						}	
+						
+						if (estoria.getIdDono() == membro.getIdUsuario() && estoria.isFechada()){
+							pontosEstoriaConcluidosMembro += estoria.getTotalPontos();
+						}	
+					}	
+					
+					double taxaConclusaoPontosMembro = pontosEstoriaMembro / pontosEstoriaConcluidosMembro;
+					
+					valorMedido = String.valueOf(taxaConclusaoPontosMembro);
+					
+					try {
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+					} catch (Exception ex) {
+						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
+						System.err.println(mensagem);
+					}
+				}	
+				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine Atribuídas a Membro do Projeto")) {
 				
-			} else if (nomeMedida.equalsIgnoreCase("Taxa de Doses de Iocaine de Membro do Projeto")) {
+				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
+				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
+				
+				for(Membro membro : membros) {		
 							
+					int totalTarefasIocaineMembro = 0;
+					
+					for(Tarefa tarefa : tarefas){					
+						if (tarefa.getIdDono() == membro.getIdUsuario() && tarefa.isIocaine()){
+							totalTarefasIocaineMembro++;
+						}							
+					}
+										
+					valorMedido = String.valueOf(totalTarefasIocaineMembro);
+					try {
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+					} catch (Exception ex) {
+						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
+						System.err.println(mensagem);
+					}
+				}		
+				
+				
+			} else if (nomeMedida.equalsIgnoreCase("Taxa de Doses de Iocaine de Membro do Projeto")) {
+				
+				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
+				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
+				
+				for(Membro membro : membros) {		
+							
+					int totalTarefasIocaineMembro = 0;
+					int totalTarefasConcluidasMembro = 0;
+					
+					for(Tarefa tarefa : tarefas){					
+						if (tarefa.getIdDono() == membro.getIdUsuario() && tarefa.isIocaine()){
+							totalTarefasIocaineMembro++;
+						}			
+						
+						if (tarefa.getIdDono() == membro.getIdUsuario() && tarefa.isFechada()){
+							totalTarefasConcluidasMembro++;
+						}	
+					}
+										
+					float taxaDosesIocaineMembro = totalTarefasIocaineMembro / totalTarefasConcluidasMembro;
+					valorMedido = String.valueOf(taxaDosesIocaineMembro);
+					
+					try {
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+					} catch (Exception ex) {
+						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
+						System.err.println(mensagem);
+					}
+				}		
+				
+				
 			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine na Sprint")) {
 
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
