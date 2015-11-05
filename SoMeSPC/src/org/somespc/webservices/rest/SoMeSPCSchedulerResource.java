@@ -45,7 +45,7 @@ public class SoMeSPCSchedulerResource
 	Response response;
 	EntityManager manager = XPersistence.createManager();
 
-	String sql = "SELECT * FROM qrtz_job_details";
+	String sql = "SELECT * FROM QRTZ_JOB_DETAILS";
 
 	Query query = manager.createNativeQuery(sql);
 	@SuppressWarnings("unchecked")
@@ -91,7 +91,7 @@ public class SoMeSPCSchedulerResource
 	Response response;
 	EntityManager manager = XPersistence.createManager();
 
-	String sql = "SELECT * FROM qrtz_triggers ORDER BY trigger_group, trigger_name";
+	String sql = "SELECT * FROM QRTZ_TRIGGERS ORDER BY TRIGGER_GROUP, TRIGGER_NAME";
 
 	Query query = manager.createNativeQuery(sql);
 	@SuppressWarnings("unchecked")
