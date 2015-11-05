@@ -296,7 +296,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				valorMedido = String.valueOf(estado.getVelocidade());
 				SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, entidadeMedida, valorMedido);
 
-			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Atribuídas por Membro")) {
+			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Atribuídas a Membro do Projeto")) {
 				
 				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
 				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
@@ -318,19 +318,19 @@ public class TaigaMedicaoJob extends MedicaoJob {
 
 				}
 				
-			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Concluídas por Membro")) {
+			} else if (nomeMedida.equalsIgnoreCase("Número de Tarefas Concluídas pelo Membro do Projeto")) {
 				
-			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Tarefas por Membro")) {
+			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Tarefas de Membro do Projeto")) {
 				
-			} else if (nomeMedida.equalsIgnoreCase("Número de Pontos de Estória Atribuídos por Membro")) {
+			} else if (nomeMedida.equalsIgnoreCase("Número de Pontos de Estória Atribuídos a Membro do Projeto")) {
 				
-			} else if (nomeMedida.equalsIgnoreCase("Número de Pontos de Estória Concluídos por Membro")) {
+			} else if (nomeMedida.equalsIgnoreCase("Número de Pontos de Estória Concluídos pelo Membro do Projeto")) {
 				
-			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estória por Membro")) {
+			} else if (nomeMedida.equalsIgnoreCase("Taxa de Conclusão de Pontos de Estória de Membro do Projeto")) {
 				
-			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine Atribuídas por Membro")) {
+			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine Atribuídas a Membro do Projeto")) {
 				
-			} else if (nomeMedida.equalsIgnoreCase("Taxa de Doses de Iocaine por Membro")) {
+			} else if (nomeMedida.equalsIgnoreCase("Taxa de Doses de Iocaine de Membro do Projeto")) {
 							
 			} else if (nomeMedida.equalsIgnoreCase("Número de Doses de Iocaine na Sprint")) {
 
