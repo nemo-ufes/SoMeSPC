@@ -397,7 +397,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					double pontosEstoriaMembro = 0;
 					
 					for(Estoria estoria : estorias) {
-						if (estoria.getIdDono() == membro.getIdUsuario() && !estoria.isFechada()){
+						if (estoria.getIdDono() == membro.getIdUsuario() && !estoria.isFechada() && estoria.getTotalPontos() != null){
 							pontosEstoriaMembro += estoria.getTotalPontos();
 						}	
 					}	
@@ -431,7 +431,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					double pontosEstoriaConcluidosMembro = 0;
 					
 					for(Estoria estoria : estorias) {
-						if (estoria.getIdDono() == membro.getIdUsuario() && estoria.isFechada()){
+						if (estoria.getIdDono() == membro.getIdUsuario() && estoria.isFechada() && estoria.getTotalPontos() != null){
 							pontosEstoriaConcluidosMembro += estoria.getTotalPontos();
 						}	
 					}	
@@ -468,11 +468,11 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					
 					for(Estoria estoria : estorias) {
 						
-						if (estoria.getIdDono() == membro.getIdUsuario() && !estoria.isFechada()){							
+						if (estoria.getIdDono() == membro.getIdUsuario() && !estoria.isFechada() && estoria.getTotalPontos() != null){							
 							pontosEstoriaMembro += estoria.getTotalPontos();
 						}	
 						
-						if (estoria.getIdDono() == membro.getIdUsuario() && estoria.isFechada()){
+						if (estoria.getIdDono() == membro.getIdUsuario() && estoria.isFechada() && estoria.getTotalPontos() != null){
 							pontosEstoriaConcluidosMembro += estoria.getTotalPontos();
 						}	
 					}	
