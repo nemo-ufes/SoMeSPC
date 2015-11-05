@@ -169,6 +169,9 @@ public class SoMeSPCStarter extends HttpServlet
 	    ElementoMensuravel desempenho = new ElementoMensuravel();
 	    ElementoMensuravel tamanho = new ElementoMensuravel();
 	    ElementoMensuravel duracao = new ElementoMensuravel();
+	    ElementoMensuravel complexidade = new ElementoMensuravel();
+	    ElementoMensuravel duplicacao = new ElementoMensuravel();
+	    ElementoMensuravel dividaTecnica = new ElementoMensuravel();
 
 	    //Obtem o tipo Elemento Diretamente Mensurável.
 	    String query = "SELECT t FROM TipoElementoMensuravel t WHERE t.nome='Elemento Diretamente Mensurável'";
@@ -192,11 +195,26 @@ public class SoMeSPCStarter extends HttpServlet
 	    duracao.setNome("Duração");
 	    duracao.setDescricao("Substração da data de fim pela data de início.");
 	    duracao.setTipoElementoMensuravel(elementoIndiretamenteMensuravel);
+	    
+	    complexidade.setNome("Complexidade");
+	    complexidade.setDescricao("Complexidade");
+	    complexidade.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
 
+	    duplicacao.setNome("Duplicação");
+	    duplicacao.setDescricao("Duplicação");
+	    duplicacao.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
+	    
+	    dividaTecnica.setNome("Dívida Técnica");
+	    dividaTecnica.setDescricao("Dívida Técnica");
+	    dividaTecnica.setTipoElementoMensuravel(elementoDiretamenteMensuravel);
+	    	    
 	    List<ElementoMensuravel> elementosParaPersistir = new ArrayList<ElementoMensuravel>();
 	    elementosParaPersistir.add(desempenho);
 	    elementosParaPersistir.add(tamanho);
 	    elementosParaPersistir.add(duracao);
+	    elementosParaPersistir.add(complexidade);
+	    elementosParaPersistir.add(duplicacao);
+	    elementosParaPersistir.add(dividaTecnica);
 
 	    for (ElementoMensuravel elementoMensuravel : elementosParaPersistir)
 	    {

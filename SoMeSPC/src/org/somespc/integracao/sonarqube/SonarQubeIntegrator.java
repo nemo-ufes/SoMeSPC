@@ -229,17 +229,24 @@ public class SonarQubeIntegrator {
 		TypedQuery<TipoDeEntidadeMensuravel> typedQuery5 = manager.createQuery(query5, TipoDeEntidadeMensuravel.class);
 		TipoDeEntidadeMensuravel tipoProjeto = typedQuery5.getSingleResult();
 
-		// Obtem o ElementoMensuravel Desempenho.
-		String queryDesempenho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Desempenho'";
-		TypedQuery<ElementoMensuravel> typedQueryDesempenho = manager.createQuery(queryDesempenho,
+		// Obtem o ElementoMensuravel Complexidade.
+		String queryComplexidade = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Complexidade'";
+		TypedQuery<ElementoMensuravel> typedQueryComplexidade = manager.createQuery(queryComplexidade,
 				ElementoMensuravel.class);
-		ElementoMensuravel desempenho = typedQueryDesempenho.getSingleResult();
-
-		// Obtem o ElementoMensuravel Tamanho.
-		String queryTamanho = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Tamanho'";
-		TypedQuery<ElementoMensuravel> typedQueryTamanho = manager.createQuery(queryTamanho, ElementoMensuravel.class);
-		ElementoMensuravel tamanho = typedQueryTamanho.getSingleResult();
-
+		ElementoMensuravel complexidade = typedQueryComplexidade.getSingleResult();
+		
+		// Obtem o ElementoMensuravel Duplicação.
+		String queryDuplicacao = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Duplicação'";
+		TypedQuery<ElementoMensuravel> typedQueryDuplicacao = manager.createQuery(queryDuplicacao,
+				ElementoMensuravel.class);
+		ElementoMensuravel duplicacao = typedQueryDuplicacao.getSingleResult();
+		
+		// Obtem o ElementoMensuravel Dívida Técnica.
+		String queryDividaTecnica = "SELECT e FROM ElementoMensuravel e WHERE e.nome='Dívida Técnica'";
+		TypedQuery<ElementoMensuravel> typedQueryDividaTecnica = manager.createQuery(queryDividaTecnica,
+				ElementoMensuravel.class);
+		ElementoMensuravel dividaTecnica = typedQueryDividaTecnica.getSingleResult();
+	
 		manager.close();
 
 		// Define a medida de acordo com a lista informada.
@@ -250,17 +257,17 @@ public class SonarQubeIntegrator {
 			switch (medidaSonar) {
 			case MEDIA_COMPLEXIDADE_CICLOMATICA_MEDIA:
 				medida.setMnemonico("MCCM");
-				medida.setElementoMensuravel(desempenho);
+				medida.setElementoMensuravel(complexidade);
 				medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 				break;
 			case TAXA_DUPLICACAO_CODIGO:
 				medida.setMnemonico("TDC");
-				medida.setElementoMensuravel(tamanho);
+				medida.setElementoMensuravel(duplicacao);
 				medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 				break;
 			case PERCENTUAL_DIVIDA_TECNICA:
 				medida.setMnemonico("PDT");
-				medida.setElementoMensuravel(tamanho);
+				medida.setElementoMensuravel(dividaTecnica);
 				medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 				break;
 
