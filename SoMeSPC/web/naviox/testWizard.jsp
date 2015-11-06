@@ -92,227 +92,226 @@
 
 			<td valign="top">
 				<div class="module-wrapper">
-				
-				<div class="container">
-				
-				    <!-- HEADER -->
-				    <div id="header_wrap">
-				        <header class="text-center">
-				          <h2>Novo Plano de Medição Integrado</h2>				
-				        </header>
-				    </div>
-				
-				    <!-- MAIN CONTENT -->
-				    <div id="main_content_wrap">
-				      <section id="main_content" ng-app="SoMeSPCWizardApp" ng-controller="WizardCtrl">
-				        <wizard on-finish="finished()">
-					          <wz-step title="Introdução">
-					          <fieldset class="wizard-content">
-					            <h3>Criando um Plano de Medição</h3>
-					            <p>Para utilizar este wizard, siga os seguintes passos:</p>
-					            <p>
-					            	<ul style="list-style-type:disc">
-										<li>Selecione a periodicidade da coleta e os objetivos que deseja alcançar com o plano.</li>
-										<li>De acordo com os objetivos selecionados, uma tela para realização do login nas ferramentas integradas irá aparecer, preencha os dados e siga em frente.</li>
-										<li>Selecione os projetos para os quais deseja criar os planos de medição e siga em frente para a tela de resumo</li>
-										<li>Avalie se tudo foi preenchido corretamente e cliquei em concluir.</li>
-									</ul>  
-					            </p>
-					          </fieldset>
-					         	<nav>
-								  <div class="pager pager-size">							  	
-				            		<input type="button" class="nav navbar-nav navbar-right" wz-next="logStep()" value="Proximo" />					    
-								  </div>
-							  	</nav>	
-				          </wz-step>
-				          <wz-step title="Objetivos"  >
-				            <fieldset class="wizard-content">				            
-				            	<label for="selectPeriodicidades">Periodicidade</label>
-								<select class="form-control" id="selectPeriodicidades" 
-										ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades"> 
-									</select>
-									<br />
-									<div class="row">
-										<p class="row">
-											<b>Objetivos:</b>
-										</p>
-										<p class="row">										
-											<i>OE - {{itens[0].nome_ObjetivoEstrategico}}</i>
-										</p>
-										<div class="bg-wizard">
-											<div id="itens" class="row" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">									
-												<div class="row fonte">
-													<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
-															id="{{i.nome_ObjetivoDeMedicao}}" 
-															type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
-															ng-click="toggleSelectionItem(item)" />
-													<span class="col-md-11 objetivo-medicao">
-														<b>OM - {{obj}}</b>									
-													</span>
-												</div>
-												<div class="row fonte">
-													<div class="col-md-12" ng-repeat="i in item">
-														<span class="row">	
-															<span class="necessidade-informacao">											
-																NI - {{i.nome_NecessidadeDeInformacao}}
-															</span>												
-														</span>											
-														<span class="row">											
-															<span class="medida">												
-																<i>ME - {{i.nome_Medida}}</i>
-															</span>
-														</span>										
+					<br/>
+					<div class="container fundo1">					
+					    <!-- HEADER -->
+					    <div id="header_wrap" class="fundo2">
+				        	<header class="text-center">
+				        		<h3>Novo Plano de Medição Integrado</h3>
+				        	</header>
+					    </div>
+					
+					    <!-- MAIN CONTENT -->
+					    <div id="main_content_wrap" class="fundo3">				    
+					      <section id="main_content" ng-app="SoMeSPCWizardApp" ng-controller="WizardCtrl">
+					        <wizard on-finish="finished()">
+						          <wz-step title="Introdução">
+						          <fieldset class="wizard-content">
+						            <h3>Criando um Plano de Medição</h3>
+						            <p>Para utilizar este wizard, siga os seguintes passos:</p>
+						            <p>
+						            	<ul style="list-style-type:disc">
+											<li>Selecione a periodicidade da coleta e os objetivos que deseja alcançar com o plano.</li>
+											<li>De acordo com os objetivos selecionados, uma tela para realização do login nas ferramentas integradas irá aparecer, preencha os dados e siga em frente.</li>
+											<li>Selecione os projetos para os quais deseja criar os planos de medição e siga em frente para a tela de resumo</li>
+											<li>Avalie se tudo foi preenchido corretamente e cliquei em concluir.</li>
+										</ul>  
+						            </p>
+						          </fieldset>
+						         	<nav>
+									  <div class="pager pager-size">							  	
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+									  </div>
+								  	</nav>	
+					          </wz-step>
+					          <wz-step title="Objetivos"  >
+					            <fieldset class="wizard-content">				            
+					            	<label for="selectPeriodicidades">Periodicidade</label>
+									<select class="form-control" id="selectPeriodicidades" 
+											ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades"> 
+										</select>
+										<br />
+										<div class="row">
+											<p class="row">
+												<b>Objetivos:</b>
+											</p>
+											<p class="row">										
+												<i>OE - {{itens[0].nome_ObjetivoEstrategico}}</i>
+											</p>
+											<div class="bg-wizard">
+												<div id="itens" class="row" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">									
+													<div class="row fonte">
+														<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
+																id="{{i.nome_ObjetivoDeMedicao}}" 
+																type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
+																ng-click="toggleSelectionItem(item)" />
+														<span class="col-md-11 objetivo-medicao">
+															<b>OM - {{obj}}</b>									
+														</span>
 													</div>
-												</div>
-											</div>
-										</div>
-										<br />
-										<br />
-									</div>
-								</fieldset>
-								<nav>
-								  <div class="pager pager-size">
-								  	<input type="button" class="nav navbar-nav navbar-left"  wz-previous value="Anterior" />							  	
-				            		<input type="button" class="nav navbar-nav navbar-right" wz-next="logStep()" value="Proximo" />					    
-								  </div>
-							  	</nav>						
-				          </wz-step>
-				          <wz-step title="Conexão Taiga">
-							<fieldset class="wizard-content">
-								<form name="loginFormTaiga" novalidate>
-									<div style="margin-left: 180px; margin-top: 50px;">
-										<label for="url">
-											<strong>URL *</strong>
-										</label>
-										<input placeholder="URL do servidor do Taiga" type="url" name="url" ng-model="loginTaiga.url" required>
-										<span style="color: red" ng-show="loginFormTaiga.url.$dirty && loginFormTaiga.url.$invalid">
-											<span ng-show="loginFormTaiga.url.$error.required">Digite a URL.</span>
-											<span ng-show="loginFormTaiga.url.$error.url">Endereço de URL inválido.</span>
-										</span>
-										<br />
-										<br />
-										<label for="usuario">
-											<strong>Usuário *</strong>
-										</label>
-										<input placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="loginTaiga.usuario" required>
-										<span style="color: red" ng-show="loginFormTaiga.usuario.$dirty && loginFormTaiga.usuario.$invalid">
-											<span ng-show="loginFormTaiga.usuario.$error.required">Digite o Nome do Usuário.</span>
-										</span>
-										<br />
-										<br />
-										<label for="password">
-											<strong>Senha *</strong>
-										</label>
-										<input type="password" name="password" ng-model="loginTaiga.senha" required>
-										<span style="color: red" ng-show="loginFormTaiga.password.$dirty && loginFormTaiga.password.$invalid">
-											<span ng-show="loginFormTaiga.password.$error.required">Digite a Senha.</span>
-										</span>
-									</div>
-								</form>
-							</fieldset>
-								<nav>
-								  <div class="pager pager-size">
-								  	<input type="button" class="nav navbar-nav navbar-left"  wz-previous value="Anterior" />							  	
-				            		<input type="button" class="nav navbar-nav navbar-right" wz-next="logStep()" value="Proximo" />					    
-								  </div>
-							  	</nav>	
-				          </wz-step>
-				          <wz-step title="Projetos Taiga">
-								<fieldset class="wizard-content">
-									<form name="formProjetosTaiga">
-										<div id="projetosTaiga" class="row bg-wizard" ng-repeat="projeto in projetosTaiga">
-											<div class="col-md-12">
-												<label class="checkbox" for="{{projeto}}">
-													<div class="row">
-														<input id="{{projeto}}" class="col-md-2" type="checkbox"
-															ng-checked="projetosSelecionados_taiga.indexOf(projeto) > -1"
-															ng-click="toggleSelectionProjeto_Taiga(projeto)" />
-														<div class="col-md-10">
-															<p>
-																<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
-															</p>
-															<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
+													<div class="row fonte">
+														<div class="col-md-12" ng-repeat="i in item">
+															<span class="row">	
+																<span class="necessidade-informacao">											
+																	NI - {{i.nome_NecessidadeDeInformacao}}
+																</span>												
+															</span>											
+															<span class="row">											
+																<span class="medida">												
+																	<i>ME - {{i.nome_Medida}}</i>
+																</span>
+															</span>										
 														</div>
 													</div>
-												</label>
+												</div>
 											</div>
+											<br />
+											<br />
 										</div>
-									</form>
-								</fieldset>
-								<nav>
-								  <div class="pager pager-size">
-								  	<input type="button" class="nav navbar-nav navbar-left"  wz-previous value="Anterior" />							  	
-				            		<input type="button" class="nav navbar-nav navbar-right" wz-next="logStep()" value="Proximo" />					    
-								  </div>
-							  	</nav>
-				          </wz-step>
-				          <wz-step title="Conexão Sonar">
+									</fieldset>
+									<nav>
+									  <div class="pager pager-size">
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+									  </div>
+								  	</nav>						
+					          </wz-step>
+					          <wz-step title="Conexão Taiga">
 								<fieldset class="wizard-content">
-									<form name="loginFormSonar" novalidate>
+									<form name="loginFormTaiga" novalidate>
 										<div style="margin-left: 180px; margin-top: 50px;">
 											<label for="url">
 												<strong>URL *</strong>
 											</label>
-											<input placeholder="URL do servidor Sonar" type="url" name="url" ng-model="loginSonar.url" required>
-											<span style="color: red" ng-show="loginFormSonar.url.$dirty && loginFormSonar.url.$invalid">
-												<span ng-show="loginFormSonar.url.$error.required">Digite a URL.</span>
-												<span ng-show="loginFormSonar.url.$error.url">Endereço de URL inválido.</span>
+											<input placeholder="URL do servidor do Taiga" type="url" name="url" ng-model="loginTaiga.url" required>
+											<span style="color: red" ng-show="loginFormTaiga.url.$dirty && loginFormTaiga.url.$invalid">
+												<span ng-show="loginFormTaiga.url.$error.required">Digite a URL.</span>
+												<span ng-show="loginFormTaiga.url.$error.url">Endereço de URL inválido.</span>
+											</span>
+											<br />
+											<br />
+											<label for="usuario">
+												<strong>Usuário *</strong>
+											</label>
+											<input placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="loginTaiga.usuario" required>
+											<span style="color: red" ng-show="loginFormTaiga.usuario.$dirty && loginFormTaiga.usuario.$invalid">
+												<span ng-show="loginFormTaiga.usuario.$error.required">Digite o Nome do Usuário.</span>
+											</span>
+											<br />
+											<br />
+											<label for="password">
+												<strong>Senha *</strong>
+											</label>
+											<input type="password" name="password" ng-model="loginTaiga.senha" required>
+											<span style="color: red" ng-show="loginFormTaiga.password.$dirty && loginFormTaiga.password.$invalid">
+												<span ng-show="loginFormTaiga.password.$error.required">Digite a Senha.</span>
 											</span>
 										</div>
 									</form>
 								</fieldset>
-								<nav>
-								  <div class="pager pager-size">
-								  	<input type="button" class="nav navbar-nav navbar-left"  wz-previous value="Anterior" />							  	
-				            		<input type="button" class="nav navbar-nav navbar-right" wz-next="logStep()" value="Proximo" />					    
-								  </div>
-							  	</nav>
-				          </wz-step>
-				          <wz-step title="Projetos Sonar">
-								<fieldset class="wizard-content">
-									<form name="formProjetosSonar">
-										<div id="projetosSonar" class="row bg-wizard" ng-repeat="projeto in projetosSonar">
-											<div class="col-md-12">
-												<label class="checkbox" for="{{projeto}}">
-													<div class="row">
-														<input id="{{projeto}}" class="col-md-2" type="checkbox"
-															ng-checked="projetosSelecionados_sonar.indexOf(projeto) > -1"
-															ng-click="toggleSelectionProjeto_Sonar(projeto)" />
-														<div class="col-md-10">
-															<p>
-																<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
-															</p>
-															<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
+									<nav>
+									  <div class="pager pager-size">
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+									  </div>
+								  	</nav>	
+					          </wz-step>
+					          <wz-step title="Projetos Taiga">
+									<fieldset class="wizard-content">
+										<form name="formProjetosTaiga">
+											<div id="projetosTaiga" class="row bg-wizard" ng-repeat="projeto in projetosTaiga">
+												<div class="col-md-12">
+													<label class="checkbox" for="{{projeto}}">
+														<div class="row">
+															<input id="{{projeto}}" class="col-md-2" type="checkbox"
+																ng-checked="projetosSelecionados_taiga.indexOf(projeto) > -1"
+																ng-click="toggleSelectionProjeto_Taiga(projeto)" />
+															<div class="col-md-10">
+																<p>
+																	<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+																</p>
+																<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
+															</div>
 														</div>
-													</div>
-												</label>
+													</label>
+												</div>
 											</div>
-										</div>
-									</form>
-								</fieldset>
-								<nav>
-								  <div class="pager pager-size">
-								  	<input type="button" class="nav navbar-nav navbar-left"  wz-previous value="Anterior" />							  	
-				            		<input type="button" class="nav navbar-nav navbar-right" wz-next="logStep()" value="Proximo" />					    
-								  </div>
-							  	</nav>
-				          </wz-step>
-				           <wz-step title="Resumo">
-								<fieldset class="wizard-content">
-									
-								</fieldset>
-								<nav>
-								  <div class="pager pager-size">
-								  	<input type="button" class="nav navbar-nav navbar-left"  wz-previous value="Anterior" />							  	
-				            		<input type="button" class="nav navbar-nav navbar-right" wz-next="logStep()" value="Proximo" />					    
-								  </div>
-							  	</nav>
-				          </wz-step>
-				          
-				        </wizard>
-				      </section>
-				    </div>  
-  				</div>		
+										</form>
+									</fieldset>
+									<nav>
+									  <div class="pager pager-size">
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+									  </div>
+								  	</nav>
+					          </wz-step>
+					          <wz-step title="Conexão Sonar">
+									<fieldset class="wizard-content">
+										<form name="loginFormSonar" novalidate>
+											<div style="margin-left: 180px; margin-top: 50px;">
+												<label for="url">
+													<strong>URL *</strong>
+												</label>
+												<input placeholder="URL do servidor Sonar" type="url" name="url" ng-model="loginSonar.url" required>
+												<span style="color: red" ng-show="loginFormSonar.url.$dirty && loginFormSonar.url.$invalid">
+													<span ng-show="loginFormSonar.url.$error.required">Digite a URL.</span>
+													<span ng-show="loginFormSonar.url.$error.url">Endereço de URL inválido.</span>
+												</span>
+											</div>
+										</form>
+									</fieldset>
+									<nav>
+									  <div class="pager pager-size">
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+									  </div>
+								  	</nav>
+					          </wz-step>
+					          <wz-step title="Projetos Sonar">
+									<fieldset class="wizard-content">
+										<form name="formProjetosSonar">
+											<div id="projetosSonar" class="row bg-wizard" ng-repeat="projeto in projetosSonar">
+												<div class="col-md-12">
+													<label class="checkbox" for="{{projeto}}">
+														<div class="row">
+															<input id="{{projeto}}" class="col-md-2" type="checkbox"
+																ng-checked="projetosSelecionados_sonar.indexOf(projeto) > -1"
+																ng-click="toggleSelectionProjeto_Sonar(projeto)" />
+															<div class="col-md-10">
+																<p>
+																	<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+																</p>
+																<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
+															</div>
+														</div>
+													</label>
+												</div>
+											</div>
+										</form>
+									</fieldset>
+									<nav>
+									  <div class="pager pager-size">
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+									  </div>
+								  	</nav>
+					          </wz-step>
+					           <wz-step title="Resumo">
+									<fieldset class="wizard-content">
+										
+									</fieldset>
+									<nav>
+									  <div class="pager pager-size">
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+									  </div>
+								  	</nav>
+					          </wz-step>
+					          
+					        </wizard>
+					      </section>
+					    </div>  
+	  				</div>		
   
   				</div>
   			</td>

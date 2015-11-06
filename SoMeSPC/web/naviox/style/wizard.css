@@ -1,3 +1,41 @@
+.fundo1 {
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	background-color: rgb(44,62,80);
+	color: rgb(44,62,80);
+}
+
+.fundo2 {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: rgb(233,235,237);
+	padding-bottom: 0px;
+}
+
+.fundo3 {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: rgb(233,235,237);
+	margin-bottom: 20px;
+}
+
+.btn-wizard{
+	background-color: #3e5871 !important;
+	color: white !important;
+}
+
+.btn-wizard:hover {
+	background-color: #59738d !important;
+	color: white !important;
+}
+
+.titulo {
+	margin 20px;
+}
+
 .pager-size {
 	max-width: 800px;
 	margin: 0 auto;
@@ -5,7 +43,7 @@
 
 .wizard-content {
 	width: 700px;	
-	height: 350px;
+	height: 300px;
 	margin: 0 auto;
 } 
 
