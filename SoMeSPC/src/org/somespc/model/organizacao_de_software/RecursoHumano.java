@@ -24,112 +24,101 @@ import java.util.*;
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 
+import org.somespc.calculators.TipoDeEntidadeMensuravelCalculator;
 import org.somespc.model.comportamento_processo_de_software.*;
+import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
+import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
+import org.somespc.model.entidades_e_medidas.TipoDeEntidadeMensuravel;
 import org.somespc.model.medicao.Medicao;
 import org.openxava.annotations.*;
+import org.openxava.jpa.XPersistence;
 
 @Entity
-@Views({
-	@View(members = "nome;"),
-	@View(name = "Simple", members = "nome")
-})
+@Views({ @View(members = "nome;"), @View(name = "Simple", members = "nome") })
 @Tab(properties = "nome", defaultOrder = "${nome} asc")
 @XmlRootElement
-public class RecursoHumano
-{
-    @Id
-    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "RECURSO_HUMANO_ID", valueColumnName = "ID_TABLE_VALUE")
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
-    @Hidden
-    private Integer id;
+public class RecursoHumano extends EntidadeMensuravel {
+	@ManyToMany
+	@JoinTable(name = "equipe_recursoHumano", joinColumns = {
+			@JoinColumn(name = "recursoHumano_id") }, inverseJoinColumns = { @JoinColumn(name = "equipe_id") })
+	private Collection<Equipe> equipe;
 
-    @Column(length = 255, unique = true)
-    @Required
-    private String nome;
+	@XmlTransient
+	public Collection<Equipe> getEquipe() {
+		return equipe;
+	}
 
-    public Integer getId()
-    {
-	return id;
-    }
+	public void setEquipe(Collection<Equipe> equipe) {
+		this.equipe = equipe;
+	}
 
-    public void setId(Integer id)
-    {
-	this.id = id;
-    }
+	@OneToMany(mappedBy = "recursoHumano")
+	private Collection<AlocacaoEquipe> alocacaoEquipe;
 
-    public String getNome()
-    {
-	return nome;
-    }
+	@XmlTransient
+	public Collection<AlocacaoEquipe> getAlocacaoEquipe() {
+		return alocacaoEquipe;
+	}
 
-    public void setNome(String nome)
-    {
-	this.nome = nome;
-    }
+	public void setAlocacaoEquipe(Collection<AlocacaoEquipe> alocacaoEquipe) {
+		this.alocacaoEquipe = alocacaoEquipe;
+	}
 
-    @ManyToMany
-    @JoinTable(
-	    name = "equipe_recursoHumano"
-	    , joinColumns = {
-		    @JoinColumn(name = "recursoHumano_id")
-	    }
-	    , inverseJoinColumns = {
-		    @JoinColumn(name = "equipe_id")
+	@OneToMany(mappedBy = "executorDaMedicao")
+	private Collection<Medicao> medicaoExecutada;
+
+	@XmlTransient
+	public Collection<Medicao> getMedicaoExecutada() {
+		return medicaoExecutada;
+	}
+
+	public void setMedicaoExecutada(Collection<Medicao> medicaoExecutada) {
+		this.medicaoExecutada = medicaoExecutada;
+	}
+
+	@OneToMany(mappedBy = "registradoPor")
+	private Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso;
+
+	@XmlTransient
+	public Collection<BaselineDeDesempenhoDeProcesso> getBaselineDeDesempenhoDeProcesso() {
+		return baselineDeDesempenhoDeProcesso;
+	}
+
+	public void setBaselineDeDesempenhoDeProcesso(
+			Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso) {
+		this.baselineDeDesempenhoDeProcesso = baselineDeDesempenhoDeProcesso;
+	}
+
+    @ManyToOne
+    @Transient
+    @DefaultValueCalculator(
+	    value = TipoDeEntidadeMensuravelCalculator.class,
+	    properties = {
+		    @PropertyValue(name = "nomeEntidade", value = "Recurso Humano")
 	    })
-    private Collection<Equipe> equipe;
-
-    @XmlTransient
-    public Collection<Equipe> getEquipe()
+    public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
     {
-	return equipe;
+	return tipoDeEntidadeMensuravel;
     }
 
-    public void setEquipe(Collection<Equipe> equipe)
+    public void setTipoDeEntidadeMensuravel(
+	    TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel)
     {
-	this.equipe = equipe;
+	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
     }
 
-    @OneToMany(mappedBy = "recursoHumano")
-    private Collection<AlocacaoEquipe> alocacaoEquipe;
-
-    @XmlTransient
-    public Collection<AlocacaoEquipe> getAlocacaoEquipe()
+    @PreCreate
+    @PreUpdate
+    public void ajusta()
     {
-	return alocacaoEquipe;
+	if(tipoDeEntidadeMensuravel != null){
+    	
+    	String nomeEntidade = "Recurso Humano";
+    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
+    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
+    	
+    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
     }
-
-    public void setAlocacaoEquipe(Collection<AlocacaoEquipe> alocacaoEquipe)
-    {
-	this.alocacaoEquipe = alocacaoEquipe;
-    }
-
-    @OneToMany(mappedBy = "executorDaMedicao")
-    private Collection<Medicao> medicaoExecutada;
-
-    @XmlTransient
-    public Collection<Medicao> getMedicaoExecutada()
-    {
-	return medicaoExecutada;
-    }
-
-    public void setMedicaoExecutada(Collection<Medicao> medicaoExecutada)
-    {
-	this.medicaoExecutada = medicaoExecutada;
-    }
-
-    @OneToMany(mappedBy = "registradoPor")
-    private Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso;
-
-    @XmlTransient
-    public Collection<BaselineDeDesempenhoDeProcesso> getBaselineDeDesempenhoDeProcesso()
-    {
-	return baselineDeDesempenhoDeProcesso;
-    }
-
-    public void setBaselineDeDesempenhoDeProcesso(
-	    Collection<BaselineDeDesempenhoDeProcesso> baselineDeDesempenhoDeProcesso)
-    {
-	this.baselineDeDesempenhoDeProcesso = baselineDeDesempenhoDeProcesso;
-    }
+    }//ajusta
 
 }

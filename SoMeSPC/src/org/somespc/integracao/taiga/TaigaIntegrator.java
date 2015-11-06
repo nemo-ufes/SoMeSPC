@@ -53,10 +53,12 @@ import org.somespc.integracao.jobs.TaigaMedicaoJob;
 import org.somespc.integracao.taiga.model.AuthInfo;
 import org.somespc.integracao.taiga.model.EstadoProjeto;
 import org.somespc.integracao.taiga.model.EstadoSprint;
+import org.somespc.integracao.taiga.model.Estoria;
 import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Membro;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.integracao.taiga.model.Sprint;
+import org.somespc.integracao.taiga.model.Tarefa;
 import org.somespc.model.definicao_operacional_de_medida.DefinicaoOperacionalDeMedida;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
@@ -163,6 +165,118 @@ public class TaigaIntegrator
 		.get(Projeto.class);
 
 	return projeto;
+    }
+    
+    /**
+     * Obtem as estorias do Project Backlog de um Projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto.
+     * @return List<Estoria> com as estórias do Project Backlog.
+     */
+    public List<Estoria> obterEstoriasDoProjectBacklogTaiga(String apelidoProjeto)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone__isnull", true);
+
+	List<Estoria> estorias = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Estoria>>() {
+		});
+
+	return estorias;
+    }
+    
+    /**
+     * Obtem as tarefas de um Projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto.
+     * @return List<Tarefa> com as tarefas do projeto.
+     */
+    public List<Tarefa> obterTarefasDoProjeto(String apelidoProjeto)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("tasks").queryParam("project", idProjeto);
+
+	List<Tarefa> tarefas = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Tarefa>>() {
+		});
+
+	return tarefas;
+    }
+    
+    /**
+     * Obtem as estorias do Project Backlog de um Projeto Taiga.
+     * 
+     * @param apelidoProjeto
+     *            - Apelido (slug) do projeto.
+     * @return List<Estoria> com as estórias do Project Backlog.
+     */
+    public List<Estoria> obterEstoriasDaSprintBacklogTaiga(String apelidoProjeto, String apelidoSprint)
+    {
+	//Resolve o ID do projeto.
+	WebTarget target = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase()).queryParam("milestone", apelidoSprint.toLowerCase());
+
+	Response response = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get();
+
+	if (response.getStatus() != Status.OK.getStatusCode())
+	{
+	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+	}
+
+	JSONObject json = new JSONObject(response.readEntity(String.class));
+	int idProjeto = json.getInt("project");
+	int idSprint = json.getInt("milestone");
+
+	//Busca informações do projeto.
+	target = client.target(this.urlTaiga).path("userstories").queryParam("project", idProjeto).queryParam("milestone", idSprint);
+
+	List<Estoria> estorias = target
+		.request(MediaType.APPLICATION_JSON_TYPE)
+		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.get(new GenericType<List<Estoria>>() {
+		});
+
+	return estorias;
     }
 
     /**
@@ -322,6 +436,44 @@ public class TaigaIntegrator
 
 	return membro;
     }
+    
+    /**
+     * Obtem os dados do Membro pelo ID.
+     * 
+     * @param idMembro
+     *            - ID do membro a ser buscado.
+     * @return Membro
+     */
+    public List<Membro> obterMembrosDoProjetoTaiga(String apelidoProjeto)
+    {
+    	
+    	//Resolve o ID do projeto.
+    	WebTarget projeto = client.target(this.urlTaiga).path("resolver").queryParam("project", apelidoProjeto.toLowerCase());
+
+    	Response response = projeto
+    		.request(MediaType.APPLICATION_JSON_TYPE)
+    		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+    		.get();
+
+    	if (response.getStatus() != Status.OK.getStatusCode())
+    	{
+    	    throw new RuntimeException(String.format("Erro ao obter o ID do projeto %s pela API Resolver. HTTP Code: %s", apelidoProjeto, response.getStatus()));
+    	}
+
+    	JSONObject json = new JSONObject(response.readEntity(String.class));
+    	int idProjeto = json.getInt("project");
+    	
+		//Busca informações do membro.
+		WebTarget target = client.target(this.urlTaiga).path("memberships").queryParam("project", idProjeto);
+	
+		List<Membro> membros = target
+			.request(MediaType.APPLICATION_JSON_TYPE)
+			.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+			.get(new GenericType<List<Membro>>() {
+			});
+	
+		return membros;
+    }
 
     /**
      * Cadastra um RecursoHumano na SoMeSPC a partir de um Membro do Taiga.
@@ -333,10 +485,11 @@ public class TaigaIntegrator
      * @throws Exception
      */
 	public RecursoHumano criarRecursoHumanoSoMeSPC(Membro membro) throws Exception {
-
+				
 		RecursoHumano recursoHumano = new RecursoHumano();
 		recursoHumano.setNome(membro.getNome());
-
+		
+		
 		return SoMeSPCIntegrator.criarRecursoHumano(recursoHumano);
 	}
 
@@ -384,18 +537,20 @@ public class TaigaIntegrator
 
 	for (Membro membro : membrosDaEquipe)
 	{
-	    AlocacaoEquipe alocacao = new AlocacaoEquipe();
-	    alocacao.setEquipe(equipe);
-
-	    //Insere o Recurso Humano na Equipe e na Alocacao. 
-	    //Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
-	    RecursoHumano rec = this.criarRecursoHumanoSoMeSPC(membro);
-	    recursosHumanos.add(rec);
-
-	    alocacao.setRecursoHumano(rec);
-	    alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoSoMeSPC(membro));
-	    alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
-	    alocacoes.add(alocacao);
+		if (membro.getId() != 0 && membro.getNome() != null && !membro.getNome().isEmpty()) {
+		    AlocacaoEquipe alocacao = new AlocacaoEquipe();
+		    alocacao.setEquipe(equipe);
+	
+		    //Insere o Recurso Humano na Equipe e na Alocacao. 
+		    //Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
+		    RecursoHumano rec = this.criarRecursoHumanoSoMeSPC(membro);
+		    recursosHumanos.add(rec);
+	
+		    alocacao.setRecursoHumano(rec);
+		    alocacao.setPapelRecursoHumano(this.criarPapelRecursoHumanoSoMeSPC(membro));
+		    alocacao.setTipoDeEntidadeMensuravel(tipoAlocacaco);
+		    alocacoes.add(alocacao);
+		}
 	}
 
 	equipe.setRecursoHumano(recursosHumanos);
@@ -460,6 +615,12 @@ public class TaigaIntegrator
     public org.somespc.model.organizacao_de_software.Projeto criarProjetoSoMeSPC(Projeto projeto) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
+	
+	if (projeto.getEquipe() == null || projeto.getEquipe().isEmpty()){
+		List<Membro> equipe = this.obterMembrosDoProjetoTaiga(projeto.getApelido());
+		projeto.setEquipe(equipe);
+	}
+	
 	Equipe equipe = this.criarEquipeSoMeSPC("Equipe " + projeto.getNome(), projeto.getEquipe());
 	List<Equipe> equipes = new ArrayList<Equipe>();
 	equipes.add(equipe);
@@ -532,12 +693,17 @@ public class TaigaIntegrator
 	String query2 = "SELECT e FROM Escala e WHERE e.nome='Escala formada pelos números reais'";
 	TypedQuery<Escala> typedQuery2 = manager.createQuery(query2, Escala.class);
 	Escala escala = typedQuery2.getSingleResult();
-
+	
 	//Obtem a unidade de medida Pontos de Estória.
 	String query3 = "SELECT u FROM UnidadeDeMedida u WHERE u.nome='Pontos de Estória'";
 	TypedQuery<UnidadeDeMedida> typedQuery3 = manager.createQuery(query3, UnidadeDeMedida.class);
 	UnidadeDeMedida unidadeMedida = typedQuery3.getSingleResult();
 
+	//Obtem o tipo de Entidade Mensurável Alocação.
+	String query4 = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Alocação de Recurso Humano'");
+	TypedQuery<TipoDeEntidadeMensuravel> typedQuery4 = manager.createQuery(query4, TipoDeEntidadeMensuravel.class);
+	TipoDeEntidadeMensuravel tipoAlocacao = typedQuery4.getSingleResult();
+	
 	//Obtem o tipo de Entidade Mensurável Projeto.
 	String query5 = "SELECT e FROM TipoDeEntidadeMensuravel e WHERE e.nome='Projeto'";
 	TypedQuery<TipoDeEntidadeMensuravel> typedQuery5 = manager.createQuery(query5, TipoDeEntidadeMensuravel.class);
@@ -659,6 +825,46 @@ public class TaigaIntegrator
 		    medida.setElementoMensuravel(desempenho);
 		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoProjeto)));
 		    break;	
+		case NUMERO_TAREFAS_ATRIBUIDAS_MEMBRO:
+		    medida.setMnemonico("NTAM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	 
+		case NUMERO_TAREFAS_CONCLUIDAS_MEMBRO:
+		    medida.setMnemonico("NTCM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	 
+		case TAXA_CONCLUSAO_TAREFAS_MEMBRO:
+		    medida.setMnemonico("TCTM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case NUMERO_PONTOS_ESTORIA_ATRIBUIDOS_MEMBRO:
+		    medida.setMnemonico("NPEAM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case NUMERO_PONTOS_ESTORIA_CONCLUIDOS_MEMBRO:
+		    medida.setMnemonico("NPECM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case TAXA_CONCLUSAO_PONTOS_ESTORIA_MEMBRO:
+		    medida.setMnemonico("TCPEM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case NUMERO_DOSES_IOCAINE_ATRIBUIDAS_MEMBRO:
+		    medida.setMnemonico("NDIAM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;	
+		case TAXA_DOSES_IOCAINE_MEMBRO:
+		    medida.setMnemonico("TDIM");
+		    medida.setElementoMensuravel(desempenho);
+		    medida.setTipoDeEntidadeMensuravel(new ArrayList<TipoDeEntidadeMensuravel>(Arrays.asList(tipoAlocacao)));
+		    break;		    		    
 		case NUMERO_IOCAINE_SPRINT:
 		    medida.setMnemonico("NDIS");
 		    medida.setElementoMensuravel(tamanho);

@@ -52,6 +52,17 @@ public enum MedidasTaiga
    	     	
     		NUMERO_ESTORIAS_CONCLUIDAS_PROJETO("Número de Estórias Concluídas para o Projeto"),
     		MEDIA_ESTORIAS_CONCLUIDAS_SPRINT_PROJETO("Média de Estórias Concluídas por Sprint do Projeto"),
+  
+    //OM - Monitorar o desempenho dos membros da equipe no projeto
+    
+    		NUMERO_TAREFAS_ATRIBUIDAS_MEMBRO("Número de Tarefas Atribuídas a Membro do Projeto"),
+    	    NUMERO_TAREFAS_CONCLUIDAS_MEMBRO("Número de Tarefas Concluídas pelo Membro do Projeto"),
+    	    TAXA_CONCLUSAO_TAREFAS_MEMBRO("Taxa de Conclusão de Tarefas de Membro do Projeto"),
+    	    NUMERO_PONTOS_ESTORIA_ATRIBUIDOS_MEMBRO("Número de Pontos de Estória Atribuídos a Membro do Projeto"),
+    	    NUMERO_PONTOS_ESTORIA_CONCLUIDOS_MEMBRO("Número de Pontos de Estória Concluídos pelo Membro do Projeto"),
+    	    TAXA_CONCLUSAO_PONTOS_ESTORIA_MEMBRO("Taxa de Conclusão de Pontos de Estória de Membro do Projeto"),
+    	    NUMERO_DOSES_IOCAINE_ATRIBUIDAS_MEMBRO("Número de Doses de Iocaine Atribuídas a Membro do Projeto"),
+    	    TAXA_DOSES_IOCAINE_MEMBRO("Taxa de Doses de Iocaine de Membro do Projeto"),
 	
 	//OM - Monitorar quantidade de doses de locaine nas sprints -TAMANHO
 

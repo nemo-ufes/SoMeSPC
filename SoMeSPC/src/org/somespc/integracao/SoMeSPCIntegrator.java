@@ -122,7 +122,12 @@ public class SoMeSPCIntegrator {
 
 			if (!manager.isOpen())
 				manager = XPersistence.createManager();
-
+			
+		    String tipoEntidadeQuery = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Recurso Humano'");
+			TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery = manager.createQuery(tipoEntidadeQuery, TipoDeEntidadeMensuravel.class);
+			TipoDeEntidadeMensuravel tipoRh = tipoEntidadeTypedQuery.getSingleResult();
+			recursoHumano.setTipoDeEntidadeMensuravel(tipoRh);
+			
 			manager.getTransaction().begin();
 			manager.persist(recursoHumano);
 			manager.getTransaction().commit();
@@ -242,9 +247,9 @@ public class SoMeSPCIntegrator {
 			// ferramenta é.
 			if (item.getNome().startsWith("ME - ")) {
 
-				// Aguarda 2s antes de agendar cada job para evitar problemas de
+				// Aguarda 1 antes de agendar cada job para evitar problemas de
 				// concorrência.
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 
 				ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, item.getId());
 				taigaIntegrator.agendarTaigaMedicaoJob(plano, projeto.getApelido(), medida, periodicidade, taigaLogin);
@@ -292,9 +297,9 @@ public class SoMeSPCIntegrator {
 			// ferramenta é.
 			if (item.getNome().startsWith("ME - ")) {
 
-				// Aguarda 2s antes de agendar cada job para evitar problemas de
+				// Aguarda 1 antes de agendar cada job para evitar problemas de
 				// concorrência.
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 
 				ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, item.getId());
 
@@ -351,9 +356,9 @@ public class SoMeSPCIntegrator {
 					}
 				}
 
-				// Aguarda 2s antes de agendar cada job para evitar problemas de
+				// Aguarda 1 antes de agendar cada job para evitar problemas de
 				// concorrência.
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 
 				ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, item.getId());
 
