@@ -1,0 +1,25 @@
+.pager-size {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.wizard-content {
+	width: 700px;	
+	height: 350px;
+	margin: 0 auto;
+} 
+
+.bg-wizard {
+	background-color: #2C3E50;
+	color: #fff;
+	height: 170px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.row {
+	margin-right: 0px;
+	margin-left: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
