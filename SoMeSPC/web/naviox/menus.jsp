@@ -11,7 +11,9 @@
 		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoIntegradoTaiga"><a href="<%=request.getContextPath()%>/naviox/wizard_taiga.jsp"> Novo Plano de Medição Integrado (Taiga)</a></li>
 		<%--<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoIntegradoSonarQube"><a href="<%=request.getContextPath()%>/naviox/wizard_sonarqube.jsp"> Novo Plano de Medição Integrado (SonarQube)</a></li>--%>
 		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoIntegrado"><a href="<%=request.getContextPath()%>/naviox/wizard_integrator.jsp"> Novo Plano de Medição Integrado</a></li>
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="testWizard"><a href="<%=request.getContextPath()%>/naviox/testWizard.jsp"> teste</a></li>
 		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/cadastros.png"}' class="jstree-close">Cadastros
+
 			<ul>
 				<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' class="jstree-close">Organização
 					<ul>

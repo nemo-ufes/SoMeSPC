@@ -1,7 +1,24 @@
 //Definição do Controlador - AngularJS
-app.controller('IntegratorController', function($scope, $resource,
+app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		TaigaIntegratorProjeto, IntegratorPlanoMedicao, SoMeSPCResourcePlano, SonarIntegratorProjeto) {
 
+	// ---------------------------- Teste ------------------------------------------------
+	
+	$scope.finished = function() {
+        alert("Wizard finished :)");
+    }
+
+    $scope.logStep = function() {
+        console.log("Step continued");
+    }
+
+    $scope.goBack = function() {
+        WizardHandler.wizard().goTo(0);
+    }
+    $scope.goFinish = function() {
+        WizardHandler.wizard().goTo(5);
+    }
+	
 	// ---------------------------- Objetos Taiga ----------------------------------------
 	
 	//Login Taiga

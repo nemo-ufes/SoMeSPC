@@ -1,0 +1,1 @@
+var app = angular.module('SoMeSPCWizardApp', ['mgo-angular-wizard','ngResource','angular.filter']);

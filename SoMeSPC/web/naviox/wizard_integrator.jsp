@@ -409,7 +409,7 @@ input {
 							        if (currentIndex === 2 && !taiga)
 							        {
 							        	console.log("pulo");
-							        	$(this).steps("setStep", 5);
+							        	$(this).steps("next");
 							        }
 							        else if(currentIndex === 4 && !sonar ){
 							        	$(this).steps("setStep", 7);
