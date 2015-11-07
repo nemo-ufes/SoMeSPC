@@ -49,8 +49,26 @@
 		</span>
 	</nobr></span>
 <script>
+	function hasClass(elementId, cls) {
+		var element = document.getElementById(elementId);
+    	return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+	}
+	
 	function toggle() {
-		$('#menu_tree').toggle(500);
-		$('#tree-row').toggle(500);
+		
+		var element = document.getElementById('content-row');
+		
+		if (hasClass('content-row','col-md-7')){
+			$('#tree-row').toggle(500, function(){
+				element.classList.remove("col-md-7");
+				element.classList.add("col-md-11");
+				element.classList.add("margin-left");	
+			});	
+		} else {
+			element.classList.remove("col-md-11");
+			element.classList.remove("margin-left");
+			element.classList.add("col-md-7");
+			$('#tree-row').toggle(500);
+		}	
 	}
 </script>
