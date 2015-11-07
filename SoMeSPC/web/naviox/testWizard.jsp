@@ -257,7 +257,7 @@
 												<label for="url">
 													<strong>URL *</strong>
 												</label>
-												<input placeholder="URL do servidor Sonar" type="url" name="url" ng-model="loginSonar.url" required>
+												<input class="form-control" placeholder="URL do servidor Sonar" type="url" name="url" ng-model="loginSonar.url" required>
 												<span style="color: red" ng-show="loginFormSonar.url.$dirty && loginFormSonar.url.$invalid">
 													<span ng-show="loginFormSonar.url.$error.required">Digite a URL.</span>
 													<span ng-show="loginFormSonar.url.$error.url">Endereço de URL inválido.</span>
