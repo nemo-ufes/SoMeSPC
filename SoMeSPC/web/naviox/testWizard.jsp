@@ -81,28 +81,29 @@
 					<div id="modules_list_outbox">
 						<table id="modules_list_box">
 							<tr id="modules_list_content">
-								<td><jsp:include page="modulesMenu.jsp" /></td>
+								<td>
+									<jsp:include page="modulesMenu.jsp" />
+								</td>
 							</tr>
 						</table>
 					</div>
 				</div>
 			</td>
-
-			<td valign="top"><jsp:include page="menus.jsp" /></td>
-
-			<td valign="top">
-				<div class="module-wrapper">
-					<br/>
-					<div class="container fundo1">					
-					    <!-- HEADER -->
-					    <div id="header_wrap" class="fundo2">
-				        	<header class="text-center">
-				        		<h3>Novo Plano de Medição Integrado</h3>
-				        	</header>
-					    </div>
-					
-					    <!-- MAIN CONTENT -->
-					    <div id="main_content_wrap" class="fundo3">				    
+		
+			<td valign="top" class="container">
+				<div class="module-wrapper">							
+					<div class="row" style="margin-left: -30px;">										
+						<div id="tree-row" class="col-md-3">
+							<jsp:include page="menus.jsp" />							
+						</div>
+										
+						<div class="col-md-8 fundo1">	
+						    <div id="header_wrap" class="fundo2">
+					        	<header class="text-center">
+					        		<h3>Novo Plano de Medição Integrado</h3>
+					        	</header>
+						    </div>					
+						    <div id="main_content_wrap" class="fundo3">				    
 					      <section id="main_content" ng-app="SoMeSPCWizardApp" ng-controller="WizardCtrl">
 					        <wizard on-finish="finished()">
 						          <wz-step title="Introdução">
@@ -311,8 +312,8 @@
 					        </wizard>
 					      </section>
 					    </div>  
-	  				</div>		
-  
+	  					</div>		
+    				</div>
   				</div>
   			</td>
   		</tr>

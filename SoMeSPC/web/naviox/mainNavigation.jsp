@@ -51,5 +51,6 @@
 <script>
 	function toggle() {
 		$('#menu_tree').toggle(500);
+		$('#tree-row').toggle(500);
 	}
 </script>
