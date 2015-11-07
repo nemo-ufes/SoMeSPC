@@ -21,16 +21,17 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-	<!-- CSS Modules -->
 	<link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
-	<link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />	
+	
+	<!-- CSS Modules -->
+	<link href="style/loading.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="angularWizard/stylesheet.css">
     <link rel="stylesheet" type="text/css" href="angularWizard/angular-wizard.css">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">	    
 	<link href="<%=request.getContextPath()%>/naviox/style/naviox.css" rel="stylesheet" type="text/css">
 	<link href="style/wizard.css" rel="stylesheet"  type="text/css">
-	<link href="style/loading.css" rel="stylesheet">
 	
 	<%-- Naviox --%>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/xava/js/dwr-engine.js?ox=<%=oxVersion%>'></script>
@@ -219,26 +220,28 @@
 								  	</nav>	
 					          </wz-step>
 					          <wz-step title="Projetos Taiga">
-									<fieldset class="wizard-content">
-										<form name="formProjetosTaiga">
-											<div id="projetosTaiga" class="row bg-wizard" ng-repeat="projeto in projetosTaiga">
-												<div class="col-md-12">
-													<label class="checkbox" for="{{projeto}}">
-														<div class="row">
-															<input id="{{projeto}}" class="col-md-2" type="checkbox"
+									<fieldset class="wizard-content">		
+										<div class="projetos-taiga">
+											<div class="row" ng-repeat="projeto in projetosTaiga">
+												<div class="col-md-12">													
+													<div class="row">
+														<div class="col-md-2">
+															<label class="checkbox" for="{{projeto}}">
+																<input id="{{projeto}}"  type="checkbox"
 																ng-checked="projetosSelecionados_taiga.indexOf(projeto) > -1"
-																ng-click="toggleSelectionProjeto_Taiga(projeto)" />
-															<div class="col-md-10">
-																<p>
-																	<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
-																</p>
-																<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
-															</div>
+																ng-click="toggleSelectionProjeto_Taiga(projeto)" />																
+															</label>
+														</div>															
+														<div class="col-md-10">
+															<p>
+																<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+															</p>
+															<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
 														</div>
-													</label>
+													</div>
 												</div>
 											</div>
-										</form>
+										</div>
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
