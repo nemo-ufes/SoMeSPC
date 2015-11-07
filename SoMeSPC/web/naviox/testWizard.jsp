@@ -124,8 +124,10 @@
 									  </div>
 								  	</nav>	
 					          </wz-step>
-					          <wz-step title="Objetivos">
+					          <wz-step title="Objetivos" canexit="validacao_Dados">
 					            <fieldset class="wizard-content container">		
+					            	<div class="row">
+					            	</div>
 					            	<div class="row" style="margin-right: 30px;">		            
 					            		<label for="selectPeriodicidades">Periodicidade:</label>
 										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected"
@@ -175,14 +177,14 @@
 									  </div>
 								  	</nav>						
 					          </wz-step>
-					          <wz-step title="Conexão Taiga" canenter="validacao_Dados">
-								<fieldset class="wizard-content">
+					          <wz-step title="Conexão Taiga">
+								<fieldset class="wizard-content container">
 									<form name="loginFormTaiga" novalidate>
-										<div style="margin-left: 180px; margin-top: 50px;">
+										<div class="row">
 											<label for="url">
 												<strong>URL *</strong>
 											</label>
-											<input placeholder="URL do servidor do Taiga" type="url" name="url" ng-model="loginTaiga.url" required>
+											<input class="form-control" placeholder="URL do servidor do Taiga" type="text" name="url" ng-model="loginTaiga.url" required>
 											<span style="color: red" ng-show="loginFormTaiga.url.$dirty && loginFormTaiga.url.$invalid">
 												<span ng-show="loginFormTaiga.url.$error.required">Digite a URL.</span>
 												<span ng-show="loginFormTaiga.url.$error.url">Endereço de URL inválido.</span>
@@ -192,7 +194,7 @@
 											<label for="usuario">
 												<strong>Usuário *</strong>
 											</label>
-											<input placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="loginTaiga.usuario" required>
+											<input class="form-control" placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="loginTaiga.usuario" required>
 											<span style="color: red" ng-show="loginFormTaiga.usuario.$dirty && loginFormTaiga.usuario.$invalid">
 												<span ng-show="loginFormTaiga.usuario.$error.required">Digite o Nome do Usuário.</span>
 											</span>
@@ -201,7 +203,7 @@
 											<label for="password">
 												<strong>Senha *</strong>
 											</label>
-											<input type="password" name="password" ng-model="loginTaiga.senha" required>
+											<input class="form-control" type="password" name="password" ng-model="loginTaiga.senha" required>
 											<span style="color: red" ng-show="loginFormTaiga.password.$dirty && loginFormTaiga.password.$invalid">
 												<span ng-show="loginFormTaiga.password.$error.required">Digite a Senha.</span>
 											</span>

@@ -134,3 +134,7 @@ label {
 .steps-indicator li.current a::before {
     background-color: #1fbad6;
 }
+
+.form-control {
+	height: 20px;	
+}
