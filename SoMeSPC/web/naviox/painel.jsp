@@ -67,49 +67,53 @@
 				</div>
 			</td>
 
-			<td valign="top"><jsp:include page="menus.jsp" /></td>
-
-			<td valign="top">
-				<div class="module-wrapper">
-
-					<ul class="nav nav-tabs" role="tablist" id="painel_tab">
-						<li role="presentation" class="active"><a href="#medicoes" aria-controls="medicoes" role="tab" data-toggle="tab">Medições</a></li>
-						<li role="presentation"><a href="#agendamentos" aria-controls="agendamentos" role="tab" data-toggle="tab">Agendamentos</a></li>
-					</ul>
-
-					<div class="tab-content">
-						<div role="tabpanel" class="tab-pane active" id="medicoes">
-							<div ng-include="'painel_medicoes.jsp'"></div>
-						</div>
-						<div role="tabpanel" class="tab-pane" id="agendamentos">
-							<div ng-include="'painel_agendamentos.jsp'"></div>
+			<td valign="top" class="container">
+				<div class="module-wrapper">	
+					<div class="row" style="margin-left: -30px;">										
+						<div id="tree-row" class="col-md-3">
+							<jsp:include page="menus.jsp" />							
+						</div>					
+					
+						<div id="content-row" class="col-md-8">	
+							<ul class="nav nav-tabs" role="tablist" id="painel_tab">
+								<li role="presentation" class="active"><a href="#medicoes" aria-controls="medicoes" role="tab" data-toggle="tab">Medições</a></li>
+								<li role="presentation"><a href="#agendamentos" aria-controls="agendamentos" role="tab" data-toggle="tab">Agendamentos</a></li>
+							</ul>
+		
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="medicoes">
+									<div ng-include="'painel_medicoes.jsp'"></div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="agendamentos">
+									<div ng-include="'painel_agendamentos.jsp'"></div>
+								</div>
+							</div>
+		
+							<%-- Modules --%>
+							<script type="text/javascript" src="js/angular/painelApp.js"></script>
+		
+							<%-- Controllers --%>
+							<script type="text/javascript" src="js/angular/controllers/MedicoesController.js"></script>
+							<script type="text/javascript" src="js/angular/controllers/AgendamentosController.js" charset="UTF-8"></script>
+		
+							<%-- Services --%>
+							<script type="text/javascript" src="js/angular/services/MedicaoService.js"></script>
+							<script type="text/javascript" src="js/angular/services/AgendamentoService.js"></script>
+												
+							<%-- JQuery --%>
+							<script type='text/javascript' src="js/jquery.js"></script>
+		
+							<%-- Bootstrap --%>
+							<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
+		
+							<%-- Paginator --%>
+							<script type='text/javascript' src='js/ui-bootstrap-tpls-0.12.1.js'></script>
+							
+							<%-- Modal --%>
+							<script type='text/javascript' src='js/angular/shared/dialogs-default-translations.min.js'></script>
+							<script type='text/javascript' src='js/angular/shared/dialogs.min.js'></script>
 						</div>
 					</div>
-
-					<%-- Modules --%>
-					<script type="text/javascript" src="js/angular/painelApp.js"></script>
-
-					<%-- Controllers --%>
-					<script type="text/javascript" src="js/angular/controllers/MedicoesController.js"></script>
-					<script type="text/javascript" src="js/angular/controllers/AgendamentosController.js" charset="UTF-8"></script>
-
-					<%-- Services --%>
-					<script type="text/javascript" src="js/angular/services/MedicaoService.js"></script>
-					<script type="text/javascript" src="js/angular/services/AgendamentoService.js"></script>
-										
-					<%-- JQuery --%>
-					<script type='text/javascript' src="js/jquery.js"></script>
-
-					<%-- Bootstrap --%>
-					<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
-
-					<%-- Paginator --%>
-					<script type='text/javascript' src='js/ui-bootstrap-tpls-0.12.1.js'></script>
-					
-					<%-- Modal --%>
-					<script type='text/javascript' src='js/angular/shared/dialogs-default-translations.min.js'></script>
-					<script type='text/javascript' src='js/angular/shared/dialogs.min.js'></script>
-
 				</div>
 			</td>
 		</tr>

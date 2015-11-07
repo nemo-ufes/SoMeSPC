@@ -93,11 +93,11 @@
 			<td valign="top" class="container">
 				<div class="module-wrapper">							
 					<div class="row" style="margin-left: -30px;">										
-						<div id="tree-row" class="col-md-4">
+						<div id="tree-row" class="col-md-3">
 							<jsp:include page="menus.jsp" />							
 						</div>
 										
-						<div id="content-row" class="col-md-7 fundo1">	
+						<div id="content-row" class="col-md-8 fundo1">	
 						    <div id="header_wrap" class="fundo2">
 					        	<header class="text-center">
 					        		<h3>Novo Plano de Medição Integrado</h3>

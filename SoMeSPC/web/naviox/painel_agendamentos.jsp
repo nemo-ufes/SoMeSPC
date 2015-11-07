@@ -1,5 +1,5 @@
 
-<div id="painel2" class="container" ng-controller=AgendamentosController>
+<div id="painel2" ng-controller=AgendamentosController>
 
 	<div class="alert alert-success alert-dismissible" role="alert" ng-show="exibirMensagem">
 		<button type="button" class="close" aria-label="Close" ng-click="ocultarMensagem()">

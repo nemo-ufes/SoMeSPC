@@ -4,11 +4,13 @@
 	border-radius: 1px;
 	background-color: #161629;
 	color: #09091a;
+	margin-left: 40px;
 	margin-top: 20px;
 }
 
-.margin-left{
+.content-tree-margin{
 	margin-left: 40px;
+	margin-right: 40px;
 }
 
 .fundo2 {
@@ -61,7 +63,7 @@
 }
 
 .row {
-	margin-right: 0px;
+	margin-right: 80px;
 	margin-left: 0px;
 	padding-left: 0px;
 	padding-right: 0px;

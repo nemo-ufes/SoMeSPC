@@ -58,16 +58,16 @@
 		
 		var element = document.getElementById('content-row');
 		
-		if (hasClass('content-row','col-md-7')){
+		if (hasClass('content-row','col-md-8')){
 			$('#tree-row').toggle(500, function(){
-				element.classList.remove("col-md-7");
+				element.classList.remove("col-md-8");
 				element.classList.add("col-md-11");
-				element.classList.add("margin-left");	
+				element.classList.add("content-tree-margin");	
 			});	
 		} else {
 			element.classList.remove("col-md-11");
-			element.classList.remove("margin-left");
-			element.classList.add("col-md-7");
+			element.classList.remove("content-tree-margin");
+			element.classList.add("col-md-8");
 			$('#tree-row').toggle(500);
 		}	
 	}
