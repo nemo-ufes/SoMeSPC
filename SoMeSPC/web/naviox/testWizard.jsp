@@ -106,7 +106,7 @@
 						    <div id="main_content_wrap" class="fundo3">				    
 					      <section id="main_content" ng-app="SoMeSPCWizardApp" ng-controller="WizardCtrl">
 					        <wizard on-finish="finished()">
-						          <wz-step title="Introdução">
+						      <wz-step title="Introdução">
 						          <fieldset class="wizard-content">
 						            <h3>Criando um Plano de Medição</h3>
 						            <p>Para utilizar este wizard, siga os seguintes passos:</p>
@@ -126,48 +126,47 @@
 								  	</nav>	
 					          </wz-step>
 					          <wz-step title="Objetivos">
-					            <fieldset class="wizard-content">				            
-					            	<label for="selectPeriodicidades">Periodicidade</label>
-									<select class="form-control" id="selectPeriodicidades" 
+					            <fieldset class="wizard-content container">		
+					            	<div class="row" style="margin-right: 30px;">		            
+					            		<label for="selectPeriodicidades">Periodicidade:</label>
+										<select class="form-control" id="selectPeriodicidades" 
 											ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades"> 
 										</select>
-										<br />
-										<div class="row">
-											<p class="row">
-												<b>Objetivos:</b>
-											</p>
-											<p class="row">										
-												<i>OE - {{itens[0].nome_ObjetivoEstrategico}}</i>
-											</p>
-											<div class="bg-wizard">
-												<div id="itens" class="row" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">									
-													<div class="row fonte">
-														<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
-																id="{{i.nome_ObjetivoDeMedicao}}" 
+									</div>
+									<div class="row">
+										<p>
+											<label>Objetivos:</label>
+										</p>
+										<p style="font-size: 14px;">										
+											<i>OE - {{itens[0].nome_ObjetivoEstrategico}}</i>
+										</p>
+										<div class="bg-wizard">
+											<div id="itens" class="row" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">									
+												<div class="row fonte">
+													<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
+																id="checkbox_{{$index}}"  
 																type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
-																ng-click="toggleSelectionItem(item)" />
-														<span class="col-md-11 objetivo-medicao">
-															<b>OM - {{obj}}</b>									
-														</span>
-													</div>
-													<div class="row fonte">
-														<div class="col-md-12" ng-repeat="i in item">
-															<span class="row">	
-																<span class="necessidade-informacao">											
-																	NI - {{i.nome_NecessidadeDeInformacao}}
-																</span>												
-															</span>											
-															<span class="row">											
-																<span class="medida">												
-																	<i>ME - {{i.nome_Medida}}</i>
-																</span>
-															</span>										
-														</div>
+																ng-click="toggleSelectionItem(item)" />		
+													<span class="col-md-10 objetivo-medicao">
+														<b>OM - {{obj}}</b>									
+													</span>
+												</div>
+												<div class="row fonte">
+													<div class="col-md-12" ng-repeat="i in item">
+														<span class="row" style="margin-bottom: -10px;">	
+															<span class="necessidade-informacao">											
+																NI - {{i.nome_NecessidadeDeInformacao}}
+															</span>												
+														</span>											
+														<span class="row">											
+															<span class="medida">												
+																<i>ME - {{i.nome_Medida}}</i>
+															</span>
+														</span>										
 													</div>
 												</div>
 											</div>
-											<br />
-											<br />
+											</div>
 										</div>
 									</fieldset>
 									<nav>

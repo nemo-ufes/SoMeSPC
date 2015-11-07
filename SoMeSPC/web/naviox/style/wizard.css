@@ -88,7 +88,7 @@ label {
 
 .objetivo-medicao {
 	font-size: 14px;
-    margin-left: -40px;
+    margin-left: -30px;
     margin-bottom: -10px;
     line-height: 45px !important;
 }
@@ -134,4 +134,3 @@ label {
 .steps-indicator li.current a::before {
     background-color: #1fbad6;
 }
-
