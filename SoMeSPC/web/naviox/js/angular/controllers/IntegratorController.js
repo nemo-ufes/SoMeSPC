@@ -4,21 +4,29 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 
 	// ---------------------------- Teste ------------------------------------------------
 	
-	$scope.finished = function() {
-        alert("Wizard finished :)");
-    }
-
     $scope.logStep = function() {
         console.log("Step continued");
     }
 
-    $scope.goBack = function() {
-        WizardHandler.wizard().goTo(0);
+    $scope.goBack = function() {    	
+    	WizardHandler.wizard().goTo(0);
     }
     $scope.goFinish = function() {
         WizardHandler.wizard().goTo(5);
     }
 	
+    $scope.validacao_Dados = function(){
+    	if ($scope.itens_selected.length == 0 || $scope.itens_selected.length == 'undefined'){
+    		return false;
+    	}
+    	else if ($scope.periodicidade_selected.length == 0 || $scope.periodicidade_selected.length == 'undefined'){
+    		return false;
+    	}    		
+    	else{
+    		return true;
+    	}
+    }
+    
 	// ---------------------------- Objetos Taiga ----------------------------------------
 	
 	//Login Taiga
@@ -30,7 +38,6 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Projetos Taiga
 	$scope.projetosTaiga;
-	$scope.projetosSelecionados_taiga = [];
 	
 	// ---------------------------- Objetos Sonar ----------------------------------------
 	
@@ -72,7 +79,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	$scope.toggleSelectionItem = function toggleSelectionItem(itemsSelecionados) {					
 		for(idxItem in itemsSelecionados) {					
 			var item = itemsSelecionados[idxItem];
-									
+			console.log(item);					
 			if ($scope.itens_selected.indexOf(item) > -1){
 				var idxParaRemover = $scope.itens_selected.indexOf(item);
 				$scope.itens_selected.splice(idxParaRemover, 1);					
@@ -89,7 +96,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		console.log($scope.periodicidade_selected);
 	}
 
-	$scope.post_plano = function(retorno) {
+	$scope.post_plano = function() {
 
 		$scope.toggleLoading();
 		$scope.entry = new SoMeSPCResourcePlano();
@@ -120,17 +127,17 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		$scope.entry.$save(function sucesso(plano) {
 			$scope.toggleLoading();
 			console.log(plano);
-			return retorno(true);
+			alert("Plano(s) de Medição criado com sucesso!");
 		}, function erro(err) {
 			$scope.toggleLoading();
 			console.log(err);
-			return retorno(false);
+			alert("Ocorreu um erro ao criar o(s) Plano(s) de Medição!");		
 		});
 	}
 	
 	//-------------------------------------- Funções Taiga e Sonar -------------------------------------
 
-	$scope.post_projetoTaiga = function(retorno) {
+	$scope.post_projetoTaiga = function() {
 		$scope.toggleLoading();
 		TaigaIntegratorProjeto.save($scope.loginTaiga).$promise.then(
 				function sucesso(result) {
@@ -138,10 +145,9 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 					$scope.projetosTaiga = result;
 					$scope.projetosSelecionados_taiga = [];
 					$scope.toggleLoading();
-					return retorno(true);
 				}, function erro(err) {
+					alert("Erro ao estabelecer a conexão! Verifique se os dados de login estão corretos e tente novamente.")
 					$scope.toggleLoading();
-					return retorno(false);
 				});
 	}
 	
@@ -155,7 +161,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		}
 	};
 	
-	$scope.post_projetoSonar = function(retorno) {
+	$scope.post_projetoSonar = function() {
 		$scope.toggleLoading();
 		SonarIntegratorProjeto.save($scope.loginSonar).$promise.then(
 				function sucesso(result) {
@@ -163,10 +169,9 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 					$scope.projetosSonar = result;
 					$scope.projetosSelecionados_sonar = [];
 					$scope.toggleLoading();
-					return retorno(true);
 				}, function erro(err) {
+					alert("Erro ao estabelecer a conexão! Verifique se os dados de login estão corretos e tente novamente.")
 					$scope.toggleLoading();
-					return retorno(false);
 				});
 	}
 	

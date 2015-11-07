@@ -125,7 +125,7 @@
 									  </div>
 								  	</nav>	
 					          </wz-step>
-					          <wz-step title="Objetivos"  >
+					          <wz-step title="Objetivos">
 					            <fieldset class="wizard-content">				            
 					            	<label for="selectPeriodicidades">Periodicidade</label>
 									<select class="form-control" id="selectPeriodicidades" 
@@ -177,7 +177,7 @@
 									  </div>
 								  	</nav>						
 					          </wz-step>
-					          <wz-step title="Conexão Taiga">
+					          <wz-step title="Conexão Taiga" canenter="validacao_Dados">
 								<fieldset class="wizard-content">
 									<form name="loginFormTaiga" novalidate>
 										<div style="margin-left: 180px; margin-top: 50px;">
@@ -213,7 +213,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoTaiga()" wz-next="logStep()" value="Proximo" />					    
 									  </div>
 								  	</nav>	
 					          </wz-step>
@@ -264,7 +264,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoSonar()" wz-next="logStep()" value="Proximo" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>
@@ -299,12 +299,33 @@
 					          </wz-step>
 					           <wz-step title="Resumo">
 									<fieldset class="wizard-content">
-										
+										<p>
+											<b>Projeto(s):</b>
+											<br />
+										<ul style="font-size: 16px; margin-left: 20px;">
+											<span ng-repeat="projeto in projetosSelecionados_taiga">
+												<li style="margin-bottom: 5px;">{{projeto.nome}}</li>
+											</span>
+										</ul>
+										</p>
+										<p>
+											<b>Periodicidade da coleta:</b>
+											{{periodicidade_selected.nome}}
+										</p>
+										<p>
+											<b>Medida(s):</b>
+											<br />
+										<ul style="font-size: 16px; margin-left: 20px;">
+											<span ng-repeat="medida in itens_selected">
+												<li style="margin-bottom: 5px;">{{medida.nome_Medida}}</li>
+											</span>
+										</ul>
+										</p>
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_plano()" wz-next="logStep()" value="Finalizar" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>
