@@ -5,7 +5,6 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	// ---------------------------- Teste ------------------------------------------------
 	
     $scope.logStep = function() {
-        console.log("Step continued");
     }
 
     $scope.goBack = function() {    	
@@ -19,7 +18,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     	if ($scope.itens_selected.length == 0 || $scope.itens_selected.length == 'undefined'){
     		return false;
     	}
-    	else if ($scope.periodicidade_selected.length == 0 || $scope.periodicidade_selected.length == 'undefined'){
+    	else if ($scope.periodicidade_selected == 'undefined'){
     		return false;
     	}    		
     	else{
@@ -79,7 +78,6 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	$scope.toggleSelectionItem = function toggleSelectionItem(itemsSelecionados) {					
 		for(idxItem in itemsSelecionados) {					
 			var item = itemsSelecionados[idxItem];
-			console.log(item);					
 			if ($scope.itens_selected.indexOf(item) > -1){
 				var idxParaRemover = $scope.itens_selected.indexOf(item);
 				$scope.itens_selected.splice(idxParaRemover, 1);					
@@ -89,9 +87,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		}			
 	};
 	
-	$scope.get_periodicidade = function(index) {
-		console.log(index);
-		
+	$scope.get_periodicidade = function(index) {		
 		$scope.periodicidade_selected = $scope.periodicidades[index];
 		console.log($scope.periodicidade_selected);
 	}

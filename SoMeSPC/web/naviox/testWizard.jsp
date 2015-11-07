@@ -40,7 +40,6 @@
     <script type="text/javascript" src="js/angular/shared/angular.min.js"></script>
     <script type="text/javascript" src="angularWizard/lodash.js"></script>
     <script type="text/javascript" src="angularWizard/angular-wizard.js"></script>    
-    <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
 	<script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
 	<script type='text/javascript' src='js/angular/shared/angular-resource.min.js'></script>
 	<script type='text/javascript' src='js/angular/shared/angular-filter.js'></script>
@@ -129,8 +128,8 @@
 					            <fieldset class="wizard-content container">		
 					            	<div class="row" style="margin-right: 30px;">		            
 					            		<label for="selectPeriodicidades">Periodicidade:</label>
-										<select class="form-control" id="selectPeriodicidades" 
-											ng-model="periodicidade_selected" ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades"> 
+										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected"
+											ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
 										</select>
 									</div>
 									<div class="row">
