@@ -131,28 +131,32 @@
 					            	<div class="row">
 					            	</div>
 					            	<div class="row" style="margin-right: 30px;">		            
-					            		<label for="selectPeriodicidades">Periodicidade:</label>
+					            		<div class="row2">
+											<div class="label">Periodicidade:</div>
+										</div>
 										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected"
 											ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
 										</select>
 									</div>
 									<div class="row">
-										<p>
-											<label>Objetivos:</label>
-										</p>
-										<p style="font-size: 14px;">										
+										<div class="row2">
+											<div class="label">Objetivos:</div>
+										</div>
+										<div class="row2" style="font-size: 14px;">										
 											<i>OE - {{itens[0].nome_ObjetivoEstrategico}}</i>
-										</p>
-										<div class="bg-wizard">
+										</div>
+										<div class="row bg-wizard">
 											<div id="itens" class="row" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">									
 												<div class="row fonte">
-													<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
-																id="checkbox_{{$index}}"  
-																type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
-																ng-click="toggleSelectionItem(item)" />		
-													<span class="col-md-10 objetivo-medicao">
-														<b>OM - {{obj}}</b>									
-													</span>
+													<label for="checkbox_{{$index}}" class="row">
+														<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
+																	id="checkbox_{{$index}}"  
+																	type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
+																	ng-click="toggleSelectionItem(item)" />		
+														<span class="col-md-8 objetivo-medicao">
+															<b>OM - {{obj}}</b>									
+														</span>
+													</label>
 												</div>
 												<div class="row fonte">
 													<div class="col-md-12" ng-repeat="i in item">
@@ -183,29 +187,29 @@
 								<fieldset class="wizard-content container">
 									<form name="loginFormTaiga" novalidate>
 										<div class="row">
-											<label for="url">
-												<strong>URL *</strong>
-											</label>
-											<input class="form-control" placeholder="URL do servidor do Taiga" type="text" name="url" ng-model="loginTaiga.url" required>
+											<div class="row2">
+												<div class="label"><strong>URL *</strong></div>
+											</div>
+											<input id="url" class="form-control" placeholder="URL do servidor do Taiga" type="text" name="url" ng-model="loginTaiga.url" required>
 											<span style="color: red" ng-show="loginFormTaiga.url.$dirty && loginFormTaiga.url.$invalid">
 												<span ng-show="loginFormTaiga.url.$error.required">Digite a URL.</span>
 												<span ng-show="loginFormTaiga.url.$error.url">Endereço de URL inválido.</span>
 											</span>
 											<br />
 											<br />
-											<label for="usuario">
-												<strong>Usuário *</strong>
-											</label>
-											<input class="form-control" placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="loginTaiga.usuario" required>
+											<div class="row2">
+												<div class="label"><strong>Usuário *</strong></div>
+											</div>
+											<input id="usuario" class="form-control" placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="loginTaiga.usuario" required>
 											<span style="color: red" ng-show="loginFormTaiga.usuario.$dirty && loginFormTaiga.usuario.$invalid">
 												<span ng-show="loginFormTaiga.usuario.$error.required">Digite o Nome do Usuário.</span>
 											</span>
 											<br />
 											<br />
-											<label for="password">
-												<strong>Senha *</strong>
-											</label>
-											<input class="form-control" type="password" name="password" ng-model="loginTaiga.senha" required>
+											<div class="row2">
+												<div class="label"><strong>Senha *</strong></div>
+											</div>
+											<input id="password" class="form-control" type="password" name="password" ng-model="loginTaiga.senha" required>
 											<span style="color: red" ng-show="loginFormTaiga.password.$dirty && loginFormTaiga.password.$invalid">
 												<span ng-show="loginFormTaiga.password.$error.required">Digite a Senha.</span>
 											</span>
@@ -225,19 +229,17 @@
 											<div class="row" ng-repeat="projeto in projetosTaiga">
 												<div class="col-md-12">													
 													<div class="row">
-														<div class="col-md-2">
-															<label class="checkbox" for="{{projeto}}">
-																<input id="{{projeto}}"  type="checkbox"
-																ng-checked="projetosSelecionados_taiga.indexOf(projeto) > -1"
-																ng-click="toggleSelectionProjeto_Taiga(projeto)" />																
-															</label>
-														</div>															
-														<div class="col-md-10">
-															<p>
-																<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
-															</p>
-															<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
-														</div>
+														<label class="checkbox" for="projeto_taiga_{{$index}}">
+															<input id="projeto_taiga_{{$index}}"  type="checkbox"
+															ng-checked="projetosSelecionados_taiga.indexOf(projeto) > -1"
+															ng-click="toggleSelectionProjeto_Taiga(projeto)" />
+															<div>
+																<p>
+																	<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+																</p>
+																<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
+															</div>																
+														</label>
 													</div>
 												</div>
 											</div>
@@ -253,11 +255,11 @@
 					          <wz-step title="Conexão Sonar">
 									<fieldset class="wizard-content">
 										<form name="loginFormSonar" novalidate>
-											<div style="margin-left: 180px; margin-top: 50px;">
-												<label for="url">
-													<strong>URL *</strong>
-												</label>
-												<input class="form-control" placeholder="URL do servidor Sonar" type="url" name="url" ng-model="loginSonar.url" required>
+											<div class="row">
+												<div class="row2">
+													<div class="label"><strong>URL *</strong></div>
+												</div>
+												<input class="form-control" placeholder="URL do servidor SonarQube" type="url" name="url" ng-model="loginSonar.url" required>
 												<span style="color: red" ng-show="loginFormSonar.url.$dirty && loginFormSonar.url.$invalid">
 													<span ng-show="loginFormSonar.url.$error.required">Digite a URL.</span>
 													<span ng-show="loginFormSonar.url.$error.url">Endereço de URL inválido.</span>
@@ -274,25 +276,24 @@
 					          </wz-step>
 					          <wz-step title="Projetos Sonar">
 									<fieldset class="wizard-content">
-										<form name="formProjetosSonar">
-											<div id="projetosSonar" class="row bg-wizard" ng-repeat="projeto in projetosSonar">
-												<div class="col-md-12">
-													<label class="checkbox" for="{{projeto}}">
-														<div class="row">
-															<input id="{{projeto}}" class="col-md-2" type="checkbox"
-																ng-checked="projetosSelecionados_sonar.indexOf(projeto) > -1"
-																ng-click="toggleSelectionProjeto_Sonar(projeto)" />
-															<div class="col-md-10">
+										<div class="projetos-sonar">
+											<div id="projetosSonar" class="row" ng-repeat="projeto in projetosSonar">	
+												<div class="col-md-12">											
+													<div class="row">			
+														<label class="checkbox" for="projeto_sonar_{{$index}}">
+															<input id="projeto_sonar_{{$index}}" type="checkbox"
+															ng-checked="projetosSelecionados_sonar.indexOf(projeto) > -1"
+															ng-click="toggleSelectionProjeto_Sonar(projeto)" />		
+															<div>
 																<p>
-																	<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+																	<b>Projeto: {{projeto.name}}</b>
 																</p>
-																<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
-															</div>
-														</div>
-													</label>
+															</div>														
+														</label>	
+													</div>
 												</div>
 											</div>
-										</form>
+										</div>
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
@@ -302,21 +303,30 @@
 								  	</nav>
 					          </wz-step>
 					           <wz-step title="Resumo">
-									<fieldset class="wizard-content">
-										<p>
-											<b>Projeto(s):</b>
+									<fieldset class="wizard-content container">
+										<div class="row">
+											<b>Projeto(s) do Taiga:</b>
 											<br />
-										<ul style="font-size: 16px; margin-left: 20px;">
-											<span ng-repeat="projeto in projetosSelecionados_taiga">
-												<li style="margin-bottom: 5px;">{{projeto.nome}}</li>
-											</span>
-										</ul>
-										</p>
-										<p>
+											<ul style="font-size: 16px; margin-left: 20px;">
+												<span ng-repeat="projeto in projetosSelecionados_taiga">
+													<li style="margin-bottom: 5px;">{{projeto.nome}}</li>
+												</span>
+											</ul>
+										</div>										
+										<div class="row">
+											<b>Projeto(s) do SonarQube:</b>
+											<br />
+											<ul style="font-size: 16px; margin-left: 20px;">
+												<span ng-repeat="projeto in projetosSelecionados_sonar">
+													<li style="margin-bottom: 5px;">{{projeto.name}}</li>
+												</span>
+											</ul>
+										</div>
+										<div class="row">
 											<b>Periodicidade da coleta:</b>
 											{{periodicidade_selected.nome}}
-										</p>
-										<p>
+										</div>
+										<div class="row">
 											<b>Medida(s):</b>
 											<br />
 										<ul style="font-size: 16px; margin-left: 20px;">
@@ -324,7 +334,7 @@
 												<li style="margin-bottom: 5px;">{{medida.nome_Medida}}</li>
 											</span>
 										</ul>
-										</p>
+										</div>
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">

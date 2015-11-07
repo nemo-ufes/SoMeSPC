@@ -38,14 +38,23 @@
 	margin-bottom: 20px;
 }
 
+p {
+	margin: 0 0 5px;
+}
+
 label {
-	font-size: 14px;
-	display: inline-block;
-	max-width: 100%;
-	margin-bottom: 5px;
-	font-weight: 700;
+	width: 100%;
+	margin-left: 20px;
+}
+
+.label {
 	font-size: larger;
+	max-width: 100%;
+	font-weight: 700;
+	color: #09091a;
+	padding-left: 0px !important;
 	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .btn-wizard {
@@ -83,6 +92,17 @@ label {
 }
 
 .projetos-taiga {
+	font-size: 14px;
+	background-color: #161629;
+	color: #fff;
+	margin: 20px;
+	max-height: 250px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #161629;
+}
+
+.projetos-sonar {
 	background-color: #161629;
 	color: #fff;
 	margin: 20px;
@@ -120,6 +140,16 @@ label {
 	margin-left: 0px;
 	padding-left: 0px;
 	padding-right: 0px;
+}
+
+.row2 {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-right: 0px;
+	margin-left: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-right: 0px;
 }
 
 .steps-indicator.steps-7::before {
