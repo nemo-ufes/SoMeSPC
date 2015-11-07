@@ -30,6 +30,7 @@
 	<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">	    
 	<link href="<%=request.getContextPath()%>/naviox/style/naviox.css" rel="stylesheet" type="text/css">
 	<link href="style/wizard.css" rel="stylesheet"  type="text/css">
+	<link href="style/loading.css" rel="stylesheet">
 	
 	<%-- Naviox --%>
 	<script type='text/javascript' src='<%=request.getContextPath()%>/xava/js/dwr-engine.js?ox=<%=oxVersion%>'></script>
@@ -66,7 +67,7 @@
     <title>SoMeSPC Wizard</title>
   </head>
 
-  <body <%=NaviOXStyle.getBodyClass(request)%>>
+  <body <%=NaviOXStyle.getBodyClass(request)%> ng-app="SoMeSPCWizardApp" ng-controller="WizardCtrl">
 
 	<div id="main_navigation" style="box-sizing: content-box !important;">
 		<jsp:include page="mainNavigation.jsp" />
@@ -103,7 +104,7 @@
 					        	</header>
 						    </div>					
 						    <div id="main_content_wrap" class="fundo3">				    
-					      <section id="main_content" ng-app="SoMeSPCWizardApp" ng-controller="WizardCtrl">
+					      <section id="main_content" >
 					        <wizard on-finish="finished()">
 						      <wz-step title="Introdução">
 						          <fieldset class="wizard-content">
@@ -339,6 +340,24 @@
   			</td>
   		</tr>
   	</table>
+  	
+  	<%-- Loading --%>
+	<div class="overlay" ng-show="loading"></div>
+	<div class="modal-message" ng-show="loading">
+		<h5>
+			<b>Processando...</b>
+		</h5>
+		<div id="squaresWaveG">
+			<div id="squaresWaveG_1" class="squaresWaveG"></div>
+			<div id="squaresWaveG_2" class="squaresWaveG"></div>
+			<div id="squaresWaveG_3" class="squaresWaveG"></div>
+			<div id="squaresWaveG_4" class="squaresWaveG"></div>
+			<div id="squaresWaveG_5" class="squaresWaveG"></div>
+			<div id="squaresWaveG_6" class="squaresWaveG"></div>
+			<div id="squaresWaveG_7" class="squaresWaveG"></div>
+			<div id="squaresWaveG_8" class="squaresWaveG"></div>
+		</div>
+	</div> 	
   	
   	<script>
   	$(function() {
