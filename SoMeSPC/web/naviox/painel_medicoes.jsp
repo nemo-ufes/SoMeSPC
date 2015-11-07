@@ -1,5 +1,5 @@
 
-<div id="painel" class="container" ng-controller=MedicoesController>
+<div id="painel" ng-controller=MedicoesController>
 
 	<div>
 		<button type="button" class="btn btn-sm btn-success" ng-click="obterMedicoes(1)">

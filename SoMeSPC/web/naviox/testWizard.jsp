@@ -97,7 +97,7 @@
 							<jsp:include page="menus.jsp" />							
 						</div>
 										
-						<div class="col-md-8 fundo1">	
+						<div id="content-row" class="col-md-8 fundo1">	
 						    <div id="header_wrap" class="fundo2">
 					        	<header class="text-center">
 					        		<h3>Novo Plano de Medição Integrado</h3>
