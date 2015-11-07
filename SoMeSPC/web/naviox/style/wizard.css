@@ -1,16 +1,16 @@
 .fundo1 {
-	-webkit-border-radius: 25px;
-	-moz-border-radius: 25px;
-	border-radius: 25px;
-	background-color: rgb(44,62,80);
-	color: rgb(44,62,80);
+	-webkit-border-radius: 1px;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+	background-color: #161629;
+	color: #09091a;
 }
 
 .fundo2 {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background-color: rgb(233,235,237);
+	background-color: #c0c0c8;
 	padding-bottom: 0px;
 }
 
@@ -18,17 +18,17 @@
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	background-color: rgb(233,235,237);
+	background-color: #c0c0c8;
 	margin-bottom: 20px;
 }
 
 .btn-wizard{
-	background-color: #3e5871 !important;
+	background-color: #222233 !important;
 	color: white !important;
 }
 
 .btn-wizard:hover {
-	background-color: #59738d !important;
+	background-color: #28284a !important;
 	color: white !important;
 }
 
@@ -48,7 +48,7 @@
 } 
 
 .bg-wizard {
-	background-color: #2C3E50;
+	background-color: #161629;
 	color: #fff;
 	height: 170px;
 	overflow-x: hidden;
@@ -61,3 +61,26 @@
 	padding-left: 0px;
 	padding-right: 0px;
 }
+
+.steps-indicator.steps-7::before {
+	display:none !important;	
+}
+
+.steps-indicator.steps-7 li {
+    width: calc(100% / 7);
+    border-top: dashed 1px #5b5b69;
+}
+
+.steps-indicator li a {
+    color: #09091a;
+    text-decoration: none;
+    text-transform: none;
+    font-weight: bold;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.steps-indicator li.current a::before {
+    background-color: #1fbad6;
+}
+
