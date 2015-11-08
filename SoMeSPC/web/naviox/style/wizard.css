@@ -79,34 +79,24 @@ label {
 
 .wizard-content {
 	max-width: 800px;
-	height: 300px;
+	height: 350px;
 	margin: 0 auto;
 }
 
-.bg-wizard {
+.bg-objetivos {
 	background-color: #161629;
 	color: #fff;
-	max-height: 150px;
+	max-height: 200px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
 
-.projetos-taiga {
+.projetos {
 	font-size: 14px;
 	background-color: #161629;
 	color: #fff;
 	margin: 20px;
-	max-height: 250px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	background-color: #161629;
-}
-
-.projetos-sonar {
-	background-color: #161629;
-	color: #fff;
-	margin: 20px;
-	max-height: 250px;
+	height: 250px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
@@ -133,6 +123,16 @@ label {
 	margin-left: 80px;
 	margin-bottom: 50px !important;
 	line-height: 30px !important;
+}
+
+.medidas-resumo {
+	font-size: 16px;	
+	background-color: #161629;
+	color: #fff;
+	padding-top: 10px;
+	max-height: 240px;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .row {
