@@ -179,7 +179,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="validacao_DadosTaiga()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next ng-click="validacao_DadosTaiga()" value="Proximo" />					    
 									  </div>
 								  	</nav>						
 					          </wz-step>
@@ -254,7 +254,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="validacao_DadosSonar()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next ng-click="validacao_DadosSonar()" value="Proximo" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>
@@ -279,7 +279,7 @@
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
-									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous  ng-click="validacao_DadosTaigaRetorno()" value="Anterior" />							  	
 					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoSonar()" wz-next="logStep()" value="Proximo" />					    
 									  </div>
 								  	</nav>
@@ -374,7 +374,7 @@
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
-									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous ng-click="validacao_RetornoResumo()" value="Anterior" />							  	
 					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_plano()" wz-next="logStep()" value="Finalizar" />					    
 									  </div>
 								  	</nav>

@@ -91,23 +91,74 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     }
     
     $scope.validacao_DadosTaiga = function(){
-    	for(item in $scope.itens_selected){
-    		if (item.nome_FerramentaColetora == "Taiga"){
-    			WizardHandler.wizard().next();
-    			return;
+    	var temObjetivoTaiga = false;
+    	
+    	for(idx in $scope.itens_selected){
+    		var item = $scope.itens_selected[idx];
+    		if (item.nome_FerramentaColetora == "Taiga"){    			
+    			temObjetivoTaiga = true;
+    			break;
     		}
     	}
-    	WizardHandler.wizard().goTo(4);
+    	
+    	if (!temObjetivoTaiga){
+    		WizardHandler.wizard().goTo(4);	
+    	}    	
+    }
+        
+    $scope.validacao_DadosTaigaRetorno = function(){
+    	var temObjetivoTaiga = false;
+    	
+    	for(idx in $scope.itens_selected){
+    		var item = $scope.itens_selected[idx];
+    		if (item.nome_FerramentaColetora == "Taiga"){    			
+    			temObjetivoTaiga = true;
+    			break;
+    		}
+    	}
+    	
+    	if (!temObjetivoTaiga){
+    		WizardHandler.wizard().goTo(1);	
+    	}     
     }
     
     $scope.validacao_DadosSonar = function(){
-    	for(item in $scope.itens_selected){
-    		if (item.nome_FerramentaColetora == "Sonar"){
-    			WizardHandler.wizard().next();
-    			return;
+    	var temObjetivoSonar = false;
+    	
+    	for(idx in $scope.itens_selected){
+    		var item = $scope.itens_selected[idx];
+    		if (item.nome_FerramentaColetora == "SonarQube"){    			
+    			temObjetivoSonar = true;
+    			break;
     		}
     	}
-    	WizardHandler.wizard().goTo(6);
+    	
+    	if (!temObjetivoSonar){
+    		WizardHandler.wizard().goTo(6);	
+    	}    	
+    }
+    
+    $scope.validacao_RetornoResumo = function(){
+    	var temObjetivoSonar = false;
+    	var temObjetivoTaiga = false;
+    	
+    	for(idx in $scope.itens_selected){
+    		var item = $scope.itens_selected[idx];
+    		if (item.nome_FerramentaColetora == "SonarQube"){    			
+    			temObjetivoSonar = true;
+    		} else {
+    			temObjetivoTaiga = true;
+    		}
+    	}
+    	
+    	$scope.projetosSelecionados_sonar = [];
+    	$scope.projetosSelecionados_taiga = [];
+    	
+    	if (temObjetivoSonar){
+    		WizardHandler.wizard().goTo(4);	
+    	} else {
+    		WizardHandler.wizard().goTo(2);	
+    	}    	
     }
 
 
@@ -128,7 +179,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		
 		for (idx in $scope.projetosSelecionados_sonar) {
 			$scope.entry.projetos_Sonar
-					.push($scope.projetosSelecionados_sonar[idx].apelido);
+					.push($scope.projetosSelecionados_sonar[idx].name);
 		}
 
 		for (idx in $scope.itens_selected) {
