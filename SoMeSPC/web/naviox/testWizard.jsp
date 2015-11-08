@@ -121,7 +121,7 @@
 						          </fieldset>
 						         	<nav>
 									  <div class="pager pager-size">							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next value="Proximo" />					    
 									  </div>
 								  	</nav>	
 					          </wz-step>
@@ -185,7 +185,7 @@
 									  </div>
 								  	</nav>						
 					          </wz-step>
-					          <wz-step title="Conexão Taiga">
+					          <wz-step title="Conexão Taiga" wz-disabled="{{disabledTaiga}}">
 								<fieldset class="wizard-content container">
 									<form name="loginFormTaiga" novalidate>
 										<div class="row2">
@@ -224,11 +224,11 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoTaiga()" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoTaiga()" wz-next value="Proximo" />					    
 									  </div>
 								  	</nav>	
 					          </wz-step>
-					          <wz-step title="Projetos Taiga" canexit="validacao_DadosProjetoTaiga">
+					          <wz-step title="Projetos Taiga" canexit="validacao_DadosProjetoTaiga" wz-disabled="{{disabledTaiga}}">
 									<fieldset class="wizard-content">	
 										<div class="row text-center" style="font-size:14px; color:red;">
 					            	       	</br>
@@ -265,7 +265,7 @@
 									  </div>
 								  	</nav>
 					          </wz-step>
-					          <wz-step title="Conexão Sonar">
+					          <wz-step title="Conexão Sonar"  wz-disabled="{{disabledSonar}}">
 									<fieldset class="wizard-content container">
 										<div class="row2">
 											<h3 class="text-center">Conexão com o SonarQube</h3>
@@ -286,11 +286,11 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous  ng-click="validacao_DadosTaigaRetorno()" value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoSonar()" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoSonar()" wz-next value="Proximo" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>
-					          <wz-step title="Projetos Sonar"  canexit="validacao_DadosProjetoSonar">
+					          <wz-step title="Projetos Sonar"  canexit="validacao_DadosProjetoSonar" wz-disabled="{{disabledSonar}}">
 									<fieldset class="wizard-content">
 										<div class="row text-center" style="font-size:14px; color:red;">
 					            			</br>
@@ -322,7 +322,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next value="Proximo" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>
@@ -384,8 +384,8 @@
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
-									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous ng-click="validacao_RetornoResumo()" value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_plano()" wz-next="logStep()" value="Finalizar" />					    
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous ng-click="validacao_RetornoResumo()" value="Reiniciar" />							  	
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_plano()" wz-next value="Finalizar" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>

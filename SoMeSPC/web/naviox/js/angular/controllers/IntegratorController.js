@@ -46,6 +46,8 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	$scope.mensagem_Projetos = '';
 	$scope.periodicidade = {};
 	$scope.itens_selected = [];
+	$scope.disabledTaiga = false;
+	$scope.disabledSonar = false;
 	
 	//------------------------------------ Funções Integrator ---------------------------------------
 	
@@ -116,22 +118,29 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     
     $scope.validacao_DadosTaiga = function(){
     	var temObjetivoTaiga = false;
+    	var temObjetivoSonar = false;
     	
     	for(idx in $scope.itens_selected){
     		var item = $scope.itens_selected[idx];
     		if (item.nome_FerramentaColetora == "Taiga"){    			
     			temObjetivoTaiga = true;
-    			break;
     		}
+    		else {
+    			temObjetivoSonar = true;
+    		}   			
     	}
-    	
+    	if (!temObjetivoSonar){
+    		$scope.disabledSonar = true;
+    	}
     	if (!temObjetivoTaiga){
-    		WizardHandler.wizard().goTo(4);	
+    		$scope.disabledTaiga = true;
+    		WizardHandler.wizard().goTo(4);
     	}    	
     }
         
     $scope.validacao_DadosTaigaRetorno = function(){
     	var temObjetivoTaiga = false;
+		$scope.disabledTaiga = false;
     	
     	for(idx in $scope.itens_selected){
     		var item = $scope.itens_selected[idx];
@@ -147,42 +156,34 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     }
     
     $scope.validacao_DadosSonar = function(){
+    	var temObjetivoTaiga = false;
     	var temObjetivoSonar = false;
     	
     	for(idx in $scope.itens_selected){
     		var item = $scope.itens_selected[idx];
-    		if (item.nome_FerramentaColetora == "SonarQube"){    			
-    			temObjetivoSonar = true;
-    			break;
+    		if (item.nome_FerramentaColetora == "Taiga"){    			
+    			temObjetivoTaiga = true;
     		}
+    		else {
+    			temObjetivoSonar = true;
+    		}   			
     	}
-    	
-    	if (!temObjetivoSonar){
+    	if (temObjetivoSonar && temObjetivoTaiga){
+    		//$scope.disabledSonar = true;
     		WizardHandler.wizard().goTo(6);	
-    	}    	
+    	}
+    	else{
+    		WizardHandler.wizard().goTo(4);	
+    	}
     }
     
     $scope.validacao_RetornoResumo = function(){
-    	var temObjetivoSonar = false;
-    	var temObjetivoTaiga = false;
-    	
-    	for(idx in $scope.itens_selected){
-    		var item = $scope.itens_selected[idx];
-    		if (item.nome_FerramentaColetora == "SonarQube"){    			
-    			temObjetivoSonar = true;
-    		} else {
-    			temObjetivoTaiga = true;
-    		}
-    	}
-    	
     	$scope.projetosSelecionados_sonar = [];
     	$scope.projetosSelecionados_taiga = [];
+    	$scope.disabledSonar = false;
+    	$scope.disabledTaiga = false;
     	
-    	if (temObjetivoSonar){
-    		WizardHandler.wizard().goTo(4);	
-    	} else {
-    		WizardHandler.wizard().goTo(2);	
-    	}    	
+    	WizardHandler.wizard().goTo(1);	  	
     }
 
 
