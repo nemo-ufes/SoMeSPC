@@ -13,18 +13,6 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     $scope.goFinish = function() {
         WizardHandler.wizard().goTo(5);
     }
-	
-    $scope.validacao_Dados = function(){
-    	if ($scope.itens_selected.length == 0 || $scope.itens_selected.length == 'undefined'){
-    		return false;
-    	}
-    	else if ($scope.periodicidade_selected == 'undefined'){
-    		return false;
-    	}    		
-    	else{
-    		return true;
-    	}
-    }
     
 	// ---------------------------- Objetos Taiga ----------------------------------------
 	
@@ -53,7 +41,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Variaveis auxiliares para o Plano de Medição
 	$scope.loading = false;
-	$scope.periodicidade_selected;
+	$scope.periodicidade_selected = {nome: "Joao"};
 	$scope.itens_selected = [];
 	
 	//------------------------------------ Funções Integrator ---------------------------------------
@@ -66,9 +54,11 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 
 	// Objeto Lista de Periodicidades - GET através da Web Service do
 	// IntegratorPlanoMedicao, usando $Resource do Angular JS
-	$scope.periodicidades = IntegratorPlanoMedicao.query({
-		entidade : 'Periodicidade'
-	});
+////	$scope.periodicidades = IntegratorPlanoMedicao.query({
+////		entidade : 'Periodicidade'
+//	});
+	
+	$scope.periodicidades = [{nome:"joao"},{nome:"maria"},{nome:"jose"}];
 	
 	$scope.toggleLoading = function toggleLoading() {
 		$scope.loading = !$scope.loading;
@@ -91,6 +81,38 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		$scope.periodicidade_selected = $scope.periodicidades[index];
 		console.log($scope.periodicidade_selected);
 	}
+	
+    $scope.validacao_Dados = function(){
+    	if ($scope.itens_selected.length == 0 || $scope.itens_selected == 'undefined'){
+    		return false;
+    	}
+    	else if ($scope.periodicidade_selected == null){
+    		console.log($scope.periodicidade_selected);
+    		return false;
+    	}    		
+    	else{
+    		return true;
+    	}
+    }
+    
+    $scope.validacao_DadosTaiga = function(){
+    	for(item in $scope.itens_selected){
+    		if (item.nome_FerramentaColetora == "Taiga"){
+    			WizardHandler.wizard().next();
+    		}
+    	}
+    	WizardHandler.wizard().goTo(4);
+    }
+    
+    $scope.validacao_DadosSonar = function(){
+    	for(item in $scope.itens_selected){
+    		if (item.nome_FerramentaColetora == "Sonar"){
+    			WizardHandler.wizard().next();
+    		}
+    	}
+    	WizardHandler.wizard().goTo(6);
+    }
+
 
 	$scope.post_plano = function() {
 
