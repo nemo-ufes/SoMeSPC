@@ -18,9 +18,9 @@ app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 	
 	//Login Taiga
 	$scope.loginTaiga = {
-		url : 'https://api.taiga.io/',
-		usuario : 'vinnysoft',
-		senha : 'teste123'
+		url : '',
+		usuario : '',
+		senha : ''
 	};
 	
 	//Projetos Taiga
@@ -31,7 +31,7 @@ app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 	
 	//Login Sonar
 	$scope.loginSonar = {
-		url : 'http://localhost:9000/'
+		url : ''
 	};
 	
 	//Projetos Sonar
