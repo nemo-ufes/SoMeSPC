@@ -47,6 +47,10 @@ label {
 	margin-left: 20px;
 }
 
+#descricao-wizard li:not(:last-child) {
+    margin-bottom: 40px;
+}
+
 .label {
 	font-size: larger;
 	max-width: 100%;

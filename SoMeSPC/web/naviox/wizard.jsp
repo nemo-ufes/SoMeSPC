@@ -108,16 +108,18 @@
 					        <wizard on-finish="finished()">
 						      <wz-step title="Introdução">
 						          <fieldset class="wizard-content">
-						            <h3>Criando um Plano de Medição</h3>
-						            <p>Para utilizar este wizard, siga os seguintes passos:</p>
-						            <p>
-						            	<ul style="list-style-type:disc">
-											<li>Selecione a periodicidade da coleta e os objetivos que deseja alcançar com o plano.</li>
-											<li>De acordo com os objetivos selecionados, uma tela para realização do login nas ferramentas integradas irá aparecer, preencha os dados e siga em frente.</li>
-											<li>Selecione os projetos para os quais deseja criar os planos de medição e siga em frente para a tela de resumo</li>
-											<li>Avalie se tudo foi preenchido corretamente e cliquei em concluir.</li>
-										</ul>  
-						            </p>
+						            <h3 class="text-center">Criando um Plano de Medição</h3>						            
+						            <div style="font-size: medium; padding-top: 10px;">
+							            <p>Para utilizar este wizard, siga os seguintes passos:</p>
+							            <p>
+							            	<ul id="descricao-wizard" style="list-style-type: decimal; padding-left: 50px; padding-top: 20px;">
+												<li>Selecione a periodicidade da coleta e os objetivos que deseja alcançar com o plano.</li>
+												<li>De acordo com os objetivos selecionados, uma tela para realização do login nas ferramentas integradas irá aparecer. Preencha os dados necessários e siga em frente.</li>
+												<li>Selecione os projetos para os quais deseja criar os planos de medição e siga em frente para a tela de resumo</li>
+												<li>Avalie se tudo foi preenchido corretamente e cliquei em finalizar.</li>
+											</ul>  
+							            </p>
+						            </div>
 						          </fieldset>
 						         	<nav>
 									  <div class="pager pager-size">							  	
