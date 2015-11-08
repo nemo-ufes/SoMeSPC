@@ -56,11 +56,11 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 
 	// Objeto Lista de Periodicidades - GET através da Web Service do
 	// IntegratorPlanoMedicao, usando $Resource do Angular JS
-////	$scope.periodicidades = IntegratorPlanoMedicao.query({
-////		entidade : 'Periodicidade'
-//	});
+	$scope.periodicidades = IntegratorPlanoMedicao.query({
+		entidade : 'Periodicidade'
+	});
 	
-	$scope.periodicidades = [{nome:"joao"},{nome:"maria"},{nome:"jose"}];
+	//$scope.periodicidades = [{nome:"joao"},{nome:"maria"},{nome:"jose"}];
 	
 	$scope.toggleLoading = function toggleLoading() {
 		$scope.loading = !$scope.loading;
