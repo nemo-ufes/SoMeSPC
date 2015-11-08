@@ -1,5 +1,5 @@
 //DefiniÃ§Ã£o do Controlador - AngularJS
-app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
+app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 		TaigaIntegratorProjeto, IntegratorPlanoMedicao, SoMeSPCResourcePlano, SonarIntegratorProjeto) {
 
 	// ---------------------------- Teste ------------------------------------------------
@@ -82,10 +82,14 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     $scope.validacao_Dados = function(){
     	if ($scope.itens_selected == undefined || $scope.itens_selected.length == 0){
     		$scope.mensagem_Objetivos = "É necessário escolher um objetivo de medição!";
+    		$scope.disabledTaiga = false;
+    		$scope.disabledSonar = false;
     		return false;
     	}
     	else if ($scope.periodicidade == undefined ||  $scope.periodicidade.selecionada == undefined){
     		$scope.mensagem_Objetivos = "É necessário escolher uma periodicidade de medição!";
+    		$scope.disabledTaiga = false;
+    		$scope.disabledSonar = false;
     		return false;
     	}    		
     	else{
@@ -156,34 +160,22 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     }
     
     $scope.validacao_DadosSonar = function(){
-    	var temObjetivoTaiga = false;
     	var temObjetivoSonar = false;
     	
     	for(idx in $scope.itens_selected){
     		var item = $scope.itens_selected[idx];
-    		if (item.nome_FerramentaColetora == "Taiga"){    			
-    			temObjetivoTaiga = true;
-    		}
-    		else {
+    		if (item.nome_FerramentaColetora == "SonarQube"){  	
     			temObjetivoSonar = true;
     		}   			
     	}
-    	if (temObjetivoSonar && temObjetivoTaiga){
-    		//$scope.disabledSonar = true;
-    		WizardHandler.wizard().goTo(6);	
-    	}
-    	else{
+    	
+    	if (!temObjetivoSonar){    		
     		WizardHandler.wizard().goTo(4);	
     	}
     }
     
     $scope.validacao_RetornoResumo = function(){
-    	$scope.projetosSelecionados_sonar = [];
-    	$scope.projetosSelecionados_taiga = [];
-    	$scope.disabledSonar = false;
-    	$scope.disabledTaiga = false;
-    	
-    	WizardHandler.wizard().goTo(1);	  	
+    	$window.location.href = '/SoMeSPC/naviox/wizard.jsp';	
     }
 
 
@@ -217,6 +209,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		$scope.entry.$save(function sucesso(plano) {
 			$scope.toggleLoading();
 			alert("Plano(s) de Medição criado com sucesso!");
+	    	$window.location.href = '/SoMeSPC/naviox/wizard.jsp';	
 		}, function erro(err) {
 			$scope.toggleLoading();
 			console.log(err);

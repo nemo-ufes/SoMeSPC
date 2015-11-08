@@ -127,9 +127,7 @@
 					          </wz-step>
 					          <wz-step title="Objetivos" canexit="validacao_Dados">
  								<fieldset class="wizard-content container">		
-					            	<div class="row text-center" style="font-size:14px; color:red;">
-					            		</br>
-					            		</br>
+					            	<div class="row text-center" style="font-size:14px; color:red; margin-top: 10px;">
 					            		<b>{{mensagem_Objetivos}}</b>
 					            	</div>
 					            	<div class="row" style="margin-right: 30px;">		            
@@ -230,9 +228,7 @@
 					          </wz-step>
 					          <wz-step title="Projetos Taiga" canexit="validacao_DadosProjetoTaiga" wz-disabled="{{disabledTaiga}}">
 									<fieldset class="wizard-content">	
-										<div class="row text-center" style="font-size:14px; color:red;">
-					            	       	</br>
-					            			</br>
+										<div class="row text-center" style="font-size:14px; color:red; margin-top: 10px;">
 					            			<b>{{mensagem_Projetos}}</b>
 					            		</div>
 										<div class="row2">
@@ -292,9 +288,7 @@
 					          </wz-step>
 					          <wz-step title="Projetos Sonar"  canexit="validacao_DadosProjetoSonar" wz-disabled="{{disabledSonar}}">
 									<fieldset class="wizard-content">
-										<div class="row text-center" style="font-size:14px; color:red;">
-					            			</br>
-					            			</br>
+										<div class="row text-center" style="font-size:14px; color:red; margin-top: 10px;">
 					            			<b>{{mensagem_Projetos}}</b>
 					            		</div>
 										<div class="row2">
@@ -384,7 +378,7 @@
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
-									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous ng-click="validacao_RetornoResumo()" value="Reiniciar" />							  	
+									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-cancel ng-click="validacao_RetornoResumo()" value="Reiniciar" />							  	
 					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_plano()" wz-next value="Finalizar" />					    
 									  </div>
 								  	</nav>
