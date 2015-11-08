@@ -68,8 +68,8 @@ label {
 	color: white !important;
 }
 
-.titulo {margin 20px;
-	
+.titulo {
+	margin: 20px;
 }
 
 .pager-size {
@@ -79,7 +79,7 @@ label {
 
 .wizard-content {
 	max-width: 800px;
-	height: 350px;
+	min-height: 350px;
 	margin: 0 auto;
 }
 
@@ -125,14 +125,33 @@ label {
 	line-height: 30px !important;
 }
 
-.medidas-resumo {
-	font-size: 16px;	
+.projetos-resumo {
+	font-size: 16px;
 	background-color: #161629;
 	color: #fff;
 	padding-top: 10px;
-	max-height: 240px;
+	height: 60px;
 	overflow-x: hidden;
 	overflow-y: auto;
+}
+
+.medidas-resumo {
+	font-size: 16px;
+	background-color: #161629;
+	color: #fff;
+	padding-top: 10px;
+	height: 240px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.periodicidade-resumo {
+	font-size: 16px;
+	background-color: #161629;
+	color: #fff;
+	padding-top: 10px;
+	padding-left: 10px;
+	height: 25px;
 }
 
 .row {

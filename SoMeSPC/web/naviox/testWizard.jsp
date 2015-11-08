@@ -323,35 +323,41 @@
 											<div class="col-md-5">
 												<div class="row">
 													<div class="row2">
-														<div class="label"><strong>Projeto(s) do Taiga</strong></div>
+														<div class="label"><strong>Projeto(s) do Taiga:</strong></div>
 													</div>
-													<ul style="font-size: 16px; margin-left: 20px;">
-														<span ng-repeat="projeto in projetosSelecionados_taiga">
-															<li style="margin-bottom: 5px;">{{projeto.nome}}</li>
-														</span>
-													</ul>
+													<div class="projetos-resumo">
+														<ul>
+															<span ng-repeat="projeto in projetosSelecionados_taiga">
+																<li style="margin-bottom: 5px;">{{projeto.nome}}</li>
+															</span>
+														</ul>
+													</div>
 												</div>										
 												<div class="row">
 													<div class="row2">
-														<div class="label"><strong>Projeto(s) do SonarQube</strong></div>
+														<div class="label"><strong>Projeto(s) do SonarQube:</strong></div>
 													</div>
-													<ul style="font-size: 16px; margin-left: 20px;">
-														<span ng-repeat="projeto in projetosSelecionados_sonar">
-															<li style="margin-bottom: 5px;">{{projeto.name}}</li>
-														</span>
-													</ul>
+													<div class="projetos-resumo">
+														<ul>
+															<span ng-repeat="projeto in projetosSelecionados_sonar">
+																<li style="margin-bottom: 5px;">{{projeto.name}}</li>
+															</span>
+														</ul>
+													</div>
 												</div>
 												<div class="row">
 													<div class="row2">
 														<div class="label"><strong>Periodicidade da coleta:</strong></div>
 													</div>
-													{{periodicidade_selected.nome}}
+													<div class="periodicidade-resumo">
+														Periodicidade teste {{periodicidade_selected.nome}}
+													</div>													
 												</div>
 											</div>
 											<div class="col-md-6">
 												<div class="row">
 													<div class="row2">
-														<div class="label"><strong>Medida(s): </strong></div>
+														<div class="label"><strong>Medida(s) para coleta: </strong></div>
 													</div>
 													<div class="medidas-resumo">
 														<ul>
