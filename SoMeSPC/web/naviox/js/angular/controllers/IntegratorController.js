@@ -15,13 +15,19 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     }
 	
     $scope.validacao_Dados = function(){
-    	if ($scope.itens_selected.length == 0 || $scope.itens_selected.length == 'undefined'){
+    	console.log("periodicidade.selected: " + $scope.periodicidade.selected);
+    	console.log("periodicidade.selected.$modelValue: " + $scope.periodicidade.selected.$modelValue);
+    	
+    	if ($scope.itens_selected == undefined || $scope.itens_selected.length == 0){
+    		$scope.mensagem = "… necess·rio escolher um objetivo de mediÁ„o!";
     		return false;
     	}
-    	else if ($scope.periodicidade_selected == 'undefined'){
+    	else if ($scope.periodicidade.selected.$modelValue == undefined){
+    		$scope.mensagem = "… necess·rio escolher uma periodicidade!";
     		return false;
     	}    		
     	else{
+    		$scope.mensagem = "";
     		return true;
     	}
     }
@@ -30,9 +36,9 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Login Taiga
 	$scope.loginTaiga = {
-		url : '',
-		usuario : '',
-		senha : ''
+		url : 'https://api.taiga.io/',
+		usuario : 'vinnysoft',
+		senha : 'teste123'
 	};
 	
 	//Projetos Taiga
@@ -42,7 +48,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Login Sonar
 	$scope.loginSonar = {
-		url : ''
+		url : 'http://localhost:9000/'
 	};
 	
 	//Projetos Sonar
@@ -53,7 +59,8 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Variaveis auxiliares para o Plano de Medi√ß√£o
 	$scope.loading = false;
-	$scope.periodicidade_selected;
+	$scope.mensagem = '';
+	$scope.periodicidade;
 	$scope.itens_selected = [];
 	
 	//------------------------------------ Fun√ß√µes Integrator ---------------------------------------

@@ -128,15 +128,17 @@
 					          </wz-step>
 					          <wz-step title="Objetivos" canexit="validacao_Dados">
 					            <fieldset class="wizard-content container">		
-					            	<div class="row">
+					            	<div class="row text-center" style="font-size:14px; color:red;">
+					            		<b>{{mensagem}}</b>
 					            	</div>
 					            	<div class="row" style="margin-right: 30px;">		            
 					            		<div class="row2">
 											<div class="label">Periodicidade:</div>
 										</div>
-										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected"
+										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade.selected"
 											ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
-										</select>
+										</select>			
+										{{periodicidade.selected}}			
 									</div>
 									<div class="row">
 										<div class="row2">
@@ -187,6 +189,7 @@
 								<fieldset class="wizard-content container">
 									<form name="loginFormTaiga" novalidate>
 										<div class="row2">
+										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Conexão com o Taiga</h3>
 										</div>
 										<div class="row">
@@ -229,6 +232,7 @@
 					          <wz-step title="Projetos Taiga">
 									<fieldset class="wizard-content">	
 										<div class="row2">
+										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Projetos disponíveis no Taiga</h3>
 										</div>	
 										<div class="projetos">
@@ -261,6 +265,7 @@
 					          <wz-step title="Conexão Sonar">
 									<fieldset class="wizard-content container">
 										<div class="row2">
+										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Conexão com o SonarQube</h3>
 										</div>
 										<form name="loginFormSonar" novalidate>
@@ -286,6 +291,7 @@
 					          <wz-step title="Projetos Sonar">
 									<fieldset class="wizard-content">
 										<div class="row2">
+										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Projetos disponíveis no SonarQube</h3>
 										</div>
 										<div class="projetos">
@@ -350,7 +356,7 @@
 														<div class="label"><strong>Periodicidade da coleta:</strong></div>
 													</div>
 													<div class="periodicidade-resumo">
-														Periodicidade teste {{periodicidade_selected.nome}}
+														{{periodicidade_selected.nome}}
 													</div>													
 												</div>
 											</div>
