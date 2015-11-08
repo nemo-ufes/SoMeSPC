@@ -58,9 +58,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	$scope.periodicidades = IntegratorPlanoMedicao.query({
 		entidade : 'Periodicidade'
 	});
-	
-	//$scope.periodicidades = [{nome:"joao"},{nome:"maria"},{nome:"jose"}];
-	
+		
 	$scope.toggleLoading = function toggleLoading() {
 		$scope.loading = !$scope.loading;
 	}
@@ -137,13 +135,11 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 			$scope.entry.nome_Itens.push($scope.itens_selected[idx]);
 		}
 
-		console.log($scope.entry.nome_Itens);
-
-		$scope.entry.taiga_Login = $scope.login;
-		console.log($scope.entry);
+		$scope.entry.taiga_Login = $scope.loginTaiga;
+		$scope.entry.sonar_Login = $scope.loginSonar;
+		
 		$scope.entry.$save(function sucesso(plano) {
 			$scope.toggleLoading();
-			console.log(plano);
 			alert("Plano(s) de Medição criado com sucesso!");
 		}, function erro(err) {
 			$scope.toggleLoading();
@@ -158,11 +154,11 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		$scope.toggleLoading();
 		TaigaIntegratorProjeto.save($scope.loginTaiga).$promise.then(
 				function sucesso(result) {
-					console.log("sucesso");
 					$scope.projetosTaiga = result;
 					$scope.projetosSelecionados_taiga = [];
 					$scope.toggleLoading();
 				}, function erro(err) {
+					console.log(err);
 					alert("Erro ao estabelecer a coneão! Verifique se os dados de login estão corretos e tente novamente.")
 					$scope.toggleLoading();
 				});
@@ -182,11 +178,11 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		$scope.toggleLoading();
 		SonarIntegratorProjeto.save($scope.loginSonar).$promise.then(
 				function sucesso(result) {
-					console.log("sucesso");
 					$scope.projetosSonar = result;
 					$scope.projetosSelecionados_sonar = [];
 					$scope.toggleLoading();
 				}, function erro(err) {
+					console.log(err);
 					alert("Erro ao estabelecer a coneão! Verifique se os dados de login estão corretos e tente novamente.")
 					$scope.toggleLoading();
 				});
