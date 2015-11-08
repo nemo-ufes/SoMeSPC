@@ -21,11 +21,9 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-	<link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
-	<link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />	
-	
 	<!-- CSS Modules -->
-	<link href="style/loading.css" rel="stylesheet">
+	<link rel="icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<%=request.getContextPath()%>/naviox/images/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" media="screen" href="angularWizard/stylesheet.css">
     <link rel="stylesheet" type="text/css" href="angularWizard/angular-wizard.css">
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -68,7 +66,7 @@
     <title>SoMeSPC Wizard</title>
   </head>
 
-  <body <%=NaviOXStyle.getBodyClass(request)%> ng-app="SoMeSPCWizardApp" ng-controller="WizardCtrl">
+  <body <%=NaviOXStyle.getBodyClass(request)%>>
 
 	<div id="main_navigation" style="box-sizing: content-box !important;">
 		<jsp:include page="mainNavigation.jsp" />
@@ -105,7 +103,7 @@
 					        	</header>
 						    </div>					
 						    <div id="main_content_wrap" class="fundo3">				    
-					      <section id="main_content" >
+					      <section id="main_content" ng-app="SoMeSPCWizardApp" ng-controller="WizardCtrl">
 					        <wizard on-finish="finished()">
 						      <wz-step title="Introdução">
 						          <fieldset class="wizard-content">
@@ -132,6 +130,7 @@
 					            		<b>{{mensagem}}</b>
 					            	</div>
 					            	<div class="row" style="margin-right: 30px;">		            
+<<<<<<< HEAD
 					            		<div class="row2">
 											<div class="label">Periodicidade:</div>
 										</div>
@@ -139,26 +138,30 @@
 											ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
 										</select>			
 										{{periodicidade.selected}}			
+=======
+					            		<label for="selectPeriodicidades">Periodicidade:</label>
+										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade_selected">
+											<option ng-repeat="periodicidade in periodicidades" value="{{periodicidade.nome}}">{{periodicidade.nome}}</option>
+										</select>
+>>>>>>> refs/remotes/origin/master
 									</div>
 									<div class="row">
-										<div class="row2">
-											<div class="label">Objetivos:</div>
-										</div>
-										<div class="row2" style="font-size: 14px;">										
+										<p>
+											<label>Objetivos:</label>
+										</p>
+										<p style="font-size: 14px;">										
 											<i>OE - {{itens[0].nome_ObjetivoEstrategico}}</i>
-										</div>
-										<div class="row bg-objetivos">
+										</p>
+										<div class="bg-wizard">
 											<div id="itens" class="row" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">									
 												<div class="row fonte">
-													<label for="checkbox_{{$index}}" class="row">
-														<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
-																	id="checkbox_{{$index}}"  
-																	type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
-																	ng-click="toggleSelectionItem(item)" />		
-														<span class="col-md-8 objetivo-medicao">
-															<b>OM - {{obj}}</b>									
-														</span>
-													</label>
+													<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
+																id="checkbox_{{$index}}"  
+																type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
+																ng-click="toggleSelectionItem(item)" />		
+													<span class="col-md-10 objetivo-medicao">
+														<b>OM - {{obj}}</b>									
+													</span>
 												</div>
 												<div class="row fonte">
 													<div class="col-md-12" ng-repeat="i in item">
@@ -181,41 +184,44 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="validacao_DadosTaiga()" value="Proximo" />					    
 									  </div>
 								  	</nav>						
 					          </wz-step>
 					          <wz-step title="Conexão Taiga">
 								<fieldset class="wizard-content container">
 									<form name="loginFormTaiga" novalidate>
+<<<<<<< HEAD
 										<div class="row2">
 										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Conexão com o Taiga</h3>
 										</div>
+=======
+>>>>>>> refs/remotes/origin/master
 										<div class="row">
-											<div class="row2">
-												<div class="label"><strong>URL *</strong></div>
-											</div>
-											<input id="url" class="form-control" placeholder="URL do servidor do Taiga" type="text" name="url" ng-model="loginTaiga.url" required>
+											<label for="url">
+												<strong>URL *</strong>
+											</label>
+											<input class="form-control" placeholder="URL do servidor do Taiga" type="text" name="url" ng-model="loginTaiga.url" required>
 											<span style="color: red" ng-show="loginFormTaiga.url.$dirty && loginFormTaiga.url.$invalid">
 												<span ng-show="loginFormTaiga.url.$error.required">Digite a URL.</span>
 												<span ng-show="loginFormTaiga.url.$error.url">Endereço de URL inválido.</span>
 											</span>
 											<br />
 											<br />
-											<div class="row2">
-												<div class="label"><strong>Usuário *</strong></div>
-											</div>
-											<input id="usuario" class="form-control" placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="loginTaiga.usuario" required>
+											<label for="usuario">
+												<strong>Usuário *</strong>
+											</label>
+											<input class="form-control" placeholder="Usuário do Taiga" type="text" name="usuario" ng-model="loginTaiga.usuario" required>
 											<span style="color: red" ng-show="loginFormTaiga.usuario.$dirty && loginFormTaiga.usuario.$invalid">
 												<span ng-show="loginFormTaiga.usuario.$error.required">Digite o Nome do Usuário.</span>
 											</span>
 											<br />
 											<br />
-											<div class="row2">
-												<div class="label"><strong>Senha *</strong></div>
-											</div>
-											<input id="password" class="form-control" type="password" name="password" ng-model="loginTaiga.senha" required>
+											<label for="password">
+												<strong>Senha *</strong>
+											</label>
+											<input class="form-control" type="password" name="password" ng-model="loginTaiga.senha" required>
 											<span style="color: red" ng-show="loginFormTaiga.password.$dirty && loginFormTaiga.password.$invalid">
 												<span ng-show="loginFormTaiga.password.$error.required">Digite a Senha.</span>
 											</span>
@@ -230,6 +236,7 @@
 								  	</nav>	
 					          </wz-step>
 					          <wz-step title="Projetos Taiga">
+<<<<<<< HEAD
 									<fieldset class="wizard-content">	
 										<div class="row2">
 										{{periodicidade_selected.nome}}
@@ -249,31 +256,52 @@
 																</p>
 																<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
 															</div>																
+=======
+									<fieldset class="wizard-content container">
+										<form name="formProjetosTaiga">
+											<div class="bg-wizard">
+												<div id="projetostaiga" class="row" ng-repeat="projeto in projetostaiga">
+													<div class="row fonte">
+														<label class="checkbox" for="{{projeto}}">
+																<input id="{{projeto}}" class="col-md-2" type="checkbox"
+																	ng-checked="projetosselecionados_taiga.indexof(projeto) > -1"
+																	ng-click="toggleselectionprojeto_taiga(projeto)" />
+																<span class="col-md-10">
+																	<p>
+																		<b>projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
+																	</p>
+																	<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
+																</span>
+>>>>>>> refs/remotes/origin/master
 														</label>
 													</div>
 												</div>
 											</div>
-										</div>
+										</form>
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="logStep()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next="validacao_DadosSonar())" value="Proximo" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>
 					          <wz-step title="Conexão Sonar">
+<<<<<<< HEAD
 									<fieldset class="wizard-content container">
 										<div class="row2">
 										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Conexão com o SonarQube</h3>
 										</div>
+=======
+									<fieldset class="wizard-content">
+>>>>>>> refs/remotes/origin/master
 										<form name="loginFormSonar" novalidate>
-											<div class="row2">
-												<div class="label"><strong>URL *</strong></div>
-											</div>
-											<div class="row" style="margin-right: 20px;">												
-												<input class="form-control" placeholder="URL do servidor SonarQube" type="url" name="url" ng-model="loginSonar.url" required>
+											<div style="margin-left: 180px; margin-top: 50px;">
+												<label for="url">
+													<strong>URL *</strong>
+												</label>
+												<input placeholder="URL do servidor Sonar" type="url" name="url" ng-model="loginSonar.url" required>
 												<span style="color: red" ng-show="loginFormSonar.url.$dirty && loginFormSonar.url.$invalid">
 													<span ng-show="loginFormSonar.url.$error.required">Digite a URL.</span>
 													<span ng-show="loginFormSonar.url.$error.url">Endereço de URL inválido.</span>
@@ -290,6 +318,7 @@
 					          </wz-step>
 					          <wz-step title="Projetos Sonar">
 									<fieldset class="wizard-content">
+<<<<<<< HEAD
 										<div class="row2">
 										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Projetos disponíveis no SonarQube</h3>
@@ -303,15 +332,27 @@
 															ng-checked="projetosSelecionados_sonar.indexOf(projeto) > -1"
 															ng-click="toggleSelectionProjeto_Sonar(projeto)" />		
 															<div style="padding-top: 4px;">
+=======
+										<form name="formProjetosSonar">
+											<div id="projetosSonar" class="row bg-wizard" ng-repeat="projeto in projetosSonar">
+												<div class="col-md-12">
+													<label class="checkbox" for="{{projeto}}">
+														<div class="row">
+															<input id="{{projeto}}" class="col-md-2" type="checkbox"
+																ng-checked="projetosSelecionados_sonar.indexOf(projeto) > -1"
+																ng-click="toggleSelectionProjeto_Sonar(projeto)" />
+															<div class="col-md-10">
+>>>>>>> refs/remotes/origin/master
 																<p>
-																	<b>Projeto: {{projeto.name}}</b>
+																	<b>Projeto: {{projeto.nome}} ({{projeto.apelido}})</b>
 																</p>
-															</div>														
-														</label>	
-													</div>
+																<p style="width: 600px; font-weight: normal !important;">{{projeto.descricao}}</p>
+															</div>
+														</div>
+													</label>
 												</div>
 											</div>
-										</div>
+										</form>
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
@@ -321,6 +362,7 @@
 								  	</nav>
 					          </wz-step>
 					           <wz-step title="Resumo">
+<<<<<<< HEAD
 									<fieldset class="wizard-content container">
 										<div class="row2">
 											<h3 class="text-center">Resumo do Plano de Medição</h3>
@@ -375,6 +417,31 @@
 												</div>
 											</div>
 										</div>
+=======
+									<fieldset class="wizard-content">
+										<p>
+											<b>Projeto(s):</b>
+											<br />
+										<ul style="font-size: 16px; margin-left: 20px;">
+											<span ng-repeat="projeto in projetosSelecionados_taiga">
+												<li style="margin-bottom: 5px;">{{projeto.nome}}</li>
+											</span>
+										</ul>
+										</p>
+										<p>
+											<b>Periodicidade da coleta:</b>
+											{{periodicidade_selected.nome}}
+										</p>
+										<p>
+											<b>Medida(s):</b>
+											<br />
+										<ul style="font-size: 16px; margin-left: 20px;">
+											<span ng-repeat="medida in itens_selected">
+												<li style="margin-bottom: 5px;">{{medida.nome_Medida}}</li>
+											</span>
+										</ul>
+										</p>
+>>>>>>> refs/remotes/origin/master
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
@@ -393,24 +460,6 @@
   			</td>
   		</tr>
   	</table>
-  	
-  	<%-- Loading --%>
-	<div class="overlay" ng-show="loading"></div>
-	<div class="modal-message" ng-show="loading">
-		<h5>
-			<b>Processando...</b>
-		</h5>
-		<div id="squaresWaveG">
-			<div id="squaresWaveG_1" class="squaresWaveG"></div>
-			<div id="squaresWaveG_2" class="squaresWaveG"></div>
-			<div id="squaresWaveG_3" class="squaresWaveG"></div>
-			<div id="squaresWaveG_4" class="squaresWaveG"></div>
-			<div id="squaresWaveG_5" class="squaresWaveG"></div>
-			<div id="squaresWaveG_6" class="squaresWaveG"></div>
-			<div id="squaresWaveG_7" class="squaresWaveG"></div>
-			<div id="squaresWaveG_8" class="squaresWaveG"></div>
-		</div>
-	</div> 	
   	
   	<script>
   	$(function() {
