@@ -128,7 +128,9 @@
 					          <wz-step title="Objetivos" canexit="validacao_Dados">
  								<fieldset class="wizard-content container">		
 					            	<div class="row text-center" style="font-size:14px; color:red;">
-					            		<b>{{mensagem}}</b>
+					            		</br>
+					            		</br>
+					            		<b>{{mensagem_Objetivos}}</b>
 					            	</div>
 					            	<div class="row" style="margin-right: 30px;">		            
 					            		<div class="row2">
@@ -226,8 +228,13 @@
 									  </div>
 								  	</nav>	
 					          </wz-step>
-					          <wz-step title="Projetos Taiga">
+					          <wz-step title="Projetos Taiga" canexit="validacao_DadosProjetoTaiga">
 									<fieldset class="wizard-content">	
+										<div class="row text-center" style="font-size:14px; color:red;">
+					            	       	</br>
+					            			</br>
+					            			<b>{{mensagem_Projetos}}</b>
+					            		</div>
 										<div class="row2">
 											<h3 class="text-center">Projetos disponíveis no Taiga</h3>
 										</div>	
@@ -261,7 +268,6 @@
 					          <wz-step title="Conexão Sonar">
 									<fieldset class="wizard-content container">
 										<div class="row2">
-										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Conexão com o SonarQube</h3>
 										</div>
 										<form name="loginFormSonar" novalidate>
@@ -284,10 +290,14 @@
 									  </div>
 								  	</nav>
 					          </wz-step>
-					          <wz-step title="Projetos Sonar">
+					          <wz-step title="Projetos Sonar"  canexit="validacao_DadosProjetoSonar">
 									<fieldset class="wizard-content">
+										<div class="row text-center" style="font-size:14px; color:red;">
+					            			</br>
+					            			</br>
+					            			<b>{{mensagem_Projetos}}</b>
+					            		</div>
 										<div class="row2">
-										{{periodicidade_selected.nome}}
 											<h3 class="text-center">Projetos disponíveis no SonarQube</h3>
 										</div>
 										<div class="projetos">

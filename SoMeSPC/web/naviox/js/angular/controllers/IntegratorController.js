@@ -25,6 +25,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Projetos Taiga
 	$scope.projetosTaiga;
+	$scope.projetosSelecionados_taiga = [];
 	
 	// ---------------------------- Objetos Sonar ----------------------------------------
 	
@@ -41,7 +42,8 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Variaveis auxiliares para o Plano de MediÃ§Ã£o
 	$scope.loading = false;
-	$scope.mensagem = '';
+	$scope.mensagem_Objetivos = '';
+	$scope.mensagem_Projetos = '';
 	$scope.periodicidade = {};
 	$scope.itens_selected = [];
 	
@@ -77,15 +79,37 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		
     $scope.validacao_Dados = function(){
     	if ($scope.itens_selected == undefined || $scope.itens_selected.length == 0){
-    		$scope.mensagem = "É necessário escolher um objetivo de medição!";
+    		$scope.mensagem_Objetivos = "É necessário escolher um objetivo de medição!";
     		return false;
     	}
     	else if ($scope.periodicidade == undefined ||  $scope.periodicidade.selecionada == undefined){
-    		$scope.mensagem = "É necessário escolher uma periodicidade de medição!";
+    		$scope.mensagem_Objetivos = "É necessário escolher uma periodicidade de medição!";
     		return false;
     	}    		
     	else{
-    		$scope.mensagem = "";
+    		$scope.mensagem_Objetivos = "";
+    		return true;
+    	}
+    }
+    
+    $scope.validacao_DadosProjetoTaiga = function(){
+    	if ($scope.projetosSelecionados_taiga == undefined || $scope.projetosSelecionados_taiga.length == 0){
+    		$scope.mensagem_Projetos = "É necessário escolher ao menos um Projeto!";
+    		return false;
+    	}   		
+    	else{
+    		$scope.mensagem_Projetos ="";
+    		return true;
+    	}
+    }
+    
+    $scope.validacao_DadosProjetoSonar = function(){
+    	if ($scope.projetosSelecionados_sonar == undefined || $scope.projetosSelecionados_sonar.length == 0){
+    		$scope.mensagem_Projetos = "É necessário escolher ao menos um Projeto!";
+    		return false;
+    	}   		
+    	else{
+    		$scope.mensagem_Projetos ="";
     		return true;
     	}
     }
