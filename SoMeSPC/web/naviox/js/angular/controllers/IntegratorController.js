@@ -42,8 +42,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	//Variaveis auxiliares para o Plano de Medi√ß√£o
 	$scope.loading = false;
 	$scope.mensagem = '';
-	$scope.periodicidade;
-	$scope.periodicidade_selected = {nome: "Joao"};
+	$scope.periodicidade = {};
 	$scope.itens_selected = [];
 	
 	//------------------------------------ Fun√ß√µes Integrator ---------------------------------------
@@ -66,7 +65,6 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		$scope.loading = !$scope.loading;
 	}
 	
-
 	$scope.toggleSelectionItem = function toggleSelectionItem(itemsSelecionados) {					
 		for(idxItem in itemsSelecionados) {					
 			var item = itemsSelecionados[idxItem];
@@ -78,21 +76,18 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 			}				
 		}			
 	};
-	
-	$scope.get_periodicidade = function(index) {		
-		$scope.periodicidade_selected = $scope.periodicidades[index];
-		console.log($scope.periodicidade_selected);
-	}
-	
+		
     $scope.validacao_Dados = function(){
-    	if ($scope.itens_selected.length == 0 || $scope.itens_selected == 'undefined'){
+    	if ($scope.itens_selected == undefined || $scope.itens_selected.length == 0){
+    		$scope.mensagem = "… necess·rio escolher um objetivo de mediÁ„o!";
     		return false;
     	}
-    	else if ($scope.periodicidade_selected == null){
-    		console.log($scope.periodicidade_selected);
+    	else if ($scope.periodicidade == undefined ||  $scope.periodicidade.selecionada == undefined){
+    		$scope.mensagem = "… necess·rio escolher uma periodicidade de mediÁ„o!";
     		return false;
     	}    		
     	else{
+    		$scope.mensagem = "";
     		return true;
     	}
     }
@@ -101,6 +96,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     	for(item in $scope.itens_selected){
     		if (item.nome_FerramentaColetora == "Taiga"){
     			WizardHandler.wizard().next();
+    			return;
     		}
     	}
     	WizardHandler.wizard().goTo(4);
@@ -110,6 +106,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     	for(item in $scope.itens_selected){
     		if (item.nome_FerramentaColetora == "Sonar"){
     			WizardHandler.wizard().next();
+    			return;
     		}
     	}
     	WizardHandler.wizard().goTo(6);
@@ -123,7 +120,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 
 		$scope.entry.projetos_Taiga = [];
 		$scope.entry.projetos_Sonar = [];
-		$scope.entry.nome_Periodicidade = $scope.periodicidade_selected.nome;
+		$scope.entry.nome_Periodicidade = $scope.periodicidade.selecionada.nome;
 		$scope.entry.nome_Itens = [];
 
 		for (idx in $scope.projetosSelecionados_taiga) {
@@ -147,11 +144,11 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		$scope.entry.$save(function sucesso(plano) {
 			$scope.toggleLoading();
 			console.log(plano);
-			alert("Plano(s) de Medi√ß√£o criado com sucesso!");
+			alert("Plano(s) de MediÁ„o criado com sucesso!");
 		}, function erro(err) {
 			$scope.toggleLoading();
 			console.log(err);
-			alert("Ocorreu um erro ao criar o(s) Plano(s) de Medi√ß√£o!");		
+			alert("Ocorreu um erro ao criar o(s) Plano(s) de MediÁ„o!");		
 		});
 	}
 	
@@ -166,7 +163,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 					$scope.projetosSelecionados_taiga = [];
 					$scope.toggleLoading();
 				}, function erro(err) {
-					alert("Erro ao estabelecer a conex√£o! Verifique se os dados de login est√£o corretos e tente novamente.")
+					alert("Erro ao estabelecer a cone„o! Verifique se os dados de login est„o corretos e tente novamente.")
 					$scope.toggleLoading();
 				});
 	}
@@ -190,7 +187,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 					$scope.projetosSelecionados_sonar = [];
 					$scope.toggleLoading();
 				}, function erro(err) {
-					alert("Erro ao estabelecer a conex√£o! Verifique se os dados de login est√£o corretos e tente novamente.")
+					alert("Erro ao estabelecer a cone„o! Verifique se os dados de login est„o corretos e tente novamente.")
 					$scope.toggleLoading();
 				});
 	}

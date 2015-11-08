@@ -134,10 +134,9 @@
 					            		<div class="row2">
 											<div class="label">Periodicidade:</div>
 										</div>
-										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade.selected"
+										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade.selecionada"
 											ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
-										</select>			
-										{{periodicidade.selected}}			
+										</select>					
 									</div>
 									<div class="row">
 										<div class="row2">
@@ -353,7 +352,7 @@
 														<div class="label"><strong>Periodicidade da coleta:</strong></div>
 													</div>
 													<div class="periodicidade-resumo">
-														{{periodicidade_selected.nome}}
+														{{periodicidade.selecionada.nome}}
 													</div>													
 												</div>
 											</div>
