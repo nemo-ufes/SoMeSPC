@@ -957,8 +957,7 @@ public class TaigaIntegrator
 
 		JobDetail job = null;
 		Trigger trigger = null;
-		String nomeJob = "Job do " + plano.getNome();
-
+		
 		// Converte a periodicidade em horas.
 		String period = periodicidade.getNome();
 		int horas = 0;
@@ -999,8 +998,9 @@ public class TaigaIntegrator
 		String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
 
 		String nomeGrupo = plano.getProjeto().getNome();
-		String nomeTrigger = String.format("Medição %s da medida %s - criado em %s",
+		String nomeTrigger = String.format("TaigaMediçãoJob - Medição %s da medida %s - criado em %s",
 				periodicidade.getNome(), nomeMedida, dataHora);
+		String nomeJob = nomeTrigger;
 
 		boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
 	

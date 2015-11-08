@@ -183,7 +183,7 @@ public class SoMeSPCResource {
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public synchronized Response criarPlanoMedicao(PlanoDTO planoDto) throws Exception {
-
+		
 		if (planoDto.getNomePeriodicidade() == null || planoDto.getNomePeriodicidade().isEmpty())
 			throw new NullArgumentException("Periodicidade");
 		
@@ -576,5 +576,5 @@ public class SoMeSPCResource {
 		}
 		return response;
 	}
-
+	
 }

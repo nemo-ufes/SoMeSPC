@@ -22,7 +22,6 @@ import org.somespc.integracao.taiga.model.Sprint;
 import org.somespc.integracao.taiga.model.Tarefa;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 
-@DisallowConcurrentExecution
 public class TaigaMedicaoJob extends MedicaoJob {
 
 	@Override

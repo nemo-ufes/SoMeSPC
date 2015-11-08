@@ -19,7 +19,6 @@ import org.somespc.integracao.sonarqube.model.Metrica;
 import org.somespc.integracao.sonarqube.model.Recurso;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicaoDoProjeto;
 
-@DisallowConcurrentExecution
 public class SonarQubeMedicaoJob extends MedicaoJob {
 
 	@Override
