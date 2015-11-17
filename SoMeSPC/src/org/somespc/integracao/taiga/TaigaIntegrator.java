@@ -182,6 +182,7 @@ public class TaigaIntegrator
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get();
 
 	if (response.getStatus() != Status.OK.getStatusCode())
@@ -198,6 +199,7 @@ public class TaigaIntegrator
 	List<Estoria> estorias = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get(new GenericType<List<Estoria>>() {
 		});
 
@@ -219,6 +221,7 @@ public class TaigaIntegrator
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get();
 
 	if (response.getStatus() != Status.OK.getStatusCode())
@@ -235,6 +238,7 @@ public class TaigaIntegrator
 	List<Tarefa> tarefas = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get(new GenericType<List<Tarefa>>() {
 		});
 
@@ -256,6 +260,7 @@ public class TaigaIntegrator
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get();
 
 	if (response.getStatus() != Status.OK.getStatusCode())
@@ -273,6 +278,7 @@ public class TaigaIntegrator
 	List<Estoria> estorias = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get(new GenericType<List<Estoria>>() {
 		});
 
@@ -294,6 +300,7 @@ public class TaigaIntegrator
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get();
 
 	if (response.getStatus() != Status.OK.getStatusCode())
@@ -310,6 +317,7 @@ public class TaigaIntegrator
 	List<Sprint> sprints = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get(new GenericType<List<Sprint>>() {
 		});
 
@@ -333,6 +341,7 @@ public class TaigaIntegrator
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get();
 
 	if (response.getStatus() != Status.OK.getStatusCode())
@@ -349,6 +358,7 @@ public class TaigaIntegrator
 	EstadoSprint estadoSprint = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get(EstadoSprint.class);
 
 	return estadoSprint;
@@ -369,6 +379,7 @@ public class TaigaIntegrator
 	Response response = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get();
 
 	if (response.getStatus() != Status.OK.getStatusCode())
@@ -385,6 +396,7 @@ public class TaigaIntegrator
 	EstadoProjeto estado = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get(EstadoProjeto.class);
 
 	return estado;
@@ -403,6 +415,7 @@ public class TaigaIntegrator
 	List<Projeto> projetos = target
 		.request(MediaType.APPLICATION_JSON_TYPE)
 		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		.header("x-disable-pagination", "True")
 		.get(new GenericType<List<Projeto>>() {
 		});
 
@@ -427,6 +440,7 @@ public class TaigaIntegrator
 	    membro = target
 		    .request(MediaType.APPLICATION_JSON_TYPE)
 		    .header("Authorization", String.format("Bearer %s", obterAuthToken()))
+		    .header("x-disable-pagination", "True")
 		    .get(Membro.class);
 	}
 	catch (Exception ex)
@@ -453,6 +467,7 @@ public class TaigaIntegrator
     	Response response = projeto
     		.request(MediaType.APPLICATION_JSON_TYPE)
     		.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+    		.header("x-disable-pagination", "True")
     		.get();
 
     	if (response.getStatus() != Status.OK.getStatusCode())
@@ -469,6 +484,7 @@ public class TaigaIntegrator
 		List<Membro> membros = target
 			.request(MediaType.APPLICATION_JSON_TYPE)
 			.header("Authorization", String.format("Bearer %s", obterAuthToken()))
+			.header("x-disable-pagination", "True")
 			.get(new GenericType<List<Membro>>() {
 			});
 	
