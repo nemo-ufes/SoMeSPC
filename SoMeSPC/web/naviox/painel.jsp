@@ -76,12 +76,16 @@
 					
 						<div id="content-row" class="col-md-8">	
 							<ul class="nav nav-tabs" role="tablist" id="painel_tab">
-								<li role="presentation" class="active"><a href="#medicoes" aria-controls="medicoes" role="tab" data-toggle="tab">Medições</a></li>
-								<li role="presentation"><a href="#agendamentos" aria-controls="agendamentos" role="tab" data-toggle="tab">Agendamentos</a></li>
+								<li role="presentation" class="active"><a href="#instrucoes" aria-controls="instrucoes" role="tab" data-toggle="tab">Instruções</a></li>
+								<li role="presentation"><a href="#medicoes" aria-controls="medicoes" role="tab" data-toggle="tab">Análise de Medições</a></li>
+								<li role="presentation"><a href="#agendamentos" aria-controls="agendamentos" role="tab" data-toggle="tab">Agendamentos de Medições</a></li>
 							</ul>
 		
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane active" id="medicoes">
+								<div role="tabpanel" class="tab-pane active" id="instrucoes">
+									<div ng-include="'painel_instrucoes.jsp'"></div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="medicoes">
 									<div ng-include="'painel_medicoes.jsp'"></div>
 								</div>
 								<div role="tabpanel" class="tab-pane" id="agendamentos">

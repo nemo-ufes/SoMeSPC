@@ -67,7 +67,7 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 
 	/**
 	 * Busca as medidas comuns entre a Entidade Mensurável 1 e 2.
-	 */
+	 VERIFICAR ESSA FUNÇÃO!*/
 	$scope.obterMedidas = function obterMedidas() {
 		inicializar();
 	
