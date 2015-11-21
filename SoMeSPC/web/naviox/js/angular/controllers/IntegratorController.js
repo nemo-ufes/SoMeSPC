@@ -1,5 +1,5 @@
 //Defini√ß√£o do Controlador - AngularJS
-app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
+app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 		TaigaIntegratorProjeto, IntegratorPlanoMedicao, SoMeSPCResourcePlano, SonarIntegratorProjeto) {
 
 	// ---------------------------- Teste ------------------------------------------------
@@ -18,9 +18,9 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Login Taiga
 	$scope.loginTaiga = {
-		url : 'https://api.taiga.io/',
-		usuario : 'vinnysoft',
-		senha : 'teste123'
+		url : '',
+		usuario : '',
+		senha : ''
 	};
 	
 	//Projetos Taiga
@@ -31,7 +31,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 	
 	//Login Sonar
 	$scope.loginSonar = {
-		url : 'http://localhost:9000/'
+		url : ''
 	};
 	
 	//Projetos Sonar
@@ -81,11 +81,15 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		
     $scope.validacao_Dados = function(){
     	if ($scope.itens_selected == undefined || $scope.itens_selected.length == 0){
-    		$scope.mensagem_Objetivos = "… necess·rio escolher um objetivo de mediÁ„o!";
+    		$scope.mensagem_Objetivos = "Escolha ao menos um objetivo para o plano!";
+    		$scope.disabledTaiga = false;
+    		$scope.disabledSonar = false;
     		return false;
     	}
     	else if ($scope.periodicidade == undefined ||  $scope.periodicidade.selecionada == undefined){
-    		$scope.mensagem_Objetivos = "… necess·rio escolher uma periodicidade de mediÁ„o!";
+    		$scope.mensagem_Objetivos = "Escolha uma periodicidade para a coleta!";
+    		$scope.disabledTaiga = false;
+    		$scope.disabledSonar = false;
     		return false;
     	}    		
     	else{
@@ -96,7 +100,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     
     $scope.validacao_DadosProjetoTaiga = function(){
     	if ($scope.projetosSelecionados_taiga == undefined || $scope.projetosSelecionados_taiga.length == 0){
-    		$scope.mensagem_Projetos = "… necess·rio escolher ao menos um Projeto!";
+    		$scope.mensagem_Projetos = "Escolha pelo menos um projeto!";
     		return false;
     	}   		
     	else{
@@ -107,7 +111,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     
     $scope.validacao_DadosProjetoSonar = function(){
     	if ($scope.projetosSelecionados_sonar == undefined || $scope.projetosSelecionados_sonar.length == 0){
-    		$scope.mensagem_Projetos = "… necess·rio escolher ao menos um Projeto!";
+    		$scope.mensagem_Projetos = "Escolha pelo menos um projeto!";
     		return false;
     	}   		
     	else{
@@ -156,34 +160,22 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
     }
     
     $scope.validacao_DadosSonar = function(){
-    	var temObjetivoTaiga = false;
     	var temObjetivoSonar = false;
     	
     	for(idx in $scope.itens_selected){
     		var item = $scope.itens_selected[idx];
-    		if (item.nome_FerramentaColetora == "Taiga"){    			
-    			temObjetivoTaiga = true;
-    		}
-    		else {
+    		if (item.nome_FerramentaColetora == "SonarQube"){  	
     			temObjetivoSonar = true;
     		}   			
     	}
-    	if (temObjetivoSonar && temObjetivoTaiga){
-    		//$scope.disabledSonar = true;
-    		WizardHandler.wizard().goTo(6);	
-    	}
-    	else{
+    	
+    	if (!temObjetivoSonar){    		
     		WizardHandler.wizard().goTo(4);	
     	}
     }
     
     $scope.validacao_RetornoResumo = function(){
-    	$scope.projetosSelecionados_sonar = [];
-    	$scope.projetosSelecionados_taiga = [];
-    	$scope.disabledSonar = false;
-    	$scope.disabledTaiga = false;
-    	
-    	WizardHandler.wizard().goTo(1);	  	
+    	$window.location.href = '/SoMeSPC/naviox/wizard.jsp';	
     }
 
 
@@ -216,11 +208,12 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 		
 		$scope.entry.$save(function sucesso(plano) {
 			$scope.toggleLoading();
-			alert("Plano(s) de MediÁ„o criado com sucesso!");
+			alert("Plano(s) de Medi√ß√£o criado com sucesso!");
+	    	$window.location.href = '/SoMeSPC/naviox/wizard.jsp';	
 		}, function erro(err) {
 			$scope.toggleLoading();
 			console.log(err);
-			alert("Ocorreu um erro ao criar o(s) Plano(s) de MediÁ„o!");		
+			alert("Ocorreu um erro ao criar o(s) Plano(s) de Medi√ß√£o!");		
 		});
 	}
 	
@@ -235,7 +228,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 					$scope.toggleLoading();
 				}, function erro(err) {
 					console.log(err);
-					alert("Erro ao estabelecer a cone„o! Verifique se os dados de login est„o corretos e tente novamente.")
+					alert("Erro ao estabelecer a conex√£o com o Taiga! Verifique se os dados de login est√£o corretos e tente novamente.")
 					$scope.toggleLoading();
 				});
 	}
@@ -259,7 +252,7 @@ app.controller('WizardCtrl', function($scope, $resource, WizardHandler,
 					$scope.toggleLoading();
 				}, function erro(err) {
 					console.log(err);
-					alert("Erro ao estabelecer a cone„o! Verifique se os dados de login est„o corretos e tente novamente.")
+					alert("Erro ao estabelecer a conex√£o com o SonarQube! Verifique se os dados de login est√£o corretos e tente novamente.")
 					$scope.toggleLoading();
 				});
 	}
