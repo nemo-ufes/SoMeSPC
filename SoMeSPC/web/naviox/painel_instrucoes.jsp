@@ -29,6 +29,8 @@
 						<br/>
 						<li>Selecione a medida (obs.: são listadas apenas as medidas que possuem medições para a(s) entidade(s) selecionada(s));</li>
 						<br/>
+						<li>Selecione a data de início e data de fim das medições;</li>
+						<br/>
 						<li>Selecione a quantidade de medições;</li>
 						<br/>
 						<li>O gráfico para análise das medições será exibido abaixo.</li>					
