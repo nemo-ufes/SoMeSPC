@@ -11,7 +11,7 @@
 
 		<div class="panel-heading">
 			<h1 class="panel-title text-center">
-				<b>Painel de Medições</b>
+				<b>Análise de Medições</b>
 			</h1>
 		</div>
 
