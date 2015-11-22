@@ -59,8 +59,9 @@
 
 		<div class="row" style="margin: 20px;">
 			<div class="col-md-12">
-				<canvas id="line" style="height: 500px;" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
-									</canvas>
+				<canvas id="line" style="height: 500px;" class="chart chart-line" chart-data="dados" 
+				chart-labels="labels" chart-legend="true" chart-series="series" chart-colours="colours" chart-click="onClick">
+				</canvas>
 				<div class="text-center">
 					<uib-pagination boundary-links="true" total-items="totalItems" items-per-page="numPerPage" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
 				</div>

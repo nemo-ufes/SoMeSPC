@@ -55,7 +55,6 @@
 	<%--  JQuery --%>
 	<script type='text/javascript' src="js/jquery.js"></script>
 	<script type='text/javascript' src="js/jquery-ui.js"></script>
-	<script type='text/javascript' src='js/jquery.steps.js'></script>
 	
 	<%--  Bootstrap --%>
 	<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>

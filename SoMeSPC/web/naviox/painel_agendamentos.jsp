@@ -18,7 +18,7 @@
 	</div>
 
 	<table st-table="tabelaAgendamentos" st-safe-src="agendamentos" class="table table-striped tabela-agendamentos">
-		<thead popover="Clique no nome da coluna para ordenar!" popover-placement="top" popover-trigger="mouseenter">
+		<thead uib-popover="Clique no nome da coluna para ordenar!" popover-placement="top" popover-trigger="mouseenter">
 			<tr>
 				<th st-sort="nome_agendamento">Nome</th>
 				<th st-sort="execucao_anterior">Última Execução</th>
@@ -47,18 +47,18 @@
 				<td style="min-width: 160px;">{{agendamento.proxima_execucao | date:'dd/MM/yyyy HH:mm:ss'}}</td>
 				<td style="min-width: 100px;">{{agendamento.estado_agendamento}}</td>
 				<td style="min-width: 170px;">
-					<button type="button" popover="Executar o Job agora!" popover-placement="bottom" popover-trigger="mouseenter" ng-disabled=" agendamento.estado_agendamento == 'PAUSADO'" ng-click="executarAgendamento(agendamento)" class="btn btn-sm btn-warning">
+					<button type="button" uib-popover="Executar o Job agora!" popover-placement="bottom" popover-trigger="mouseenter" ng-disabled=" agendamento.estado_agendamento == 'PAUSADO'" ng-click="executarAgendamento(agendamento)" class="btn btn-sm btn-warning">
 						<i class="glyphicon glyphicon-cog"></i>
 					</button>
-					<button type="button" popover="Iniciar o Job" popover-placement="bottom" popover-trigger="mouseenter" ng-disabled="
+					<button type="button" uib-popover="Iniciar o Job" popover-placement="bottom" popover-trigger="mouseenter" ng-disabled="
 													agendamento.estado_agendamento == 'EXECUTANDO' 
 													|| agendamento.estado_agendamento == 'ATIVO'" ng-click="iniciarAgendamento(agendamento)" class="btn btn-sm btn-success">
 						<i class="glyphicon glyphicon-play"></i>
 					</button>
-					<button type="button" popover="Pausar o Job" popover-placement="bottom" popover-trigger="mouseenter" ng-disabled="agendamento.estado_agendamento == 'PAUSADO'" ng-click="pausarAgendamento(agendamento)" class="btn btn-sm btn-primary">
+					<button type="button" uib-popover="Pausar o Job" popover-placement="bottom" popover-trigger="mouseenter" ng-disabled="agendamento.estado_agendamento == 'PAUSADO'" ng-click="pausarAgendamento(agendamento)" class="btn btn-sm btn-primary">
 						<i class="glyphicon glyphicon-pause"></i>
 					</button>
-					<button type="button" popover="Excluir o Job" popover-placement="bottom" popover-trigger="mouseenter" ng-click="confirmarExclusao(agendamento)" class="btn btn-sm btn-danger">
+					<button type="button" uib-popover="Excluir o Job" popover-placement="bottom" popover-trigger="mouseenter" ng-click="confirmarExclusao(agendamento)" class="btn btn-sm btn-danger">
 						<i class="glyphicon glyphicon-remove"></i>
 					</button>
 				</td>

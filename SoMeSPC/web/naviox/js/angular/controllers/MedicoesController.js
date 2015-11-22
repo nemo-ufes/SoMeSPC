@@ -35,8 +35,8 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q, $filte
 		$scope.dados = new Array();
 		$scope.labels = new Array();	
 		$scope.series = [''];
-		$scope.colours = [{fillColor : "#e9ebed", strokeColor : "#2C3E50", pointColor : "#2C3E50", pointStrokeColor : "#fff"},
-		                  {fillColor : "#c5cabf", strokeColor : "#3E502C", pointColor : "#3E502C", pointStrokeColor : "#fff"}];
+		$scope.colours = [{fillColor : "rgba(233,235,237,0.4)", strokeColor : "#2C3E50", pointColor : "#2C3E50", pointStrokeColor : "#fff"},
+		                  {fillColor : "rgba(197,202,191,0.4)", strokeColor : "#3E502C", pointColor : "#3E502C", pointStrokeColor : "#fff"}];
 	}
 	
 	/**
@@ -94,7 +94,6 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q, $filte
 		// Se somente uma entidade foi selecionada, usa apenas as medidas dela.
 		if (angular.isUndefinedOrNull($scope.entidade.Selecionada) != angular.isUndefinedOrNull($scope.entidade.Selecionada2)){			
 		
-			console.log("Contem uma Entidade");
 			if (!angular.isUndefinedOrNull($scope.medidasEntidade1)){
 				$scope.medidas = $scope.medidasEntidade1
 			}
@@ -103,9 +102,6 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q, $filte
 			}
 		}
 		else {			
-			console.log("Contem 2 entidades");
-			console.log($scope.medidasEntidade1);
-			console.log($scope.medidasEntidade2);
 			
 			if (!angular.isUndefinedOrNull($scope.medidasEntidade1) && !angular.isUndefinedOrNull($scope.medidasEntidade2)){
 				

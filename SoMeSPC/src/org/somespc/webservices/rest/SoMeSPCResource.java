@@ -295,33 +295,6 @@ public class SoMeSPCResource {
 		return Response.ok().entity(json).build();
 	}
 	
-	@Path("Medicao/Pagina")
-	@GET
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public Response obterPaginasMedicoes(@QueryParam("tamanhoPagina") int tamanhoPagina,
-			@QueryParam("medida") int idMedidaPlano, @QueryParam("entidade") int idEntidade) {
-		Response response;
-		EntityManager manager = XPersistence.createManager();
-
-		Query queryTotal = manager.createQuery(
-				String.format("SELECT COUNT(*) FROM Medicao m " + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-						+ "AND m.entidadeMensuravel.id = %d", idMedidaPlano, idEntidade));
-
-		Long total = (Long) queryTotal.getSingleResult();
-
-		manager.close();
-		int ultimaPagina = (int) ((total / tamanhoPagina) + 1);
-
-		List<Integer> paginas = new ArrayList<Integer>();
-		for (int i = 1; i < ultimaPagina; i++) {
-			paginas.add(new Integer(i));
-		}
-
-		response = Response.status(Status.OK).entity(paginas).build();
-		return response;
-	}
-
 	@Path("Medicao/Total")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
