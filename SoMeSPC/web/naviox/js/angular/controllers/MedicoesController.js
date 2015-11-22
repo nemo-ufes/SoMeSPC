@@ -73,8 +73,8 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 		
 			$q.all([MedicaoService.obterMedidas($scope.entidade.Selecionada.id), MedicaoService.obterMedidas($scope.entidade.Selecionada2.id)])
 			.then(function(responses){					
-				$scope.medidasEntidade1 = responses[0].data;
-				$scope.medidasEntidade2 = responses[1].data;
+				$scope.medidasEntidade1 = responses[0];
+				$scope.medidasEntidade2 = responses[1];				
 				$scope.selecionarMedidasParaExibicao();
 			})
 		}
@@ -103,7 +103,7 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 		// Se somente uma entidade foi selecionada, usa apenas as medidas dela.
 		if (angular.isUndefinedOrNull($scope.entidade.Selecionada) != angular.isUndefinedOrNull($scope.entidade.Selecionada2)){			
 		
-			console.log("Entrou xor");
+			console.log("Contem uma Entidade");
 			if (!angular.isUndefinedOrNull($scope.medidasEntidade1)){
 				$scope.medidas = $scope.medidasEntidade1
 			}
@@ -112,48 +112,35 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 			}
 		}
 		else {			
-			console.log("Entrou else");
+			console.log("Contem 2 entidades");
+			console.log($scope.medidasEntidade1);
+			console.log($scope.medidasEntidade2);
 			
-			if (angular.isUndefinedOrNull($scope.medidasEntidade1) && angular.isUndefinedOrNull($scope.medidasEntidade2)){
+			if (!angular.isUndefinedOrNull($scope.medidasEntidade1) && !angular.isUndefinedOrNull($scope.medidasEntidade2)){
 				
 				$q.all([MedicaoService.obterMedidas($scope.entidade.Selecionada.id), MedicaoService.obterMedidas($scope.entidade.Selecionada2.id)])
 					.then(function(responses){					
 						$scope.medidasEntidade1 = responses[0];
 						$scope.medidasEntidade2 = responses[1];
 						
-						console.log("medidas1: " + responses[0]);
-						console.log("medidas2: " + responses[1]);
-						
+						$scope.medidasComuns = [];
 						// Senão, seleciona as medidas em comum.
 						// Primeiro, testa as medidas do array 1 no array 2.
-						for (var i = 0; i < $scope.medidasEntidade1.length; i++) {				
-							var index = $.inArray($scope.medidasEntidade1[i], $scope.medidasEntidade2)
+						for (idx in $scope.medidasEntidade1) {				
 							
-							// Se não tiver a medida (indice -1), remove do
-							// array.
-							if (index == -1){
-								$scope.medidasEntidade1 = $scope.medidasEntidade1.splice(index, 1);
-							}
-						 }	
-						
-						// Agora inverte, buscando as medidas do array 2 no
-						// array 1.
-						for (var i = 0; i < $scope.medidasEntidade2.length; i++) {				
-							var index = $.inArray($scope.medidasEntidade2[i], $scope.medidasEntidade1)
+							var item = $scope.medidasEntidade1[idx];
 							
-							// Se não tiver a medida (indice -1), remove do
-							// array.
-							if (index == -1){
-								$scope.medidasEntidade2= $scope.medidasEntidade2.splice(index, 1);
+							for(idx_2 in $scope.medidasEntidade2){
+								
+								if($scope.medidasEntidade1[idx].nome == $scope.medidasEntidade2[idx_2].nome){
+									$scope.medidasComuns.push(item);
+								}
 							}
-						 }	
-						
-						console.log("medidas1 pós: " + responses[0]);
-						console.log("medidas2 pós: " + responses[1]);
+						}	
 						
 						// Agora que os arrays são iguais, usa qualquer um
 						// para exibir as medidas.
-						$scope.medidas = $scope.medidasEntidade1;			
+						$scope.medidas = $scope.medidasComuns;			
 					}); 
 			}				 	 
 		}
