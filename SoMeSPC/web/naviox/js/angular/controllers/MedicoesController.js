@@ -103,7 +103,7 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 		// Se somente uma entidade foi selecionada, usa apenas as medidas dela.
 		if (angular.isUndefinedOrNull($scope.entidade.Selecionada) != angular.isUndefinedOrNull($scope.entidade.Selecionada2)){			
 		
-			console.log("Entrou xor");
+			console.log("Contem uma Entidade");
 			if (!angular.isUndefinedOrNull($scope.medidasEntidade1)){
 				$scope.medidas = $scope.medidasEntidade1
 			}
@@ -112,40 +112,35 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 			}
 		}
 		else {			
-			console.log("Entrou else");
+			console.log("Contem 2 entidades");
 			console.log($scope.medidasEntidade1);
 			console.log($scope.medidasEntidade2);
 			
 			if (!angular.isUndefinedOrNull($scope.medidasEntidade1) && !angular.isUndefinedOrNull($scope.medidasEntidade2)){
-				
-				console.log("Entrou maldito");
 				
 				$q.all([MedicaoService.obterMedidas($scope.entidade.Selecionada.id), MedicaoService.obterMedidas($scope.entidade.Selecionada2.id)])
 					.then(function(responses){					
 						$scope.medidasEntidade1 = responses[0];
 						$scope.medidasEntidade2 = responses[1];
 						
-						$scope.
+						$scope.medidasComuns = [];
 						// Senão, seleciona as medidas em comum.
 						// Primeiro, testa as medidas do array 1 no array 2.
 						for (idx in $scope.medidasEntidade1) {				
 							
+							var item = $scope.medidasEntidade1[idx];
+							
 							for(idx_2 in $scope.medidasEntidade2){
 								
-								if($scope.medidasEntidade1[idx].nome != $scope.medidasEntidade2[idx_2].nome){
-									aux++;
-								}
-								else if(aux == $scope.medidasEntidade2.length){
-									$scope.medidasEntidade1 = $scope.medidasEntidade1.splice(idx, 1);
+								if($scope.medidasEntidade1[idx].nome == $scope.medidasEntidade2[idx_2].nome){
+									$scope.medidasComuns.push(item);
 								}
 							}
-							
-							aux = 0;
 						}	
 						
 						// Agora que os arrays são iguais, usa qualquer um
 						// para exibir as medidas.
-						$scope.medidas = $scope.medidasEntidade1;			
+						$scope.medidas = $scope.medidasComuns;			
 					}); 
 			}				 	 
 		}
