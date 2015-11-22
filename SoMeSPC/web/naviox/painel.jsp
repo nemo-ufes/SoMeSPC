@@ -34,6 +34,7 @@
 <script type='text/javascript' src='<%=request.getContextPath()%>/dwr/interface/Modules.js?ox=<%=oxVersion%>'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/dwr/interface/Folders.js?ox=<%=oxVersion%>'></script>
 <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-locale_pt-br.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
 <script type='text/javascript' src='js/Chart.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-chart.min.js'></script>
@@ -111,7 +112,7 @@
 							<script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
 		
 							<%-- Paginator --%>
-							<script type='text/javascript' src='js/ui-bootstrap-tpls-0.12.1.js'></script>
+							<script type='text/javascript' src='js/ui-bootstrap-tpls-0.14.3.min.js'></script>
 							
 							<%-- Modal --%>
 							<script type='text/javascript' src='js/angular/shared/dialogs-default-translations.min.js'></script>

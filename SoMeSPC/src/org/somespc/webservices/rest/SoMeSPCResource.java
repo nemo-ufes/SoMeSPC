@@ -406,7 +406,7 @@ public class SoMeSPCResource {
 		EntityManager manager = XPersistence.createManager();
 
 		TypedQuery<EntidadeMensuravel> query = manager
-				.createQuery("Select distinct(m.entidadeMensuravel) FROM Medicao m ", EntidadeMensuravel.class);
+				.createQuery("Select distinct(m.entidadeMensuravel) FROM Medicao m ORDER BY m.entidadeMensuravel.nome ", EntidadeMensuravel.class);
 		List<EntidadeMensuravel> result = query.getResultList();
 
 		if (result == null)

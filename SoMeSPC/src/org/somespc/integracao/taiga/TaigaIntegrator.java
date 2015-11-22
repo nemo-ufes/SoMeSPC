@@ -500,11 +500,12 @@ public class TaigaIntegrator
      * @return RecursoHumano criado/existente.
      * @throws Exception
      */
-	public RecursoHumano criarRecursoHumanoSoMeSPC(Membro membro) throws Exception {
-				
-		RecursoHumano recursoHumano = new RecursoHumano();
-		recursoHumano.setNome(membro.getNome());
+	public RecursoHumano criarRecursoHumanoSoMeSPC(Membro membro, Projeto projeto) throws Exception {
 		
+		String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());
+		
+		RecursoHumano recursoHumano = new RecursoHumano();
+		recursoHumano.setNome(nome);
 		
 		return SoMeSPCIntegrator.criarRecursoHumano(recursoHumano);
 	}
@@ -536,7 +537,7 @@ public class TaigaIntegrator
      * @return Equipe criada/existente.
      * @throws Exception
      */
-    public Equipe criarEquipeSoMeSPC(String nomeEquipe, List<Membro> membrosDaEquipe) throws Exception
+    public Equipe criarEquipeSoMeSPC(String nomeEquipe, List<Membro> membrosDaEquipe, Projeto projeto) throws Exception
     {
 	EntityManager manager = XPersistence.createManager();
 
@@ -559,7 +560,7 @@ public class TaigaIntegrator
 	
 		    //Insere o Recurso Humano na Equipe e na Alocacao. 
 		    //Acredito que relacionamento direto entre Equipe <-> RecursoHumano seja para facilitar a visualização dos recursos da equipe.
-		    RecursoHumano rec = this.criarRecursoHumanoSoMeSPC(membro);
+		    RecursoHumano rec = this.criarRecursoHumanoSoMeSPC(membro, projeto);
 		    recursosHumanos.add(rec);
 	
 		    alocacao.setRecursoHumano(rec);
@@ -614,7 +615,7 @@ public class TaigaIntegrator
 
     public EntidadeMensuravel criarEntidadeMensuravelSprintSoMeSPC(Sprint sprint, String nomeProjeto) throws Exception{
     	
-    	String nome = String.format("Sprint %s (%s)", sprint.getNome(), nomeProjeto);
+    	String nome = String.format("%s (%s)", sprint.getNome(), nomeProjeto);
     	String descricao =  String.format("Sprint %s (%s) do projeto %s.", sprint.getNome(), sprint.getApelido(), nomeProjeto); 
     	
     	return SoMeSPCIntegrator.criarEntidadeMensuravel(nome, descricao, "Sprint");
@@ -638,7 +639,7 @@ public class TaigaIntegrator
 		projeto.setEquipe(equipe);
 	}
 	
-	Equipe equipe = this.criarEquipeSoMeSPC("Equipe " + projeto.getNome(), projeto.getEquipe());
+	Equipe equipe = this.criarEquipeSoMeSPC("Equipe " + projeto.getNome(), projeto.getEquipe(), projeto);
 	List<Equipe> equipes = new ArrayList<Equipe>();
 	equipes.add(equipe);
 
