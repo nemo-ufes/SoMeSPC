@@ -154,13 +154,14 @@ public class TaigaIntegratorTest {
 	@Test
 	public void testCriarRecursoHumanoSoMeSPC() throws Exception {
 		Membro membro = integrator.obterMembroTaiga(4);
+		Projeto projeto = integrator.obterProjetoTaiga("ser515asu-agiletweetviz-geekoh");
 
 		assertNotNull(membro);
 		assertNotEquals(membro.getId(), 0);
 
 		dump(membro);
 
-		RecursoHumano recurso = integrator.criarRecursoHumanoSoMeSPC(membro);
+		RecursoHumano recurso = integrator.criarRecursoHumanoSoMeSPC(membro, projeto);
 
 		assertNotNull(recurso);
 
@@ -192,7 +193,7 @@ public class TaigaIntegratorTest {
 
 		dump(sincap);
 
-		Equipe equipe = integrator.criarEquipeSoMeSPC("Equipe " + sincap.getNome(), sincap.getEquipe());
+		Equipe equipe = integrator.criarEquipeSoMeSPC("Equipe " + sincap.getNome(), sincap.getEquipe(), sincap);
 
 		assertNotNull(equipe);
 

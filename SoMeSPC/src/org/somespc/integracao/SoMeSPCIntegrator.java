@@ -70,6 +70,8 @@ public class SoMeSPCIntegrator {
 			TypedQuery<EntidadeMensuravel> typedQuery = manager.createQuery(query, EntidadeMensuravel.class);
 			entidade = typedQuery.getSingleResult();
 		} catch (Exception ex) {
+			
+			
 			if (manager.getTransaction().isActive())
 				manager.getTransaction().rollback();
 

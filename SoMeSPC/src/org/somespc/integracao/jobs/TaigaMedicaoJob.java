@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import org.openxava.jpa.XPersistence;
-import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -126,7 +125,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					valorMedido = String.valueOf(estadoSprint.getTotalEstorias());
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);
@@ -137,7 +136,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					valorMedido = String.valueOf(estadoSprint.getEstoriasCompletadas());
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);
@@ -148,7 +147,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					
 					if (estadoSprint.getTotalEstorias() > 0){
@@ -166,7 +165,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					Map<String, Double> map = estadoSprint.getTotalPontos();
 
@@ -184,7 +183,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 		
 					double totalPontosCompletados = 0f;
@@ -201,7 +200,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 		
 					Map<String, Double> map = estadoSprint.getTotalPontos();
@@ -231,7 +230,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					valorMedido = String.valueOf(estadoSprint.getTotalTarefas());
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);
@@ -242,7 +241,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());					
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());					
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					valorMedido = String.valueOf(estadoSprint.getTarefasCompletadas());
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);
@@ -253,7 +252,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					
 					if (estadoSprint.getTotalTarefas() > 0){
@@ -309,7 +308,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
 				
 				for(Membro membro : membros) {		
-							
+					String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());					
 					int totalTarefasMembro = 0;
 					
 					for(Tarefa tarefa : tarefas){						
@@ -320,7 +319,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					
 					valorMedido = String.valueOf(totalTarefasMembro);
 					try {
-						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);	
 					} catch (Exception ex) {
 						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
 						System.err.println(mensagem);
@@ -333,7 +332,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
 				
 				for(Membro membro : membros) {		
-							
+					String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());					
 					int totalTarefasConcluidasMembro = 0;
 					
 					for(Tarefa tarefa : tarefas){						
@@ -344,7 +343,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					
 					valorMedido = String.valueOf(totalTarefasConcluidasMembro);
 					try {
-						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);	
 					} catch (Exception ex) {
 						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
 						System.err.println(mensagem);
@@ -357,7 +356,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
 				
 				for(Membro membro : membros) {		
-							
+					String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());
 					int totalTarefasConcluidasMembro = 0;
 					int totalTarefasMembro = 0;
 					
@@ -379,7 +378,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					}	
 										
 					try {
-						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);	
 					} catch (Exception ex) {
 						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
 						System.err.println(mensagem);
@@ -401,7 +400,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
 								
 				for(Membro membro : membros){
-					
+					String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());
 					double pontosEstoriaMembro = 0;
 					
 					for(Estoria estoria : estorias) {
@@ -413,7 +412,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					valorMedido = String.valueOf(pontosEstoriaMembro);
 					
 					try {
-						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);	
 					} catch (Exception ex) {
 						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
 						System.err.println(mensagem);
@@ -435,7 +434,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
 								
 				for(Membro membro : membros){
-					
+					String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());
 					double pontosEstoriaConcluidosMembro = 0;
 					
 					for(Estoria estoria : estorias) {
@@ -447,7 +446,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					valorMedido = String.valueOf(pontosEstoriaConcluidosMembro);
 					
 					try {
-						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);	
 					} catch (Exception ex) {
 						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
 						System.err.println(mensagem);
@@ -470,7 +469,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Membro> membros = integrator.obterMembrosDoProjetoTaiga(apelidoProjeto);
 								
 				for(Membro membro : membros){
-					
+					String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());
 					double pontosEstoriaMembro = 0;
 					double pontosEstoriaConcluidosMembro = 0;
 					
@@ -493,7 +492,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					}					
 										
 					try {
-						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);	
 					} catch (Exception ex) {
 						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
 						System.err.println(mensagem);
@@ -506,7 +505,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
 				
 				for(Membro membro : membros) {		
-							
+					String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());
 					int totalTarefasIocaineMembro = 0;
 					
 					for(Tarefa tarefa : tarefas){					
@@ -517,7 +516,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 										
 					valorMedido = String.valueOf(totalTarefasIocaineMembro);
 					try {
-						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);	
 					} catch (Exception ex) {
 						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
 						System.err.println(mensagem);
@@ -531,7 +530,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Tarefa> tarefas = integrator.obterTarefasDoProjeto(apelidoProjeto);
 				
 				for(Membro membro : membros) {		
-							
+					String nome = String.format("%s (%s)", membro.getNome(), projeto.getNome());
 					int totalTarefasIocaineMembro = 0;
 					int totalTarefasConcluidasMembro = 0;
 					
@@ -553,7 +552,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 					}				
 					
 					try {
-						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, membro.getNome(), valorMedido);	
+						SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);	
 					} catch (Exception ex) {
 						String mensagem = String.format("Membro %s não encontrado no projeto %s.", membro.getNome(), projeto.getNome());
 						System.err.println(mensagem);
@@ -566,7 +565,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					valorMedido = String.valueOf(estadoSprint.getDosesIocaine());
 					SoMeSPCIntegrator.criarMedicao(plano, timestamp, nomeMedida, nome, valorMedido);
@@ -577,7 +576,7 @@ public class TaigaMedicaoJob extends MedicaoJob {
 				List<Sprint> sprints = integrator.obterSprintsDoProjetoTaiga(apelidoProjeto);
 
 				for (Sprint sprint : sprints) {
-					String nome = String.format("Sprint %s (%s)", sprint.getNome(), projeto.getNome());	
+					String nome = String.format("%s (%s)", sprint.getNome(), projeto.getNome());	
 					EstadoSprint estadoSprint = integrator.obterEstadoSprintTaiga(apelidoProjeto, sprint.getApelido());
 					
 					if (estadoSprint.getEstoriasCompletadas() > 0){
