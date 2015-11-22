@@ -19,11 +19,11 @@
 
 			<div class="col-md-5">
 				<label id="teste">Selecione a Entidade Mensurável 1</label>
-				<select class="form-control" id="selectPeriodicidades" ng-model="entidade.Selecionada" ng-options="(e.nome+' '+'('+e.nomeTipo+')') for e in entidades" ng-change="obterMedidas()">
+				<select class="form-control" id="selectPeriodicidades" ng-model="entidade.Selecionada" ng-options="(e.nome+' '+'['+e.nomeTipo+']') for e in entidades" ng-change="obterMedidas()">
 					<option value="">-- Selecione --</option>
 				</select>
 				<label id="teste">Selecione a Entidade Mensurável 2</label>
-				<select class="form-control" id="selectPeriodicidades2" ng-model="entidade.Selecionada2" ng-options="(e.nome+' '+'('+e.nomeTipo+')') for e in entidades" ng-change="obterMedidas()">
+				<select class="form-control" id="selectPeriodicidades2" ng-model="entidade.Selecionada2" ng-options="(e.nome+' '+'['+e.nomeTipo+']') for e in entidades" ng-change="obterMedidas()">
 					<option value="">-- Selecione --</option>
 				</select>
 			</div>
