@@ -1,4 +1,4 @@
-<div id="menu_tree">
+<div id="menu_tree" style="margin-top: 10px;">
 	<%-- 
 	Necessário informar o id do elemento li com o mesmo valor 
 	do nome do módulo na URL (após o /m/) para funcionar o javascript 
@@ -10,7 +10,7 @@
 		<%--<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoIntegradoTaiga"><a href="<%=request.getContextPath()%>/naviox/wizard_taiga.jsp"> Novo Plano de Medição Integrado (Taiga)</a></li>--%>
 		<%--<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoIntegradoSonarQube"><a href="<%=request.getContextPath()%>/naviox/wizard_sonarqube.jsp"> Novo Plano de Medição Integrado (SonarQube)</a></li>--%>
 		<%--<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="PlanoDeMedicaoIntegrado"><a href="<%=request.getContextPath()%>/naviox/wizard_integrator.jsp"> Novo Plano de Medição Integrado</a></li>--%>
-		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="testWizard"><a href="<%=request.getContextPath()%>/naviox/wizard.jsp">Novo Plano de Medição Integrado</a></li>
+		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/planejamento.png"}' id="Wizard"><a href="<%=request.getContextPath()%>/naviox/wizard.jsp">Novo Plano de Medição Integrado</a></li>
 		<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/cadastros.png"}' class="jstree-close">Cadastros
 
 			<ul>

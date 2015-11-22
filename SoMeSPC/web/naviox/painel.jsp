@@ -149,6 +149,8 @@
 
 			if (moduloAtual == 'painel.jsp')
 				$('#menu_tree').jstree('select_node', 'PainelControle');
+			else if (moduloAtual == 'wizard.jsp')
+				$('#menu_tree').jstree('select_node','Wizard');
 			else
 				$('#menu_tree').jstree('select_node', '#' + moduloAtual);
 
