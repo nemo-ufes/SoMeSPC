@@ -113,7 +113,6 @@ public class SoMeSPCResource {
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Quantos pontos de estória foram concluídos no projeto?", "Pontos de Estória Concluídos no Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Qual o número médio de estórias concluídas por sprint no projeto?", "Média de Estórias Concluídas por Sprint do Projeto", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Qual o número médio de pontos de estórias concluídos por sprint no projeto? ", "Velocidade da Equipe no Projeto", "Taiga"));
-	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_4, "Qual a velocidade da equipe no projeto?", "Velocidade da Equipe no Projeto", "Taiga"));
 	    
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "Quantas tarefas foram concluídas na sprint?", "Número de Tarefas Concluídas na Sprint", "Taiga"));
 	    itensPlanoDeMedicao.add(new ItemPlanoDeMedicaoDTO(OE, OM_5, "Quantas doses de Iocaine ocorreram na sprint", "Número de Doses de Iocaine na Sprint", "Taiga"));	    
@@ -420,6 +419,7 @@ public class SoMeSPCResource {
 
 				dto.setId(em.getId());
 				dto.setNome(em.getNome());
+				dto.setNomeTipo(em.getTipoDeEntidadeMensuravel().getNome());
 
 				listaDto.add(dto);
 			}

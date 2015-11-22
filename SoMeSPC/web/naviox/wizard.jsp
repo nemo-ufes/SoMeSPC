@@ -106,14 +106,14 @@
 						    <div id="main_content_wrap" class="fundo3">				    
 					      <section id="main_content">
 					        <wizard on-finish="finished()">
-						      <wz-step title="Introdução">
+						      <wz-step title="Instruções">
 						          <fieldset class="wizard-content">
 						            <h3 class="text-center">Criando um Plano de Medição</h3>						            
 						            <div style="font-size: medium; padding-top: 10px;">
 							            <p>Para utilizar este wizard, siga os seguintes passos:</p>
 							            <p>
 							            	<ul id="descricao-wizard" style="list-style-type: decimal; padding-left: 50px; padding-top: 20px;">
-												<li>Selecione a periodicidade da coleta e os objetivos que deseja alcançar com o plano.</li>
+												<li>Selecione os objetivos de medição que deseja monitorar e a periodicidade de coleta das medidas.</li>
 												<li>De acordo com os objetivos selecionados, uma tela para realização do login nas ferramentas integradas irá aparecer. Preencha os dados necessários e siga em frente.</li>
 												<li>Selecione os projetos para os quais deseja criar os planos de medição e siga em frente para a tela de resumo</li>
 												<li>Avalie se tudo foi preenchido corretamente e cliquei em finalizar.</li>
@@ -123,23 +123,15 @@
 						          </fieldset>
 						         	<nav>
 									  <div class="pager pager-size">							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next value="Próximo" />					    
 									  </div>
 								  	</nav>	
 					          </wz-step>
-					          <wz-step title="Objetivos" canexit="validacao_Dados">
+					          <wz-step title="Objetivos e Medidas" canexit="validacao_Dados">
  								<fieldset class="wizard-content container">		
 					            	<div class="row text-center" style="font-size:14px; color:red; margin-top: 10px;">
 					            		<b>{{mensagem_Objetivos}}</b>
 					            	</div>
-					            	<div class="row" style="margin-right: 30px;">		            
-					            		<div class="row2">
-											<div class="label">Periodicidade:</div>
-										</div>
-										<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade.selecionada"
-											ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
-										</select>					
-									</div>
 									<div class="row">
 										<div class="row2">
 											<div class="label">Objetivos:</div>
@@ -176,12 +168,21 @@
 												</div>
 											</div>
 											</div>
+										
+										</div>
+											<div class="row" style="margin-right: 30px;">		            
+						            		<div class="row2">
+												<div class="label">Periodicidade:</div>
+											</div>
+											<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade.selecionada"
+												ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
+											</select>					
 										</div>
 									</fieldset>
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next ng-click="validacao_DadosTaiga()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next ng-click="validacao_DadosTaiga()" value="Próximo" />					    
 									  </div>
 								  	</nav>						
 					          </wz-step>
@@ -224,7 +225,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoTaiga()" wz-next value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoTaiga()" wz-next value="Próximo" />					    
 									  </div>
 								  	</nav>	
 					          </wz-step>
@@ -259,7 +260,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next ng-click="validacao_DadosSonar()" value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next ng-click="validacao_DadosSonar()" value="Próximo" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>
@@ -284,7 +285,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous  ng-click="validacao_DadosTaigaRetorno()" value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoSonar()" wz-next value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" ng-click="post_projetoSonar()" wz-next value="Próximo" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>
@@ -318,7 +319,7 @@
 									<nav>
 									  <div class="pager pager-size">
 									  	<input type="button" class="nav navbar-nav navbar-left btn-wizard"  wz-previous value="Anterior" />							  	
-					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next value="Proximo" />					    
+					            		<input type="button" class="nav navbar-nav navbar-right btn-wizard" wz-next value="Próximo" />					    
 									  </div>
 								  	</nav>
 					          </wz-step>

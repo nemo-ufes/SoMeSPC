@@ -10,8 +10,19 @@ public class EntidadeMensuravelDTO
 
     @XmlElement(name = "nome")
     private String nome;
+    
+    @XmlElement(name ="nomeTipo")
+    private String nomeTipo;
 
-    public Integer getId()
+    public String getNomeTipo() {
+		return nomeTipo;
+	}
+
+	public void setNomeTipo(String nomeTipo) {
+		this.nomeTipo = nomeTipo;
+	}
+
+	public Integer getId()
     {
 	return id;
     }
