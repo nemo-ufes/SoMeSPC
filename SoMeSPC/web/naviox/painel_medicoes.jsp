@@ -18,12 +18,14 @@
 		<div class="row" style="margin: 20px;">
 
 			<div class="col-md-5">
-				<label id="teste">Selecioe a Entidade Mensurável 1</label>
-				<select class="form-control" id="selectPeriodicidades" ng-model="entidade.Selecionada" ng-options="(e.nome+' '+'('+e.nomeTipo+')') for e in entidades">
+				<label id="teste">Selecione a Entidade Mensurável 1</label>
+				<select class="form-control" id="selectPeriodicidades" ng-model="entidade.Selecionada" ng-options="(e.nome+' '+'('+e.nomeTipo+')') for e in entidades" ng-change="obterMedidas()">
 					<option value="">-- Selecione --</option>
 				</select>
-				<label for="selectEntidade">Entidade Mensurável 1</label> <input type="text" ng-model="entidadeSelecionada" placeholder="Buscar entidade..." typeahead-editable="false" typeahead="entidade.nome for entidade in entidades | filter:$viewValue | limitTo:8" typeahead-on-select="onSelecionarEntidade($item, $model, $label)" class="form-control">
-				<label for="selectEntidade2">Entidade Mensurável 2</label> <input type="text" ng-model="entidadeSelecionada2" placeholder="Buscar entidade..." typeahead-editable="false" typeahead="entidade.nome for entidade in entidades | filter:$viewValue | limitTo:8" typeahead-on-select="onSelecionarEntidade2($item, $model, $label)" class="form-control">
+				<label id="teste">Selecione a Entidade Mensurável 2</label>
+				<select class="form-control" id="selectPeriodicidades2" ng-model="entidade.Selecionada2" ng-options="(e.nome+' '+'('+e.nomeTipo+')') for e in entidades" ng-change="obterMedidas()">
+					<option value="">-- Selecione --</option>
+				</select>
 			</div>
 			<div class="col-md-5">
 				<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome for medida in medidas" ng-change="obterMedicoes(1)">
