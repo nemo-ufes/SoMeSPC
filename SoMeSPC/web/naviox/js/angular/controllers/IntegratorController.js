@@ -219,6 +219,10 @@ app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 	
 	//-------------------------------------- Funções Taiga e Sonar -------------------------------------
 
+	$scope.filterFunction = function(element) {
+		return element.name.match(/^Ma/) ? true : false;
+	};
+	
 	$scope.post_projetoTaiga = function() {
 		$scope.toggleLoading();
 		TaigaIntegratorProjeto.save($scope.loginTaiga).$promise.then(

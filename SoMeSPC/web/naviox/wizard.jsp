@@ -237,8 +237,15 @@
 										<div class="row2">
 											<h3 class="text-center">Projetos disponíveis no Taiga</h3>
 										</div>	
+										<div class="row">
+											<div class="col-md-12">	
+													<input ng-model="query" type="text" placeholder="Buscar Projeto..." autofocus>
+											</div>
+											
+										</div>	
 										<div class="projetos">
-											<div class="row" ng-repeat="projeto in projetosTaiga">
+
+											<div class="row" ng-repeat="projeto in projetosTaiga | filter: query | orderBy: 'nome' ">
 												<div class="col-md-12">													
 													<div class="row">
 														<label class="checkbox" for="projeto_taiga_{{$index}}">

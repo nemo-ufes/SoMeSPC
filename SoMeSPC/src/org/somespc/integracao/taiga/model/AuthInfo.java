@@ -19,6 +19,8 @@
  */
 package org.somespc.integracao.taiga.model;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.*;
 
 /**
@@ -28,9 +30,13 @@ import javax.xml.bind.annotation.*;
  *
  */
 @XmlRootElement
-public class AuthInfo
+public class AuthInfo implements Serializable
 {
-    //TODO: Avaliar implementação do tipo Github.
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//TODO: Avaliar implementação do tipo Github.
     private String type = "normal";
     private String username;
     private String password;
