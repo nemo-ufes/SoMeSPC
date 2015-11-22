@@ -19,12 +19,15 @@
  */
 package org.somespc.webservices.rest;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -72,6 +75,9 @@ public class SoMeSPCResource {
 	@Context
 	private UriInfo uriInfo;
 
+	//So funciona com esse padrao de data.
+	private SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+	
 	@Path("/ItensPlanoDeMedicao")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -321,16 +327,23 @@ public class SoMeSPCResource {
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public Response obterTotalMedicoes(@QueryParam("medida") int idMedidaPlano,
-			@QueryParam("entidade") int idEntidade) {
+			@QueryParam("entidade") int idEntidade, @QueryParam("dataInicio") String dtInicio, 
+			@QueryParam("dataFim") String dtFim) throws ParseException {
 		Response response;
+
+		Date dataInicio = fmt.parse(dtInicio);
+		Date dataFim = fmt.parse(dtFim);
+				
 		EntityManager manager = XPersistence.createManager();
 
 		Query queryTotal = manager.createQuery(
 				String.format("SELECT COUNT(*) FROM Medicao m " + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-						+ "AND m.entidadeMensuravel.id = %d", idMedidaPlano, idEntidade));
-
+						+ "AND m.entidadeMensuravel.id = %d AND cast(m.data as date) BETWEEN :dataInicio AND :dataFim", idMedidaPlano, idEntidade))
+				.setParameter("dataInicio", dataInicio, TemporalType.DATE)
+	            .setParameter("dataFim", dataFim, TemporalType.DATE);
+			
 		Long total = (Long) queryTotal.getSingleResult();
-
+		
 		manager.close();
 
 		response = Response.status(Status.OK).entity(total).build();
@@ -348,7 +361,8 @@ public class SoMeSPCResource {
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public Response obterMedicoes(@QueryParam("medida") int idMedidaPlano, @QueryParam("entidade") int idEntidade,
-			@QueryParam("indiceAtual") int indiceAtual, @QueryParam("tamanhoPagina") int tamanhoPagina)
+			@QueryParam("indiceAtual") int indiceAtual, @QueryParam("tamanhoPagina") int tamanhoPagina,
+			 @QueryParam("dataInicio") String dtInicio, @QueryParam("dataFim") String dtFim)
 					throws Exception {
 		Response response;
 
@@ -356,12 +370,16 @@ public class SoMeSPCResource {
 			response = Response.status(Status.BAD_REQUEST).build();
 		} else {
 			EntityManager manager = XPersistence.createManager();
-
+			Date dataInicio = fmt.parse(dtInicio);
+			Date dataFim = fmt.parse(dtFim);
+			
 			TypedQuery<Medicao> query = manager
 					.createQuery(String.format(
 							"Select m FROM Medicao m " + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-									+ "AND m.entidadeMensuravel.id = %d ORDER BY m.data ASC",
+									+ "AND m.entidadeMensuravel.id = %d AND cast(m.data as date) BETWEEN :dataInicio AND :dataFim ORDER BY m.data ASC",
 							idMedidaPlano, idEntidade), Medicao.class)
+					.setParameter("dataInicio", dataInicio, TemporalType.DATE)
+		            .setParameter("dataFim", dataFim, TemporalType.DATE)
 					.setFirstResult((indiceAtual * tamanhoPagina) - tamanhoPagina).setMaxResults(tamanhoPagina);
 
 			List<Medicao> result = query.getResultList();

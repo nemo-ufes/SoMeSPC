@@ -25,7 +25,7 @@
 				<p> As medições são exibidas através de um gráfico de linhas. Para visualizar as medições, escolha a aba <b>Análise de Medições</b> e siga os seguintes passos: </p>
 				<p>
 					<ul>
-						<li>Selecione a(s) entidade(s) mensurável(is);</li>
+						<li>Selecione a(s) entidade(s) mensurável(is). O nome da entidade segue o padrão: Nome da Entidade Mensurável (Nome do Projeto) [Tipo de Entidade Mensurável];</li>
 						<br/>
 						<li>Selecione a medida (obs.: são listadas apenas as medidas que possuem medições para a(s) entidade(s) selecionada(s));</li>
 						<br/>

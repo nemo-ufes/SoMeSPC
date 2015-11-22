@@ -1,7 +1,7 @@
 /**
  * Controlador da aba de Medições do Painel de Controle.
  */
-app.controller('MedicoesController', function($scope, MedicaoService, $q) {
+app.controller('MedicoesController', function($scope, MedicaoService, $q, $filter) {
 	
 	/**
 	 * Função auxiliar.
@@ -40,22 +40,13 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 	}
 	
 	/**
-	 * Listener executado ao selecionar Entidade Mensurável 1.
-	$scope.onSelecionarEntidade = function onSelecionarEntidade($item, $model, $label) {
-		$scope.entidadeSelecionada = $item;
-		$scope.obterMedidas();
-	};
-	 * Listener executado ao selecionar a Entidade Mensurável 2.
-	$scope.onSelecionarEntidade2 = function onSelecionarEntidade2($item, $model, $label) {
-		$scope.entidadeSelecionada2 = $item;
-		$scope.obterMedidas();
-	};*/
-	
-	/**
 	 * Configura o paginator com as páginas corretas.
 	 */
 	$scope.configurarPaginator = function configurarPaginator(numPerPage)	{
-		MedicaoService.obterTotalMedicoes($scope.entidade.Selecionada.id, $scope.medidaSelecionada.id).then(function (total) {
+		var dataInicioFormatada = $filter('date')($scope.dataInicio,'yyyy-MM-dd');
+		var dataFimFormatada = $filter('date')($scope.dataFim,'yyyy-MM-dd');
+				
+		MedicaoService.obterTotalMedicoes($scope.entidade.Selecionada.id, $scope.medidaSelecionada.id, dataInicioFormatada, dataFimFormatada).then(function (total) {
 			 $scope.totalItems = total;
 			 $scope.numPerPage = numPerPage;
 		});
@@ -161,9 +152,14 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 			console.warn("Nenhuma medida selecionada.");
 			return;
 		}
-		
+				
+		//So funciona nesse padrão de data...
+		var dataInicioFormatada = $filter('date')($scope.dataInicio,'yyyy-MM-dd');
+		var dataFimFormatada = $filter('date')($scope.dataFim,'yyyy-MM-dd');
+						
 		if (!angular.isUndefinedOrNull($scope.entidade.Selecionada)){
-			MedicaoService.obterMedicoes($scope.entidade.Selecionada.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
+			
+			MedicaoService.obterMedicoes($scope.entidade.Selecionada.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage, dataInicioFormatada, dataFimFormatada).then(function(valores) {			
 				var dados = new Array();
 				var labels = new Array();
 				
@@ -182,7 +178,8 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 		}
 		
 		if (!angular.isUndefinedOrNull($scope.entidade.Selecionada2)){
-			MedicaoService.obterMedicoes($scope.entidade.Selecionada2.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage).then(function(valores) {			
+								
+			MedicaoService.obterMedicoes($scope.entidade.Selecionada2.id, $scope.medidaSelecionada.id, paginaAtual, $scope.numPerPage, dataInicioFormatada, dataFimFormatada).then(function(valores) {			
 				var dados = new Array();
 				var labels = new Array();
 				

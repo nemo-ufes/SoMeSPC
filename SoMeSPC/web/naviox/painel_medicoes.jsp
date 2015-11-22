@@ -34,7 +34,7 @@
 					<label for="dataInicio">Data de Início</label>
 					<p class="input-group">
               			<input id="dataInicio" type="text" style="background-color: white;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataInicio" 
-              			is-open="statusDataInicio.opened" max-date="{{dataFim}}" show-button-bar="false" ng-required="true" ng-disabled="true"  />
+              			is-open="statusDataInicio.opened" show-button-bar="false" ng-required="true" ng-disabled="true"  />
           				<span class="input-group-btn">
             				<button type="button" class="btn btn-default" ng-click="openDataInicio($event)"><i class="glyphicon glyphicon-calendar"></i></button>
           				</span>
@@ -44,7 +44,7 @@
 					<label for="dataFim">Data de Fim</label>
 					<p class="input-group">
               			<input id="dataFim" type="text" style="background-color: white;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataFim" 
-              			is-open="statusDataFim.opened" min-date="{{dataInicio}}" show-button-bar="false" ng-required="true" ng-disabled="true" />
+              			is-open="statusDataFim.opened" show-button-bar="false" ng-required="true" ng-disabled="true" />
           				<span class="input-group-btn">
             				<button type="button" class="btn btn-default" ng-click="openDataFim($event)"><i class="glyphicon glyphicon-calendar"></i></button>
           				</span>
@@ -62,7 +62,7 @@
 				<canvas id="line" style="height: 500px;" class="chart chart-line" data="dados" labels="labels" legend="true" series="series" colours="colours" click="onClick">
 									</canvas>
 				<div class="text-center">
-					<pagination boundary-links="true" total-items="totalItems" items-per-page="numPerPage" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
+					<uib-pagination boundary-links="true" total-items="totalItems" items-per-page="numPerPage" ng-model="paginaAtual" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" ng-change="obterMedicoes(paginaAtual)"> </pagination>
 				</div>
 			</div>
 		</div>
