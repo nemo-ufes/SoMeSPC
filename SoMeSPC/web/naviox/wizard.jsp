@@ -145,13 +145,14 @@
 														<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
 																	id="checkbox_{{$index}}"  
 																	type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
-																	ng-click="toggleSelectionItem(item)" />		
+																	ng-click="toggleSelectionItem(item)" 
+																	ng-model=show ng-class='{open:show}'/>		
 														<span class="col-md-8 objetivo-medicao">
 															<b>OM - {{obj}}</b>									
 														</span>
 													</label>
 												</div>
-												<div class="row fonte">
+												<div ng-show=show class="row fonte">
 													<div class="col-md-12" ng-repeat="i in item">
 														<span class="row" style="margin-bottom: -10px;">	
 															<span class="necessidade-informacao">											
