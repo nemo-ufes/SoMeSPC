@@ -30,20 +30,25 @@
 			<div class="col-md-5">
 				<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome for medida in medidas" ng-change="obterMedicoes(1)">
 				</select>
-				<div class="row">
-					<div class="col-md-6">
-					
+				<div class="col-md-6">					
 					<label for="dataInicio">Data de Início</label>
 					<p class="input-group">
               			<input id="dataInicio" type="text" style="background-color: white;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataInicio" 
-              			is-open="status.opened" show-button-bar="false" ng-required="true" ng-disabled="true" />
+              			is-open="statusDataInicio.opened" max-date="{{dataFim}}" show-button-bar="false" ng-required="true" ng-disabled="true"  />
           				<span class="input-group-btn">
-            				<button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            				<button type="button" class="btn btn-default" ng-click="openDataInicio($event)"><i class="glyphicon glyphicon-calendar"></i></button>
           				</span>
             		</p>
-					</div>
-					<div class="col-md-6">
-					</div>
+				</div>
+				<div class="col-md-6">
+					<label for="dataFim">Data de Fim</label>
+					<p class="input-group">
+              			<input id="dataFim" type="text" style="background-color: white;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataFim" 
+              			is-open="statusDataFim.opened" min-date="{{dataInicio}}" show-button-bar="false" ng-required="true" ng-disabled="true" />
+          				<span class="input-group-btn">
+            				<button type="button" class="btn btn-default" ng-click="openDataFim($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          				</span>
+            		</p>
 				</div>
 			</div>
 			<div class="col-md-2">

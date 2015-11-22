@@ -216,29 +216,23 @@ app.controller('MedicoesController', function($scope, MedicaoService, $q) {
 	/**
 	 * Configurações do DatePicker
 	 */
-	
-	 $scope.today = function() {
-		    $scope.dataInicio = new Date();
-		    $scope.dataFim = new Date();
-	 };
+    $scope.dataInicio = new Date();
+    $scope.dataFim = new Date();
 	 
-	 $scope.today();
-
-	 $scope.clear = function () {
-		$scope.dataInicio = null;
-		$scope.dataFim = null;
-	 };
-	 
-	 $scope.status = {
+	$scope.statusDataInicio = {
 		opened: false
-	 };
+	};
+	
+	$scope.statusDataFim = {
+		opened: false
+	};
 	 
-	 $scope.open = function($event) {
-		$scope.status.opened = true;
-	 };
-	 
-	 $scope.setDate = function(year, month, day) {
-		$scope.dataInicio = new Date(year, month, day);
-	 };
+	$scope.openDataInicio = function($event) {
+		$scope.statusDataInicio.opened = true;
+	};
+	
+	$scope.openDataFim = function($event) {
+		$scope.statusDataFim.opened = true;
+	};
 		
 });
