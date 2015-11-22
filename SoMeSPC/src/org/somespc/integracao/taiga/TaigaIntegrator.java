@@ -614,9 +614,10 @@ public class TaigaIntegrator
 
     public EntidadeMensuravel criarEntidadeMensuravelSprintSoMeSPC(Sprint sprint, String nomeProjeto) throws Exception{
     	
+    	String nome = String.format("Sprint %s (%s)", sprint.getNome(), nomeProjeto);
     	String descricao =  String.format("Sprint %s (%s) do projeto %s.", sprint.getNome(), sprint.getApelido(), nomeProjeto); 
     	
-    	return SoMeSPCIntegrator.criarEntidadeMensuravel(sprint.getNome(), descricao, "Sprint");
+    	return SoMeSPCIntegrator.criarEntidadeMensuravel(nome, descricao, "Sprint");
     }
     
     /**
