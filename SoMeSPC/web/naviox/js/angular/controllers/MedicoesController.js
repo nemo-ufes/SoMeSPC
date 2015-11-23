@@ -31,12 +31,12 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 	function inicializar(){
 		$scope.medidas = new Array();
 		$scope.itensParaSelecao = new Array();
+		$scope.numPerPage = 5;
 		inicializarGrafico();
 	}
 	
 	function inicializarGrafico(){
 		$scope.paginaAtual = 1;
-		$scope.numPerPage = 5;
 		$scope.dados = new Array();
 		$scope.labels = new Array();	
 		$scope.series = [''];
@@ -179,6 +179,11 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 			inicializarGrafico();
 		}
 		
+		if (angular.isUndefinedOrNull($scope.entidade)){
+			console.warn("Nenhuma entidade selecionada.");
+			return;
+		}
+		
 		if (angular.isUndefinedOrNull($scope.entidade.Selecionada) && angular.isUndefinedOrNull($scope.entidade.Selecionada2)){
 			console.warn("Nenhuma entidade selecionada.");
 			return;
@@ -237,6 +242,8 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 	 * Configurações do DatePicker
 	 */
     $scope.dataInicio = new Date();
+    $scope.dataInicio.setDate( $scope.dataInicio.getDate()-30);
+    
     $scope.dataFim = new Date();
 	 
 	$scope.statusDataInicio = {

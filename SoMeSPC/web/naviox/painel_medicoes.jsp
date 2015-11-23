@@ -1,12 +1,6 @@
 
 <div id="painel" ng-controller=MedicoesController>
 
-	<div>
-		<button type="button" class="btn btn-sm btn-success" ng-click="obterMedicoes(1)">
-			<i class="glyphicon glyphicon-refresh"></i> Atualizar
-		</button>
-	</div>
-
 	<div class="panel panel-primary" style="margin-top: 20px;">
 
 		<div class="panel-heading">
@@ -36,7 +30,7 @@
 				<div class="col-md-6">					
 					<label for="dataInicio">Data de Início</label>
 					<p class="input-group">
-              			<input id="dataInicio" type="text" style="background-color: white;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataInicio" 
+              			<input id="dataInicio" type="text" style="background-color: white; min-width: 80px;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataInicio" 
               			is-open="statusDataInicio.opened" show-button-bar="false" ng-required="true" ng-disabled="true" ng-change="obterMedicoes(1)"  />
           				<span class="input-group-btn">
             				<button type="button" class="btn btn-default" ng-click="openDataInicio($event)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -46,7 +40,7 @@
 				<div class="col-md-6">
 					<label for="dataFim">Data de Fim</label>
 					<p class="input-group">
-              			<input id="dataFim" type="text" style="background-color: white;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataFim" 
+              			<input id="dataFim" type="text" style="background-color: white; min-width: 80px;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataFim" 
               			is-open="statusDataFim.opened" show-button-bar="false" ng-required="true" ng-disabled="true" ng-change="obterMedicoes(1)" />
           				<span class="input-group-btn">
             				<button type="button" class="btn btn-default" ng-click="openDataFim($event)"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -55,8 +49,13 @@
 				</div>
 			</div>
 			<div class="col-md-2">
-				<label for="selectTamanhoPagina">Qtde Medições</label> <select class="form-control" id="selectTamanhoPagina" ng-model="numPerPage" ng-options="numPerPage for numPerPage in [5,10,15,20,25,30]" ng-change="obterMedicoes(paginaAtual)">
-				</select>
+				<label for="selectTamanhoPagina">Quantidade</label> <select class="form-control" id="selectTamanhoPagina" ng-model="numPerPage" ng-options="numPerPage for numPerPage in [5,10,15,20,25,30]" ng-change="obterMedicoes(paginaAtual)">
+				</select>				
+				<div style="margin-top: 30px;">
+					<button type="button" class="btn btn-success" ng-click="obterMedicoes(1)">
+						<i class="glyphicon glyphicon-refresh"></i> Atualizar
+					</button>
+				</div>
 			</div>
 		</div>
 
