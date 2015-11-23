@@ -12,29 +12,35 @@
 		<div class="row" style="margin: 20px;">
 		
 			<div class="col-md-6" style="text-align: justify;">
-				<label id="jobs">O que são jobs de medição?</label>
+				<label id="jobs">Agendamento de Medições</label>
 				</br>
-				<p> O job de medição é um agendamento de execução de uma medição para determinada ferramenta, Taiga ou SonarQube.</p>
-				<p> As informações que ele possui são: <i>Nome, Ultima Execução, Próx. Execução</i> e <i>Situação (Executando, Ativo, Pausado, Bloqueado, Completo e Erro)</i>. </p>
-				<p> Os jobs são executados de acordo com a periodicidade selecionado durante a criação do plano de medição.</p>
-				<p> Através da aba <b>Agendamento de Medições</b> é possível executar, iniciar, pausar e excluir o Job escolhido.</p>
-			</div>
-			<div class="col-md-6">
-				<label id="medição">Como visualizar as medições?</label>
-				</br>
-				<p> As medições são exibidas através de um gráfico de linhas. Para visualizar as medições, escolha a aba <b>Análise de Medições</b> e siga os seguintes passos: </p>
 				<p>
-					<ul>
-						<li>Selecione a(s) entidade(s) mensurável(is). O nome da entidade segue o padrão: Nome da Entidade Mensurável (Nome do Projeto). As entidades são agrupadas por Tipo de Entidade Mensurável;</li>
-						<br/>
-						<li>Selecione a medida (são listadas apenas as medidas que possuem medições para a(s) entidade(s) selecionada(s)). As medidas são agrupadas por Objetivo de Medição;</li>
-						<br/>
-						<li>Selecione a data de início e data de fim das medições (usando o botão de calendário);</li>
-						<br/>
-						<li>Selecione a quantidade de medições. São exibidas medições até o limite selecionado. Entretanto, é possível navegar por páginas através do componente de paginação abaixo do gráfico;</li>
-						<br/>
-						<li>O gráfico para análise das medições será exibido abaixo.</li>															
-					</ul>	  
+					Na aba <i>Agendamento de Medições</i> são exibidos os <i>jobs de medição</i> criados automaticamente a partir dos Planos de Medição definidos. 
+					<i>Um job de medição</i> é o agendamento de uma medição automática que coleta dados do Taiga ou do SonarQube. 
+					Os <i>jobs</i> são executados automaticamente de acordo com as medidas definidas no Plano de Medição e a periodicidade de medição para elas estabelecida.
+				</p>	
+				
+				<p>Para cada <i>job</i> são exibidas as seguintes informações: Nome, Última Execução, Próxima Execução e Situação (Executando, Ativo, Pausado, Bloqueado, Completo e Erro).</p>
+
+				<p>Selecionando-se os botões disponíveis na coluna <i>Controles</i> é possível executar, iniciar, pausar e excluir <i>jobs</i>.</p>
+			</div>
+			<div class="col-md-6" style="text-align: justify;">
+				<label id="medição">Análise de Medições</label>
+				</br>
+				<p> 
+					<Na aba <i>Análise de Medições</i> é possível visualizar medições realizadas. 
+					Para selecionar os dados a serem apresentados, deve-se selecionar o objetivo de medição e a medida a serem considerados (campo <i>Selecione Objetivo de Medição e Medida</i>), 
+					as entidades mensuráveis (campo <i>Selecione a Entidade Mensurável*</i>), as datas de início e fim das medições (campos <i>Data Início e Data Fim</i>) 
+					ou a quantidade de medições que se deseja visualizar (serão apresentadas as <i>n</i> últimas medições realizadas, sendo <i>n</i> a quantidade de medições selecionada**). 
+				</p>
+				<p>
+					Após a seleção, deve-se clicar no botão <i>Atualizar</i> para que o gráfico contendo os dados selecionados seja apresentado.
+				</p>
+				<p>
+					*As entidades mensuráveis são apresentadas em ordem alfabética, agrupadas por tipo de entidade.
+				</p>
+				<p>
+					** Para visualizar mais medições do que as exibidas no gráfico pode-se navegar no componente de paginação exibido abaixo do gráfico.
 				</p>
 			</div>
 		</div>

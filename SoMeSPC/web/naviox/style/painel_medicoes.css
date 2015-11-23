@@ -62,6 +62,8 @@ input[type="text"], input[type="password"], input[type="file"] {
 label {
 	font-size: 14px;
 	margin-top: 10px;
+	text-align: center;
+	display: block;
 }
 
 .panel{
