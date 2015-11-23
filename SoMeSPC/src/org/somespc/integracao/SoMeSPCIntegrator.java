@@ -309,6 +309,7 @@ public class SoMeSPCIntegrator {
 		return plano;
 	}
 
+	@SuppressWarnings("unused")
 	public static synchronized PlanoDeMedicaoDoProjeto criarPlanoMedicaoProjetoTaigaSonarQubeSoMeSPC(
 			List<ItemPlanoDeMedicaoDTO> items, Periodicidade periodicidade, TaigaLoginDTO taigaLogin, Projeto projeto,
 			SonarLoginDTO sonarLogin, List<Recurso> recursos) throws Exception {
@@ -342,15 +343,14 @@ public class SoMeSPCIntegrator {
 				String queryProjeto = String.format("SELECT p FROM Projeto p WHERE p.nome='%s'", recurso.getNome());
 				TypedQuery<org.somespc.model.organizacao_de_software.Projeto> typedQueryProjeto = manager
 						.createQuery(queryProjeto, org.somespc.model.organizacao_de_software.Projeto.class);
-				proj = typedQueryProjeto.getSingleResult();
+				org.somespc.model.organizacao_de_software.Projeto  projetoSonar = typedQueryProjeto.getSingleResult();
 			} catch (Exception ex) {
 				if (manager.getTransaction().isActive())
 					manager.getTransaction().rollback();
 	
 				manager.close();
 				manager = XPersistence.createManager();
-	
-				proj = sonarIntegrator.criarProjetoSoMeSPC(recurso);
+				sonarIntegrator.criarProjetoSoMeSPC(recurso);
 			}
 		}
 		
