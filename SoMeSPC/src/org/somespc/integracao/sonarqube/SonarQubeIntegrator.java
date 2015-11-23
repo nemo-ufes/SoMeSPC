@@ -363,7 +363,7 @@ public class SonarQubeIntegrator {
 		return projetoSoMeSPC;
 	}
 
-	public synchronized void agendarSonarQubeMedicaoJob(PlanoDeMedicaoDoProjeto plano, String chaveRecurso, 
+	public synchronized void agendarSonarQubeMedicaoJob(PlanoDeMedicaoDoProjeto plano, String nomeProjeto, String chaveRecurso, 
 			ItemPlanoMedicao item, Periodicidade periodicidade, SonarLoginDTO login) throws Exception {
 
 		// Inicia o scheduler.
@@ -415,7 +415,7 @@ public class SonarQubeIntegrator {
 		map.put("chaveRecurso", chaveRecurso);
 		map.put("nomePlano", plano.getNome());
 		map.put("nomeMedida", nomeMedida);
-		map.put("entidadeMedida", plano.getProjeto().getNome());
+		map.put("entidadeMedida", nomeProjeto);
 
 
 		//Gerador GUID para criar um nome unico de JOB sem INCONSISTENCIA DE NOMES IGUAIS

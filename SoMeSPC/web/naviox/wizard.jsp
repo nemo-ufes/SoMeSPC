@@ -114,7 +114,7 @@
 							            	<ul id="descricao-wizard" style="list-style-type: decimal; padding-left: 50px; padding-top: 20px;">
 												<li>Selecione os objetivos de medição que deseja monitorar e a periodicidade de coleta das medidas.</li>
 												<li>Os passos do wizard se adaptam para exibir a tela de login da ferramenta responsável pela coleta das medidas vinculadas aos objetivos selecionados. Preencha os dados necessários e siga em frente.</li>
-												<li>Selecione os projetos para os quais deseja criar os planos de medição e siga em frente para a tela de resumo</li>
+												<li>Pesquise e selecione os projetos para os quais deseja criar os planos de medição e siga em frente para a tela de resumo</li>
 												<li>Avalie se tudo foi preenchido corretamente e cliquei em finalizar.</li>
 											</ul>  
 							            </p>
@@ -239,7 +239,7 @@
 										</div>	
 										<div class="row">												
 											<div class="col-md-11">	
-												<div class="label" style="margin-left: 20px;"><strong>Pesquisar</strong></div>
+												<div class="label"><strong>Pesquisar</strong></div>
 												<input class="form-control" ng-model="query" type="text" placeholder="Digite para pesquisar..." autofocus>
 											</div>											
 										</div>	
@@ -305,7 +305,7 @@
 										</div>
 										<div class="row">												
 											<div class="col-md-11">	
-												<div class="label" style="margin-left: 20px;"><strong>Pesquisar</strong></div>
+												<div class="label"><strong>Pesquisar</strong></div>
 												<input class="form-control" ng-model="query" type="text" placeholder="Digite para pesquisar..." autofocus>
 											</div>											
 										</div>	

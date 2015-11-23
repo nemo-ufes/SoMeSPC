@@ -249,10 +249,6 @@ public class SoMeSPCIntegrator {
 			// ferramenta é.
 			if (item.getNome().startsWith("ME - ")) {
 
-				// Aguarda 1 antes de agendar cada job para evitar problemas de
-				// concorrência.
-				Thread.sleep(1000);
-
 				ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, item.getId());
 				taigaIntegrator.agendarTaigaMedicaoJob(plano, projeto.getApelido(), medida, periodicidade, taigaLogin);
 
@@ -305,7 +301,7 @@ public class SoMeSPCIntegrator {
 
 				ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, item.getId());
 
-				sonarIntegrator.agendarSonarQubeMedicaoJob(plano, recurso.getChave(), medida, periodicidade,
+				sonarIntegrator.agendarSonarQubeMedicaoJob(plano, recurso.getNome(), recurso.getChave(), medida, periodicidade,
 						sonarLogin);
 			}
 		}
@@ -340,6 +336,24 @@ public class SoMeSPCIntegrator {
 			proj = taigaIntegrator.criarProjetoSoMeSPC(projeto);
 		}
 
+		for(Recurso recurso : recursos){
+			// Verifica se o projeto está criado.
+			try {
+				String queryProjeto = String.format("SELECT p FROM Projeto p WHERE p.nome='%s'", recurso.getNome());
+				TypedQuery<org.somespc.model.organizacao_de_software.Projeto> typedQueryProjeto = manager
+						.createQuery(queryProjeto, org.somespc.model.organizacao_de_software.Projeto.class);
+				proj = typedQueryProjeto.getSingleResult();
+			} catch (Exception ex) {
+				if (manager.getTransaction().isActive())
+					manager.getTransaction().rollback();
+	
+				manager.close();
+				manager = XPersistence.createManager();
+	
+				proj = sonarIntegrator.criarProjetoSoMeSPC(recurso);
+			}
+		}
+		
 		// Cria o plano de medição.
 		PlanoDeMedicaoDoProjeto plano = SoMeSPCIntegrator.criarPlanoMedicaoProjeto(proj, items, periodicidade,
 				taigaIntegrator, sonarIntegrator);
@@ -358,10 +372,6 @@ public class SoMeSPCIntegrator {
 					}
 				}
 
-				// Aguarda 1 antes de agendar cada job para evitar problemas de
-				// concorrência.
-				Thread.sleep(1000);
-
 				ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, item.getId());
 
 				if (ferramentaColetora.equalsIgnoreCase("Taiga")) {
@@ -370,7 +380,7 @@ public class SoMeSPCIntegrator {
 				} else if (ferramentaColetora.equalsIgnoreCase("SonarQube")) {
 					
 					for(Recurso recurso : recursos) {
-						sonarIntegrator.agendarSonarQubeMedicaoJob(plano, recurso.getChave(), medida, periodicidade,
+						sonarIntegrator.agendarSonarQubeMedicaoJob(plano, recurso.getNome(), recurso.getChave(), medida, periodicidade,
 								sonarLogin);
 					}					
 				} else {
