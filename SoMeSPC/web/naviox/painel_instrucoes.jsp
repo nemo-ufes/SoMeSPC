@@ -6,6 +6,7 @@
 		<div class="panel-heading">
 			<h1 class="panel-title text-center">
 				<b>Instruções</b>
+				
 			</h1>
 		</div>
 
