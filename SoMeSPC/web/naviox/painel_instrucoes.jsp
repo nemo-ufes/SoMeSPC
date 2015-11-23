@@ -31,9 +31,9 @@
 						<br/>
 						<li>Selecione a data de início e data de fim das medições (usando o botão de calendário);</li>
 						<br/>
-						<li>Selecione a quantidade de medições;</li>
+						<li>Selecione a quantidade de medições. São exibidas medições até o limite selecionado. Entretanto, é possível navegar por páginas através do componente de paginação abaixo do gráfico;</li>
 						<br/>
-						<li>O gráfico para análise das medições será exibido abaixo.</li>					
+						<li>O gráfico para análise das medições será exibido abaixo.</li>															
 					</ul>	  
 				</p>
 			</div>

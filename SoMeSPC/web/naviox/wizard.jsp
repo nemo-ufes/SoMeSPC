@@ -113,7 +113,7 @@
 							            <p>
 							            	<ul id="descricao-wizard" style="list-style-type: decimal; padding-left: 50px; padding-top: 20px;">
 												<li>Selecione os objetivos de medição que deseja monitorar e a periodicidade de coleta das medidas.</li>
-												<li>De acordo com os objetivos selecionados, uma tela para realização do login nas ferramentas integradas irá aparecer. Preencha os dados necessários e siga em frente.</li>
+												<li>Os passos do wizard se adaptam para exibir a tela de login da ferramenta responsável pela coleta das medidas vinculadas aos objetivos selecionados. Preencha os dados necessários e siga em frente.</li>
 												<li>Selecione os projetos para os quais deseja criar os planos de medição e siga em frente para a tela de resumo</li>
 												<li>Avalie se tudo foi preenchido corretamente e cliquei em finalizar.</li>
 											</ul>  
