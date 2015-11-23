@@ -1013,12 +1013,8 @@ public class TaigaIntegrator
 		map.put("nomeMedida", nomeMedida);
 		map.put("entidadeMedida", plano.getProjeto().getNome());
 
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
-
 		UUID uuid = UUID.randomUUID();
-		String randomUUIDString = uuid.toString();
-		
+		String randomUUIDString = uuid.toString();		
 		String nomeGrupo = plano.getProjeto().getNome();
 		String nomeTrigger = String.format("TaigaMediçãoJob - GUID (%s) - Medição %s da medida %s",
 				randomUUIDString, periodicidade.getNome(), nomeMedida);

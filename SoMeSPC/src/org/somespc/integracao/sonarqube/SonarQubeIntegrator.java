@@ -420,12 +420,8 @@ public class SonarQubeIntegrator {
 
 		//Gerador GUID para criar um nome unico de JOB sem INCONSISTENCIA DE NOMES IGUAIS
 		UUID uuid = UUID.randomUUID();
-		String randomUUIDString = uuid.toString();
-		
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
-
-		String nomeGrupo = plano.getProjeto().getNome();
+		String randomUUIDString = uuid.toString();		
+		String nomeGrupo = nomeProjeto;
 		String nomeTrigger = String.format("SonarQubeMediçãoJob - GUID (%s) - Medição %s da medida %s",
 				randomUUIDString, periodicidade.getNome(), nomeMedida);
 		String nomeJob = nomeTrigger;
