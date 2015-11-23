@@ -196,7 +196,8 @@ app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 		
 		for (idx in $scope.projetosSelecionados_sonar) {
 			$scope.entry.projetos_Sonar
-					.push($scope.projetosSelecionados_sonar[idx].name);
+					.push($scope.projetosSelecionados_sonar[idx].key);
+			
 		}
 
 		for (idx in $scope.itens_selected) {
@@ -208,12 +209,12 @@ app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 		
 		$scope.entry.$save(function sucesso(plano) {
 			$scope.toggleLoading();
-			alert("Plano(s) de Medi√ß√£o criado com sucesso!");
+			alert("Plano(s) de MediÁ„o criado com sucesso!");
 	    	$window.location.href = '/SoMeSPC/naviox/wizard.jsp';	
 		}, function erro(err) {
 			$scope.toggleLoading();
 			console.log(err);
-			alert("Ocorreu um erro ao criar o(s) Plano(s) de Medi√ß√£o!");		
+			alert("Ocorreu um erro ao criar o(s) Plano(s) de MediÁ„o!");		
 		});
 	}
 	
@@ -232,7 +233,7 @@ app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 					$scope.toggleLoading();
 				}, function erro(err) {
 					console.log(err);
-					alert("Erro ao estabelecer a conex√£o com o Taiga! Verifique se os dados de login est√£o corretos e tente novamente.")
+					alert("Erro ao estabelecer a conex„o com o Taiga! Verifique se os dados de login est„o corretos e tente novamente.")
 					$scope.toggleLoading();
 				});
 	}
@@ -256,7 +257,7 @@ app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 					$scope.toggleLoading();
 				}, function erro(err) {
 					console.log(err);
-					alert("Erro ao estabelecer a conex√£o com o SonarQube! Verifique se os dados de login est√£o corretos e tente novamente.")
+					alert("Erro ao estabelecer a conex„o com o SonarQube! Verifique se os dados de login est„o corretos e tente novamente.")
 					$scope.toggleLoading();
 				});
 	}

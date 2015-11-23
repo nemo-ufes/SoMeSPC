@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -416,12 +417,17 @@ public class SonarQubeIntegrator {
 		map.put("nomeMedida", nomeMedida);
 		map.put("entidadeMedida", plano.getProjeto().getNome());
 
+
+		//Gerador GUID para criar um nome unico de JOB sem INCONSISTENCIA DE NOMES IGUAIS
+		UUID uuid = UUID.randomUUID();
+		String randomUUIDString = uuid.toString();
+		
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
 
 		String nomeGrupo = plano.getProjeto().getNome();
-		String nomeTrigger = String.format("SonarQubeMediçãoJob - Medição %s da medida %s - criado em %s",
-				periodicidade.getNome(), nomeMedida, dataHora);
+		String nomeTrigger = String.format("SonarQubeMediçãoJob - GUID (%s) - Medição %s da medida %s",
+				randomUUIDString, periodicidade.getNome(), nomeMedida);
 		String nomeJob = nomeTrigger;
 
 		boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));

@@ -303,8 +303,14 @@
 										<div class="row2">
 											<h3 class="text-center">Projetos disponíveis no SonarQube</h3>
 										</div>
+										<div class="row">												
+											<div class="col-md-11">	
+												<div class="label" style="margin-left: 20px;"><strong>Pesquisar</strong></div>
+												<input class="form-control" ng-model="query" type="text" placeholder="Digite para pesquisar..." autofocus>
+											</div>											
+										</div>	
 										<div class="projetos">
-											<div id="projetosSonar" class="row" ng-repeat="projeto in projetosSonar">	
+											<div id="projetosSonar" class="row" ng-repeat="projeto in projetosSonar | filter: query | orderBy: 'name' ">	
 												<div class="col-md-12">											
 													<div class="row">			
 														<label class="checkbox" for="projeto_sonar_{{$index}}">

@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -1015,9 +1016,12 @@ public class TaigaIntegrator
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
 
+		UUID uuid = UUID.randomUUID();
+		String randomUUIDString = uuid.toString();
+		
 		String nomeGrupo = plano.getProjeto().getNome();
-		String nomeTrigger = String.format("TaigaMediçãoJob - Medição %s da medida %s - criado em %s",
-				periodicidade.getNome(), nomeMedida, dataHora);
+		String nomeTrigger = String.format("TaigaMediçãoJob - GUID (%s) - Medição %s da medida %s",
+				randomUUIDString, periodicidade.getNome(), nomeMedida);
 		String nomeJob = nomeTrigger;
 
 		boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
