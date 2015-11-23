@@ -49,7 +49,7 @@ public class SonarQubeIntegratorTest {
 	@Before
 	public void init() throws Exception {
 		SoMeSPCStarter.inicializarSoMeSPC();
-		integrator = new SonarQubeIntegrator("http://localhost:9000/");
+		integrator = new SonarQubeIntegrator("http://ledszeppellin.sr.ifes.edu.br:9000/");
 	}
 
 	@Test

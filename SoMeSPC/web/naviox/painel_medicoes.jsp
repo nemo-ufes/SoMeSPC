@@ -28,13 +28,16 @@
 				</select>
 			</div>
 			<div class="col-md-5">
-				<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="medidaSelecionada" ng-options="medidas[medidas.indexOf(medida)].nome for medida in medidas" ng-change="obterMedicoes(1)">
+							
+				<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="itemSelecionado" 
+				ng-options="item.medida.nome group by item.objetivo for item in itensParaSelecao" ng-change="obterMedicoes(1)">
 				</select>
+								
 				<div class="col-md-6">					
 					<label for="dataInicio">Data de Início</label>
 					<p class="input-group">
               			<input id="dataInicio" type="text" style="background-color: white;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataInicio" 
-              			is-open="statusDataInicio.opened" show-button-bar="false" ng-required="true" ng-disabled="true"  />
+              			is-open="statusDataInicio.opened" show-button-bar="false" ng-required="true" ng-disabled="true" ng-change="obterMedicoes(1)"  />
           				<span class="input-group-btn">
             				<button type="button" class="btn btn-default" ng-click="openDataInicio($event)"><i class="glyphicon glyphicon-calendar"></i></button>
           				</span>
@@ -44,7 +47,7 @@
 					<label for="dataFim">Data de Fim</label>
 					<p class="input-group">
               			<input id="dataFim" type="text" style="background-color: white;" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataFim" 
-              			is-open="statusDataFim.opened" show-button-bar="false" ng-required="true" ng-disabled="true" />
+              			is-open="statusDataFim.opened" show-button-bar="false" ng-required="true" ng-disabled="true" ng-change="obterMedicoes(1)" />
           				<span class="input-group-btn">
             				<button type="button" class="btn btn-default" ng-click="openDataFim($event)"><i class="glyphicon glyphicon-calendar"></i></button>
           				</span>

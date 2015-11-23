@@ -1,2 +1,1 @@
-var app = angular.module('PainelApp', [ 'chart.js', 'ui.bootstrap',
-		'smart-table', 'dialogs.main' ]);
+var app = angular.module('PainelApp', [ 'chart.js', 'ui.bootstrap', 'ngResource', 'angular.filter', 'smart-table', 'dialogs.main' ]);

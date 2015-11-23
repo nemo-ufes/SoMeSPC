@@ -27,11 +27,9 @@
 					<ul>
 						<li>Selecione a(s) entidade(s) mensurável(is). O nome da entidade segue o padrão: Nome da Entidade Mensurável (Nome do Projeto) [Tipo de Entidade Mensurável];</li>
 						<br/>
-						<li>Selecione o objetivo de medição;</li>
-						<br/>
 						<li>Selecione a medida (são listadas apenas as medidas que possuem medições para a(s) entidade(s) selecionada(s));</li>
 						<br/>
-						<li>Selecione a data de início e data de fim das medições;</li>
+						<li>Selecione a data de início e data de fim das medições (usando o botão de calendário);</li>
 						<br/>
 						<li>Selecione a quantidade de medições;</li>
 						<br/>

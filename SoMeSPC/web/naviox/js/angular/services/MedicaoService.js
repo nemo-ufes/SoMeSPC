@@ -6,9 +6,6 @@ app.service("MedicaoService", function($http, $q, $location) {
 		obterEntidades : obterEntidades,
 		obterMedidas : obterMedidas,
 		obterMedicoes : obterMedicoes,
-		obterValoresMedicao : obterValoresMedicao,
-		obterDataHoraMedicao : obterDataHoraMedicao,
-		obterPaginas : obterPaginas,
 		obterTotalMedicoes : obterTotalMedicoes
 	});
 
@@ -46,44 +43,6 @@ app.service("MedicaoService", function($http, $q, $location) {
 		});
 		return (request.then(handleSuccess, handleError));
 	}
-
-	function obterValoresMedicao(idEntidade, idMedida) {
-
-		var request = $http({
-			method : "get",
-			url : url + "/Entidade/" + idEntidade + "/Medida/" + idMedida
-					+ "/Valor"
-		});
-		return (request.then(handleSuccess, handleError));
-	}
-
-	function obterDataHoraMedicao(idEntidade, idMedida) {
-
-		var request = $http({
-			method : "get",
-			url : url + "/DataHora",
-			params : {
-				entidade : idEntidade,
-				medida : idMedida
-			}
-		});
-		return (request.then(handleSuccess, handleError));
-	}
-
-	function obterPaginas(tamanhoPagina, idEntidade, idMedida) {
-
-		var request = $http({
-			method : "get",
-			url : url + "/Pagina",
-			params : {
-				tamanhoPagina : tamanhoPagina,
-				entidade : idEntidade,
-				medida : idMedida
-			}
-		});
-		return (request.then(handleSuccess, handleError));
-	}
-
 	function obterTotalMedicoes(idEntidade, idMedida, dataInicio, dataFim) {
 
 		var request = $http({

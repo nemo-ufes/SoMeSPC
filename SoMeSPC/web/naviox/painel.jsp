@@ -36,6 +36,8 @@
 <script type='text/javascript' src='js/angular/shared/angular.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-locale_pt-br.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-route.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-resource.min.js'></script>
+<script type='text/javascript' src='js/angular/shared/angular-filter.js'></script>
 <script type='text/javascript' src='js/Chart.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/angular-chart.min.js'></script>
 <script type='text/javascript' src='js/angular/shared/smart-table.min.js'></script>
@@ -104,6 +106,7 @@
 							<%-- Services --%>
 							<script type="text/javascript" src="js/angular/services/MedicaoService.js"></script>
 							<script type="text/javascript" src="js/angular/services/AgendamentoService.js"></script>
+							<script type="text/javascript" src="js/angular/services/IntegratorService.js"></script>
 												
 							<%-- JQuery --%>
 							<script type='text/javascript' src="js/jquery.js"></script>
