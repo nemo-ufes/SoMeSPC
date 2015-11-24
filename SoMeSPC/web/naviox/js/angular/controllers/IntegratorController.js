@@ -67,7 +67,7 @@ app.controller('WizardCtrl', function($scope, $resource, $window, WizardHandler,
 		$scope.loading = !$scope.loading;
 	}
 	
-	$scope.toggleSelectionItem = function toggleSelectionItem(itemsSelecionados) {					
+	$scope.toggleSelectionItem = function toggleSelectionItem(itemsSelecionados) {		
 		for(idxItem in itemsSelecionados) {					
 			var item = itemsSelecionados[idxItem];
 			if ($scope.itens_selected.indexOf(item) > -1){

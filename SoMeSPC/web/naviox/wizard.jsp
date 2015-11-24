@@ -131,48 +131,50 @@
 					            	<div class="row text-center" style="font-size:14px; color:red; margin-top: 10px;">
 					            		<b>{{mensagem_Objetivos}}</b>
 					            	</div>
-									<div class="row">
-										<div class="row2">
-											<div class="label">Objetivos:</div>
-										</div>
-										<div class="row2" style="font-size: 14px;">										
-											<i>OE - {{itens[0].nome_ObjetivoEstrategico}}</i>
-										</div>
-										<div class="row bg-objetivos">
-											<div id="itens" class="row" ng-repeat="(obj, item) in itens | groupBy: 'nome_ObjetivoDeMedicao'">									
-												<div class="row fonte">
-													<label for="checkbox_{{$index}}" class="row">
-														<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
-																	id="checkbox_{{$index}}"  
-																	type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
-																	ng-click="toggleSelectionItem(item)" 
-																	ng-model=show ng-class='{open:show}'/>		
-														<span class="col-md-8 objetivo-medicao">
-															<b>OM - {{obj}}</b>									
-														</span>
-													</label>
-												</div>
-												<div ng-show=show class="row fonte">
-													<div class="col-md-12" ng-repeat="i in item">
-														<span class="row" style="margin-bottom: -10px;">	
-															<span class="necessidade-informacao">											
-																NI - {{i.nome_NecessidadeDeInformacao}}
-															</span>												
-														</span>											
-														<span class="row">											
-															<span class="medida">												
-																<i>ME - {{i.nome_Medida}}</i>
+					            	<div class="row2">
+										<div class="label">Selecione os Objetivos de Medição:</div>
+									</div>
+					            	<div class="bg-objetivos">					            	
+										<div class="row2" style="font-size: 14px; " ng-repeat="(OE, OMs) in itens | groupBy: 'nome_ObjetivoEstrategico'">		
+											<div class="row2 fonte" style="padding-left: 15px;">
+												<b>OE - {{OE}}</b>	
+											</div>
+											<div>
+												<div id="itens" class="row" ng-repeat="(OM, items) in OMs | groupBy: 'nome_ObjetivoDeMedicao'">									
+													<div class="row fonte">
+														<label for="checkbox_{{$index}}" class="row">
+															<input class="col-md-1" style="margin-top: 15px; margin-left: -5px !important; margin-right: 5px !important;"  
+																		id="checkbox_{{OM}}_{{$index}}"  
+																		type="checkbox" ng-checked="itens_selected.indexOf(item) > -1"
+																		ng-click="toggleSelectionItem(items)" 
+																		ng-model=show ng-class='{open:show}'/>		
+															<span class="col-md-8 objetivo-medicao">
+																<b><i>OM - {{OM}}</i></b>									
 															</span>
-														</span>										
+														</label>
+													</div>
+													<div ng-show=show class="row fonte">
+														<div class="col-md-12" ng-repeat="i in items">
+															<span class="row" style="margin-bottom: -10px;">	
+																<span class="necessidade-informacao">											
+																	NI - {{i.nome_NecessidadeDeInformacao}}
+																</span>												
+															</span>											
+															<span class="row">											
+																<span class="medida">												
+																	<i>ME - {{i.nome_Medida}}</i>
+																</span>
+															</span>										
+														</div>
 													</div>
 												</div>
+												</div>
+											
 											</div>
-											</div>
-										
 										</div>
 											<div class="row" style="margin-right: 30px;">		            
 						            		<div class="row2">
-												<div class="label">Periodicidade:</div>
+												<div class="label">Selecione a periodicidade:</div>
 											</div>
 											<select class="form-control" id="selectPeriodicidades" ng-model="periodicidade.selecionada"
 												ng-options="periodicidades[periodicidades.indexOf(p)].nome for p in periodicidades">
