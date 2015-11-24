@@ -34,8 +34,6 @@ public class SonarQubeMedicaoJob extends MedicaoJob {
 			String nomeMedida = dataMap.getString("nomeMedida").replace("ME - " , "");
 			String entidadeMedida = dataMap.getString("entidadeMedida");
 			
-			System.out.println("ENTIDADE MEDIDA = "+entidadeMedida);
-
 			String query = String.format("SELECT p FROM PlanoDeMedicaoDoProjeto p WHERE p.nome='%s'", nomePlano);
 			TypedQuery<PlanoDeMedicaoDoProjeto> typedQuery = manager.createQuery(query, PlanoDeMedicaoDoProjeto.class);
 			PlanoDeMedicaoDoProjeto plano = typedQuery.getSingleResult();
