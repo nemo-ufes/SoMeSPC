@@ -356,8 +356,6 @@ public class SonarQubeIntegrator {
 			} else {
 				throw ex;
 			}
-		} finally {
-			manager.close();
 		}
 		
 		String tipoEntidadeQuery2 = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Código Fonte'");
@@ -449,7 +447,7 @@ public class SonarQubeIntegrator {
 			  map.put("chaveRecurso", chaveRecurso);
 			  map.put("nomePlano", plano.getNome());
 			  map.put("nomeMedida", nomeMedida);
-			  map.put("entidadeMedida", nomeProjeto);
+			  map.put("entidadeMedida", "Código Fonte do Projeto - "+nomeProjeto);
 
 
 			  //Gerador GUID para criar um nome unico de JOB sem INCONSISTENCIA DE NOMES IGUAIS
