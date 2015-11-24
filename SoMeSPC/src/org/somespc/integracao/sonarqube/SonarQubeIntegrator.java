@@ -396,95 +396,92 @@ public class SonarQubeIntegrator {
 		return projetoSoMeSPC;
 	}
 
-	public synchronized void agendarSonarQubeMedicaoJob(PlanoDeMedicaoDoProjeto plano, String chaveRecurso, 
-			ItemPlanoMedicao item, Periodicidade periodicidade, SonarLoginDTO login) throws Exception {
-		
-		// Inicia o scheduler
-		SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
-		Scheduler sched = schedFact.getScheduler();
+	public synchronized void agendarSonarQubeMedicaoJob(PlanoDeMedicaoDoProjeto plano, String nomeProjeto, String chaveRecurso, 
+			   ItemPlanoMedicao item, Periodicidade periodicidade, SonarLoginDTO login) throws Exception {
 
-		if (!sched.isStarted())
-			sched.start();
+			  
+			  // Inicia o scheduler.
+			  SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
+			  Scheduler sched = schedFact.getScheduler();
 
-		String nomeMedida = item.getNome();
+			  if (!sched.isStarted())
+			   sched.start();
 
-		// Se o item não é uma medida, pula para o próximo item.
-		if (!nomeMedida.startsWith("ME - ")) {
-			throw new Exception("O item do plano não é uma medida: " + nomeMedida);
-		}
+			  String nomeMedida = item.getNome();
 
-		JobDetail job = null;
-		Trigger trigger = null;
+			  // Se o item não é uma medida, pula para o próximo item.
+			  if (!nomeMedida.startsWith("ME - ")) {
+			   throw new Exception("O item do plano não é uma medida: " + nomeMedida);
+			  }
 
-		// Converte a periodicidade em horas.
-		String period = periodicidade.getNome();
-		int horas = 0;
+			  JobDetail job = null;
+			  Trigger trigger = null;
 
-		if (period.equalsIgnoreCase("Por Hora")) {
-			horas = 1;
-		} else if (period.equalsIgnoreCase("Diária")) {
-			horas = 24;
-		} else if (period.equalsIgnoreCase("Semanal")) {
-			horas = 24 * 7;
-		} else if (period.equalsIgnoreCase("Quinzenal")) {
-			horas = 24 * 15;
-		} else if (period.equalsIgnoreCase("Mensal")) {
-			horas = 24 * 30; // mes de 30 dias apenas...
-		} else if (period.equalsIgnoreCase("Trimestral")) {
-			horas = 24 * 30 * 3; // mes de 30 dias apenas...
-		} else if (period.equalsIgnoreCase("Semestral")) {
-			horas = 24 * 30 * 6; // mes de 30 dias apenas...
-		} else if (period.equalsIgnoreCase("Anual")) {
-			horas = 24 * 30 * 12; // mes de 30 dias apenas...
-		} else {
-			String mensagem = String.format("Periodicidade %s inexistente.", period);
-			System.out.println(mensagem);
-			throw new Exception(mensagem);
-		}
+			  // Converte a periodicidade em horas.
+			  String period = periodicidade.getNome();
+			  int horas = 0;
 
-		JobDataMap map = new JobDataMap();
+			  if (period.equalsIgnoreCase("Por Hora")) {
+			   horas = 1;
+			  } else if (period.equalsIgnoreCase("Diária")) {
+			   horas = 24;
+			  } else if (period.equalsIgnoreCase("Semanal")) {
+			   horas = 24 * 7;
+			  } else if (period.equalsIgnoreCase("Quinzenal")) {
+			   horas = 24 * 15;
+			  } else if (period.equalsIgnoreCase("Mensal")) {
+			   horas = 24 * 30; // mes de 30 dias apenas...
+			  } else if (period.equalsIgnoreCase("Trimestral")) {
+			   horas = 24 * 30 * 3; // mes de 30 dias apenas...
+			  } else if (period.equalsIgnoreCase("Semestral")) {
+			   horas = 24 * 30 * 6; // mes de 30 dias apenas...
+			  } else if (period.equalsIgnoreCase("Anual")) {
+			   horas = 24 * 30 * 12; // mes de 30 dias apenas...
+			  } else {
+			   String mensagem = String.format("Periodicidade %s inexistente.", period);
+			   System.out.println(mensagem);
+			   throw new Exception(mensagem);
+			  }
 
-		map.put("urlSonar", login.getUrl());
-		map.put("chaveRecurso", chaveRecurso);
-		map.put("nomePlano", plano.getNome());
-		map.put("nomeMedida", nomeMedida);
-		map.put("entidadeMedida", plano.getProjeto().getNome());
+			  JobDataMap map = new JobDataMap();
+
+			  map.put("urlSonar", login.getUrl());
+			  map.put("chaveRecurso", chaveRecurso);
+			  map.put("nomePlano", plano.getNome());
+			  map.put("nomeMedida", nomeMedida);
+			  map.put("entidadeMedida", nomeProjeto);
 
 
-		//Gerador GUID para criar um nome unico de JOB sem INCONSISTENCIA DE NOMES IGUAIS
-		UUID uuid = UUID.randomUUID();
-		String randomUUIDString = uuid.toString();
-		
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
+			  //Gerador GUID para criar um nome unico de JOB sem INCONSISTENCIA DE NOMES IGUAIS
+			  UUID uuid = UUID.randomUUID();
+			  String randomUUIDString = uuid.toString();  
+			  String nomeGrupo = nomeProjeto;
+			  String nomeTrigger = String.format("SonarQubeMediçãoJob - GUID (%s) - Medição %s da medida %s",
+			    randomUUIDString, periodicidade.getNome(), nomeMedida);
+			  String nomeJob = nomeTrigger;
 
-		String nomeGrupo = plano.getProjeto().getNome();
-		String nomeTrigger = String.format("SonarQubeMediçãoJob - GUID (%s) - Medição %s da medida %s",
-				randomUUIDString, periodicidade.getNome(), nomeMedida);
-		String nomeJob = nomeTrigger;
+			  boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
+			 
+			  //Se o job existir, apenas agenda. Senão, cria o job e agenda sua execução.
+			  if (!existeJob) {
+			   job = JobBuilder.newJob(SonarQubeMedicaoJob.class).withIdentity(nomeJob, nomeGrupo).build();
 
-		boolean existeJob = sched.checkExists(new JobKey(nomeJob, nomeGrupo));
-	
-		//Se o job existir, apenas agenda. Senão, cria o job e agenda sua execução.
-		if (!existeJob) {
-			job = JobBuilder.newJob(SonarQubeMedicaoJob.class).withIdentity(nomeJob, nomeGrupo).build();
+			   trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo).usingJobData(map)
+			     .startNow()
+			     .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
+			     .build();
 
-			trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo).usingJobData(map)
-					.startNow()
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
-					.build();
+			   sched.scheduleJob(job, trigger);
+			  } else {
+			   job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
 
-			sched.scheduleJob(job, trigger);
-		} else {
-			job = sched.getJobDetail(new JobKey(nomeJob, nomeGrupo));
+			   trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo).usingJobData(map)
+			     .startNow()
+			     .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
+			     .build();
 
-			trigger = TriggerBuilder.newTrigger().forJob(job).withIdentity(nomeTrigger, nomeGrupo).usingJobData(map)
-					.startNow()
-					.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInHours(horas).repeatForever())
-					.build();
-
-			sched.scheduleJob(trigger);
-		}
-	}
+			   sched.scheduleJob(trigger);
+			  }
+			 }
 	
 }
