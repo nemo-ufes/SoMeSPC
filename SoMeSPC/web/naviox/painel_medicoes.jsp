@@ -23,8 +23,9 @@
 			</div>
 			<div class="col-md-5">
 							
-				<label for="selectMedida">Medida</label> <select class="form-control" id="selectMedida" ng-model="itemSelecionado" 
+				<label for="selectMedida">Selecione Objetivo de Medição e Medida</label> <select class="form-control" id="selectMedida" ng-model="itemSelecionado" 
 				ng-options="item.medida.nome group by item.objetivo for item in itensParaSelecao" ng-change="obterMedicoes(1)">
+					<option value="">-- Selecione --</option>
 				</select>
 								
 				<div class="col-md-6">					
