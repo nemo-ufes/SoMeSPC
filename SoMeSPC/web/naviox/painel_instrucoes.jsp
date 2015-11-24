@@ -28,10 +28,10 @@
 				<label id="medição">Análise de Medições</label>
 				</br>
 				<p> 
-					Na aba <i>Análise de Medições</i> é possível visualizar medições realizadas. 
+					Na aba <i>Análise de Medições</i> é possível visualizar as medições realizadas. 
 					Para selecionar os dados a serem apresentados, deve-se selecionar o objetivo de medição e a medida a serem considerados (campo <i>Selecione Objetivo de Medição e Medida</i>), 
 					as entidades mensuráveis (campo <i>Selecione a Entidade Mensurável*</i>), as datas de início e fim das medições (campos <i>Data Início e Data Fim</i>) 
-					ou a quantidade de medições que se deseja visualizar (serão apresentadas as <i>n</i> últimas medições realizadas, sendo <i>n</i> a quantidade de medições selecionada**). 
+					e a quantidade de medições que se deseja visualizar (serão apresentadas as <i>n</i> últimas medições realizadas, sendo <i>n</i> a quantidade de medições selecionada**). 
 				</p>
 				<p>
 					Após a seleção, deve-se clicar no botão <i>Atualizar</i> para que o gráfico contendo os dados selecionados seja apresentado.

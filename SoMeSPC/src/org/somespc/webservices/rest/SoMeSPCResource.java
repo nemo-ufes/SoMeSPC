@@ -33,7 +33,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -53,14 +52,12 @@ import org.somespc.integracao.taiga.model.MedidasTaiga;
 import org.somespc.integracao.taiga.model.Projeto;
 import org.somespc.model.definicao_operacional_de_medida.Periodicidade;
 import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
-import org.somespc.model.entidades_e_medidas.Medida;
 import org.somespc.model.medicao.Medicao;
 import org.somespc.model.plano_de_medicao.PlanoDeMedicao;
 import org.somespc.util.json.JSONObject;
 import org.somespc.webservices.rest.dto.EntidadeMensuravelDTO;
 import org.somespc.webservices.rest.dto.ItemPlanoDeMedicaoDTO;
 import org.somespc.webservices.rest.dto.MedicaoDTO;
-import org.somespc.webservices.rest.dto.MedidaDTO;
 import org.somespc.webservices.rest.dto.PeriodicidadeDTO;
 import org.somespc.webservices.rest.dto.PlanoDTO;
 
@@ -299,7 +296,7 @@ public class SoMeSPCResource {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public Response obterTotalMedicoes(@QueryParam("medida") int idMedidaPlano,
+	public Response obterTotalMedicoes(@QueryParam("medida") String nomeMedida,
 			@QueryParam("entidade") int idEntidade, @QueryParam("dataInicio") String dtInicio, 
 			@QueryParam("dataFim") String dtFim) throws ParseException {
 		Response response;
@@ -309,9 +306,10 @@ public class SoMeSPCResource {
 				
 		EntityManager manager = XPersistence.createManager();
 
-		Query queryTotal = manager.createQuery(
-				String.format("SELECT COUNT(*) FROM Medicao m " + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-						+ "AND m.entidadeMensuravel.id = %d AND cast(m.data as date) BETWEEN :dataInicio AND :dataFim", idMedidaPlano, idEntidade))
+		Query queryTotal = manager.createQuery("SELECT COUNT(*) FROM Medicao m " + "WHERE m.medidaPlanoDeMedicao.medida.nome = :nomeMedida "
+						+ "AND m.entidadeMensuravel.id = :idEntidade AND cast(m.data as date) BETWEEN :dataInicio AND :dataFim")
+				.setParameter("nomeMedida", nomeMedida)
+				.setParameter("idEntidade", idEntidade)
 				.setParameter("dataInicio", dataInicio, TemporalType.DATE)
 	            .setParameter("dataFim", dataFim, TemporalType.DATE);
 			
@@ -333,13 +331,16 @@ public class SoMeSPCResource {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public Response obterMedicoes(@QueryParam("medida") int idMedidaPlano, @QueryParam("entidade") int idEntidade,
+	public Response obterMedicoes(@QueryParam("medida") String nomeMedida, @QueryParam("entidade") int idEntidade,
 			@QueryParam("indiceAtual") int indiceAtual, @QueryParam("tamanhoPagina") int tamanhoPagina,
 			 @QueryParam("dataInicio") String dtInicio, @QueryParam("dataFim") String dtFim)
 					throws Exception {
 		Response response;
 
-		if (idMedidaPlano == 0 || idEntidade == 0) {
+		if (nomeMedida == null || nomeMedida.isEmpty() || 
+			dtInicio == null || dtInicio.isEmpty() || 
+			dtFim == null || dtFim.isEmpty() || 
+			idEntidade == 0) {
 			response = Response.status(Status.BAD_REQUEST).build();
 		} else {
 			EntityManager manager = XPersistence.createManager();
@@ -347,10 +348,10 @@ public class SoMeSPCResource {
 			Date dataFim = fmt.parse(dtFim);
 			
 			TypedQuery<Medicao> query = manager
-					.createQuery(String.format(
-							"Select m FROM Medicao m " + "WHERE m.medidaPlanoDeMedicao.medida.id = %d "
-									+ "AND m.entidadeMensuravel.id = %d AND cast(m.data as date) BETWEEN :dataInicio AND :dataFim ORDER BY m.data ASC",
-							idMedidaPlano, idEntidade), Medicao.class)
+					.createQuery("Select m FROM Medicao m " + "WHERE m.medidaPlanoDeMedicao.medida.nome = :nomeMedida "
+									+ "AND m.entidadeMensuravel.id = :idEntidade AND cast(m.data as date) BETWEEN :dataInicio AND :dataFim ORDER BY m.data ASC", Medicao.class)
+					.setParameter("nomeMedida", nomeMedida)
+					.setParameter("idEntidade", idEntidade)
 					.setParameter("dataInicio", dataInicio, TemporalType.DATE)
 		            .setParameter("dataFim", dataFim, TemporalType.DATE)
 					.setFirstResult((indiceAtual * tamanhoPagina) - tamanhoPagina).setMaxResults(tamanhoPagina);
@@ -391,13 +392,16 @@ public class SoMeSPCResource {
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public Response obterEntidadesComMedicoes() throws Exception {
+	public Response obterEntidadesComMedicoes(@QueryParam("medida") String nomeMedida) throws Exception {
 		Response response;
 
 		EntityManager manager = XPersistence.createManager();
 
 		TypedQuery<EntidadeMensuravel> query = manager
-				.createQuery("Select distinct(m.entidadeMensuravel) FROM Medicao m ORDER BY m.entidadeMensuravel.nome ", EntidadeMensuravel.class);
+				.createQuery("Select distinct(m.entidadeMensuravel) FROM Medicao m "
+						+ "WHERE m.medidaPlanoDeMedicao.medida.nome=:nomeMedida ORDER BY m.entidadeMensuravel.nome ", EntidadeMensuravel.class)
+				.setParameter("nomeMedida", nomeMedida);
+		
 		List<EntidadeMensuravel> result = query.getResultList();
 
 		if (result == null)
@@ -422,54 +426,5 @@ public class SoMeSPCResource {
 
 		return response;
 	}
-
-	/**
-	 * Obtém as medidas das entidades.
-	 * 
-	 * @param id-
-	 *            Id da entidade para buscar as medidas.
-	 * @return Medidas das da entidade informada.
-	 * @throws Exception
-	 */
-	@Path("Medicao/Entidade/{id}/Medida")
-	@GET
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public Response obterMedidasdasEntidadesComMedicoes(@PathParam("id") int id) throws Exception {
-		Response response;
-
-		if (id == 0) {
-			response = Response.status(Status.BAD_REQUEST).build();
-		}
-
-		else {
-
-			EntityManager manager = XPersistence.createManager();
-
-			TypedQuery<Medida> query = manager.createQuery("Select distinct(m.medidaPlanoDeMedicao.medida) "
-					+ "FROM Medicao m " + "WHERE m.entidadeMensuravel.id = " + id, Medida.class);
-			List<Medida> result = query.getResultList();
-
-			if (result == null)
-				response = Response.status(Status.NOT_FOUND).build();
-			else {
-				List<MedidaDTO> listaDto = new ArrayList<MedidaDTO>();
-
-				for (Medida med : result) {
-					MedidaDTO dto = new MedidaDTO();
-
-					dto.setId(med.getId());
-					dto.setNome(med.getNome());
-
-					listaDto.add(dto);
-				}
-
-				response = Response.status(Status.OK).entity(listaDto).build();
-			}
-
-			manager.close();
-		}
-		return response;
-	}
-	
+		
 }

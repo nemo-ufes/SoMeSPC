@@ -10,24 +10,25 @@
 		</div>
 
 		<div class="row" style="margin: 20px;">
+			<label for="selectMedida">Selecione Objetivo de Medição e Medida</label> 
+			<select class="form-control" id="selectMedida" ng-model="itemSelecionado" 
+				ng-options="item.medida group by item.objetivo for item in itensParaSelecao" ng-change="obterEntidades()">
+					<option value="">-- Selecione --</option>
+			</select>
+		</div>
 
-			<div class="col-md-5">
+		<div class="row" style="margin: 20px;">
+			<div class="col-md-6">
 				<label id="teste">Selecione a Entidade Mensurável 1</label>
-				<select class="form-control" id="selectPeriodicidades" ng-model="entidade.Selecionada" ng-options="e.nome group by e.nomeTipo for e in entidades" ng-change="obterMedidas()">
+				<select class="form-control" id="selectPeriodicidades" ng-model="entidade.Selecionada" ng-options="e.nome group by e.nomeTipo for e in entidades" ng-change="obterMedicoes(1)">
 					<option value="">-- Selecione --</option>
 				</select>
 				<label id="teste">Selecione a Entidade Mensurável 2</label>
-				<select class="form-control" id="selectPeriodicidades2" ng-model="entidade.Selecionada2" ng-options="e.nome group by e.nomeTipo for e in entidades" ng-change="obterMedidas()">
+				<select class="form-control" id="selectPeriodicidades2" ng-model="entidade.Selecionada2" ng-options="e.nome group by e.nomeTipo for e in entidades" ng-change="obterMedicoes(1)">
 					<option value="">-- Selecione --</option>
 				</select>
 			</div>
-			<div class="col-md-5">
-							
-				<label for="selectMedida">Selecione Objetivo de Medição e Medida</label> <select class="form-control" id="selectMedida" ng-model="itemSelecionado" 
-				ng-options="item.medida.nome group by item.objetivo for item in itensParaSelecao" ng-change="obterMedicoes(1)">
-					<option value="">-- Selecione --</option>
-				</select>
-								
+			<div class="col-md-6">		
 				<div class="col-md-6">					
 					<label for="dataInicio">Data de Início</label>
 					<p class="input-group">
@@ -37,6 +38,8 @@
             				<button type="button" class="btn btn-default" ng-click="openDataInicio($event)"><i class="glyphicon glyphicon-calendar"></i></button>
           				</span>
             		</p>
+            		<label for="selectTamanhoPagina">Quantidade</label> <select class="form-control" id="selectTamanhoPagina" ng-model="numPerPage" ng-options="numPerPage for numPerPage in [5,10,15,20,25,30]" ng-change="obterMedicoes(paginaAtual)">
+					</select>
 				</div>
 				<div class="col-md-6">
 					<label for="dataFim">Data de Fim</label>
@@ -47,15 +50,11 @@
             				<button type="button" class="btn btn-default" ng-click="openDataFim($event)"><i class="glyphicon glyphicon-calendar"></i></button>
           				</span>
             		</p>
-				</div>
-			</div>
-			<div class="col-md-2">
-				<label for="selectTamanhoPagina">Quantidade</label> <select class="form-control" id="selectTamanhoPagina" ng-model="numPerPage" ng-options="numPerPage for numPerPage in [5,10,15,20,25,30]" ng-change="obterMedicoes(paginaAtual)">
-				</select>				
-				<div style="margin-top: 30px;">
-					<button type="button" class="btn btn-success" ng-click="obterMedicoes(1)">
-						<i class="glyphicon glyphicon-refresh"></i> Atualizar
+            		<div class="text-center" style="margin-top: 30px;">
+					<button type="button" class="btn btn-primary btn-sm" ng-click="obterMedicoes(1)">
+						<i class="glyphicon glyphicon-refresh"></i> Atualizar Gráfico
 					</button>
+				</div>
 				</div>
 			</div>
 		</div>

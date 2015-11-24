@@ -13,28 +13,52 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 	/**
 	 * Inicialização.
 	 */
-	carregarEntidades();
 	inicializar();
+	
+	/**
+	 * Carrega a lista de itens.
+	 */
+	$scope.itens = IntegratorPlanoMedicao.query({
+		entidade : 'ItensPlanoDeMedicao'
+	}, function sucesso(itens){
+		$scope.itensParaSelecao = new Array();
+		
+		for (idx in itens){
+			
+			var item = itens[idx];
+			
+			if (!angular.isUndefinedOrNull(item) && !angular.isUndefinedOrNull(item.nome_Medida)){
+				var objetivoMedida = { objetivo : item.nome_ObjetivoDeMedicao, medida : item.nome_Medida };									
+				$scope.itensParaSelecao.push(objetivoMedida);	
+			}
+			
+		}	
+		
+	});
 	
 	/**
 	 * Carrega a lista de entidades.
 	 */
-	function carregarEntidades() {
-		MedicaoService.obterEntidades().then(function(entidades) {
+	$scope.obterEntidades = function obterEntidades() {
+		MedicaoService.obterEntidades($scope.itemSelecionado.medida).then(function(entidades) {
 			$scope.entidades = entidades;
 		});
+		
+		inicializarGrafico();
+	}
+	
+	/**
+	 * Inicializa a tela.
+	 */
+	function inicializar(){
+		$scope.medidas = new Array();
+		$scope.numPerPage = 5;		
+		inicializarGrafico();
 	}
 	
 	/**
 	 * Inicializa o gráfico.
 	 */
-	function inicializar(){
-		$scope.medidas = new Array();
-		$scope.itensParaSelecao = new Array();
-		$scope.numPerPage = 5;
-		inicializarGrafico();
-	}
-	
 	function inicializarGrafico(){
 		$scope.paginaAtual = 1;
 		$scope.dados = new Array();
@@ -55,120 +79,8 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 			 $scope.totalItems = total;
 			 $scope.numPerPage = numPerPage;
 		});
-	}
-	
-	// Objeto Lista de Itens - GET através da Web Service do IntegratorPlanoMedicao,
-	// usando $Resource do Angular JS
-	$scope.itens = IntegratorPlanoMedicao.query({
-		entidade : 'ItensPlanoDeMedicao'
-	});
-
-	/**
-	 * Busca as medidas comuns entre a Entidade Mensurável 1 e 2.
-	 VERIFICAR ESSA FUNÇÃO!*/
-	$scope.obterMedidas = function obterMedidas() {
-		inicializar();
-	
-		// Se as duas entidades foram selecionadas, aguarda o retorno das
-		// medidas das duas.
-		if (!angular.isUndefinedOrNull($scope.entidade.Selecionada) && !angular.isUndefinedOrNull($scope.entidade.Selecionada2)){			
-		
-			$q.all([MedicaoService.obterMedidas($scope.entidade.Selecionada.id), MedicaoService.obterMedidas($scope.entidade.Selecionada2.id)])
-			.then(function(responses){					
-				$scope.medidasEntidade1 = responses[0];
-				$scope.medidasEntidade2 = responses[1];				
-				$scope.selecionarMedidasParaExibicao();
-			})
-		} else {			
-			// Senão, busca da que foi selecionada.
-			if (!angular.isUndefinedOrNull($scope.entidade.Selecionada)){			
-				MedicaoService.obterMedidas($scope.entidade.Selecionada.id).then(
-						function(medidas) {
-							$scope.medidasEntidade1 = medidas;
-							$scope.selecionarMedidasParaExibicao();
-						});
-			}
-			
-			if (!angular.isUndefinedOrNull($scope.entidade.Selecionada2)){			
-				MedicaoService.obterMedidas($scope.entidade.Selecionada2.id).then(
-						function(medidas) {
-							$scope.medidasEntidade2 = medidas;
-							$scope.selecionarMedidasParaExibicao();
-						});
-			}			
-		}	
-		
-		
-	}
-	
-	$scope.selecionarMedidasParaExibicao = function selecionarMedidasParaExibicao(){
-		// Se somente uma entidade foi selecionada, usa apenas as medidas dela.
-		if (angular.isUndefinedOrNull($scope.entidade.Selecionada) != angular.isUndefinedOrNull($scope.entidade.Selecionada2)){			
-			
-			
-			if (!angular.isUndefinedOrNull($scope.medidasEntidade1)){
-				$scope.medidas = $scope.medidasEntidade1
-			}
-			else{
-				$scope.medidas = $scope.medidasEntidade2
-			}
-			
-			for (idxMedida in $scope.medidas) {
-				var medida = $scope.medidas[idxMedida];
-								
-				for (idxItem in $scope.itens){								
-					var item = $scope.itens[idxItem];
-					
-					if (medida.nome == item.nome_Medida){								
-						var objetivoMedida = { objetivo : item.nome_ObjetivoDeMedicao, medida : medida };									
-						$scope.itensParaSelecao.push(objetivoMedida);
-					}								
-				}							
-			} 			
-		}
-		else {			
-			
-			if (!angular.isUndefinedOrNull($scope.medidasEntidade1) && !angular.isUndefinedOrNull($scope.medidasEntidade2)){
+	}	
 				
-				$q.all([MedicaoService.obterMedidas($scope.entidade.Selecionada.id), MedicaoService.obterMedidas($scope.entidade.Selecionada2.id)])
-					.then(function(responses){					
-						$scope.medidasEntidade1 = responses[0];
-						$scope.medidasEntidade2 = responses[1];
-						
-						$scope.medidasComuns = [];
-						// Senão, seleciona as medidas em comum.
-						// Primeiro, testa as medidas do array 1 no array 2.
-						for (idx in $scope.medidasEntidade1) {				
-							
-							var item = $scope.medidasEntidade1[idx];
-							
-							for(idx_2 in $scope.medidasEntidade2){
-								
-								if($scope.medidasEntidade1[idx].nome == $scope.medidasEntidade2[idx_2].nome){
-									$scope.medidasComuns.push(item);
-								}
-							}
-						}	
-						
-						$scope.medidas = $scope.medidasComuns;		
-						
-						for (idxMedida in $scope.medidas) {
-							var medida = $scope.medidas[idxMedida];							
-							
-							for (idxItem in $scope.itens){								
-								var item = $scope.itens[idxItem];
-								
-								if (medida.nome == item.nome_Medida){								
-									var objetivoMedida = { objetivo : item.nome_ObjetivoDeMedicao, medida : medida };									
-									$scope.itensParaSelecao.push(objetivoMedida);
-								}								
-							}							
-						} 
-					}); 
-			}				 	 
-		}	
-	}
-	
 	/**
 	 * Busca os valores das medições de acordo com a página atual do paginator e
 	 * das entidades selecionadas.
@@ -189,7 +101,7 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 			return;
 		}
 		
-		if (angular.isUndefinedOrNull($scope.itemSelecionado.medida)){
+		if (angular.isUndefinedOrNull($scope.itemSelecionado)){
 			console.warn("Nenhuma medida selecionada.");
 			return;
 		}
@@ -200,7 +112,7 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 						
 		if (!angular.isUndefinedOrNull($scope.entidade.Selecionada)){
 			
-			MedicaoService.obterMedicoes($scope.entidade.Selecionada.id, $scope.itemSelecionado.medida.id, paginaAtual, $scope.numPerPage, dataInicioFormatada, dataFimFormatada).then(function(valores) {			
+			MedicaoService.obterMedicoes($scope.entidade.Selecionada.id, $scope.itemSelecionado.medida, paginaAtual, $scope.numPerPage, dataInicioFormatada, dataFimFormatada).then(function(valores) {			
 				var dados = new Array();
 				var labels = new Array();
 				
@@ -212,7 +124,7 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 				$scope.paginaAtual = paginaAtual;
 				$scope.dados[0] = dados;
 				$scope.labels = labels;			
-				$scope.series[0] = [$scope.entidade.Selecionada.nome + ' / ' + $scope.itemSelecionado.medida.nome];
+				$scope.series[0] = [$scope.entidade.Selecionada.nome + ' / ' + $scope.itemSelecionado.medida];
 				
 				$scope.configurarPaginator($scope.numPerPage);
 			});
@@ -220,7 +132,7 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 		
 		if (!angular.isUndefinedOrNull($scope.entidade.Selecionada2)){
 								
-			MedicaoService.obterMedicoes($scope.entidade.Selecionada2.id, $scope.itemSelecionado.medida.id, paginaAtual, $scope.numPerPage, dataInicioFormatada, dataFimFormatada).then(function(valores) {			
+			MedicaoService.obterMedicoes($scope.entidade.Selecionada2.id, $scope.itemSelecionado.medida, paginaAtual, $scope.numPerPage, dataInicioFormatada, dataFimFormatada).then(function(valores) {			
 				var dados = new Array();
 				var labels = new Array();
 				
@@ -232,7 +144,7 @@ app.controller('MedicoesController', function($scope, $resource, MedicaoService,
 				$scope.paginaAtual = paginaAtual;
 				$scope.dados[1] = dados;
 				$scope.labels = labels;			
-				$scope.series[1] = [$scope.entidade.Selecionada2.nome + ' / ' + $scope.itemSelecionado.medida.nome];
+				$scope.series[1] = [$scope.entidade.Selecionada2.nome + ' / ' + $scope.itemSelecionado.medida];
 			});
 		}
 	}	
