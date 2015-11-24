@@ -359,11 +359,44 @@ public class SonarQubeIntegrator {
 		} finally {
 			manager.close();
 		}
+		
+		String tipoEntidadeQuery2 = String.format("SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Código Fonte'");
+		TypedQuery<TipoDeEntidadeMensuravel> tipoEntidadeTypedQuery2 = manager.createQuery(tipoEntidadeQuery2,
+				TipoDeEntidadeMensuravel.class);
+		TipoDeEntidadeMensuravel tipoCodigoFonte = tipoEntidadeTypedQuery2.getSingleResult();
+
+		org.somespc.model.entidades_e_medidas.EntidadeMensuravel codigoFonteSoMeSPC = new org.somespc.model.entidades_e_medidas.EntidadeMensuravel();
+		codigoFonteSoMeSPC.setNome("Código Fonte do Projeto - "+recurso.getNome());
+		codigoFonteSoMeSPC.setTipoDeEntidadeMensuravel(tipoCodigoFonte);
+
+		try {
+			manager.getTransaction().begin();
+			manager.persist(codigoFonteSoMeSPC);
+			manager.getTransaction().commit();
+		} catch (Exception ex) {
+			if (manager.getTransaction().isActive())
+				manager.getTransaction().rollback();
+
+			if ((ex.getCause() != null && ex.getCause() instanceof ConstraintViolationException)
+					|| (ex.getCause() != null && ex.getCause().getCause() != null
+							&& ex.getCause().getCause() instanceof ConstraintViolationException)) {
+	
+				String query2 = String.format("SELECT p FROM EntidadeMensuravel p WHERE p.nome='%s'", recurso.getNome());
+				TypedQuery<org.somespc.model.organizacao_de_software.Projeto> typedQuery2 = manager.createQuery(query2,
+						org.somespc.model.organizacao_de_software.Projeto.class);
+
+				codigoFonteSoMeSPC = typedQuery2.getSingleResult();
+			} else {
+				throw ex;
+			}
+		} finally {
+			manager.close();
+		}
 
 		return projetoSoMeSPC;
 	}
 
-	public synchronized void agendarSonarQubeMedicaoJob(PlanoDeMedicaoDoProjeto plano, String nomeProjeto, String chaveRecurso, 
+	public synchronized void agendarSonarQubeMedicaoJob(PlanoDeMedicaoDoProjeto plano, String chaveRecurso, 
 			ItemPlanoMedicao item, Periodicidade periodicidade, SonarLoginDTO login) throws Exception {
 
 		// Inicia o scheduler.
@@ -415,13 +448,17 @@ public class SonarQubeIntegrator {
 		map.put("chaveRecurso", chaveRecurso);
 		map.put("nomePlano", plano.getNome());
 		map.put("nomeMedida", nomeMedida);
-		map.put("entidadeMedida", nomeProjeto);
+		map.put("entidadeMedida", plano.getProjeto().getNome());
 
 
 		//Gerador GUID para criar um nome unico de JOB sem INCONSISTENCIA DE NOMES IGUAIS
 		UUID uuid = UUID.randomUUID();
-		String randomUUIDString = uuid.toString();		
-		String nomeGrupo = nomeProjeto;
+		String randomUUIDString = uuid.toString();
+		
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String dataHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(timestamp.getTime());
+
+		String nomeGrupo = plano.getProjeto().getNome();
 		String nomeTrigger = String.format("SonarQubeMediçãoJob - GUID (%s) - Medição %s da medida %s",
 				randomUUIDString, periodicidade.getNome(), nomeMedida);
 		String nomeJob = nomeTrigger;

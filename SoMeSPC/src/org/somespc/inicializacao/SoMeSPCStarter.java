@@ -308,6 +308,7 @@ public class SoMeSPCStarter extends HttpServlet
 	    TipoDeEntidadeMensuravel tipoAlocacao = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoTipoPSProjeto = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoTipoPSPadrao = new TipoDeEntidadeMensuravel();
+	    TipoDeEntidadeMensuravel tipoCodigoFonte = new TipoDeEntidadeMensuravel();
 
 	    tipoSprint.setNome("Sprint");
 	    tipoSprint.setDescricao("Representa uma Sprint do Scrum.");
@@ -351,8 +352,11 @@ public class SoMeSPCStarter extends HttpServlet
 	    tipoTipoPSProjeto.setNome("Tipo de Processo de Projeto");
 	    tipoTipoPSProjeto.setDescricao("Tipo de Processo Projeto. Especificação mais detalhada do processo a ser realizado.");
 
-	    tipoTipoPSPadrao.setNome("Tipo de Processo Padrao");
+	    tipoTipoPSPadrao.setNome("Tipo de Processo Padrão");
 	    tipoTipoPSPadrao.setDescricao("Tipo de Processo Padao. Especificação mais detalhada do processo a ser realizado.");
+	    
+	    tipoCodigoFonte.setNome("Código Fonte");
+	    tipoCodigoFonte.setDescricao("Código Fonte do Projeto. Especificação mais detalhada do processo a ser realizado.");
 	    
 	    //Adiciona elementos mensuraveis.
 	    //Obtem o ElementoMensuravel Desempenho.
@@ -417,6 +421,7 @@ public class SoMeSPCStarter extends HttpServlet
 	    tiposParaPersistir.add(tipoAlocacao);
 	    tiposParaPersistir.add(tipoTipoPSProjeto);
 	    tiposParaPersistir.add(tipoTipoPSPadrao);
+	    tiposParaPersistir.add(tipoCodigoFonte);
 
 	    for (TipoDeEntidadeMensuravel tipo : tiposParaPersistir)
 	    {
