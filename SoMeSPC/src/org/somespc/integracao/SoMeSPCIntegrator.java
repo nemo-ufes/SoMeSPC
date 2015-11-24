@@ -295,10 +295,6 @@ public class SoMeSPCIntegrator {
 			// ferramenta é.
 			if (item.getNome().startsWith("ME - ")) {
 
-				// Aguarda 1 antes de agendar cada job para evitar problemas de
-				// concorrência.
-				Thread.sleep(1000);
-
 				ItemPlanoMedicao medida = manager.find(ItemPlanoMedicao.class, item.getId());
 
 				sonarIntegrator.agendarSonarQubeMedicaoJob(plano, recurso.getNome(), recurso.getChave(), medida, periodicidade,
