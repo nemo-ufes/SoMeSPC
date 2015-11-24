@@ -366,6 +366,7 @@ public class SonarQubeIntegrator {
 	public synchronized void agendarSonarQubeMedicaoJob(PlanoDeMedicaoDoProjeto plano, String nomeProjeto, String chaveRecurso, 
 			ItemPlanoMedicao item, Periodicidade periodicidade, SonarLoginDTO login) throws Exception {
 
+		
 		// Inicia o scheduler.
 		SchedulerFactory schedFact = new org.quartz.impl.StdSchedulerFactory();
 		Scheduler sched = schedFact.getScheduler();
