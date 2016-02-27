@@ -50,9 +50,6 @@ public class AtividadeProjeto extends EntidadeMensuravel
     @Required
     private AtividadePadrao baseadoEm;
 
-    @OneToMany(mappedBy = "atividadeProjetoOcorrida")
-    private Collection<OcorrenciaAtividade> ocorrenciaAtividade;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
 	    name = "ProcessoProjeto_AtividadeProjeto"
@@ -204,15 +201,4 @@ public class AtividadeProjeto extends EntidadeMensuravel
     {
 	this.dependeDe = dependeDe;
     }
-
-    public Collection<OcorrenciaAtividade> getOcorrenciaAtividade()
-    {
-	return ocorrenciaAtividade;
-    }
-
-    public void setOcorrenciaAtividade(Collection<OcorrenciaAtividade> ocorrenciaAtividade)
-    {
-	this.ocorrenciaAtividade = ocorrenciaAtividade;
-    }
-
 }
