@@ -28,6 +28,7 @@ import org.somespc.model.entidades_e_medidas.ElementoMensuravel;
 import org.somespc.model.entidades_e_medidas.EntidadeMensuravel;
 import org.somespc.model.organizacao_de_software.*;
 import org.somespc.model.plano_de_medicao.*;
+import org.somespc.model.processo_de_software.AtividadePadrao;
 import org.openxava.annotations.*;
 
 @Entity
@@ -107,10 +108,14 @@ public class Medicao implements Comparable<Medicao>
     @ReferenceView("Simple")
     private ContextoDeMedicao contextoDeMedicao;
 
+    
+    @NoCreate
+    @NoModify
+    //@ManyToOne
     @ManyToOne(fetch = FetchType.LAZY)
     @ReferenceView("Simple")
-    @SearchAction("Medicao.searchMomentoReal")
-    private EntidadeMensuravel momentoRealDaMedicao;
+    //@SearchAction("Medicao.searchMomentoReal")
+    private AtividadePadrao momentoRealDaMedicao;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ReferenceView("Simple")
@@ -152,12 +157,12 @@ public class Medicao implements Comparable<Medicao>
 	this.contextoDeMedicao = contextoDeMedicao;
     }
 
-    public EntidadeMensuravel getMomentoRealDaMedicao()
+    public AtividadePadrao getMomentoRealDaMedicao()
     {
 	return momentoRealDaMedicao;
     }
 
-    public void setMomentoRealDaMedicao(EntidadeMensuravel momentoRealDaMedicao)
+    public void setMomentoRealDaMedicao(AtividadePadrao momentoRealDaMedicao)
     {
 	this.momentoRealDaMedicao = momentoRealDaMedicao;
     }

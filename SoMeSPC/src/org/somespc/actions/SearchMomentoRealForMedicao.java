@@ -29,10 +29,9 @@ public class SearchMomentoRealForMedicao extends ReferenceSearchAction
     {
 	super.execute();
 
-	getTab().setBaseCondition("e_tipoDeEntidadeMensuravel.id IN "
-		+ "(SELECT t "
-		+ "FROM org.SoMeSPC.model.medicao.TipoDeEntidadeMensuravel t "
-		+ "WHERE t.nome = 'Ocorrência de Atividade' OR t.nome = 'Ocorrência de Processo de Software' )");
+	getTab().setBaseCondition("SELECT t "
+		+ "FROM org.somespc.model.entidades_e_medidas.EntidadeMensuravel t "
+		+ "WHERE t.tipoDeEntidadeMensuravel = 'Atividade Padrão' )");
 	
 	return;
     }//execute

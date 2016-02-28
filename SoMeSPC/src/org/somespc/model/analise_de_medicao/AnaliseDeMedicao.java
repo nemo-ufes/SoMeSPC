@@ -102,7 +102,7 @@ public class AnaliseDeMedicao
     @ManyToOne
     @ReferenceView("Simple")
     //@Required
-    private AtividadeProjeto momentoRealDaAnaliseDeMedicao;
+    private AtividadePadrao momentoRealDaAnaliseDeMedicao;
 
     @ManyToOne
     @ReferenceView(value = "Simple", forViews = "CEP")
@@ -152,13 +152,13 @@ public class AnaliseDeMedicao
 	this.executorDaAnaliseDeMedicao = executorDaAnaliseDeMedicao;
     }
 
-    public AtividadeProjeto getMomentoRealDaAnaliseDeMedicao()
+    public AtividadePadrao getMomentoRealDaAnaliseDeMedicao()
     {
 	return momentoRealDaAnaliseDeMedicao;
     }
 
     public void setMomentoRealDaAnaliseDeMedicao(
-	    AtividadeProjeto momentoRealDaAnaliseDeMedicao)
+	    AtividadePadrao momentoRealDaAnaliseDeMedicao)
     {
 	this.momentoRealDaAnaliseDeMedicao = momentoRealDaAnaliseDeMedicao;
     }
