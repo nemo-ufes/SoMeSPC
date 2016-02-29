@@ -84,7 +84,7 @@
 					<ul>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' id="DesempenhoDeProcessoEspecificado"><a href="<%=request.getContextPath()%>/m/DesempenhoDeProcessoEspecificado"> Registrar Desempenho Especificado para Processo</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' id="AnaliseDeComportamentoDeProcesso"><a href="<%=request.getContextPath()%>/m/AnaliseDeComportamentoDeProcesso"> Analisar Comportamento de Processo</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' id="BaselineDeDesempenhoDeProcesso"><a href="<%=request.getContextPath()%>/m/BaselineDeDesempenhoDeProcesso"> Modelo de Desempenho de Processo</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/analisar-medicoes.png"}' id="ModeloDeDesempenhoDeProcesso"><a href="<%=request.getContextPath()%>/m/ModeloDeDesempenhoDeProcesso"> Modelo de Desempenho de Processo</a></li>
 					</ul>
 				</li>
 			</ul>
