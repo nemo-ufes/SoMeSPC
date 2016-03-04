@@ -19,11 +19,13 @@
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="PapelRecursoHumano"><a href="<%=request.getContextPath()%>/m/PapelRecursoHumano"> Papel de Recurso Humano</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="RecursoHumano"><a href="<%=request.getContextPath()%>/m/RecursoHumano"> Recurso Humano</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="Equipe"><a href="<%=request.getContextPath()%>/m/Equipe"> Equipe</a></li>
-						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="CriterioDeProjeto"><a href="<%=request.getContextPath()%>/m/CriterioDeProjeto"> Critério de Caracterização do Projeto</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="CriterioDeCaracterizacaoDoProjeto"><a href="<%=request.getContextPath()%>/m/CriterioDeCaracterizacaoDoProjeto"> Caracterização do Projeto</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="Projeto"><a href="<%=request.getContextPath()%>/m/Projeto"> Projeto</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="TipoDeProcessoPadrao"><a href="<%=request.getContextPath()%>/m/TipoDeProcessoPadrao"> Tipo de Processo Padrão</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="ProcessoPadrao"><a href="<%=request.getContextPath()%>/m/ProcessoPadrao"> Processo Padrão</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="ProcessoInstanciado"><a href="<%=request.getContextPath()%>/m/ProcessoInstanciado"> Processo Instanciado</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="AtividadePadrao"><a href="<%=request.getContextPath()%>/m/AtividadePadrao"> Atividade Padrão</a></li>
+						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="AtividadeInstanciada"><a href="<%=request.getContextPath()%>/m/AtividadeInstanciada"> Atividade Instanciada</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="TipoDeProcessoProjeto"><a href="<%=request.getContextPath()%>/m/TipoDeProcessoProjeto"> Tipo de Processo de Projeto</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="ProcessoProjeto"><a href="<%=request.getContextPath()%>/m/ProcessoProjeto"> Processo de Projeto</a></li>
 						<li data-jstree='{"icon":"<%=request.getContextPath()%>/naviox/images/organizacao.png"}' id="AtividadeProjeto"><a href="<%=request.getContextPath()%>/m/AtividadeProjeto"> Atividade de Projeto</a></li>

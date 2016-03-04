@@ -25,17 +25,26 @@ public class GoAddProcessoDeProjetoAction extends GoAddElementsToCollectionActio
 {
     public void execute() throws Exception
     {
-	super.execute();
-
-	Integer id = getPreviousView().getValueInt("id");
-	Integer idProcessoPadrao = getPreviousView().getValueInt("baseadoEm.id");
+		super.execute();
 	
-	getCollectionElementView().setTitle("Adicionar Atividade de Projeto");
-
-	getTab().setBaseCondition(idProcessoPadrao + " IN (SELECT p.id from ProcessoProjeto p "
+		//Integer id = getPreviousView().getValueInt("id");
+		//Integer idProcessoPadrao = getPreviousView().getValueInt("baseadoEm.id");
+		
+		getCollectionElementView().setTitle("Adicionar Atividade de Projeto");
+	
+		
+		getTab().setBaseCondition(
+				"${id} IN (SELECT id FROM AtividadeProjeto)"
+		);
+		
+		/*getTab().setBaseCondition(idProcessoPadrao + " IN (SELECT p.id from ProcessoProjeto p "
 		+ "JOIN p.atividadeProjeto a WHERE a.id = ${baseadoEm.id})"
 		+ " AND ${id} NOT IN "
 		+ "(SELECT aa.id from ProcessoPadrao pp JOIN pp.atividadePadrao aa WHERE pp.id = " + id + ")");
+    	*/
+
     }
+	
+
 
 }
