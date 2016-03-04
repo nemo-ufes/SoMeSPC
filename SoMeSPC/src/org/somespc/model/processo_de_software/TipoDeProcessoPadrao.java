@@ -24,10 +24,7 @@ import java.util.*;
 
 import javax.persistence.*;
 
-import org.somespc.calculators.*;
-import org.somespc.model.entidades_e_medidas.*;
 import org.openxava.annotations.*;
-import org.openxava.jpa.XPersistence;
 
 @Entity
 @Views({
@@ -37,9 +34,15 @@ import org.openxava.jpa.XPersistence;
 @Tabs({
 	@Tab(properties = "nome", defaultOrder = "${nome} asc")
 })
-public class TipoDeProcessoPadrao extends EntidadeMensuravel
+public class TipoDeProcessoPadrao
 {
 
+	@Id
+    @TableGenerator(name = "TABLE_GENERATOR", table = "ID_TABLE", pkColumnName = "ID_TABLE_NAME", pkColumnValue = "TIPO_PROCESSO_PADRAO_ID", valueColumnName = "ID_TABLE_VALUE")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GENERATOR")
+    @Hidden
+    private Integer id;
+	
     @OneToMany(mappedBy = "tipoDeProcessoPadrao")
     private Collection<ProcessoPadrao> processoPadrao;
     
@@ -50,37 +53,44 @@ public class TipoDeProcessoPadrao extends EntidadeMensuravel
 	public void setProcessoPadrao(Collection<ProcessoPadrao> processoPadrao) {
 		this.processoPadrao = processoPadrao;
 	}
-
-	@ManyToOne
-    @Transient
-    @DefaultValueCalculator(
-	    value = TipoDeEntidadeMensuravelCalculator.class,
-	    properties = {
-		    @PropertyValue(name = "nomeEntidade", value = "Tipo de Processo Padrao")
-	    })
-    public TipoDeEntidadeMensuravel getTipoDeEntidadeMensuravel()
+	
+    public Integer getId()
     {
-	return tipoDeEntidadeMensuravel;
+	return id;
     }
 
-    public void setTipoDeEntidadeMensuravel(
-	    TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel)
+    public void setId(Integer id)
     {
-	this.tipoDeEntidadeMensuravel = tipoDeEntidadeMensuravel;
+	this.id = id;
     }
     
-    @PreCreate
-    @PreUpdate
-    public void ajusta()
+    @Column(length = 255, unique = true)
+    @Required
+    private String nome;
+    
+    public String getNome()
     {
-	if(tipoDeEntidadeMensuravel != null){
-    	
-    	String nomeEntidade = "Tipo de Processo Padrao";
-    	Query query = XPersistence.getManager().createQuery("from TipoDeEntidadeMensuravel t where t.nome = '" + nomeEntidade + "'");
-    	TipoDeEntidadeMensuravel tipoDeEntidadeMensuravel = (TipoDeEntidadeMensuravel) query.getSingleResult();
-    	
-    	this.setTipoDeEntidadeMensuravel(tipoDeEntidadeMensuravel);
+	return nome;
     }
-    }//ajusta
+
+    public void setNome(String nome)
+    {
+	this.nome = nome;
+    }
+
+    @Stereotype("TEXT_AREA")
+    @Column(columnDefinition = "TEXT")
+    private String descricao;
+
+    public String getDescricao()
+    {
+	return descricao;
+    }
+
+    public void setDescricao(String descricao)
+    {
+	this.descricao = descricao;
+    }	
+
 
 }

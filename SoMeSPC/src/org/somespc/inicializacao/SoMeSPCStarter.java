@@ -299,15 +299,13 @@ public class SoMeSPCStarter extends HttpServlet
 	    TipoDeEntidadeMensuravel tipoAPadrao = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoPSProjeto = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoAProjeto = new TipoDeEntidadeMensuravel();
-	    TipoDeEntidadeMensuravel tipoOcorrenciaPS = new TipoDeEntidadeMensuravel();
-	    TipoDeEntidadeMensuravel tipoOcorrenciaAtividade = new TipoDeEntidadeMensuravel();
+	    TipoDeEntidadeMensuravel tipoAInstanciada = new TipoDeEntidadeMensuravel();
+	    TipoDeEntidadeMensuravel tipoPSInstanciado = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoTipoArtefato = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoArtefato = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoRecursoHumano = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoPapelRecursoHumano = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoAlocacao = new TipoDeEntidadeMensuravel();
-	    TipoDeEntidadeMensuravel tipoTipoPSProjeto = new TipoDeEntidadeMensuravel();
-	    TipoDeEntidadeMensuravel tipoTipoPSPadrao = new TipoDeEntidadeMensuravel();
 	    TipoDeEntidadeMensuravel tipoCodigoFonte = new TipoDeEntidadeMensuravel();
 
 	    tipoSprint.setNome("Sprint");
@@ -328,11 +326,11 @@ public class SoMeSPCStarter extends HttpServlet
 	    tipoAProjeto.setNome("Atividade de Projeto");
 	    tipoAProjeto.setDescricao("Atividade ajustada para um determinado projeto de acordo com uma Atividade Padrão.");
 
-	    tipoOcorrenciaPS.setNome("Ocorrência de Processo de Software");
-	    tipoOcorrenciaPS.setDescricao("Ocorrência de uma determinada instância do Processo de Software de Projeto. Ex: Ocorrência do Processo de Testes.");
+	    tipoPSInstanciado.setNome("Processo Instanciado");
+	    tipoPSInstanciado.setDescricao("Processo de uma determinada instância do Processo de Software de Projeto.");
 
-	    tipoOcorrenciaAtividade.setNome("Ocorrência de Atividade");
-	    tipoOcorrenciaAtividade.setDescricao("Ocorrência de uma determinada atividade do Processo de Software de Projeto.");
+	    tipoAInstanciada.setNome("Atividade Instanciada");
+	    tipoAInstanciada.setDescricao("Instancia de uma determinada atividade do Processo de Software de Projeto.");
 
 	    tipoTipoArtefato.setNome("Tipo de Artefato");
 	    tipoTipoArtefato.setDescricao("Tipo de Artefato de software. Ex: Documento, Modelo, Código fonte, Planos, etc.");
@@ -348,12 +346,6 @@ public class SoMeSPCStarter extends HttpServlet
 
 	    tipoAlocacao.setNome("Alocação de Recurso Humano");
 	    tipoAlocacao.setDescricao("Alocação de um Recurso Humano para desempenhar um Papel em uma Equipe.");
-	    
-	    tipoTipoPSProjeto.setNome("Tipo de Processo de Projeto");
-	    tipoTipoPSProjeto.setDescricao("Tipo de Processo Projeto. Especificação mais detalhada do processo a ser realizado.");
-
-	    tipoTipoPSPadrao.setNome("Tipo de Processo Padrão");
-	    tipoTipoPSPadrao.setDescricao("Tipo de Processo Padao. Especificação mais detalhada do processo a ser realizado.");
 	    
 	    tipoCodigoFonte.setNome("Código Fonte");
 	    tipoCodigoFonte.setDescricao("Código Fonte do Projeto. Especificação mais detalhada do processo a ser realizado.");
@@ -397,7 +389,7 @@ public class SoMeSPCStarter extends HttpServlet
 	    List<ElementoMensuravel> elementosOcorrenciaAtividade = new ArrayList<ElementoMensuravel>();
 	    elementosOcorrenciaAtividade.add(duracao);
 	    elementosOcorrenciaAtividade.add(tamanho);
-	    tipoOcorrenciaAtividade.setElementoMensuravel(elementosOcorrenciaAtividade);
+	    tipoAInstanciada.setElementoMensuravel(elementosOcorrenciaAtividade);
 
 	    List<ElementoMensuravel> elementosAlocacao = new ArrayList<ElementoMensuravel>();
 	    elementosAlocacao.add(desempenho);
@@ -412,15 +404,13 @@ public class SoMeSPCStarter extends HttpServlet
 	    tiposParaPersistir.add(tipoAPadrao);
 	    tiposParaPersistir.add(tipoPSProjeto);
 	    tiposParaPersistir.add(tipoAProjeto);
-	    tiposParaPersistir.add(tipoOcorrenciaPS);
-	    tiposParaPersistir.add(tipoOcorrenciaAtividade);
+	    tiposParaPersistir.add(tipoPSInstanciado);
+	    tiposParaPersistir.add(tipoAInstanciada);
 	    tiposParaPersistir.add(tipoTipoArtefato);
 	    tiposParaPersistir.add(tipoArtefato);
 	    tiposParaPersistir.add(tipoRecursoHumano);
 	    tiposParaPersistir.add(tipoPapelRecursoHumano);
 	    tiposParaPersistir.add(tipoAlocacao);
-	    tiposParaPersistir.add(tipoTipoPSProjeto);
-	    tiposParaPersistir.add(tipoTipoPSPadrao);
 	    tiposParaPersistir.add(tipoCodigoFonte);
 
 	    for (TipoDeEntidadeMensuravel tipo : tiposParaPersistir)
@@ -782,26 +772,18 @@ public class SoMeSPCStarter extends HttpServlet
 			manager.close();
 			manager = XPersistence.createManager();
 
-			String query3 = "SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Tipo de Processo Padrão'";
-			TypedQuery<TipoDeEntidadeMensuravel> typedQuery3 = manager.createQuery(query3,
-					TipoDeEntidadeMensuravel.class);
-			TipoDeEntidadeMensuravel tipoEntidade = typedQuery3.getSingleResult();
-
 			TipoDeProcessoPadrao desenvolvimentoDeSoftware = new TipoDeProcessoPadrao();
 			TipoDeProcessoPadrao testes = new TipoDeProcessoPadrao();
 			TipoDeProcessoPadrao gerenciaDeRequisitos = new TipoDeProcessoPadrao();
 
 			desenvolvimentoDeSoftware.setNome("Processo Padrão de Desenvolvimento de Software");
 			desenvolvimentoDeSoftware.setDescricao("Tipo para Processo Padrão de Desenvolvimento de Software.");
-			desenvolvimentoDeSoftware.setTipoDeEntidadeMensuravel(tipoEntidade);
 
 			testes.setNome("Processo Padrão de Testes");
 			testes.setDescricao("Tipo para Processo Padrão de Testes.");
-			testes.setTipoDeEntidadeMensuravel(tipoEntidade);
 
 			gerenciaDeRequisitos.setNome("Processo Padrão de Gerência de Requisitos");
 			gerenciaDeRequisitos.setDescricao("Tipo de processo Padrão de Gerência de Requisitos.");
-			gerenciaDeRequisitos.setTipoDeEntidadeMensuravel(tipoEntidade);
 
 			// Persiste.
 			List<TipoDeProcessoPadrao> processos = new ArrayList<TipoDeProcessoPadrao>();
@@ -864,15 +846,10 @@ public class SoMeSPCStarter extends HttpServlet
 	    manager.close();
 	    manager = XPersistence.createManager();
 	    
-	    String query3 = "SELECT t FROM TipoDeEntidadeMensuravel t WHERE t.nome='Tipo de Processo de Projeto'";
-	    TypedQuery<TipoDeEntidadeMensuravel> typedQuery3 = manager.createQuery(query3, TipoDeEntidadeMensuravel.class);
-	    TipoDeEntidadeMensuravel tipoEntidade = typedQuery3.getSingleResult();	    
-
 	    TipoDeProcessoProjeto desenvolvimentoDeSoftware = new TipoDeProcessoProjeto();
 
 	    desenvolvimentoDeSoftware.setNome("Processo Projeto de Desenvolvimento de Software");
 	    desenvolvimentoDeSoftware.setDescricao("Tipo para Processo Projeto de Desenvolvimento de Software.");
-	    desenvolvimentoDeSoftware.setTipoDeEntidadeMensuravel(tipoEntidade);
 
 	    //Persiste.
 	    List<TipoDeProcessoProjeto> processos = new ArrayList<TipoDeProcessoProjeto>();

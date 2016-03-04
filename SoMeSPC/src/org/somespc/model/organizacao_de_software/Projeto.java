@@ -40,12 +40,12 @@ import org.openxava.jpa.XPersistence;
 public class Projeto extends EntidadeMensuravel
 {
 
-    public Collection<CriterioDeProjeto> getCriterioDeProjeto()
+    public Collection<CriterioDeCaracterizacaoDoProjeto> getCriterioDeProjeto()
     {
 	return criterioDeProjeto;
     }
 
-    public void setCriterioDeProjeto(Collection<CriterioDeProjeto> criterioDeProjeto)
+    public void setCriterioDeProjeto(Collection<CriterioDeCaracterizacaoDoProjeto> criterioDeProjeto)
     {
 	this.criterioDeProjeto = criterioDeProjeto;
     }
@@ -134,7 +134,7 @@ public class Projeto extends EntidadeMensuravel
     @OneToMany(mappedBy = "projeto", cascade = CascadeType.REMOVE)
     @ListProperties("criterio.nome, valorMedido.valorMedido")
     @CollectionView("Projeto")
-    private Collection<CriterioDeProjeto> criterioDeProjeto;
+    private Collection<CriterioDeCaracterizacaoDoProjeto> criterioDeProjeto;
 
     @ManyToOne
     @Transient
