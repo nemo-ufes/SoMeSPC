@@ -28,7 +28,7 @@ import org.openxava.annotations.*;
 @Views({
 	@View(name = "Simple", members = "nome")
 })
-public class Criterio
+public class CriterioDeCaracterizacao
 {
 
     @Id

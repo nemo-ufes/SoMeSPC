@@ -33,7 +33,7 @@ import org.openxava.annotations.*;
 	@View(members = "projeto; criterio; valorMedido; "),
 	@View(name = "Projeto", members = "criterio; valorMedido;")
 })
-public class CriterioDeProjeto
+public class CriterioDeCaracterizacaoDoProjeto
 {
 
     @Id
@@ -59,7 +59,7 @@ public class CriterioDeProjeto
     @ManyToOne
     @ReferenceView("Simple")
     @Required
-    private Criterio criterio;
+    private CriterioDeCaracterizacao criterio;
 
     @OneToOne(cascade = CascadeType.ALL)
     //@ManyToOne(cascade=CascadeType.REMOVE)
@@ -91,12 +91,12 @@ public class CriterioDeProjeto
 	this.projeto = projeto;
     }
 
-    public Criterio getCriterio()
+    public CriterioDeCaracterizacao getCriterio()
     {
 	return criterio;
     }
 
-    public void setCriterio(Criterio criterio)
+    public void setCriterio(CriterioDeCaracterizacao criterio)
     {
 	this.criterio = criterio;
     }
